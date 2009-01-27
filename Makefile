@@ -8,7 +8,7 @@ CXXSOURCES = $(wildcard *.cpp)
 LEXSOURCES = $(wildcard *.ll)
 YACCSOURCES = $(wildcard *.yy)
 
-OBJECTS = $(CXXSOURCES:%.cpp=%.o) $(LEXSOURCES:%.ll=%.o) $(YACCSOURCES:%.yy=%.o)
+OBJECTS = $(CXXSOURCES:%.cpp=%.o) $(LEXSOURCES:%.ll=%_lex.o) $(YACCSOURCES:%.yy=%_parse.o)
 DEPFILES = $(addprefix stage1/,$(OBJECTS:%.o=.%.d)) $(addprefix stage2/,$(OBJECTS:%.o=.%.d))
 
 all: treecc
