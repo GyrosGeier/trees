@@ -10,8 +10,7 @@ void output_visitor::visit(start const &s)
     switch(sel)
     {
     case header:
-        out << "#include <string>" << endl
-            << "class const_visitor;" << endl
+        out << "class const_visitor;" << endl
             << endl
             << "struct node" << endl
             << "{" << endl

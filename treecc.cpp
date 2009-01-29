@@ -31,6 +31,7 @@ int main(int argc, char **argv)
     file_list files;
 
     file outfile;
+    std::string outns;
 
     yyscan_t scanner;
 
@@ -47,6 +48,7 @@ int main(int argc, char **argv)
     enum
     {
         initial,
+        ns,
         output
     } state = initial;
 
@@ -59,10 +61,17 @@ int main(int argc, char **argv)
         case initial:
             if(arg == "-o")
                 state = output;
+            else if(arg == "-n")
+                state = ns;
             else if(arg == "-c")
                 outmode = source;
             else
                 files.push_back(arg);
+            break;
+
+        case ns:
+            outns = arg;
+            state = initial;
             break;
 
         case output:
@@ -99,6 +108,8 @@ int main(int argc, char **argv)
             }
             out << "#ifndef " << cppsymbol << "_" << endl
                 << "#define " << cppsymbol << "_ 1" << endl
+                << endl
+                << "#include <string>" << endl
                 << endl;
         }
         break;
@@ -124,6 +135,10 @@ int main(int argc, char **argv)
                 << endl;
         }
     }
+
+    if(!outns.empty())
+        out << "namespace " << outns << " {" << endl
+            << endl;
 
     output_visitor write(out, (outmode == header)?write.header:write.source);
 
@@ -154,6 +169,10 @@ int main(int argc, char **argv)
 
         fclose(f);
     }
+
+    if(!outns.empty())
+        out << endl
+            << "}" << endl;
 
     if(outmode == header)
         out << endl
