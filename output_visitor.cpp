@@ -11,11 +11,13 @@ void output_visitor::visit(start const &s)
     {
     case header:
         out << "class const_visitor;" << endl
+            << "class visitor;" << endl
             << endl
             << "struct node" << endl
             << "{" << endl
             << "    virtual ~node(void) throw() { }" << endl
             << "    virtual void apply(const_visitor &v) const = 0;" << endl
+            << "    virtual void apply(visitor &v) = 0;" << endl
             << "};" << endl;
         out << endl;
 
@@ -33,16 +35,82 @@ void output_visitor::visit(start const &s)
             << "public:" << endl
             << "    virtual ~const_visitor(void) throw() { }" << endl
             << endl;
-
         action = emit_constvisitor;
         s._1->apply(*this);
-
         out << "};" << endl;
+
+        out << endl
+            << "class visitor" << endl
+            << "{" << endl
+            << "public:" << endl
+            << "    virtual ~visitor(void) throw() { }" << endl
+            << endl;
+        action = emit_visitor;
+        s._1->apply(*this);
+        out << "};" << endl;
+
+        out << endl
+            << "class throw_const_visitor :" << endl
+            << "    public const_visitor" << endl
+            << "{" << endl
+            << "public:" << endl
+            << "    virtual ~throw_const_visitor(void) throw() { }" << endl
+            << endl;
+        action = emit_throwconstvisitor;
+        s._1->apply(*this);
+        out << "};" << endl;
+
+        out << endl
+            << "class throw_visitor :" << endl
+            << "    public visitor" << endl
+            << "{" << endl
+            << "public:" << endl
+            << "    virtual ~throw_visitor(void) throw() { }" << endl
+            << endl;
+        action = emit_throwvisitor;
+        s._1->apply(*this);
+        out << "};" << endl;
+
+        out << endl
+            << "class descend_const_visitor :" << endl
+            << "    public const_visitor" << endl
+            << "{" << endl
+            << "public:" << endl
+            << "    virtual ~descend_const_visitor(void) throw() { }" << endl
+            << endl;
+        action = emit_descendconstvisitor;
+        s._1->apply(*this);
+        out << "};" << endl;
+
+        out << endl
+            << "class descend_visitor :" << endl
+            << "    public visitor" << endl
+            << "{" << endl
+            << "public:" << endl
+            << "    virtual ~descend_visitor(void) throw() { }" << endl
+            << endl;
+        action = emit_descendvisitor;
+        s._1->apply(*this);
+        out << "};" << endl;
+
         break;
 
     case source:
-        action = emit_dtorapply;
+        action = emit_dtor;
         s._1->apply(*this);
+        action = emit_constapply;
+        s._1->apply(*this);
+        action = emit_apply;
+        s._1->apply(*this);
+        action = emit_throwconstvisit;
+        s._1->apply(*this);
+        action = emit_throwvisit;
+        s._1->apply(*this);
+        action = emit_descendconstvisit;
+        s._1->apply(*this);
+        action = emit_descendvisit;
+        s._1->apply(*this);
+
         break;
     }
 }
@@ -75,7 +143,18 @@ void output_visitor::visit(rule const &r)
 
     case emit_defn:
     case emit_constvisitor:
-    case emit_dtorapply:
+    case emit_visitor:
+    case emit_throwconstvisitor:
+    case emit_throwvisitor:
+    case emit_descendconstvisitor:
+    case emit_descendvisitor:
+    case emit_dtor:
+    case emit_constapply:
+    case emit_apply:
+    case emit_throwconstvisit:
+    case emit_throwvisit:
+    case emit_descendconstvisit:
+    case emit_descendvisit:
         alternative_count = 0;
 
         current_rule = &r;
@@ -132,6 +211,7 @@ void output_visitor::visit(alternatives_1 const &r)
         out << "(void) throw();" << endl
             << endl
             << "    virtual void apply(const_visitor &) const;" << endl
+            << "    virtual void apply(visitor &);" << endl
             << endl;
 
         action = emit_members;
@@ -146,17 +226,52 @@ void output_visitor::visit(alternatives_1 const &r)
         break;
 
     case emit_constvisitor:
-        switch(alternative_count)
+    case emit_visitor:
+    case emit_throwconstvisitor:
+    case emit_throwvisitor:
+    case emit_descendconstvisitor:
+    case emit_descendvisitor:
+        out << "    virtual void visit(" << current_rule->_1;
+        if(alternative_count)
+            out << "_" << alternative_count;
+
+        switch(action)
         {
-        case 0:
-            out << "    virtual void visit(" << current_rule->_1 << " const &) = 0;" << endl;
+        case emit_constvisitor:
+        case emit_throwconstvisitor:
+        case emit_descendconstvisitor:
+            out << " const";
+            break;
+        case emit_visitor:
+        case emit_throwvisitor:
+        case emit_descendvisitor:
             break;
         default:
-            out << "    virtual void visit(" << current_rule->_1 << "_" << alternative_count << " const &) = 0;" << endl;
+            throw;
         }
+
+        out << " &)";
+
+        switch(action)
+        {
+        case emit_constvisitor:
+        case emit_visitor:
+            out << " = 0";
+            break;
+        case emit_throwconstvisitor:
+        case emit_throwvisitor:
+        case emit_descendconstvisitor:
+        case emit_descendvisitor:
+            break;
+        default:
+            throw;
+        }
+        
+        out << ";" << endl;
+
         break;
 
-    case emit_dtorapply:
+    case emit_dtor:
         out << current_rule->_1;
         if(alternative_count)
             out << "_" << alternative_count;
@@ -168,14 +283,72 @@ void output_visitor::visit(alternatives_1 const &r)
         component_count = 0;
         r._1->apply(*this);
         out << "}" << endl
-            << endl
-            << "void " << current_rule->_1;
+            << endl;
+        break;
+
+    case emit_constapply:
+        out << "void " << current_rule->_1;
         if(alternative_count)
             out << "_" << alternative_count;
         out << "::apply(const_visitor &v) const" << endl
             << "{" << endl
             << "    v.visit(*this);" << endl
             << "}" << endl
+            << endl;
+        break;
+
+    case emit_apply:
+        out << "void " << current_rule->_1;
+        if(alternative_count)
+            out << "_" << alternative_count;
+        out << "::apply(visitor &v)" << endl
+            << "{" << endl
+            << "    v.visit(*this);" << endl
+            << "}" << endl
+            << endl;
+        break;
+
+    case emit_throwconstvisit:
+        out << "void throw_const_visitor::visit(" << current_rule->_1;
+        if(alternative_count)
+            out << "_" << alternative_count;
+        out << " const &)" << endl
+            << "{" << endl
+            << "    throw;" << endl
+            << "}" << endl
+            << endl;
+        break;
+
+    case emit_throwvisit:
+        out << "void throw_visitor::visit(" << current_rule->_1;
+        if(alternative_count)
+            out << "_" << alternative_count;
+        out << " &)" << endl
+            << "{" << endl
+            << "    throw;" << endl
+            << "}" << endl
+            << endl;
+        break;
+
+    case emit_descendconstvisit:
+        out << "void descend_const_visitor::visit(" << current_rule->_1;
+        if(alternative_count)
+            out << "_" << alternative_count;
+        out << " const &";
+        component_count = 0;
+        r._1->apply(*this);
+        out << "}" << endl
+            << endl;
+        break;
+
+    case emit_descendvisit:
+        out << "void descend_visitor::visit(" << current_rule->_1;
+        if(alternative_count)
+            out << "_" << alternative_count;
+        out << " &";
+        component_count = 0;
+        r._1->apply(*this);
+        out << "}" << endl
             << endl;
         break;
 
@@ -211,6 +384,7 @@ void output_visitor::visit(alternatives_2 const &r)
         out << "    virtual ~" << current_rule->_1 << "_" << alternative_count << "(void) throw();" << endl
             << endl
             << "    virtual void apply(const_visitor &) const;" << endl
+            << "    virtual void apply(visitor &);" << endl
             << endl;
 
         action = emit_members;
@@ -224,21 +398,100 @@ void output_visitor::visit(alternatives_2 const &r)
         break;
 
     case emit_constvisitor:
-        out << "    virtual void visit(" << current_rule->_1 << "_" << alternative_count << " const &) = 0;" << endl;
+    case emit_visitor:
+    case emit_throwconstvisitor:
+    case emit_throwvisitor:
+    case emit_descendconstvisitor:
+    case emit_descendvisitor:
+        out << "    virtual void visit(" << current_rule->_1 << "_" << alternative_count;
+        switch(action)
+        {
+        case emit_constvisitor:
+        case emit_throwconstvisitor:
+        case emit_descendconstvisitor:
+            out << " const";
+            break;
+        case emit_visitor:
+        case emit_throwvisitor:
+        case emit_descendvisitor:
+            break;
+        default:
+            throw;
+        }
+        out << " &)";
+
+        switch(action)
+        {
+        case emit_constvisitor:
+        case emit_visitor:
+            out << " = 0";
+            break;
+        case emit_throwconstvisitor:
+        case emit_throwvisitor:
+        case emit_descendconstvisitor:
+        case emit_descendvisitor:
+            break;
+        default:
+            throw;
+        }
+        out << ";" << endl;
         break;
 
-    case emit_dtorapply:
+    case emit_dtor:
         out << current_rule->_1 << "_" << alternative_count << "::~"
             << current_rule->_1 << "_" << alternative_count << "(void) throw()" << endl
             << "{" << endl;
         component_count = 0;
         r._2->apply(*this);
         out << "}" << endl
-            << endl
-            << "void " << current_rule->_1 << "_" << alternative_count << "::apply(const_visitor &v) const" << endl
+            << endl;
+        break;
+
+    case emit_constapply:
+        out << "void " << current_rule->_1 << "_" << alternative_count << "::apply(const_visitor &v) const" << endl
             << "{" << endl
             << "    v.visit(*this);" << endl
             << "}" << endl
+            << endl;
+        break;
+
+    case emit_apply:
+        out << "void " << current_rule->_1 << "_" << alternative_count << "::apply(visitor &v)" << endl
+            << "{" << endl
+            << "    v.visit(*this);" << endl
+            << "}" << endl
+            << endl;
+        break;
+
+    case emit_throwconstvisit:
+        out << "void throw_const_visitor::visit(" << current_rule->_1 << "_" << alternative_count << " const &)" << endl
+            << "{" << endl
+            << "    throw;" << endl
+            << "}" << endl
+            << endl;
+        break;
+
+    case emit_throwvisit:
+        out << "void throw_visitor::visit(" << current_rule->_1 << "_" << alternative_count << " &)" << endl
+            << "{" << endl
+            << "    throw;" << endl
+            << "}" << endl
+            << endl;
+        break;
+
+    case emit_descendconstvisit:
+        out << "void descend_const_visitor::visit(" << current_rule->_1 << "_" << alternative_count << " const &";
+        component_count = 0;
+        r._2->apply(*this);
+        out << "}" << endl
+            << endl;
+        break;
+
+    case emit_descendvisit:
+        out << "void descend_visitor::visit(" << current_rule->_1 << "_" << alternative_count << " &";
+        component_count = 0;
+        r._2->apply(*this);
+        out << "}" << endl
             << endl;
         break;
 
@@ -258,6 +511,20 @@ void output_visitor::visit(alternatives_3 const &r)
 void output_visitor::visit(components_1 const &r)
 {
     /* empty */
+
+    using std::endl;
+
+    switch(action)
+    {
+    case emit_descendconstvisit:
+    case emit_descendvisit:
+        if(component_count == 0)
+            out << ")" << endl
+                << "{" << endl;
+        break;
+    default:
+        break;
+    }
 }
 
 void output_visitor::visit(components_2 const &r)
@@ -274,6 +541,12 @@ void output_visitor::visit(components_2 const &r)
                 out << "    " << current_rule->_1 << "_" << alternative_count << "(";
             else
                 out << "    " << current_rule->_1 << "(";
+            break;
+        case emit_descendconstvisit:
+        case emit_descendvisit:
+            out << "node)" << endl
+                << "{" << endl;
+            break;
         default:
             break;
         }
@@ -302,7 +575,11 @@ void output_visitor::visit(components_2 const &r)
             out << " { }" << endl;
             break;
         case emit_members:
-        case emit_dtorapply:
+        case emit_dtor:
+        case emit_constapply:
+        case emit_apply:
+        case emit_descendconstvisit:
+        case emit_descendvisit:
             break;
         default:
             throw;
@@ -344,9 +621,17 @@ void output_visitor::visit(symbol_1 const &r)
             out << "    std::string _";
         out << component_count << ";" << endl;
         break;
-    case emit_dtorapply:
+    case emit_dtor:
         if(nonterminal_p[r._1])
             out << "    delete _" << component_count << ";" << endl;
+        break;
+    case emit_constapply:
+    case emit_apply:
+        break;
+    case emit_descendconstvisit:
+    case emit_descendvisit:
+        if(nonterminal_p[r._1])
+            out << "    node._" << component_count << "->apply(*this);" << endl;
         break;
     default:
         throw;

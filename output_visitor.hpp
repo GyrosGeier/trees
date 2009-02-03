@@ -47,9 +47,19 @@ private:
         emit_defn,
         emit_ctor,
         emit_members,
-        emit_visitor,
         emit_constvisitor,
-        emit_dtorapply
+        emit_visitor,
+        emit_throwconstvisitor,
+        emit_throwvisitor,
+        emit_descendconstvisitor,
+        emit_descendvisitor,
+        emit_dtor,
+        emit_constapply,
+        emit_apply,
+        emit_throwconstvisit,
+        emit_throwvisit,
+        emit_descendconstvisit,
+        emit_descendvisit
     } action;
 
     std::map<std::string, bool> nonterminal_p;

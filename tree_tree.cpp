@@ -5,18 +5,8 @@ start::~start(void) throw()
     delete _1;
 }
 
-void start::apply(const_visitor &v) const
-{
-    v.visit(*this);
-}
-
 rules_1::~rules_1(void) throw()
 {
-}
-
-void rules_1::apply(const_visitor &v) const
-{
-    v.visit(*this);
 }
 
 rules_2::~rules_2(void) throw()
@@ -25,29 +15,14 @@ rules_2::~rules_2(void) throw()
     delete _2;
 }
 
-void rules_2::apply(const_visitor &v) const
-{
-    v.visit(*this);
-}
-
 rule::~rule(void) throw()
 {
     delete _2;
 }
 
-void rule::apply(const_visitor &v) const
-{
-    v.visit(*this);
-}
-
 alternatives_1::~alternatives_1(void) throw()
 {
     delete _1;
-}
-
-void alternatives_1::apply(const_visitor &v) const
-{
-    v.visit(*this);
 }
 
 alternatives_2::~alternatives_2(void) throw()
@@ -56,28 +31,13 @@ alternatives_2::~alternatives_2(void) throw()
     delete _2;
 }
 
-void alternatives_2::apply(const_visitor &v) const
-{
-    v.visit(*this);
-}
-
 alternatives_3::~alternatives_3(void) throw()
 {
     delete _1;
 }
 
-void alternatives_3::apply(const_visitor &v) const
-{
-    v.visit(*this);
-}
-
 components_1::~components_1(void) throw()
 {
-}
-
-void components_1::apply(const_visitor &v) const
-{
-    v.visit(*this);
 }
 
 components_2::~components_2(void) throw()
@@ -86,14 +46,66 @@ components_2::~components_2(void) throw()
     delete _2;
 }
 
-void components_2::apply(const_visitor &v) const
+component_1::~component_1(void) throw()
+{
+    delete _1;
+}
+
+component_2::~component_2(void) throw()
+{
+}
+
+symbol_1::~symbol_1(void) throw()
+{
+}
+
+symbol_2::~symbol_2(void) throw()
+{
+}
+
+void start::apply(const_visitor &v) const
 {
     v.visit(*this);
 }
 
-component_1::~component_1(void) throw()
+void rules_1::apply(const_visitor &v) const
 {
-    delete _1;
+    v.visit(*this);
+}
+
+void rules_2::apply(const_visitor &v) const
+{
+    v.visit(*this);
+}
+
+void rule::apply(const_visitor &v) const
+{
+    v.visit(*this);
+}
+
+void alternatives_1::apply(const_visitor &v) const
+{
+    v.visit(*this);
+}
+
+void alternatives_2::apply(const_visitor &v) const
+{
+    v.visit(*this);
+}
+
+void alternatives_3::apply(const_visitor &v) const
+{
+    v.visit(*this);
+}
+
+void components_1::apply(const_visitor &v) const
+{
+    v.visit(*this);
+}
+
+void components_2::apply(const_visitor &v) const
+{
+    v.visit(*this);
 }
 
 void component_1::apply(const_visitor &v) const
@@ -101,17 +113,9 @@ void component_1::apply(const_visitor &v) const
     v.visit(*this);
 }
 
-component_2::~component_2(void) throw()
-{
-}
-
 void component_2::apply(const_visitor &v) const
 {
     v.visit(*this);
-}
-
-symbol_1::~symbol_1(void) throw()
-{
 }
 
 void symbol_1::apply(const_visitor &v) const
@@ -119,12 +123,329 @@ void symbol_1::apply(const_visitor &v) const
     v.visit(*this);
 }
 
-symbol_2::~symbol_2(void) throw()
-{
-}
-
 void symbol_2::apply(const_visitor &v) const
 {
     v.visit(*this);
+}
+
+void start::apply(visitor &v)
+{
+    v.visit(*this);
+}
+
+void rules_1::apply(visitor &v)
+{
+    v.visit(*this);
+}
+
+void rules_2::apply(visitor &v)
+{
+    v.visit(*this);
+}
+
+void rule::apply(visitor &v)
+{
+    v.visit(*this);
+}
+
+void alternatives_1::apply(visitor &v)
+{
+    v.visit(*this);
+}
+
+void alternatives_2::apply(visitor &v)
+{
+    v.visit(*this);
+}
+
+void alternatives_3::apply(visitor &v)
+{
+    v.visit(*this);
+}
+
+void components_1::apply(visitor &v)
+{
+    v.visit(*this);
+}
+
+void components_2::apply(visitor &v)
+{
+    v.visit(*this);
+}
+
+void component_1::apply(visitor &v)
+{
+    v.visit(*this);
+}
+
+void component_2::apply(visitor &v)
+{
+    v.visit(*this);
+}
+
+void symbol_1::apply(visitor &v)
+{
+    v.visit(*this);
+}
+
+void symbol_2::apply(visitor &v)
+{
+    v.visit(*this);
+}
+
+void throw_const_visitor::visit(start const &)
+{
+    throw;
+}
+
+void throw_const_visitor::visit(rules_1 const &)
+{
+    throw;
+}
+
+void throw_const_visitor::visit(rules_2 const &)
+{
+    throw;
+}
+
+void throw_const_visitor::visit(rule const &)
+{
+    throw;
+}
+
+void throw_const_visitor::visit(alternatives_1 const &)
+{
+    throw;
+}
+
+void throw_const_visitor::visit(alternatives_2 const &)
+{
+    throw;
+}
+
+void throw_const_visitor::visit(alternatives_3 const &)
+{
+    throw;
+}
+
+void throw_const_visitor::visit(components_1 const &)
+{
+    throw;
+}
+
+void throw_const_visitor::visit(components_2 const &)
+{
+    throw;
+}
+
+void throw_const_visitor::visit(component_1 const &)
+{
+    throw;
+}
+
+void throw_const_visitor::visit(component_2 const &)
+{
+    throw;
+}
+
+void throw_const_visitor::visit(symbol_1 const &)
+{
+    throw;
+}
+
+void throw_const_visitor::visit(symbol_2 const &)
+{
+    throw;
+}
+
+void throw_visitor::visit(start &)
+{
+    throw;
+}
+
+void throw_visitor::visit(rules_1 &)
+{
+    throw;
+}
+
+void throw_visitor::visit(rules_2 &)
+{
+    throw;
+}
+
+void throw_visitor::visit(rule &)
+{
+    throw;
+}
+
+void throw_visitor::visit(alternatives_1 &)
+{
+    throw;
+}
+
+void throw_visitor::visit(alternatives_2 &)
+{
+    throw;
+}
+
+void throw_visitor::visit(alternatives_3 &)
+{
+    throw;
+}
+
+void throw_visitor::visit(components_1 &)
+{
+    throw;
+}
+
+void throw_visitor::visit(components_2 &)
+{
+    throw;
+}
+
+void throw_visitor::visit(component_1 &)
+{
+    throw;
+}
+
+void throw_visitor::visit(component_2 &)
+{
+    throw;
+}
+
+void throw_visitor::visit(symbol_1 &)
+{
+    throw;
+}
+
+void throw_visitor::visit(symbol_2 &)
+{
+    throw;
+}
+
+void descend_const_visitor::visit(start const &node)
+{
+    node._1->apply(*this);
+}
+
+void descend_const_visitor::visit(rules_1 const &)
+{
+}
+
+void descend_const_visitor::visit(rules_2 const &node)
+{
+    node._1->apply(*this);
+    node._2->apply(*this);
+}
+
+void descend_const_visitor::visit(rule const &node)
+{
+    node._2->apply(*this);
+}
+
+void descend_const_visitor::visit(alternatives_1 const &node)
+{
+    node._1->apply(*this);
+}
+
+void descend_const_visitor::visit(alternatives_2 const &node)
+{
+    node._1->apply(*this);
+    node._2->apply(*this);
+}
+
+void descend_const_visitor::visit(alternatives_3 const &node)
+{
+    node._1->apply(*this);
+}
+
+void descend_const_visitor::visit(components_1 const &)
+{
+}
+
+void descend_const_visitor::visit(components_2 const &node)
+{
+    node._1->apply(*this);
+    node._2->apply(*this);
+}
+
+void descend_const_visitor::visit(component_1 const &node)
+{
+    node._1->apply(*this);
+}
+
+void descend_const_visitor::visit(component_2 const &node)
+{
+}
+
+void descend_const_visitor::visit(symbol_1 const &node)
+{
+}
+
+void descend_const_visitor::visit(symbol_2 const &node)
+{
+}
+
+void descend_visitor::visit(start &node)
+{
+    node._1->apply(*this);
+}
+
+void descend_visitor::visit(rules_1 &)
+{
+}
+
+void descend_visitor::visit(rules_2 &node)
+{
+    node._1->apply(*this);
+    node._2->apply(*this);
+}
+
+void descend_visitor::visit(rule &node)
+{
+    node._2->apply(*this);
+}
+
+void descend_visitor::visit(alternatives_1 &node)
+{
+    node._1->apply(*this);
+}
+
+void descend_visitor::visit(alternatives_2 &node)
+{
+    node._1->apply(*this);
+    node._2->apply(*this);
+}
+
+void descend_visitor::visit(alternatives_3 &node)
+{
+    node._1->apply(*this);
+}
+
+void descend_visitor::visit(components_1 &)
+{
+}
+
+void descend_visitor::visit(components_2 &node)
+{
+    node._1->apply(*this);
+    node._2->apply(*this);
+}
+
+void descend_visitor::visit(component_1 &node)
+{
+    node._1->apply(*this);
+}
+
+void descend_visitor::visit(component_2 &node)
+{
+}
+
+void descend_visitor::visit(symbol_1 &node)
+{
+}
+
+void descend_visitor::visit(symbol_2 &node)
+{
 }
 
