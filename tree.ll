@@ -1,5 +1,6 @@
 %{
 #include "tree_context.hpp"
+#include "tree_tree.hpp"
 #include "tree_parse.hpp"
 %}
 

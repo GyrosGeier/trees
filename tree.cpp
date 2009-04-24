@@ -2,6 +2,7 @@
 
 #include <cstdlib>
 
+#include "tree_tree.hpp"
 #include "tree_parse.hpp"
 
 int tree_error(YYLTYPE *loc, void *, treecc::start *&, char const *msg)
