@@ -22,7 +22,6 @@ using namespace treecc;
 
 %debug
 %pure-parser
-%glr-parser
 %defines
 %error-verbose
 %locations
