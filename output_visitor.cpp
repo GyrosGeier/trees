@@ -1,5 +1,7 @@
 #include "output_visitor.hpp"
 
+namespace treecc {
+
 void output_visitor::visit(start const &s)
 {
     using std::endl;
@@ -657,4 +659,6 @@ void output_visitor::visit(symbol_1 const &r)
 void output_visitor::visit(symbol_2 const &r)
 {
     /* string */
+}
+
 }

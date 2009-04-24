@@ -14,11 +14,14 @@
 
 //extern int tree_debug;
 
-int tree_parse(void *scanner, start *&ret);
+int tree_parse(void *scanner, treecc::start *&ret);
 
 int main(int argc, char **argv)
 {
   //  tree_debug = 1;
+
+    using namespace treecc;
+    using std::endl;
 
     typedef char const *const *arg_iterator;
 

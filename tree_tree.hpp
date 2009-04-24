@@ -339,4 +339,6 @@ public:
     virtual void visit(symbol_2 &);
 };
 
+}
+
 #endif

@@ -5,15 +5,17 @@
 
 using std::cout;
 using std::endl;
+
+using namespace treecc;
 %}
 
 %union {
-    ::rules *rules;
-    ::rule *rule;
-    ::alternatives *alternatives;
-    ::components *components;
-    ::component *component;
-    ::symbol *symbol;
+    treecc::rules *rules;
+    treecc::rule *rule;
+    treecc::alternatives *alternatives;
+    treecc::components *components;
+    treecc::component *component;
+    treecc::symbol *symbol;
     char const *string;
     int integer;
 }

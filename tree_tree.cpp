@@ -1,5 +1,7 @@
 #include <tree_tree.hpp>
 
+namespace treecc {
+
 start::~start(void) throw()
 {
     delete _1;
@@ -449,3 +451,5 @@ void descend_visitor::visit(symbol_2 &node)
 {
 }
 
+
+}

@@ -6,6 +6,8 @@
 #include <ostream>
 #include <map>
 
+namespace treecc {
+
 class output_visitor :
     public const_visitor
 {
@@ -64,5 +66,7 @@ private:
 
     std::map<std::string, bool> nonterminal_p;
 };
+
+}
 
 #endif

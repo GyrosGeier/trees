@@ -24,17 +24,17 @@ update-%_tree.cpp: %_tree.cpp update/%_tree.cpp stage2/%_tree.cpp
 
 update/%_tree.hpp: %.yy treecc
 	@mkdir -p update
-	./treecc -o $@ $<
+	./treecc -n treecc -o $@ $<
 
 update/%_tree.cpp: %.yy treecc
 	@mkdir -p update
-	./treecc -c -o $@ $<
+	./treecc -n treecc -c -o $@ $<
 
 stage2/%_tree.hpp: %.yy stage1/treecc
-	stage1/treecc -o $@ $<
+	stage1/treecc -n treecc -o $@ $<
 
 stage2/%_tree.cpp: %.yy stage1/treecc
-	stage1/treecc -c -o $@ $<
+	stage1/treecc -n treecc -c -o $@ $<
 
 %_lex.cpp: %.ll
 	$(LEX) -o $@ $<
