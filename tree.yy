@@ -17,7 +17,6 @@ using namespace treecc;
     treecc::component *component;
     treecc::symbol *symbol;
     char const *string;
-    int integer;
 }
 
 %debug
@@ -43,7 +42,6 @@ void tree_error(YYLTYPE *, void *, start *&, char const *msg);
 %token <string> IDENTIFIER_COLON
 
 %token <string> STRING
-%token <integer> INTEGER
 
 %token <string> TYPE
 %token ACTION
