@@ -13,6 +13,14 @@ void output_visitor::visit(start const &s)
         out << "class const_visitor;" << endl
             << "class visitor;" << endl
             << endl
+            << "class invalid_state :" << endl
+            << "    public std::logic_error" << endl
+            << "{" << endl
+            << "public:" << endl
+            << "    invalid_state(std::string const &node_type, std::type_info const &visitor_type) :" << endl
+            << "        std::logic_error(std::string(visitor_type.name()) + \" does not handle \" + node_type) { }" << endl
+            << "};" << endl
+            << endl
             << "struct node" << endl
             << "{" << endl
             << "    virtual ~node(void) throw() { }" << endl
@@ -314,7 +322,10 @@ void output_visitor::visit(alternatives_1 const &r)
             out << "_" << alternative_count;
         out << " const &)" << endl
             << "{" << endl
-            << "    throw;" << endl
+            << "    throw invalid_state(\"" << current_rule->_1;
+        if(alternative_count)
+            out << "_" << alternative_count;
+        out << "\", typeid(*this));" << endl
             << "}" << endl
             << endl;
         break;
@@ -325,7 +336,10 @@ void output_visitor::visit(alternatives_1 const &r)
             out << "_" << alternative_count;
         out << " &)" << endl
             << "{" << endl
-            << "    throw;" << endl
+            << "    throw invalid_state(\"" << current_rule->_1;
+        if(alternative_count)
+            out << "_" << alternative_count;
+        out << "\", typeid(*this));" << endl
             << "}" << endl
             << endl;
         break;
@@ -466,7 +480,7 @@ void output_visitor::visit(alternatives_2 const &r)
     case emit_throwconstvisit:
         out << "void throw_const_visitor::visit(" << current_rule->_1 << "_" << alternative_count << " const &)" << endl
             << "{" << endl
-            << "    throw;" << endl
+            << "    throw invalid_state(\"" << current_rule->_1 << "_" << alternative_count << "\", typeid(*this));" << endl
             << "}" << endl
             << endl;
         break;
@@ -474,7 +488,7 @@ void output_visitor::visit(alternatives_2 const &r)
     case emit_throwvisit:
         out << "void throw_visitor::visit(" << current_rule->_1 << "_" << alternative_count << " &)" << endl
             << "{" << endl
-            << "    throw;" << endl
+            << "    throw invalid_state(\"" << current_rule->_1 << "_" << alternative_count << "\", typeid(*this));" << endl
             << "}" << endl
             << endl;
         break;

@@ -110,6 +110,8 @@ int main(int argc, char **argv)
                 << "#define " << cppsymbol << "_ 1" << endl
                 << endl
                 << "#include <string>" << endl
+                << "#include <typeinfo>" << endl
+                << "#include <stdexcept>" << endl
                 << endl;
         }
         break;

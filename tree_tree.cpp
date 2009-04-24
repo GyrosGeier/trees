@@ -195,132 +195,132 @@ void symbol_2::apply(visitor &v)
 
 void throw_const_visitor::visit(start const &)
 {
-    throw;
+    throw invalid_state("start", typeid(*this));
 }
 
 void throw_const_visitor::visit(rules_1 const &)
 {
-    throw;
+    throw invalid_state("rules_1", typeid(*this));
 }
 
 void throw_const_visitor::visit(rules_2 const &)
 {
-    throw;
+    throw invalid_state("rules_2", typeid(*this));
 }
 
 void throw_const_visitor::visit(rule const &)
 {
-    throw;
+    throw invalid_state("rule", typeid(*this));
 }
 
 void throw_const_visitor::visit(alternatives_1 const &)
 {
-    throw;
+    throw invalid_state("alternatives_1", typeid(*this));
 }
 
 void throw_const_visitor::visit(alternatives_2 const &)
 {
-    throw;
+    throw invalid_state("alternatives_2", typeid(*this));
 }
 
 void throw_const_visitor::visit(alternatives_3 const &)
 {
-    throw;
+    throw invalid_state("alternatives_3", typeid(*this));
 }
 
 void throw_const_visitor::visit(components_1 const &)
 {
-    throw;
+    throw invalid_state("components_1", typeid(*this));
 }
 
 void throw_const_visitor::visit(components_2 const &)
 {
-    throw;
+    throw invalid_state("components_2", typeid(*this));
 }
 
 void throw_const_visitor::visit(component_1 const &)
 {
-    throw;
+    throw invalid_state("component_1", typeid(*this));
 }
 
 void throw_const_visitor::visit(component_2 const &)
 {
-    throw;
+    throw invalid_state("component_2", typeid(*this));
 }
 
 void throw_const_visitor::visit(symbol_1 const &)
 {
-    throw;
+    throw invalid_state("symbol_1", typeid(*this));
 }
 
 void throw_const_visitor::visit(symbol_2 const &)
 {
-    throw;
+    throw invalid_state("symbol_2", typeid(*this));
 }
 
 void throw_visitor::visit(start &)
 {
-    throw;
+    throw invalid_state("start", typeid(*this));
 }
 
 void throw_visitor::visit(rules_1 &)
 {
-    throw;
+    throw invalid_state("rules_1", typeid(*this));
 }
 
 void throw_visitor::visit(rules_2 &)
 {
-    throw;
+    throw invalid_state("rules_2", typeid(*this));
 }
 
 void throw_visitor::visit(rule &)
 {
-    throw;
+    throw invalid_state("rule", typeid(*this));
 }
 
 void throw_visitor::visit(alternatives_1 &)
 {
-    throw;
+    throw invalid_state("alternatives_1", typeid(*this));
 }
 
 void throw_visitor::visit(alternatives_2 &)
 {
-    throw;
+    throw invalid_state("alternatives_2", typeid(*this));
 }
 
 void throw_visitor::visit(alternatives_3 &)
 {
-    throw;
+    throw invalid_state("alternatives_3", typeid(*this));
 }
 
 void throw_visitor::visit(components_1 &)
 {
-    throw;
+    throw invalid_state("components_1", typeid(*this));
 }
 
 void throw_visitor::visit(components_2 &)
 {
-    throw;
+    throw invalid_state("components_2", typeid(*this));
 }
 
 void throw_visitor::visit(component_1 &)
 {
-    throw;
+    throw invalid_state("component_1", typeid(*this));
 }
 
 void throw_visitor::visit(component_2 &)
 {
-    throw;
+    throw invalid_state("component_2", typeid(*this));
 }
 
 void throw_visitor::visit(symbol_1 &)
 {
-    throw;
+    throw invalid_state("symbol_1", typeid(*this));
 }
 
 void throw_visitor::visit(symbol_2 &)
 {
-    throw;
+    throw invalid_state("symbol_2", typeid(*this));
 }
 
 void descend_const_visitor::visit(start const &node)

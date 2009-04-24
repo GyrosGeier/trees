@@ -2,9 +2,21 @@
 #define stage2_tree_tree_hpp_ 1
 
 #include <string>
+#include <typeinfo>
+#include <stdexcept>
+
+namespace treecc {
 
 class const_visitor;
 class visitor;
+
+class invalid_state :
+    public std::logic_error
+{
+public:
+    invalid_state(std::string const &node_type, std::type_info const &visitor_type) :
+        std::logic_error(std::string(visitor_type.name()) + " does not handle " + node_type) { }
+};
 
 struct node
 {
