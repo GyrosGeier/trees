@@ -11,10 +11,24 @@ YACCSOURCES = $(wildcard *.yy)
 OBJECTS = $(CXXSOURCES:%.cpp=%.o) $(LEXSOURCES:%.ll=%_lex.o) $(YACCSOURCES:%.yy=%_parse.o)
 DEPFILES = $(addprefix stage1/,$(OBJECTS:%.o=.%.d)) $(addprefix stage2/,$(OBJECTS:%.o=.%.d))
 
-all: treecc
+all: treecc $(YACCSOURCES:%.yy=update-%_tree.hpp) $(YACCSOURCES:%.yy=update-%_tree.cpp)
 
 treecc: $(addprefix stage2/,$(OBJECTS))
 	$(CXX) $(LDFLAGS) -o $@ $^
+
+update-%_tree.hpp: %_tree.hpp update/%_tree.hpp stage2/%_tree.hpp
+	cmp $(wordlist 1,2,$^) || (cmp $(wordlist 2,3,$^) && mv update/$< $<)
+
+update-%_tree.cpp: %_tree.cpp update/%_tree.cpp stage2/%_tree.cpp
+	cmp $(wordlist 1,2,$^) || (cmp $(wordlist 2,3,$^) && mv update/$< $<)
+
+update/%_tree.hpp: %.yy treecc
+	@mkdir -p update
+	./treecc -o $@ $<
+
+update/%_tree.cpp: %.yy treecc
+	@mkdir -p update
+	./treecc -c -o $@ $<
 
 stage2/%_tree.hpp: %.yy stage1/treecc
 	stage1/treecc -o $@ $<
@@ -52,6 +66,6 @@ stage2/tree_tree.o: stage2/tree_tree.cpp tree_parse.hpp tree_lex.hpp stage2/tree
 
 clean:
 	$(RM) treecc
-	$(RM) -r stage2 stage1
+	$(RM) -r stage2 stage1 update
 
 sinclude $(DEPFILES)
