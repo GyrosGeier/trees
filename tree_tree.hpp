@@ -1,5 +1,5 @@
-#ifndef stage2_tree_tree_hpp_
-#define stage2_tree_tree_hpp_ 1
+#ifndef tree_tree_hpp_
+#define tree_tree_hpp_ 1
 
 #include <string>
 #include <typeinfo>

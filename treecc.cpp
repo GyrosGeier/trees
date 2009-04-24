@@ -102,7 +102,13 @@ int main(int argc, char **argv)
     {
     case header:
         {
-            std::string cppsymbol(outfile);
+            std::string::size_type slash = outfile.rfind('/');
+            if(slash == std::string::npos)
+                slash = 0;
+            else
+                ++slash;
+
+            std::string cppsymbol(outfile, slash);
             for(unsigned int i = 0; i < cppsymbol.size(); ++i)
             {
                 char c = cppsymbol[i];
