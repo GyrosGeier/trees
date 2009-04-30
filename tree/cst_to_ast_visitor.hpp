@@ -108,8 +108,6 @@ private:
     node_ptr current_type;
     basic_type_node_ptr current_basic_type;
     std::string current_identifier;
-
-    void check_form_smart_pointer(void);
 };
 
 }

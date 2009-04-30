@@ -145,5 +145,12 @@ void header_output_visitor::visit(data_member_node const &n)
     out << " " << n.name << ";" << std::endl;
 }
 
+void header_output_visitor::visit(list_type_node const &n)
+{
+    out << "std::list<";
+    n.type->apply(*this);
+    out << "> ";
+}
+
 }
 }

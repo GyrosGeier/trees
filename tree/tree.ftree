@@ -14,13 +14,13 @@ node data_member_node {
 };
 
 node node_node {
-    namespace_node_ptr ns;
+    namespace_node_weak_ptr ns;
     std::string name;
     data_member_node members[];
 };
 
 node namespace_node {
-    node parent;
+    namespace_node_weak_ptr parent;
     std::string name;
     bool has_nodes;
     bool has_visitor;
@@ -30,6 +30,7 @@ node namespace_node {
 };
 
 node basic_type_node {
+    namespace_node_weak_ptr ns;
     std::string name;
     bool is_const;
     bool is_volatile;
@@ -46,6 +47,10 @@ node pointer_type_node {
 node template_type_node {
     std::string name;
     node template_args[];
+};
+
+node list_type_node {
+    node type;
 };
 
 visitor smartpointer_visitor

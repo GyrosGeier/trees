@@ -21,6 +21,7 @@ public:
     virtual void visit(reference_type_node const &);
     virtual void visit(pointer_type_node const &);
     virtual void visit(template_type_node const &);
+    virtual void visit(list_type_node const &);
     virtual void visit(data_member_node const &);
 
 private:

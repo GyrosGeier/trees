@@ -28,6 +28,9 @@ typedef pointer_type_node *pointer_type_node_weak_ptr;
 struct template_type_node;
 typedef boost::intrusive_ptr<template_type_node> template_type_node_ptr;
 typedef template_type_node *template_type_node_weak_ptr;
+struct list_type_node;
+typedef boost::intrusive_ptr<list_type_node> list_type_node_ptr;
+typedef list_type_node *list_type_node_weak_ptr;
 class visitor;
 class const_visitor;
 struct node {
@@ -48,7 +51,7 @@ struct data_member_node : node
     virtual ~data_member_node(void) throw() { }
     virtual void apply(visitor &);
     virtual void apply(const_visitor &) const;
-    node_ptr type;
+    boost::intrusive_ptr<node>  type;
     std::string name;
 };
 struct node_node : node
@@ -58,9 +61,9 @@ struct node_node : node
     virtual ~node_node(void) throw() { }
     virtual void apply(visitor &);
     virtual void apply(const_visitor &) const;
-    namespace_node_ptr ns;
+    namespace_node_weak_ptr ns;
     std::string name;
-    std::list<data_member_node_ptr>  members;
+    std::list<boost::intrusive_ptr<data_member_node> >  members;
 };
 struct namespace_node : node
 {
@@ -69,21 +72,22 @@ struct namespace_node : node
     virtual ~namespace_node(void) throw() { }
     virtual void apply(visitor &);
     virtual void apply(const_visitor &) const;
-    node_ptr parent;
+    namespace_node_weak_ptr parent;
     std::string name;
     bool has_nodes;
     bool has_visitor;
     bool has_const_visitor;
-    std::list<namespace_node_ptr>  namespaces;
-    std::list<node_node_ptr>  nodes;
+    std::list<boost::intrusive_ptr<namespace_node> >  namespaces;
+    std::list<boost::intrusive_ptr<node_node> >  nodes;
 };
 struct basic_type_node : node
 {
     basic_type_node(void) throw() :
-        name(), is_const(), is_volatile() { }
+        ns(), name(), is_const(), is_volatile() { }
     virtual ~basic_type_node(void) throw() { }
     virtual void apply(visitor &);
     virtual void apply(const_visitor &) const;
+    namespace_node_weak_ptr ns;
     std::string name;
     bool is_const;
     bool is_volatile;
@@ -95,7 +99,7 @@ struct reference_type_node : node
     virtual ~reference_type_node(void) throw() { }
     virtual void apply(visitor &);
     virtual void apply(const_visitor &) const;
-    node_ptr type;
+    boost::intrusive_ptr<node>  type;
 };
 struct pointer_type_node : node
 {
@@ -104,7 +108,7 @@ struct pointer_type_node : node
     virtual ~pointer_type_node(void) throw() { }
     virtual void apply(visitor &);
     virtual void apply(const_visitor &) const;
-    node_ptr type;
+    boost::intrusive_ptr<node>  type;
 };
 struct template_type_node : node
 {
@@ -114,7 +118,16 @@ struct template_type_node : node
     virtual void apply(visitor &);
     virtual void apply(const_visitor &) const;
     std::string name;
-    std::list<node_ptr>  template_args;
+    std::list<boost::intrusive_ptr<node> >  template_args;
+};
+struct list_type_node : node
+{
+    list_type_node(void) throw() :
+        type() { }
+    virtual ~list_type_node(void) throw() { }
+    virtual void apply(visitor &);
+    virtual void apply(const_visitor &) const;
+    boost::intrusive_ptr<node>  type;
 };
 class visitor
 {
@@ -127,6 +140,7 @@ public:
     virtual void visit(reference_type_node &) = 0;
     virtual void visit(pointer_type_node &) = 0;
     virtual void visit(template_type_node &) = 0;
+    virtual void visit(list_type_node &) = 0;
 };
 class const_visitor
 {
@@ -139,6 +153,7 @@ public:
     virtual void visit(reference_type_node const &) = 0;
     virtual void visit(pointer_type_node const &) = 0;
     virtual void visit(template_type_node const &) = 0;
+    virtual void visit(list_type_node const &) = 0;
 };
 }
 }

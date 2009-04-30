@@ -5,6 +5,8 @@
 #include <fstream>
 
 #include "cst_to_ast_visitor.hpp"
+
+#include "smartpointer_visitor.hpp"
 #include "header_output_visitor.hpp"
 #include "impl_output_visitor.hpp"
 
@@ -131,6 +133,9 @@ try
     boost::intrusive_ptr<node> ast;
 
     ast = generate_ast.get_ast();
+
+    smartpointer_visitor smartptr;
+    ast->apply(smartptr);
 
     std::ofstream out(outfile.c_str());
 

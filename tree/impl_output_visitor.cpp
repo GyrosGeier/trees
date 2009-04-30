@@ -65,5 +65,10 @@ void impl_output_visitor::visit(data_member_node const &)
     return;
 }
 
+void impl_output_visitor::visit(list_type_node const &)
+{
+    return;
+}
+
 }
 }

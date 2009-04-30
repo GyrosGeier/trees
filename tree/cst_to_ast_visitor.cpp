@@ -140,6 +140,7 @@ void cst_to_ast_visitor::visit(tree_description::data_member_declaration const &
 {
     /* type type_qualifiers declarator */
     current_basic_type = new basic_type_node;
+    current_basic_type->ns = current_namespace.get();
     current_type = current_basic_type;
     dm._1->apply(*this);
     dm._2->apply(*this);
@@ -166,7 +167,6 @@ void cst_to_ast_visitor::visit(tree_description::declarator_1 const &d)
     /* reference IDENTIFIER arrays */
     d._1->apply(*this);
     current_identifier = d._2;
-    check_form_smart_pointer();
     d._3->apply(*this);
 }
 
@@ -175,7 +175,6 @@ void cst_to_ast_visitor::visit(tree_description::declarator_2 const &d)
     /* reference "parent" arrays */
     d._1->apply(*this);
     current_identifier = "parent";
-    check_form_smart_pointer();
     d._2->apply(*this);
 }
 
@@ -255,9 +254,8 @@ void cst_to_ast_visitor::visit(tree_description::bounded_arrays_2 const&){ }
 void cst_to_ast_visitor::visit(tree_description::bounded_array const&){ }
 void cst_to_ast_visitor::visit(tree_description::unbounded_array const &)
 {
-    template_type_node_ptr nn = new template_type_node;
-    nn->name = "std::list";
-    nn->template_args.push_back(current_type);
+    list_type_node_ptr nn = new list_type_node;
+    nn->type = current_type;
     current_type = nn;
 }
 
@@ -317,32 +315,6 @@ void cst_to_ast_visitor::visit(tree_description::literal_2 const&){ }
 void cst_to_ast_visitor::visit(tree_description::boolean_literal_1 const&){ }
 void cst_to_ast_visitor::visit(tree_description::boolean_literal_2 const&){ }
 void cst_to_ast_visitor::visit(tree_description::integer_literal const&){ }
-
-void cst_to_ast_visitor::check_form_smart_pointer(void)
-{
-    if(current_type == current_basic_type)
-    {
-        bool form_smart_pointer = false;
-        if(current_basic_type->name == "node")
-            form_smart_pointer = true;
-        else
-        {
-            for(std::list<node_node_ptr>::const_iterator i = current_namespace->nodes.begin();
-                    i != current_namespace->nodes.end(); ++i)
-            {
-                if(current_basic_type->name == (**i).name)
-                {
-                    form_smart_pointer = true;
-                    break;
-                }
-            }
-        }
-        if(form_smart_pointer)
-        {
-            current_basic_type->name += "_ptr";
-        }
-    }
-}
 
 }
 }
