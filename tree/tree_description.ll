@@ -1,0 +1,67 @@
+%{
+#include "tree_description_tree.hpp"
+#include "tree_description_parse.hpp"
+%}
+
+%option nostdinit
+/*%option nodefault*/
+%option nounput
+%option noyywrap
+%option reentrant
+%option bison-bridge
+%option bison-locations
+%option prefix="tree_description_"
+%option header-file="tree_description_lex.hpp"
+
+%s DIRECTIVE
+
+IDENT                       [[:alpha:]_][[:alnum:]_]*
+INTEGER                     [[:digit:]]+
+
+%%
+
+<INITIAL>%                  BEGIN(DIRECTIVE); return PERCENT;
+<DIRECTIVE>%                BEGIN(INITIAL); return PERCENT;
+
+\                           /* ignore */
+\n                          /* ignore */
+\t                          /* ignore */
+\r                          /* ignore */
+
+\(                          return LPAREN;
+\)                          return RPAREN;
+\{                          return LBRACE;
+\}                          return RBRACE;
+\[                          return LBRACKET;
+\]                          return RBRACKET;
+\<                          return LANGLE;
+\>                          return RANGLE;
+&                           return AMPERSAND;
+,                           return COMMA;
+;                           return SEMICOLON;
+::                          return DOUBLECOLON;
+\*                          return ASTERISK;
+\.\.\.                      return ELLIPSIS;
+
+<INITIAL>visitor            return VISITOR;
+<INITIAL>group              return GROUP;
+<DIRECTIVE>multiparent      return MULTIPARENT;
+<DIRECTIVE>scoped_ptr       return SCOPED_PTR;
+<DIRECTIVE>shared_ptr       return SHARED_PTR;
+<DIRECTIVE>intrusive_ptr    return INTRUSIVE_PTR;
+<DIRECTIVE>smartpointer     return SMARTPOINTER;
+
+namespace                   return NAMESPACE;
+const                       return CONST;
+volatile                    return VOLATILE;
+void                        return VOID;
+
+node                        return NODE;
+<INITIAL>parent             return PARENT;
+<INITIAL>root               return ROOT;
+
+true                        return TRUE;
+false                       return FALSE;
+
+{IDENT}                     yylval->string.data = yytext; yylval->string.length = yyleng; return IDENTIFIER;
+{INTEGER}                   yylval->string.data = yytext; yylval->string.length = yyleng; return INTEGER;

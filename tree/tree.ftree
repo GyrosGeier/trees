@@ -1,0 +1,70 @@
+namespace foundry {
+namespace tree {
+
+root node[];
+
+node {
+    %multiparent%
+    %intrusive_ptr%
+};
+
+node data_member_node {
+    node type;
+    std::string name;
+};
+
+node node_node {
+    namespace_node_ptr ns;
+    std::string name;
+    data_member_node members[];
+};
+
+node namespace_node {
+    node parent;
+    std::string name;
+    bool has_nodes;
+    bool has_visitor;
+    bool has_const_visitor;
+    namespace_node namespaces[];
+    node_node nodes[];
+};
+
+node basic_type_node {
+    std::string name;
+    bool is_const;
+    bool is_volatile;
+};
+
+node reference_type_node {
+    node type;
+};
+
+node pointer_type_node {
+    node type;
+};
+
+node template_type_node {
+    std::string name;
+    node template_args[];
+};
+
+visitor smartpointer_visitor
+{
+};
+
+const visitor header_output_visitor
+{
+    header_output_visitor(std::ostream &);
+
+    std::ostream &out;
+};
+
+const visitor impl_output_visitor
+{
+    header_output_visitor(std::ostream &);
+
+    std::ostream &out;
+};
+
+}
+}
