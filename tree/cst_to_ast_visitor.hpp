@@ -25,12 +25,7 @@ public:
     virtual void visit(tree_description::namespace_member_declaration_1 const &);
     virtual void visit(tree_description::namespace_member_declaration_2 const &);
     virtual void visit(tree_description::namespace_member_declaration_3 const &);
-    virtual void visit(tree_description::namespace_member_declaration_4 const &);
     virtual void visit(tree_description::namespace_declaration const &);
-    virtual void visit(tree_description::root_declaration_1 const &);
-    virtual void visit(tree_description::root_declaration_2 const &);
-    virtual void visit(tree_description::root_declaration_3 const &);
-    virtual void visit(tree_description::root_declaration_4 const &);
     virtual void visit(tree_description::group_declaration const &);
     virtual void visit(tree_description::group_member_declarations_1 const &);
     virtual void visit(tree_description::group_member_declarations_2 const &);

@@ -1,8 +1,6 @@
 namespace foundry {
 namespace tree {
 
-root node[];
-
 node {
     %multiparent%
     %intrusive_ptr%

@@ -38,23 +38,17 @@ void cst_to_ast_visitor::visit(tree_description::declaration_2 const &d)
 
 void cst_to_ast_visitor::visit(tree_description::namespace_member_declaration_1 const &md)
 {
-    /* root_declaration */
+    /* group_declaration */
     md._1->apply(*this);
 }
 
 void cst_to_ast_visitor::visit(tree_description::namespace_member_declaration_2 const &md)
 {
-    /* group_declaration */
-    md._1->apply(*this);
-}
-
-void cst_to_ast_visitor::visit(tree_description::namespace_member_declaration_3 const &md)
-{
     /* node_declaration */
     md._1->apply(*this);
 }
 
-void cst_to_ast_visitor::visit(tree_description::namespace_member_declaration_4 const &md)
+void cst_to_ast_visitor::visit(tree_description::namespace_member_declaration_3 const &md)
 {
     /* namespace_member_declaration */
     md._1->apply(*this);
@@ -73,10 +67,6 @@ void cst_to_ast_visitor::visit(tree_description::namespace_declaration const &n)
     current_namespace = tmp;
 }
 
-void cst_to_ast_visitor::visit(tree_description::root_declaration_1 const&){ }
-void cst_to_ast_visitor::visit(tree_description::root_declaration_2 const&){ }
-void cst_to_ast_visitor::visit(tree_description::root_declaration_3 const&){ }
-void cst_to_ast_visitor::visit(tree_description::root_declaration_4 const&){ }
 void cst_to_ast_visitor::visit(tree_description::group_declaration const&){ }
 void cst_to_ast_visitor::visit(tree_description::group_member_declarations_1 const&){ }
 void cst_to_ast_visitor::visit(tree_description::group_member_declarations_2 const&){ }

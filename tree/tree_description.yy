@@ -12,7 +12,6 @@ using namespace tree_description;
     tree_description::declaration *declaration;
     tree_description::namespace_member_declaration *namespace_member_declaration;
     tree_description::namespace_declaration *namespace_declaration;
-    tree_description::root_declaration *root_declaration;
     tree_description::group_declaration *group_declaration;
     tree_description::group_member_declarations *group_member_declarations;
     tree_description::group_member_declaration *group_member_declaration;
@@ -100,7 +99,6 @@ void tree_description_error(YYLTYPE *, void *, start *&, char const *msg);
 %token GROUP "group"
 %token NODE "node"
 %token PARENT "parent"
-%token ROOT "root"
 
 %token VISITOR "visitor"
 %token CONST "const"
@@ -119,7 +117,6 @@ void tree_description_error(YYLTYPE *, void *, start *&, char const *msg);
 %type <declaration> declaration
 %type <namespace_member_declaration> namespace_member_declaration
 %type <namespace_declaration> namespace_declaration
-%type <root_declaration> root_declaration
 %type <group_declaration> group_declaration
 %type <group_member_declarations> group_member_declarations
 %type <group_member_declaration> group_member_declaration
@@ -165,17 +162,11 @@ declarations: /* empty */ { $$ = new declarations_1; } |
 declaration: namespace_declaration { $$ = new declaration_1($1); } |
     namespace_member_declaration ";" { $$ = new declaration_2($1); }
 
-namespace_member_declaration: root_declaration { $$ = new namespace_member_declaration_1($1); } |
-    group_declaration { $$ = new namespace_member_declaration_2($1); } |
-    node_declaration { $$ = new namespace_member_declaration_3($1); } |
-    visitor_declaration { $$ = new namespace_member_declaration_4($1); }
+namespace_member_declaration: group_declaration { $$ = new namespace_member_declaration_1($1); } |
+    node_declaration { $$ = new namespace_member_declaration_2($1); } |
+    visitor_declaration { $$ = new namespace_member_declaration_3($1); }
 
 namespace_declaration: "namespace" IDENTIFIER "{" declarations "}" { $$ = new namespace_declaration(std::string($2.data, $2.length), $4); }
-
-root_declaration: "root" IDENTIFIER { $$ = new root_declaration_1(std::string($2.data, $2.length)); } |
-    "root" IDENTIFIER unbounded_array { $$ = new root_declaration_2(std::string($2.data, $2.length), $3); } |
-    "root" "node" { $$ = new root_declaration_3; } |
-    "root" "node" unbounded_array { $$ = new root_declaration_4($3); }
 
 group_declaration: "group" IDENTIFIER "{" group_member_declarations "}" { $$ = new group_declaration(std::string($2.data, $2.length), $4); }
 

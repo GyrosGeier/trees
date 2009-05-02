@@ -58,7 +58,6 @@ void                        return VOID;
 
 node                        return NODE;
 <INITIAL>parent             return PARENT;
-<INITIAL>root               return ROOT;
 
 true                        return TRUE;
 false                       return FALSE;
