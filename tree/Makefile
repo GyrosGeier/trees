@@ -37,11 +37,14 @@ update/%_tree.cpp: %.ftree foundry-tree
 	@mkdir -p update
 	./foundry-tree -c -o $@ $<
 
-%_tree.hpp: %.yy
-	treecc -n $* -o $@ $<
+%_tree.hpp: %.yy treecc/treecc
+	treecc/treecc -n $* -o $@ $<
 
-%_tree.cpp: %.yy
-	treecc -n $* -c -o $@ $<
+%_tree.cpp: %.yy treecc/treecc
+	treecc/treecc -n $* -c -o $@ $<
+
+treecc/treecc:
+	$(MAKE) -C treecc
 
 %_lex.cpp: %.ll
 	$(LEX) -o $@ $<
@@ -71,6 +74,7 @@ stage2/tree_tree.o: stage2/tree_tree.cpp $(addprefix stage2/,$(TREESOURCES:%.ftr
 clean:
 	$(RM) foundry-tree
 	$(RM) -r update stage2 stage1
+	$(MAKE) -C treecc $@
 
 sinclude $(DEPFILES)
 
