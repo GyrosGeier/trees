@@ -12,6 +12,8 @@ class smartpointer_visitor :
 public:
     virtual ~smartpointer_visitor(void) throw() { }
 
+    virtual void visit(root &);
+    virtual void visit(include_node &);
     virtual void visit(data_member_node &);
     virtual void visit(node_node &);
     virtual void visit(namespace_node &);
@@ -23,6 +25,8 @@ public:
 
 private:
     bool is_node_type;
+
+    root_weak_ptr ast_root;
 };
 
 }

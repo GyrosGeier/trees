@@ -14,6 +14,8 @@ class header_output_visitor :
 public:
     header_output_visitor(std::ostream &out);
 
+    virtual void visit(root const &);
+    virtual void visit(include_node const &);
     virtual void visit(namespace_node const &);
     virtual void visit(node_node const &);
     virtual void visit(basic_type_node const &);

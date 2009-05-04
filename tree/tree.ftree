@@ -6,18 +6,31 @@ node {
     %intrusive_ptr%
 };
 
+node root {
+    include_node includes[];
+    namespace_node global_namespace;
+};
+
+node include_node {
+    %include <string>%
+    std::string name;
+};
+
 node data_member_node {
+    %include <string>%
     node type;
     std::string name;
 };
 
 node node_node {
+    %include <string>%
     namespace_node_weak_ptr ns;
     std::string name;
     data_member_node members[];
 };
 
 node namespace_node {
+    %include <string>%
     namespace_node_weak_ptr parent;
     std::string name;
     bool has_nodes;
@@ -28,6 +41,7 @@ node namespace_node {
 };
 
 node basic_type_node {
+    %include <string>%
     namespace_node_weak_ptr ns;
     std::string name;
     bool is_const;
@@ -43,6 +57,7 @@ node pointer_type_node {
 };
 
 node template_type_node {
+    %include <string>%
     std::string name;
     node template_args[];
 };

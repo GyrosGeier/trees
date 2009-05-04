@@ -1,12 +1,26 @@
 #ifndef tree_tree_hpp_
 #define tree_tree_hpp_ 1
 
-#pragma once
+#include <string>
+#include <string>
+#include <string>
+#include <string>
+#include <string>
+#include <string>
+#include <boost/intrusive_ptr.hpp>
+#include <boost/intrusive_ptr.hpp>
+#include <boost/intrusive_ptr.hpp>
+#include <boost/intrusive_ptr.hpp>
 #include <boost/intrusive_ptr.hpp>
 #include <list>
-#include <string>
 namespace foundry {
 namespace tree {
+struct root;
+typedef boost::intrusive_ptr<root> root_ptr;
+typedef root *root_weak_ptr;
+struct include_node;
+typedef boost::intrusive_ptr<include_node> include_node_ptr;
+typedef include_node *include_node_weak_ptr;
 struct data_member_node;
 typedef boost::intrusive_ptr<data_member_node> data_member_node_ptr;
 typedef data_member_node *data_member_node_weak_ptr;
@@ -44,6 +58,25 @@ typedef boost::intrusive_ptr<node> node_ptr;
 typedef node *node_weak_ptr;
 inline void intrusive_ptr_add_ref(node *n) { ++n->refcount; }
 inline void intrusive_ptr_release(node *n) { if(!--n->refcount) delete n; }
+struct root : node
+{
+    root(void) throw() :
+        includes(), global_namespace() { }
+    virtual ~root(void) throw() { }
+    virtual void apply(visitor &);
+    virtual void apply(const_visitor &) const;
+    std::list<boost::intrusive_ptr<include_node> >  includes;
+    boost::intrusive_ptr<namespace_node>  global_namespace;
+};
+struct include_node : node
+{
+    include_node(void) throw() :
+        name() { }
+    virtual ~include_node(void) throw() { }
+    virtual void apply(visitor &);
+    virtual void apply(const_visitor &) const;
+    std::string name;
+};
 struct data_member_node : node
 {
     data_member_node(void) throw() :
@@ -133,6 +166,8 @@ class visitor
 {
 public:
     virtual ~visitor(void) throw() { }
+    virtual void visit(root &) = 0;
+    virtual void visit(include_node &) = 0;
     virtual void visit(data_member_node &) = 0;
     virtual void visit(node_node &) = 0;
     virtual void visit(namespace_node &) = 0;
@@ -146,6 +181,8 @@ class const_visitor
 {
 public:
     virtual ~const_visitor(void) throw() { }
+    virtual void visit(root const &) = 0;
+    virtual void visit(include_node const &) = 0;
     virtual void visit(data_member_node const &) = 0;
     virtual void visit(node_node const &) = 0;
     virtual void visit(namespace_node const &) = 0;

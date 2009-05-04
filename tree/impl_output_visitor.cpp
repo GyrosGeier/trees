@@ -9,6 +9,16 @@ impl_output_visitor::impl_output_visitor(std::ostream &out) :
     return;
 }
 
+void impl_output_visitor::visit(root const &r)
+{
+    visit(*r.global_namespace);
+}
+
+void impl_output_visitor::visit(include_node const &)
+{
+    return;
+}
+
 void impl_output_visitor::visit(node_node const &n)
 {
     if(n.ns->has_visitor)

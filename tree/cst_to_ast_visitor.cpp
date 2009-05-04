@@ -6,8 +6,11 @@ namespace tree {
 void cst_to_ast_visitor::visit(tree_description::start const &s)
 {
     /* declarations */
-    if(!current_namespace)
-        current_namespace = new namespace_node;
+    if(!ast_root)
+    {
+        ast_root = new root;
+        ast_root->global_namespace = current_namespace = new namespace_node;
+    }
 
     s._1->apply(*this);
 }
@@ -110,7 +113,12 @@ void cst_to_ast_visitor::visit(tree_description::member_declarations_2 const &md
     md._2->apply(*this);
 }
 
-void cst_to_ast_visitor::visit(tree_description::member_declarations_3 const&){ }
+void cst_to_ast_visitor::visit(tree_description::member_declarations_3 const &md)
+{
+    /* member_declarations member_directive */
+    md._1->apply(*this);
+    md._2->apply(*this);
+}
 
 void cst_to_ast_visitor::visit(tree_description::member_declaration_1 const &md)
 {
@@ -118,13 +126,26 @@ void cst_to_ast_visitor::visit(tree_description::member_declaration_1 const &md)
     md._1->apply(*this);
 }
 
-void cst_to_ast_visitor::visit(tree_description::member_declaration_2 const&){ }
+void cst_to_ast_visitor::visit(tree_description::member_declaration_2 const &){ }
 void cst_to_ast_visitor::visit(tree_description::member_declaration_3 const&){ }
 void cst_to_ast_visitor::visit(tree_description::member_directive_1 const&){ }
 void cst_to_ast_visitor::visit(tree_description::member_directive_2 const&){ }
 void cst_to_ast_visitor::visit(tree_description::member_directive_3 const&){ }
 void cst_to_ast_visitor::visit(tree_description::member_directive_4 const&){ }
 void cst_to_ast_visitor::visit(tree_description::member_directive_5 const&){ }
+void cst_to_ast_visitor::visit(tree_description::member_directive_6 const &md)
+{
+    include_node_ptr nn = new include_node;
+    nn->name = md._1;
+    ast_root->includes.push_back(nn);
+}
+
+void cst_to_ast_visitor::visit(tree_description::member_directive_7 const &md)
+{
+    include_node_ptr nn = new include_node;
+    nn->name = md._1;
+    ast_root->includes.push_back(nn);
+}
 
 void cst_to_ast_visitor::visit(tree_description::data_member_declaration const &dm)
 {

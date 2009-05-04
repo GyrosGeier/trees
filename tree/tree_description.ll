@@ -50,6 +50,7 @@ INTEGER                     [[:digit:]]+
 <DIRECTIVE>shared_ptr       return SHARED_PTR;
 <DIRECTIVE>intrusive_ptr    return INTRUSIVE_PTR;
 <DIRECTIVE>smartpointer     return SMARTPOINTER;
+<DIRECTIVE>include          return INCLUDE;
 
 namespace                   return NAMESPACE;
 const                       return CONST;
@@ -64,3 +65,5 @@ false                       return FALSE;
 
 {IDENT}                     yylval->string.data = yytext; yylval->string.length = yyleng; return IDENTIFIER;
 {INTEGER}                   yylval->string.data = yytext; yylval->string.length = yyleng; return INTEGER;
+\"([^"\\\n]|\\.|\\\n)*\"    yylval->string.data = yytext+1; yylval->string.length = yyleng-2; return QUOTED_NAME;
+\<[^\>]*\>                  yylval->string.data = yytext+1; yylval->string.length = yyleng-2; return HEADER_NAME;

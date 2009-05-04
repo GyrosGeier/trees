@@ -15,7 +15,7 @@ class cst_to_ast_visitor :
 public:
     virtual ~cst_to_ast_visitor(void) throw() { }
 
-    node_ptr get_ast(void) { return current_namespace; }
+    root_ptr get_ast(void) { return ast_root; }
 
     virtual void visit(tree_description::start const &);
     virtual void visit(tree_description::declarations_1 const &);
@@ -47,6 +47,8 @@ public:
     virtual void visit(tree_description::member_directive_3 const &);
     virtual void visit(tree_description::member_directive_4 const &);
     virtual void visit(tree_description::member_directive_5 const &);
+    virtual void visit(tree_description::member_directive_6 const &);
+    virtual void visit(tree_description::member_directive_7 const &);
     virtual void visit(tree_description::data_member_declaration const &);
     virtual void visit(tree_description::constructor_declaration const &);
     virtual void visit(tree_description::parameter_list_1 const &);
@@ -98,6 +100,7 @@ public:
     virtual void visit(tree_description::integer_literal const &);
 
 private:
+    root_ptr ast_root;
     namespace_node_ptr current_namespace;
     node_node_ptr current_node;
     node_ptr current_type;

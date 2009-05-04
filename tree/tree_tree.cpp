@@ -2,6 +2,22 @@
 
 namespace foundry {
 namespace tree {
+void root::apply(visitor &v)
+{
+    v.visit(*this);
+}
+void root::apply(const_visitor &v) const
+{
+    v.visit(*this);
+}
+void include_node::apply(visitor &v)
+{
+    v.visit(*this);
+}
+void include_node::apply(const_visitor &v) const
+{
+    v.visit(*this);
+}
 void data_member_node::apply(visitor &v)
 {
     v.visit(*this);

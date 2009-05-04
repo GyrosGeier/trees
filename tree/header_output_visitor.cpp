@@ -9,13 +9,23 @@ header_output_visitor::header_output_visitor(std::ostream &out) :
     return;
 }
 
+void header_output_visitor::visit(root const &r)
+{
+    for(std::list<include_node_ptr>::const_iterator i = r.includes.begin();
+            i != r.includes.end(); ++i)
+        visit(**i);
+    visit(*r.global_namespace);
+}
+
+void header_output_visitor::visit(include_node const &n)
+{
+    out << "#include <" << n.name << ">" << std::endl;
+}
+
 void header_output_visitor::visit(namespace_node const &n)
 {
     if(n.name.empty())
-        out << "#pragma once" << std::endl
-            << "#include <boost/intrusive_ptr.hpp>" << std::endl
-            << "#include <list>" << std::endl
-            << "#include <string>" << std::endl;
+        out << "#include <list>" << std::endl;
     else
         out << "namespace " << n.name << " {" << std::endl;
 

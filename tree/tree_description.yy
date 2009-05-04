@@ -73,6 +73,8 @@ void tree_description_error(YYLTYPE *, void *, start *&, char const *msg);
 
 %token <string> IDENTIFIER
 %token <string> INTEGER
+%token <string> QUOTED_NAME
+%token <string> HEADER_NAME
 
 %token LPAREN "("
 %token RPAREN ")"
@@ -111,6 +113,7 @@ void tree_description_error(YYLTYPE *, void *, start *&, char const *msg);
 %token SHARED_PTR "shared_ptr"
 %token INTRUSIVE_PTR "intrusive_ptr"
 %token SMARTPOINTER "smartpointer"
+%token INCLUDE "include"
 
 %type <start> start
 %type <declarations> declarations
@@ -195,7 +198,9 @@ member_directive: "multiparent" { $$ = new member_directive_1; } |
     "scoped_ptr" { $$ = new member_directive_2; } |
     "shared_ptr" { $$ = new member_directive_3; } |
     "intrusive_ptr" { $$ = new member_directive_4; } |
-    "smartpointer" type reference { $$ = new member_directive_5($2, $3); }
+    "smartpointer" type reference { $$ = new member_directive_5($2, $3); } |
+    "include" QUOTED_NAME { $$ = new member_directive_6(std::string($2.data, $2.length)); } |
+    "include" HEADER_NAME { $$ = new member_directive_7(std::string($2.data, $2.length)); }
 
 data_member_declaration: type type_qualifiers declarator { $$ = new data_member_declaration($1, $2, $3); }
 

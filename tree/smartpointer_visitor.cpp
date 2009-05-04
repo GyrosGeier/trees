@@ -3,6 +3,17 @@
 namespace foundry {
 namespace tree {
 
+void smartpointer_visitor::visit(root &r)
+{
+    ast_root = &r;
+    visit(*r.global_namespace);
+}
+
+void smartpointer_visitor::visit(include_node &)
+{
+    return;
+}
+
 void smartpointer_visitor::visit(namespace_node &n)
 {
     for(std::list<namespace_node_ptr>::iterator i = n.namespaces.begin();
@@ -30,6 +41,9 @@ void smartpointer_visitor::visit(data_member_node &n)
         nn->name = "boost::intrusive_ptr";
         nn->template_args.push_back(n.type);
         n.type = nn;
+        include_node_ptr ni = new include_node;
+        ni->name = "boost/intrusive_ptr.hpp";
+        ast_root->includes.push_back(ni);
     }
 }
 
