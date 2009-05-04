@@ -61,8 +61,7 @@ inline void intrusive_ptr_add_ref(node *n) { ++n->refcount; }
 inline void intrusive_ptr_release(node *n) { if(!--n->refcount) delete n; }
 struct root : node
 {
-    root(void) throw() :
-        includes(), global_namespace() { }
+    root() throw() { }
     virtual ~root(void) throw() { }
     virtual void apply(visitor &);
     virtual void apply(const_visitor &) const;
@@ -71,8 +70,7 @@ struct root : node
 };
 struct include_node : node
 {
-    include_node(void) throw() :
-        name() { }
+    include_node() throw() { }
     virtual ~include_node(void) throw() { }
     virtual void apply(visitor &);
     virtual void apply(const_visitor &) const;
@@ -80,8 +78,7 @@ struct include_node : node
 };
 struct namespace_node : node
 {
-    namespace_node(void) throw() :
-        parent(), name(), has_nodes(), has_visitor(), has_const_visitor(), namespaces(), nodes() { }
+    namespace_node() throw() { }
     virtual ~namespace_node(void) throw() { }
     virtual void apply(visitor &);
     virtual void apply(const_visitor &) const;
@@ -95,8 +92,7 @@ struct namespace_node : node
 };
 struct node_node : node
 {
-    node_node(void) throw() :
-        ns(), name(), members() { }
+    node_node() throw() { }
     virtual ~node_node(void) throw() { }
     virtual void apply(visitor &);
     virtual void apply(const_visitor &) const;
@@ -106,18 +102,17 @@ struct node_node : node
 };
 struct data_member_node : node
 {
-    data_member_node(void) throw() :
-        type(), name() { }
+    data_member_node() throw() { }
     virtual ~data_member_node(void) throw() { }
     virtual void apply(visitor &);
     virtual void apply(const_visitor &) const;
     boost::intrusive_ptr<node>  type;
     std::string name;
+    bool needs_init;
 };
 struct basic_type_node : node
 {
-    basic_type_node(void) throw() :
-        ns(), name(), is_const(), is_volatile() { }
+    basic_type_node() throw() { }
     virtual ~basic_type_node(void) throw() { }
     virtual void apply(visitor &);
     virtual void apply(const_visitor &) const;
@@ -128,8 +123,7 @@ struct basic_type_node : node
 };
 struct reference_type_node : node
 {
-    reference_type_node(void) throw() :
-        type() { }
+    reference_type_node() throw() { }
     virtual ~reference_type_node(void) throw() { }
     virtual void apply(visitor &);
     virtual void apply(const_visitor &) const;
@@ -137,8 +131,7 @@ struct reference_type_node : node
 };
 struct pointer_type_node : node
 {
-    pointer_type_node(void) throw() :
-        type(), is_const(), is_volatile() { }
+    pointer_type_node() throw() { }
     virtual ~pointer_type_node(void) throw() { }
     virtual void apply(visitor &);
     virtual void apply(const_visitor &) const;
@@ -148,8 +141,7 @@ struct pointer_type_node : node
 };
 struct template_type_node : node
 {
-    template_type_node(void) throw() :
-        name(), template_args() { }
+    template_type_node() throw() { }
     virtual ~template_type_node(void) throw() { }
     virtual void apply(visitor &);
     virtual void apply(const_visitor &) const;
@@ -158,8 +150,7 @@ struct template_type_node : node
 };
 struct list_type_node : node
 {
-    list_type_node(void) throw() :
-        type() { }
+    list_type_node() throw() { }
     virtual ~list_type_node(void) throw() { }
     virtual void apply(visitor &);
     virtual void apply(const_visitor &) const;

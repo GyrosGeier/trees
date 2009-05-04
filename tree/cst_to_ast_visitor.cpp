@@ -161,6 +161,7 @@ void cst_to_ast_visitor::visit(tree_description::data_member_declaration const &
     data_member_node_ptr nn = new data_member_node;
     nn->type = current_type;
     nn->name = current_identifier;
+    nn->needs_init = current_type_needs_init;
     current_node->members.push_back(nn);
 }
 
@@ -204,6 +205,7 @@ void cst_to_ast_visitor::visit(tree_description::reference_2 const &r)
     reference_type_node_ptr nn = new reference_type_node;
     nn->type = current_type;
     current_type = nn;
+    current_type_needs_init = true;
 }
 
 void cst_to_ast_visitor::visit(tree_description::pointer_1 const &)
@@ -221,6 +223,7 @@ void cst_to_ast_visitor::visit(tree_description::pointer_2 const &p)
     nn->is_const = false;
     nn->is_volatile = false;
     current_type = nn;
+    current_type_needs_init = true;
 };
 
 void cst_to_ast_visitor::visit(tree_description::type_qualifiers_1 const&)
@@ -238,6 +241,7 @@ void cst_to_ast_visitor::visit(tree_description::type_qualifiers_2 const &q)
 void cst_to_ast_visitor::visit(tree_description::type_qualifier_1 const &)
 {
     /* "const" */
+    current_type_needs_init = true;
     basic_type_node *bt = dynamic_cast<basic_type_node *>(current_type.get());
     if(bt)
     {
@@ -285,6 +289,7 @@ void cst_to_ast_visitor::visit(tree_description::unbounded_array const &)
     list_type_node_ptr nn = new list_type_node;
     nn->type = current_type;
     current_type = nn;
+    current_type_needs_init = false;
 }
 
 void cst_to_ast_visitor::visit(tree_description::type_1 const&){ }
@@ -298,12 +303,14 @@ void cst_to_ast_visitor::visit(tree_description::type_3 const&)
 {
     /* "node" */
     current_basic_type->name = "node";
+    current_type_needs_init = false;
 }
 
 void cst_to_ast_visitor::visit(tree_description::type_4 const&)
 {
     /* "parent" */
     current_basic_type->name = "node";
+    current_type_needs_init = false;
 }
 
 void cst_to_ast_visitor::visit(tree_description::template_name const&){ }

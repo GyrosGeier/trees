@@ -90,18 +90,42 @@ void header_output_visitor::visit(namespace_node const &n)
 
 void header_output_visitor::visit(node_node const &n)
 {
+    bool first;
+
     out << "struct " << n.name << " : node" << std::endl
         << "{" << std::endl
-        << "    " << n.name << "(void) throw() :" << std::endl
-        << "        ";
+        << "    " << n.name << "(";
+
+    first = true;
     for(std::list<data_member_node_ptr>::const_iterator i = n.members.begin();
-            i != n.members.end();)
+            i != n.members.end(); ++i)
     {
-        out << (**i).name << "()";
-        ++i;
-        if(i == n.members.end())
-            break;
-        out << ", ";
+        if((**i).needs_init)
+        {
+            if(!first)
+                out << ", ";
+            (**i).type->apply(*this);
+            out << (**i).name;
+            first = false;
+        }
+    }
+    out << ") throw()";
+    if(!first)
+    {
+        out << " : " << std::endl
+            << "        ";
+        first = true;
+        for(std::list<data_member_node_ptr>::const_iterator i = n.members.begin();
+                i != n.members.end(); ++i)
+        {
+            if((**i).needs_init)
+            {
+                if(!first)
+                    out << ", ";
+                out << (**i).name << "(" << (**i).name << ")";
+                first = false;
+            }
+        }
     }
     out << " { }" << std::endl;
 

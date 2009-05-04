@@ -104,6 +104,7 @@ private:
     namespace_node_ptr current_namespace;
     node_node_ptr current_node;
     node_ptr current_type;
+    bool current_type_needs_init;
     basic_type_node_ptr current_basic_type;
     std::string current_identifier;
 };

@@ -38,6 +38,7 @@ node data_member_node {
     %include <string>%
     node type;
     std::string name;
+    bool needs_init;
 };
 
 node basic_type_node {
