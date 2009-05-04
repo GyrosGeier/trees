@@ -25,7 +25,8 @@ void header_output_visitor::visit(include_node const &n)
 void header_output_visitor::visit(namespace_node const &n)
 {
     if(n.name.empty())
-        out << "#include <list>" << std::endl;
+        out << "#include <boost/intrusive_ptr.hpp>" << std::endl
+            << "#include <list>" << std::endl;
     else
         out << "namespace " << n.name << " {" << std::endl;
 
