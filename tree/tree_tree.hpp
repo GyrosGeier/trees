@@ -137,11 +137,13 @@ struct reference_type_node : node
 struct pointer_type_node : node
 {
     pointer_type_node(void) throw() :
-        type() { }
+        type(), is_const(), is_volatile() { }
     virtual ~pointer_type_node(void) throw() { }
     virtual void apply(visitor &);
     virtual void apply(const_visitor &) const;
     boost::intrusive_ptr<node>  type;
+    bool is_const;
+    bool is_volatile;
 };
 struct template_type_node : node
 {

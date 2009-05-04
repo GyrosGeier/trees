@@ -54,6 +54,8 @@ node reference_type_node {
 
 node pointer_type_node {
     node type;
+    bool is_const;
+    bool is_volatile;
 };
 
 node template_type_node {

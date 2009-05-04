@@ -151,6 +151,8 @@ void cst_to_ast_visitor::visit(tree_description::data_member_declaration const &
 {
     /* type type_qualifiers declarator */
     current_basic_type = new basic_type_node;
+    current_basic_type->is_const = false;
+    current_basic_type->is_volatile = false;
     current_basic_type->ns = current_namespace.get();
     current_type = current_basic_type;
     dm._1->apply(*this);
@@ -216,6 +218,8 @@ void cst_to_ast_visitor::visit(tree_description::pointer_2 const &p)
     p._2->apply(*this);
     pointer_type_node_ptr nn = new pointer_type_node;
     nn->type = current_type;
+    nn->is_const = false;
+    nn->is_volatile = false;
     current_type = nn;
 };
 
@@ -234,7 +238,20 @@ void cst_to_ast_visitor::visit(tree_description::type_qualifiers_2 const &q)
 void cst_to_ast_visitor::visit(tree_description::type_qualifier_1 const &)
 {
     /* "const" */
-    // TODO: current_type->is_const = true;
+    basic_type_node *bt = dynamic_cast<basic_type_node *>(current_type.get());
+    if(bt)
+    {
+        bt->is_const = true;
+        return;
+    }
+    pointer_type_node *pt = dynamic_cast<pointer_type_node *>(current_type.get());
+    if(pt)
+    {
+        pt->is_const = true;
+        return;
+    }
+    // TODO: proper error message
+    throw;
 }
 
 void cst_to_ast_visitor::visit(tree_description::type_qualifier_2 const&)

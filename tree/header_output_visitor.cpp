@@ -120,12 +120,10 @@ void header_output_visitor::visit(node_node const &n)
 void header_output_visitor::visit(basic_type_node const &n)
 {
     out << n.name;
-    /*
     if(n.is_const)
         out << " const";
     if(n.is_volatile)
         out << " volatile";
-     */
 }
 
 void header_output_visitor::visit(reference_type_node const &n)
@@ -138,6 +136,10 @@ void header_output_visitor::visit(pointer_type_node const &n)
 {
     n.type->apply(*this);
     out << "*";
+    if(n.is_const)
+        out << " const";
+    if(n.is_volatile)
+        out << " volatile";
 }
 
 void header_output_visitor::visit(template_type_node const &n)
