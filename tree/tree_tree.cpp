@@ -18,11 +18,11 @@ void include_node::apply(const_visitor &v) const
 {
     v.visit(*this);
 }
-void data_member_node::apply(visitor &v)
+void namespace_node::apply(visitor &v)
 {
     v.visit(*this);
 }
-void data_member_node::apply(const_visitor &v) const
+void namespace_node::apply(const_visitor &v) const
 {
     v.visit(*this);
 }
@@ -34,11 +34,11 @@ void node_node::apply(const_visitor &v) const
 {
     v.visit(*this);
 }
-void namespace_node::apply(visitor &v)
+void data_member_node::apply(visitor &v)
 {
     v.visit(*this);
 }
-void namespace_node::apply(const_visitor &v) const
+void data_member_node::apply(const_visitor &v) const
 {
     v.visit(*this);
 }

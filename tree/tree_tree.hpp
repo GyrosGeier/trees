@@ -21,15 +21,15 @@ typedef root *root_weak_ptr;
 struct include_node;
 typedef boost::intrusive_ptr<include_node> include_node_ptr;
 typedef include_node *include_node_weak_ptr;
-struct data_member_node;
-typedef boost::intrusive_ptr<data_member_node> data_member_node_ptr;
-typedef data_member_node *data_member_node_weak_ptr;
-struct node_node;
-typedef boost::intrusive_ptr<node_node> node_node_ptr;
-typedef node_node *node_node_weak_ptr;
 struct namespace_node;
 typedef boost::intrusive_ptr<namespace_node> namespace_node_ptr;
 typedef namespace_node *namespace_node_weak_ptr;
+struct node_node;
+typedef boost::intrusive_ptr<node_node> node_node_ptr;
+typedef node_node *node_node_weak_ptr;
+struct data_member_node;
+typedef boost::intrusive_ptr<data_member_node> data_member_node_ptr;
+typedef data_member_node *data_member_node_weak_ptr;
 struct basic_type_node;
 typedef boost::intrusive_ptr<basic_type_node> basic_type_node_ptr;
 typedef basic_type_node *basic_type_node_weak_ptr;
@@ -77,27 +77,6 @@ struct include_node : node
     virtual void apply(const_visitor &) const;
     std::string name;
 };
-struct data_member_node : node
-{
-    data_member_node(void) throw() :
-        type(), name() { }
-    virtual ~data_member_node(void) throw() { }
-    virtual void apply(visitor &);
-    virtual void apply(const_visitor &) const;
-    boost::intrusive_ptr<node>  type;
-    std::string name;
-};
-struct node_node : node
-{
-    node_node(void) throw() :
-        ns(), name(), members() { }
-    virtual ~node_node(void) throw() { }
-    virtual void apply(visitor &);
-    virtual void apply(const_visitor &) const;
-    namespace_node_weak_ptr ns;
-    std::string name;
-    std::list<boost::intrusive_ptr<data_member_node> >  members;
-};
 struct namespace_node : node
 {
     namespace_node(void) throw() :
@@ -112,6 +91,27 @@ struct namespace_node : node
     bool has_const_visitor;
     std::list<boost::intrusive_ptr<namespace_node> >  namespaces;
     std::list<boost::intrusive_ptr<node_node> >  nodes;
+};
+struct node_node : node
+{
+    node_node(void) throw() :
+        ns(), name(), members() { }
+    virtual ~node_node(void) throw() { }
+    virtual void apply(visitor &);
+    virtual void apply(const_visitor &) const;
+    namespace_node_weak_ptr ns;
+    std::string name;
+    std::list<boost::intrusive_ptr<data_member_node> >  members;
+};
+struct data_member_node : node
+{
+    data_member_node(void) throw() :
+        type(), name() { }
+    virtual ~data_member_node(void) throw() { }
+    virtual void apply(visitor &);
+    virtual void apply(const_visitor &) const;
+    boost::intrusive_ptr<node>  type;
+    std::string name;
 };
 struct basic_type_node : node
 {
@@ -170,9 +170,9 @@ public:
     virtual ~visitor(void) throw() { }
     virtual void visit(root &) = 0;
     virtual void visit(include_node &) = 0;
-    virtual void visit(data_member_node &) = 0;
-    virtual void visit(node_node &) = 0;
     virtual void visit(namespace_node &) = 0;
+    virtual void visit(node_node &) = 0;
+    virtual void visit(data_member_node &) = 0;
     virtual void visit(basic_type_node &) = 0;
     virtual void visit(reference_type_node &) = 0;
     virtual void visit(pointer_type_node &) = 0;
@@ -185,9 +185,9 @@ public:
     virtual ~const_visitor(void) throw() { }
     virtual void visit(root const &) = 0;
     virtual void visit(include_node const &) = 0;
-    virtual void visit(data_member_node const &) = 0;
-    virtual void visit(node_node const &) = 0;
     virtual void visit(namespace_node const &) = 0;
+    virtual void visit(node_node const &) = 0;
+    virtual void visit(data_member_node const &) = 0;
     virtual void visit(basic_type_node const &) = 0;
     virtual void visit(reference_type_node const &) = 0;
     virtual void visit(pointer_type_node const &) = 0;

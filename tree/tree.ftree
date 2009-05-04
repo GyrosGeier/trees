@@ -16,19 +16,6 @@ node include_node {
     std::string name;
 };
 
-node data_member_node {
-    %include <string>%
-    node type;
-    std::string name;
-};
-
-node node_node {
-    %include <string>%
-    namespace_node_weak_ptr ns;
-    std::string name;
-    data_member_node members[];
-};
-
 node namespace_node {
     %include <string>%
     namespace_node_weak_ptr parent;
@@ -38,6 +25,19 @@ node namespace_node {
     bool has_const_visitor;
     namespace_node namespaces[];
     node_node nodes[];
+};
+
+node node_node {
+    %include <string>%
+    namespace_node_weak_ptr ns;
+    std::string name;
+    data_member_node members[];
+};
+
+node data_member_node {
+    %include <string>%
+    node type;
+    std::string name;
 };
 
 node basic_type_node {
