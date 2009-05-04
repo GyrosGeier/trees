@@ -34,7 +34,7 @@ int main(int argc, char **argv)
     file_list files;
 
     file outfile;
-    std::string outns;
+    std::list<std::string> outns;
 
     yyscan_t scanner;
 
@@ -73,7 +73,7 @@ int main(int argc, char **argv)
             break;
 
         case ns:
-            outns = arg;
+            outns.push_back(arg);
             state = initial;
             break;
 
@@ -147,9 +147,10 @@ int main(int argc, char **argv)
         }
     }
 
-    if(!outns.empty())
-        out << "namespace " << outns << " {" << endl
-            << endl;
+    for(std::list<std::string>::const_iterator i = outns.begin();
+            i != outns.end(); ++i)
+        out << "namespace " << *i << " {" << endl;
+    out << endl;
 
     output_visitor write(out, (outmode == header)?write.header:write.source);
 
@@ -183,7 +184,7 @@ int main(int argc, char **argv)
 
     if(!outns.empty())
         out << endl
-            << "}" << endl;
+            << std::string(outns.size(), '}') << endl;
 
     if(outmode == header)
         out << endl
