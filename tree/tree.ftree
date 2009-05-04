@@ -2,8 +2,8 @@ namespace foundry {
 namespace tree {
 
 node {
-    %multiparent%
-    %intrusive_ptr%
+    %multiparent
+    %intrusive_ptr
 };
 
 node root {
@@ -12,12 +12,12 @@ node root {
 };
 
 node include_node {
-    %include <string>%
+    %include <string>
     std::string name;
 };
 
 node namespace_node {
-    %include <string>%
+    %include <string>
     namespace_node_weak_ptr parent;
     std::string name;
     bool has_nodes;
@@ -28,21 +28,21 @@ node namespace_node {
 };
 
 node node_node {
-    %include <string>%
+    %include <string>
     namespace_node_weak_ptr ns;
     std::string name;
     data_member_node members[];
 };
 
 node data_member_node {
-    %include <string>%
+    %include <string>
     node type;
     std::string name;
     bool needs_init;
 };
 
 node basic_type_node {
-    %include <string>%
+    %include <string>
     namespace_node_weak_ptr ns;
     std::string name;
     bool is_const;
@@ -60,7 +60,7 @@ node pointer_type_node {
 };
 
 node template_type_node {
-    %include <string>%
+    %include <string>
     std::string name;
     node template_args[];
 };
