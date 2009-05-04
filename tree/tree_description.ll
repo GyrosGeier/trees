@@ -21,7 +21,7 @@ INTEGER                     [[:digit:]]+
 %%
 
 <INITIAL>%                  BEGIN(DIRECTIVE); return PERCENT;
-<DIRECTIVE>%                BEGIN(INITIAL); return PERCENT;
+<DIRECTIVE>(%|\n)           BEGIN(INITIAL); return PERCENT;
 
 \                           /* ignore */
 \n                          /* ignore */
