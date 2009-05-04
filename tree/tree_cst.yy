@@ -1,51 +1,51 @@
 %{
-#include <tree_description_tree.hpp>
+#include <tree_cst_tree.hpp>
 
 #include <iostream>
 
-using namespace tree_description;
+using namespace foundry::tree::cst;
 %}
 
 %union {
-    tree_description::start *start;
-    tree_description::declarations *declarations;
-    tree_description::declaration *declaration;
-    tree_description::namespace_member_declaration *namespace_member_declaration;
-    tree_description::namespace_declaration *namespace_declaration;
-    tree_description::group_declaration *group_declaration;
-    tree_description::group_member_declarations *group_member_declarations;
-    tree_description::group_member_declaration *group_member_declaration;
-    tree_description::node_declaration *node_declaration;
-    tree_description::visitor_declaration *visitor_declaration;
-    tree_description::member_declarations *member_declarations;
-    tree_description::member_declaration *member_declaration;
-    tree_description::member_directive *member_directive;
-    tree_description::data_member_declaration *data_member_declaration;
-    tree_description::constructor_declaration *constructor_declaration;
-    tree_description::parameter_list *parameter_list;
-    tree_description::parameters *parameters;
-    tree_description::parameter *parameter;
-    tree_description::destructor_declaration *destructor_declaration;
-    tree_description::void_or_nothing *void_or_nothing;
-    tree_description::declarator *declarator;
-    tree_description::reference *reference;
-    tree_description::pointer *pointer;
-    tree_description::type_qualifiers *type_qualifiers;
-    tree_description::type_qualifier *type_qualifier;
-    tree_description::arrays *arrays;
-    tree_description::bounded_arrays *bounded_arrays;
-    tree_description::bounded_array *bounded_array;
-    tree_description::unbounded_array *unbounded_array;
-    tree_description::type *type;
-    tree_description::template_name *template_name;
-    tree_description::template_argument_list *template_argument_list;
-    tree_description::template_arguments *template_arguments;
-    tree_description::template_argument *template_argument;
-    tree_description::scoped_name *scoped_name;
-    tree_description::scope *scope;
-    tree_description::literal *literal;
-    tree_description::boolean_literal *boolean_literal;
-    tree_description::integer_literal *integer_literal;
+    foundry::tree::cst::start *start;
+    foundry::tree::cst::declarations *declarations;
+    foundry::tree::cst::declaration *declaration;
+    foundry::tree::cst::namespace_member_declaration *namespace_member_declaration;
+    foundry::tree::cst::namespace_declaration *namespace_declaration;
+    foundry::tree::cst::group_declaration *group_declaration;
+    foundry::tree::cst::group_member_declarations *group_member_declarations;
+    foundry::tree::cst::group_member_declaration *group_member_declaration;
+    foundry::tree::cst::node_declaration *node_declaration;
+    foundry::tree::cst::visitor_declaration *visitor_declaration;
+    foundry::tree::cst::member_declarations *member_declarations;
+    foundry::tree::cst::member_declaration *member_declaration;
+    foundry::tree::cst::member_directive *member_directive;
+    foundry::tree::cst::data_member_declaration *data_member_declaration;
+    foundry::tree::cst::constructor_declaration *constructor_declaration;
+    foundry::tree::cst::parameter_list *parameter_list;
+    foundry::tree::cst::parameters *parameters;
+    foundry::tree::cst::parameter *parameter;
+    foundry::tree::cst::destructor_declaration *destructor_declaration;
+    foundry::tree::cst::void_or_nothing *void_or_nothing;
+    foundry::tree::cst::declarator *declarator;
+    foundry::tree::cst::reference *reference;
+    foundry::tree::cst::pointer *pointer;
+    foundry::tree::cst::type_qualifiers *type_qualifiers;
+    foundry::tree::cst::type_qualifier *type_qualifier;
+    foundry::tree::cst::arrays *arrays;
+    foundry::tree::cst::bounded_arrays *bounded_arrays;
+    foundry::tree::cst::bounded_array *bounded_array;
+    foundry::tree::cst::unbounded_array *unbounded_array;
+    foundry::tree::cst::type *type;
+    foundry::tree::cst::template_name *template_name;
+    foundry::tree::cst::template_argument_list *template_argument_list;
+    foundry::tree::cst::template_arguments *template_arguments;
+    foundry::tree::cst::template_argument *template_argument;
+    foundry::tree::cst::scoped_name *scoped_name;
+    foundry::tree::cst::scope *scope;
+    foundry::tree::cst::literal *literal;
+    foundry::tree::cst::boolean_literal *boolean_literal;
+    foundry::tree::cst::integer_literal *integer_literal;
     struct {
         char const *data;
         unsigned int length;
@@ -64,11 +64,11 @@ using namespace tree_description;
 %parse-param {start *&ret}
 %lex-param {void *scanner}
 
-%name-prefix="tree_description_"
+%name-prefix="tree_cst_"
 
 %{
-int tree_description_lex(YYSTYPE *, YYLTYPE *, void *);
-void tree_description_error(YYLTYPE *, void *, start *&, char const *msg);
+int tree_cst_lex(YYSTYPE *, YYLTYPE *, void *);
+void tree_cst_error(YYLTYPE *, void *, start *&, char const *msg);
 %}
 
 %token <string> IDENTIFIER

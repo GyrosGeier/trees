@@ -2,8 +2,8 @@
 
 #include <stdexcept>
 
-#include "tree_description_tree.hpp"
-#include "tree_description_parse.hpp"
+#include "tree_cst_tree.hpp"
+#include "tree_cst_parse.hpp"
 
 class parse_error :
     public std::logic_error
@@ -18,7 +18,7 @@ parse_error::parse_error(std::string const &msg) :
     return;
 }
 
-int tree_description_error(YYLTYPE *loc, void *, tree_description::start *&, char const *msg)
+int tree_cst_error(YYLTYPE *loc, void *, foundry::tree::cst::start *&, char const *msg)
 {
     std::ostringstream msgstr;
 

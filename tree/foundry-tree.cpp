@@ -10,16 +10,16 @@
 #include "header_output_visitor.hpp"
 #include "impl_output_visitor.hpp"
 
-#include "tree_description_tree.hpp"
-#include "tree_description_parse.hpp"
-#include "tree_description_lex.hpp"
+#include "tree_cst_tree.hpp"
+#include "tree_cst_parse.hpp"
+#include "tree_cst_lex.hpp"
 
-extern int tree_description_parse(void *scanner, tree_description::start *&ret);
+extern int tree_cst_parse(void *scanner, foundry::tree::cst::start *&ret);
 
 int main(int argc, char **argv)
 try
 {
-    using tree_description::start;
+    using foundry::tree::cst::start;
     using namespace foundry::tree;
     using std::endl;
 
@@ -37,7 +37,7 @@ try
 
     yyscan_t scanner;
 
-    tree_description_lex_init(&scanner);
+    tree_cst_lex_init(&scanner);
 
     enum
     {
@@ -96,11 +96,11 @@ try
             return 1;
         }
 
-        tree_description_restart(f, scanner);
+        tree_cst_restart(f, scanner);
 
         start *tree = 0;
 
-        if(tree_description_parse(scanner, tree) == 0)
+        if(tree_cst_parse(scanner, tree) == 0)
         {
             tree->apply(generate_ast);
             // tree->apply(write);
@@ -128,7 +128,7 @@ try
 
     */
 
-    tree_description_lex_destroy(scanner);
+    tree_cst_lex_destroy(scanner);
 
     boost::intrusive_ptr<node> ast;
 

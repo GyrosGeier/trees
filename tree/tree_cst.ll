@@ -1,6 +1,6 @@
 %{
-#include "tree_description_tree.hpp"
-#include "tree_description_parse.hpp"
+#include "tree_cst_tree.hpp"
+#include "tree_cst_parse.hpp"
 %}
 
 %option nostdinit
@@ -10,8 +10,8 @@
 %option reentrant
 %option bison-bridge
 %option bison-locations
-%option prefix="tree_description_"
-%option header-file="tree_description_lex.hpp"
+%option prefix="tree_cst_"
+%option header-file="tree_cst_lex.hpp"
 
 %s DIRECTIVE
 

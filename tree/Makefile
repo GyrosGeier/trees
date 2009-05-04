@@ -38,10 +38,10 @@ update/%_tree.cpp: %.ftree foundry-tree
 	./foundry-tree -c -o $@ $<
 
 %_tree.hpp: %.yy treecc/treecc
-	treecc/treecc -n $* -o $@ $<
+	treecc/treecc -n foundry -n $(subst _, -n ,$*) -o $@ $<
 
 %_tree.cpp: %.yy treecc/treecc
-	treecc/treecc -n $* -c -o $@ $<
+	treecc/treecc -n foundry -n $(subst _, -n ,$*) -c -o $@ $<
 
 treecc/treecc:
 	$(MAKE) -C treecc
