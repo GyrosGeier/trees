@@ -5,16 +5,31 @@
 #include <fstream>
 
 #include "cst_to_ast_visitor.hpp"
+#include "bison_to_ast_visitor.hpp"
 
 #include "smartpointer_visitor.hpp"
 #include "header_output_visitor.hpp"
 #include "impl_output_visitor.hpp"
 
+#include "tree_bison_context.hpp"
+#include "tree_bison_tree.hpp"
+#include "tree_bison_parse.hpp"
+#include "tree_bison_lex.hpp"
+
 #include "tree_cst_tree.hpp"
 #include "tree_cst_parse.hpp"
 #include "tree_cst_lex.hpp"
 
+extern int tree_bison_parse(void *scanner, foundry::tree::bison::start *&ret);
 extern int tree_cst_parse(void *scanner, foundry::tree::cst::start *&ret);
+
+std::string extension(std::string const &s)
+{
+    std::string::size_type const dot = s.rfind('.');
+    if(dot == std::string::npos)
+        return "";
+    return s.substr(dot);
+}
 
 int main(int argc, char **argv)
 try
@@ -35,9 +50,12 @@ try
 
     file outfile;
 
-    yyscan_t scanner;
+    yyscan_t bison_scanner;
+    yyscan_t cst_scanner;
 
-    tree_cst_lex_init(&scanner);
+    context bison_context;
+    tree_bison_lex_init_extra(&bison_context, &bison_scanner);
+    tree_cst_lex_init(&cst_scanner);
 
     enum
     {
@@ -45,9 +63,12 @@ try
         source
     } outmode = header;
 
+    std::list<std::string> outns;
+
     enum
     {
         initial,
+        ns,
         output
     } state = initial;
 
@@ -60,10 +81,17 @@ try
         case initial:
             if(arg == "-o")
                 state = output;
+            else if(arg == "-n")
+                state = ns;
             else if(arg == "-c")
                 outmode = source;
             else
                 files.push_back(arg);
+            break;
+
+        case ns:
+            outns.push_back(arg);
+            state = initial;
             break;
 
         case output:
@@ -85,7 +113,11 @@ try
         return 1;
     }
 
-    cst_to_ast_visitor generate_ast;
+    cst_to_ast_visitor cst_to_ast;
+    bison_to_ast_visitor bison_to_ast;
+    for(std::list<std::string>::const_iterator i = outns.begin();
+            i != outns.end(); ++i)
+        bison_to_ast.push_initial_namespace(*i);
 
     for(file_list::const_iterator i = files.begin(); i != files.end(); ++i)
     {
@@ -96,22 +128,26 @@ try
             return 1;
         }
 
-        tree_cst_restart(f, scanner);
-
-        start *tree = 0;
-
-        if(tree_cst_parse(scanner, tree) == 0)
+        if(extension(*i) == ".yy")
         {
-            tree->apply(generate_ast);
-            // tree->apply(write);
+            tree_bison_restart(f, bison_scanner);
+            bison::start *tree = 0;
+            if(tree_bison_parse(bison_scanner, tree) == 0)
+            {
+                tree->apply(bison_to_ast);
+            }
+            delete tree;
         }
-
-        //print_visitor print(cout);
-        //tree->apply(print);
-
-
-
-        delete tree;
+        else
+        {
+            tree_cst_restart(f, cst_scanner);
+            start *tree = 0;
+            if(tree_cst_parse(cst_scanner, tree) == 0)
+            {
+                tree->apply(cst_to_ast);
+            }
+            delete tree;
+        }
 
         fclose(f);
     }
@@ -128,11 +164,28 @@ try
 
     */
 
-    tree_cst_lex_destroy(scanner);
+    tree_cst_lex_destroy(cst_scanner);
+    tree_bison_lex_destroy(bison_scanner);
 
-    boost::intrusive_ptr<node> ast;
+    boost::intrusive_ptr<root> ast, ast2;
 
-    ast = generate_ast.get_ast();
+    ast = cst_to_ast.get_ast();
+    ast2 = bison_to_ast.get_ast();
+    ast->includes.splice(ast->includes.end(), ast2->includes);
+    if(ast->global_namespace)
+    {
+        ast->global_namespace->namespaces.splice(ast->global_namespace->namespaces.end(), ast2->global_namespace->namespaces);
+        if(ast->global_namespace->group)
+        {
+            if(ast2->global_namespace && ast2->global_namespace->group)
+            {
+                ast->global_namespace->group->groups.splice(ast->global_namespace->group->groups.end(), ast2->global_namespace->group->groups);
+                ast->global_namespace->group->nodes.splice(ast->global_namespace->group->nodes.end(), ast2->global_namespace->group->nodes);
+            }
+        }
+        else
+            ast->global_namespace->group = ast2->global_namespace->group;
+    }
 
     smartpointer_visitor smartptr;
     ast->apply(smartptr);

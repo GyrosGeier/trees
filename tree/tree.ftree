@@ -18,18 +18,29 @@ node include_node {
 
 node namespace_node {
     %include <string>
+    %include <set>
     namespace_node_weak_ptr parent;
     std::string name;
-    bool has_nodes;
+    namespace_node namespaces[];
+    group_node group;
+    std::set<std::string> node_types;
+};
+
+node group_node {
+    %include <string>
+    namespace_node_weak_ptr ns;
+    group_node_weak_ptr parent;
+    std::string name;
     bool has_visitor;
     bool has_const_visitor;
-    namespace_node namespaces[];
+    group_node groups[];
     node_node nodes[];
 };
 
 node node_node {
     %include <string>
     namespace_node_weak_ptr ns;
+    group_node_weak_ptr group;
     std::string name;
     data_member_node members[];
 };
@@ -61,6 +72,7 @@ node pointer_type_node {
 
 node template_type_node {
     %include <string>
+    namespace_node_weak_ptr ns;
     std::string name;
     node template_args[];
 };

@@ -21,16 +21,19 @@ void impl_output_visitor::visit(include_node const &)
 
 void impl_output_visitor::visit(node_node const &n)
 {
-    if(n.ns->has_visitor)
-        out << "void " << n.name << "::apply(visitor &v)" << std::endl
-            << "{" << std::endl
-            << "    v.visit(*this);" << std::endl
-            << "}" << std::endl;
-    if(n.ns->has_const_visitor)
-        out << "void " << n.name << "::apply(const_visitor &v) const" << std::endl
-            << "{" << std::endl
-            << "    v.visit(*this);" << std::endl
-            << "}" << std::endl;
+    for(group_node_weak_ptr i = n.group; i; i = i->parent)
+    {
+        if(i->has_visitor)
+            out << "void " << n.name << "::apply(" << i->name << "_visitor &v)" << std::endl
+                << "{" << std::endl
+                << "    v.visit(*this);" << std::endl
+                << "}" << std::endl;
+        if(i->has_const_visitor)
+            out << "void " << n.name << "::apply(" << i->name << "_const_visitor &v) const" << std::endl
+                << "{" << std::endl
+                << "    v.visit(*this);" << std::endl
+                << "}" << std::endl;
+    }
 }
 
 void impl_output_visitor::visit(namespace_node const &n)
@@ -42,12 +45,21 @@ void impl_output_visitor::visit(namespace_node const &n)
             i != n.namespaces.end(); ++i)
         visit(**i);
 
-    for(std::list<node_node_ptr>::const_iterator i = n.nodes.begin();
-            i != n.nodes.end(); ++i)
-        visit(**i);
+    if(n.group)
+        visit(*n.group);
 
     if(!n.name.empty())
         out <<  "}" << std::endl;
+}
+
+void impl_output_visitor::visit(group_node const &n)
+{
+    for(std::list<group_node_ptr>::const_iterator i = n.groups.begin();
+            i != n.groups.end(); ++i)
+        visit(**i);
+    for(std::list<node_node_ptr>::const_iterator i = n.nodes.begin();
+            i != n.nodes.end(); ++i)
+        visit(**i);
 }
 
 void impl_output_visitor::visit(basic_type_node const &)

@@ -66,4 +66,4 @@ false                       return FALSE;
 {IDENT}                     yylval->string.data = yytext; yylval->string.length = yyleng; return IDENTIFIER;
 {INTEGER}                   yylval->string.data = yytext; yylval->string.length = yyleng; return INTEGER;
 \"([^"\\\n]|\\.|\\\n)*\"    yylval->string.data = yytext+1; yylval->string.length = yyleng-2; return QUOTED_NAME;
-\<[^\>]*\>                  yylval->string.data = yytext+1; yylval->string.length = yyleng-2; return HEADER_NAME;
+<DIRECTIVE>\<[^\>]*\>       yylval->string.data = yytext+1; yylval->string.length = yyleng-2; return HEADER_NAME;

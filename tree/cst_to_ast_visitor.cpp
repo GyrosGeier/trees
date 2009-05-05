@@ -7,9 +7,6 @@ cst_to_ast_visitor::cst_to_ast_visitor(void)
 {
     ast_root = new root;
     ast_root->global_namespace = current_namespace = new namespace_node;
-    current_namespace->has_nodes = false;
-    current_namespace->has_visitor = false;
-    current_namespace->has_const_visitor = false;
 }
 
 void cst_to_ast_visitor::visit(cst::start const &s)
@@ -67,11 +64,15 @@ void cst_to_ast_visitor::visit(cst::namespace_declaration const &n)
     namespace_node_ptr nn = new namespace_node;
     nn->name = n._1;
     nn->parent = current_namespace;
-    nn->has_nodes = false;
-    nn->has_visitor = false;
-    nn->has_const_visitor = false;
     current_namespace->namespaces.push_back(nn);
     current_namespace = nn.get();
+    current_namespace->group = new group_node;
+    current_group = current_namespace->group.get();
+    current_group->name = "node";
+    current_group->ns = current_namespace;
+    current_group->parent = 0;
+    current_group->has_const_visitor = false;
+    current_group->has_visitor = false;
     n._2->apply(*this);
     current_namespace = tmp;
 }
@@ -87,23 +88,23 @@ void cst_to_ast_visitor::visit(cst::node_declaration_1 const &n)
     current_node = new node_node;
     current_node->name = n._1;
     current_node->ns = current_namespace;
-    current_namespace->nodes.push_back(current_node);
-    current_namespace->has_nodes = true;
+    current_node->group = current_group;
+    current_group->nodes.push_back(current_node);
     n._2->apply(*this);
 }
 
 void cst_to_ast_visitor::visit(cst::node_declaration_2 const&){ }
-void cst_to_ast_visitor::visit(cst::visitor_declaration_1 const &vd)
+void cst_to_ast_visitor::visit(cst::visitor_declaration_1 const &)
 {
     /* "visitor" IDENTIFIER "{" member_declarations "}" */
-    current_namespace->has_visitor = true;
+    current_namespace->group->has_visitor = true;
     // TODO: Generate visitor
 }
 
-void cst_to_ast_visitor::visit(cst::visitor_declaration_2 const &vd)
+void cst_to_ast_visitor::visit(cst::visitor_declaration_2 const &)
 {
     /* "const" "visitor" IDENTIFIER "{" member_declarations "}" */
-    current_namespace->has_const_visitor = true;
+    current_namespace->group->has_const_visitor = true;
     // TODO: Generate visitor
 }
 
@@ -156,11 +157,6 @@ void cst_to_ast_visitor::visit(cst::member_directive_7 const &md)
 void cst_to_ast_visitor::visit(cst::data_member_declaration const &dm)
 {
     /* type type_qualifiers declarator */
-    current_basic_type = new basic_type_node;
-    current_basic_type->is_const = false;
-    current_basic_type->is_volatile = false;
-    current_basic_type->ns = current_namespace;
-    current_type = current_basic_type;
     dm._1->apply(*this);
     dm._2->apply(*this);
     dm._3->apply(*this);
@@ -306,33 +302,100 @@ void cst_to_ast_visitor::visit(cst::unbounded_array const &)
     current_type_needs_init = false;
 }
 
-void cst_to_ast_visitor::visit(cst::type_1 const&){ }
+void cst_to_ast_visitor::visit(cst::type_1 const &t)
+{
+    /* template_name */
+    template_type_node_weak_ptr nt = new template_type_node;
+    nt->ns = current_namespace;
+    std::string tmp1 = current_identifier;
+    current_identifier.clear();
+    std::list<node_ptr> *tmp2 = current_template_argument_list;
+    current_template_argument_list = &nt->template_args;
+    t._1->apply(*this);
+    nt->name = current_identifier;
+    current_template_argument_list = tmp2;
+    current_identifier = tmp1;
+    current_type = nt;
+}
+
 void cst_to_ast_visitor::visit(cst::type_2 const &t)
 {
     /* scoped_name */
+    basic_type_node_weak_ptr nt = new basic_type_node;
+    nt->is_const = false;
+    nt->is_volatile = false;
+    nt->ns = current_namespace;
+    current_type = nt;
+    std::string tmp1 = current_identifier;
+    current_identifier.clear();
     t._1->apply(*this);
+    nt->name = current_identifier;
+    current_identifier = tmp1;
 }
 
 void cst_to_ast_visitor::visit(cst::type_3 const&)
 {
     /* "node" */
-    current_basic_type->name = "node";
+    basic_type_node_weak_ptr nt = new basic_type_node;
+    nt->is_const = false;
+    nt->is_volatile = false;
+    nt->ns = current_namespace;
+    nt->name = "node";
+    current_type = nt;
     current_type_needs_init = false;
 }
 
 void cst_to_ast_visitor::visit(cst::type_4 const&)
 {
     /* "parent" */
-    current_basic_type->name = "node";
+    basic_type_node_weak_ptr nt = new basic_type_node;
+    nt->is_const = false;
+    nt->is_volatile = false;
+    nt->ns = current_namespace;
+    nt->name = "node";
+    current_type = nt;
     current_type_needs_init = false;
 }
 
-void cst_to_ast_visitor::visit(cst::template_name const&){ }
-void cst_to_ast_visitor::visit(cst::template_argument_list_1 const&){ }
-void cst_to_ast_visitor::visit(cst::template_argument_list_2 const&){ }
-void cst_to_ast_visitor::visit(cst::template_arguments_1 const&){ }
-void cst_to_ast_visitor::visit(cst::template_arguments_2 const&){ }
-void cst_to_ast_visitor::visit(cst::template_argument_1 const&){ }
+void cst_to_ast_visitor::visit(cst::template_name const &tn)
+{
+    /* scoped_name "<" template_argument_list ">" */
+    tn._1->apply(*this);
+    tn._2->apply(*this);
+}
+
+void cst_to_ast_visitor::visit(cst::template_argument_list_1 const &)
+{
+    /* empty */
+    return;
+}
+
+void cst_to_ast_visitor::visit(cst::template_argument_list_2 const &tal)
+{
+    /* template_arguments */
+    tal._1->apply(*this);
+}
+
+void cst_to_ast_visitor::visit(cst::template_arguments_1 const &tas)
+{
+    /* template_argument */
+    tas._1->apply(*this);
+}
+
+void cst_to_ast_visitor::visit(cst::template_arguments_2 const &tas)
+{
+    /* template_arguments "," template_argument */
+    tas._1->apply(*this);
+    tas._2->apply(*this);
+}
+
+void cst_to_ast_visitor::visit(cst::template_argument_1 const &ta)
+{
+    /* type */
+    ta._1->apply(*this);
+    current_template_argument_list->push_back(current_type);
+}
+
 void cst_to_ast_visitor::visit(cst::template_argument_2 const&){ }
 void cst_to_ast_visitor::visit(cst::template_argument_3 const&){ }
 void cst_to_ast_visitor::visit(cst::template_argument_4 const&){ }
@@ -340,9 +403,9 @@ void cst_to_ast_visitor::visit(cst::scoped_name const &n)
 {
     /* scope IDENTIFIER */
     n._1->apply(*this);
-    if(!current_basic_type->name.empty())
-        current_basic_type->name += "::";
-    current_basic_type->name += n._2;
+    if(!current_identifier.empty())
+        current_identifier += "::";
+    current_identifier += n._2;
 }
 
 void cst_to_ast_visitor::visit(cst::scope_1 const &)
@@ -354,9 +417,9 @@ void cst_to_ast_visitor::visit(cst::scope_2 const &s)
 {
     /* scope "::" IDENTIFIER */
     s._1->apply(*this);
-    if(!current_basic_type->name.empty())
-        current_basic_type->name += "::";
-    current_basic_type->name += s._2;
+    if(!current_identifier.empty())
+        current_identifier += "::";
+    current_identifier += s._2;
 }
 
 void cst_to_ast_visitor::visit(cst::literal_1 const&){ }

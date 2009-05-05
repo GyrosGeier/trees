@@ -1,21 +1,21 @@
 %{
-#include <tree_tree.hpp>
+#include <tree_bison_tree.hpp>
 
 #include <iostream>
 
 using std::cout;
 using std::endl;
 
-using namespace treecc;
+using namespace foundry::tree::bison;
 %}
 
 %union {
-    treecc::rules *rules;
-    treecc::rule *rule;
-    treecc::alternatives *alternatives;
-    treecc::components *components;
-    treecc::component *component;
-    treecc::symbol *symbol;
+    foundry::tree::bison::rules *rules;
+    foundry::tree::bison::rule *rule;
+    foundry::tree::bison::alternatives *alternatives;
+    foundry::tree::bison::components *components;
+    foundry::tree::bison::component *component;
+    foundry::tree::bison::symbol *symbol;
     char const *string;
 }
 
@@ -31,11 +31,11 @@ using namespace treecc;
 %parse-param {start *&ret}
 %lex-param {void *scanner}
 
-%name-prefix="tree_"
+%name-prefix="tree_bison_"
 
 %{
-int tree_lex(YYSTYPE *, YYLTYPE *, void *);
-void tree_error(YYLTYPE *, void *, start *&, char const *msg);
+int tree_bison_lex(YYSTYPE *, YYLTYPE *, void *);
+void tree_bison_error(YYLTYPE *, void *, start *&, char const *msg);
 %}
 
 %token <string> IDENTIFIER

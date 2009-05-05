@@ -2,83 +2,91 @@
 
 namespace foundry {
 namespace tree {
-void root::apply(visitor &v)
+void root::apply(node_visitor &v)
 {
     v.visit(*this);
 }
-void root::apply(const_visitor &v) const
+void root::apply(node_const_visitor &v) const
 {
     v.visit(*this);
 }
-void include_node::apply(visitor &v)
+void include_node::apply(node_visitor &v)
 {
     v.visit(*this);
 }
-void include_node::apply(const_visitor &v) const
+void include_node::apply(node_const_visitor &v) const
 {
     v.visit(*this);
 }
-void namespace_node::apply(visitor &v)
+void namespace_node::apply(node_visitor &v)
 {
     v.visit(*this);
 }
-void namespace_node::apply(const_visitor &v) const
+void namespace_node::apply(node_const_visitor &v) const
 {
     v.visit(*this);
 }
-void node_node::apply(visitor &v)
+void group_node::apply(node_visitor &v)
 {
     v.visit(*this);
 }
-void node_node::apply(const_visitor &v) const
+void group_node::apply(node_const_visitor &v) const
 {
     v.visit(*this);
 }
-void data_member_node::apply(visitor &v)
+void node_node::apply(node_visitor &v)
 {
     v.visit(*this);
 }
-void data_member_node::apply(const_visitor &v) const
+void node_node::apply(node_const_visitor &v) const
 {
     v.visit(*this);
 }
-void basic_type_node::apply(visitor &v)
+void data_member_node::apply(node_visitor &v)
 {
     v.visit(*this);
 }
-void basic_type_node::apply(const_visitor &v) const
+void data_member_node::apply(node_const_visitor &v) const
 {
     v.visit(*this);
 }
-void reference_type_node::apply(visitor &v)
+void basic_type_node::apply(node_visitor &v)
 {
     v.visit(*this);
 }
-void reference_type_node::apply(const_visitor &v) const
+void basic_type_node::apply(node_const_visitor &v) const
 {
     v.visit(*this);
 }
-void pointer_type_node::apply(visitor &v)
+void reference_type_node::apply(node_visitor &v)
 {
     v.visit(*this);
 }
-void pointer_type_node::apply(const_visitor &v) const
+void reference_type_node::apply(node_const_visitor &v) const
 {
     v.visit(*this);
 }
-void template_type_node::apply(visitor &v)
+void pointer_type_node::apply(node_visitor &v)
 {
     v.visit(*this);
 }
-void template_type_node::apply(const_visitor &v) const
+void pointer_type_node::apply(node_const_visitor &v) const
 {
     v.visit(*this);
 }
-void list_type_node::apply(visitor &v)
+void template_type_node::apply(node_visitor &v)
 {
     v.visit(*this);
 }
-void list_type_node::apply(const_visitor &v) const
+void template_type_node::apply(node_const_visitor &v) const
+{
+    v.visit(*this);
+}
+void list_type_node::apply(node_visitor &v)
+{
+    v.visit(*this);
+}
+void list_type_node::apply(node_const_visitor &v) const
 {
     v.visit(*this);
 }

@@ -10,7 +10,7 @@ namespace foundry {
 namespace tree {
 
 class cst_to_ast_visitor :
-    public cst::const_visitor
+    public cst::node_const_visitor
 {
 public:
     cst_to_ast_visitor(void);
@@ -104,11 +104,12 @@ public:
 private:
     root_ptr ast_root;
     namespace_node_weak_ptr current_namespace;
+    group_node_weak_ptr current_group;
     node_node_weak_ptr current_node;
     node_ptr current_type;
     bool current_type_needs_init;
-    basic_type_node_weak_ptr current_basic_type;
     std::string current_identifier;
+    std::list<node_ptr> *current_template_argument_list;
 };
 
 }

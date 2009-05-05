@@ -9,7 +9,7 @@ namespace foundry {
 namespace tree {
 
 class impl_output_visitor :
-    public const_visitor
+    public node_const_visitor
 {
 public:
     impl_output_visitor(std::ostream &out);
@@ -18,6 +18,7 @@ public:
     virtual void visit(root const &);
     virtual void visit(include_node const &);
     virtual void visit(node_node const &);
+    virtual void visit(group_node const &);
     virtual void visit(namespace_node const &);
     virtual void visit(basic_type_node const &);
     virtual void visit(reference_type_node const &);

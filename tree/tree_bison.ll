@@ -1,7 +1,7 @@
 %{
-#include "tree_context.hpp"
-#include "tree_tree.hpp"
-#include "tree_parse.hpp"
+#include "tree_bison_context.hpp"
+#include "tree_bison_tree.hpp"
+#include "tree_bison_parse.hpp"
 %}
 
 %option nostdinit
@@ -11,8 +11,8 @@
 %option reentrant
 %option bison-bridge
 %option bison-locations
-%option prefix="tree_"
-%option header-file="tree_lex.hpp"
+%option prefix="tree_bison_"
+%option header-file="tree_bison_lex.hpp"
 %option extra-type="context *"
 
 %x ccomment cfragment action rules
