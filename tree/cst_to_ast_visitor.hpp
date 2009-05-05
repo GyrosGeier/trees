@@ -102,11 +102,11 @@ public:
 
 private:
     root_ptr ast_root;
-    namespace_node_ptr current_namespace;
-    node_node_ptr current_node;
+    namespace_node_weak_ptr current_namespace;
+    node_node_weak_ptr current_node;
     node_ptr current_type;
     bool current_type_needs_init;
-    basic_type_node_ptr current_basic_type;
+    basic_type_node_weak_ptr current_basic_type;
     std::string current_identifier;
 };
 

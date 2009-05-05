@@ -63,12 +63,15 @@ void cst_to_ast_visitor::visit(cst::namespace_member_declaration_3 const &md)
 void cst_to_ast_visitor::visit(cst::namespace_declaration const &n)
 {
     /* "namespace" IDENTIFIER "{" declarations "}" */
-    namespace_node_ptr tmp = current_namespace;
+    namespace_node_weak_ptr tmp = current_namespace;
     namespace_node_ptr nn = new namespace_node;
     nn->name = n._1;
-    nn->parent = current_namespace.get();
+    nn->parent = current_namespace;
+    nn->has_nodes = false;
+    nn->has_visitor = false;
+    nn->has_const_visitor = false;
     current_namespace->namespaces.push_back(nn);
-    current_namespace = nn;
+    current_namespace = nn.get();
     n._2->apply(*this);
     current_namespace = tmp;
 }
@@ -83,7 +86,7 @@ void cst_to_ast_visitor::visit(cst::node_declaration_1 const &n)
 {
     current_node = new node_node;
     current_node->name = n._1;
-    current_node->ns = current_namespace.get();
+    current_node->ns = current_namespace;
     current_namespace->nodes.push_back(current_node);
     current_namespace->has_nodes = true;
     n._2->apply(*this);
@@ -156,7 +159,7 @@ void cst_to_ast_visitor::visit(cst::data_member_declaration const &dm)
     current_basic_type = new basic_type_node;
     current_basic_type->is_const = false;
     current_basic_type->is_volatile = false;
-    current_basic_type->ns = current_namespace.get();
+    current_basic_type->ns = current_namespace;
     current_type = current_basic_type;
     dm._1->apply(*this);
     dm._2->apply(*this);
@@ -207,7 +210,7 @@ void cst_to_ast_visitor::visit(cst::reference_2 const &r)
     r._1->apply(*this);
     reference_type_node_ptr nn = new reference_type_node;
     nn->type = current_type;
-    current_type = nn;
+    current_type = nn.get();
     current_type_needs_init = true;
 }
 
@@ -225,7 +228,7 @@ void cst_to_ast_visitor::visit(cst::pointer_2 const &p)
     nn->type = current_type;
     nn->is_const = false;
     nn->is_volatile = false;
-    current_type = nn;
+    current_type = nn.get();
     current_type_needs_init = true;
 };
 
@@ -291,7 +294,7 @@ void cst_to_ast_visitor::visit(cst::unbounded_array const &)
 {
     list_type_node_ptr nn = new list_type_node;
     nn->type = current_type;
-    current_type = nn;
+    current_type = nn.get();
     current_type_needs_init = false;
 }
 
