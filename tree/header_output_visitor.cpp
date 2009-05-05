@@ -105,7 +105,7 @@ void header_output_visitor::visit(node_node const &n)
             if(!first)
                 out << ", ";
             (**i).type->apply(*this);
-            out << (**i).name;
+            out << " " << (**i).name;
             first = false;
         }
     }
