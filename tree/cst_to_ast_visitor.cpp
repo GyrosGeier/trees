@@ -198,6 +198,14 @@ void cst_to_ast_visitor::visit(cst::declarator_2 const &d)
     d._2->apply(*this);
 }
 
+void cst_to_ast_visitor::visit(cst::declarator_3 const &d)
+{
+    /* reference "parent" arrays */
+    d._1->apply(*this);
+    current_identifier = "group";
+    d._2->apply(*this);
+}
+
 void cst_to_ast_visitor::visit(cst::reference_1 const &r)
 {
     /* pointer */

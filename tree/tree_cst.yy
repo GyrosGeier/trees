@@ -222,7 +222,8 @@ void_or_nothing: /* empty */ { $$ = new void_or_nothing_1; } |
     "void" { $$ = new void_or_nothing_2; }
 
 declarator: reference IDENTIFIER arrays { $$ = new declarator_1($1, std::string($2.data, $2.length), $3); } |
-    reference "parent" arrays { $$ = new declarator_2($1, $3); }
+    reference "parent" arrays { $$ = new declarator_2($1, $3); } |
+    reference "group" arrays { $$ = new declarator_3($1, $3); }
 
 reference: pointer { $$ = new reference_1($1); } |
     pointer "&" { $$ = new reference_2($1); }
