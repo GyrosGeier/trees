@@ -13,6 +13,7 @@ class cst_to_ast_visitor :
     public cst::const_visitor
 {
 public:
+    cst_to_ast_visitor(void);
     virtual ~cst_to_ast_visitor(void) throw() { }
 
     root_ptr get_ast(void) { return ast_root; }

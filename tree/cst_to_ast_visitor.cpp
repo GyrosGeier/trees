@@ -3,15 +3,18 @@
 namespace foundry {
 namespace tree {
 
+cst_to_ast_visitor::cst_to_ast_visitor(void)
+{
+    ast_root = new root;
+    ast_root->global_namespace = current_namespace = new namespace_node;
+    current_namespace->has_nodes = false;
+    current_namespace->has_visitor = false;
+    current_namespace->has_const_visitor = false;
+}
+
 void cst_to_ast_visitor::visit(cst::start const &s)
 {
     /* declarations */
-    if(!ast_root)
-    {
-        ast_root = new root;
-        ast_root->global_namespace = current_namespace = new namespace_node;
-    }
-
     s._1->apply(*this);
 }
 
