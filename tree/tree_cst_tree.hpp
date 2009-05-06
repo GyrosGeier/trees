@@ -82,8 +82,12 @@ namespace foundry {
 namespace tree {
 namespace cst {
 struct node;
+typedef boost::intrusive_ptr<node> node_ptr;
+typedef node *node_weak_ptr;
 struct node_const_visitor;
 struct declarations;
+typedef boost::intrusive_ptr<declarations> declarations_ptr;
+typedef declarations *declarations_weak_ptr;
 struct declarations_1;
 typedef boost::intrusive_ptr<declarations_1> declarations_1_ptr;
 typedef declarations_1 *declarations_1_weak_ptr;
@@ -91,6 +95,8 @@ struct declarations_2;
 typedef boost::intrusive_ptr<declarations_2> declarations_2_ptr;
 typedef declarations_2 *declarations_2_weak_ptr;
 struct declaration;
+typedef boost::intrusive_ptr<declaration> declaration_ptr;
+typedef declaration *declaration_weak_ptr;
 struct declaration_1;
 typedef boost::intrusive_ptr<declaration_1> declaration_1_ptr;
 typedef declaration_1 *declaration_1_weak_ptr;
@@ -98,6 +104,8 @@ struct declaration_2;
 typedef boost::intrusive_ptr<declaration_2> declaration_2_ptr;
 typedef declaration_2 *declaration_2_weak_ptr;
 struct namespace_member_declaration;
+typedef boost::intrusive_ptr<namespace_member_declaration> namespace_member_declaration_ptr;
+typedef namespace_member_declaration *namespace_member_declaration_weak_ptr;
 struct namespace_member_declaration_1;
 typedef boost::intrusive_ptr<namespace_member_declaration_1> namespace_member_declaration_1_ptr;
 typedef namespace_member_declaration_1 *namespace_member_declaration_1_weak_ptr;
@@ -108,6 +116,8 @@ struct namespace_member_declaration_3;
 typedef boost::intrusive_ptr<namespace_member_declaration_3> namespace_member_declaration_3_ptr;
 typedef namespace_member_declaration_3 *namespace_member_declaration_3_weak_ptr;
 struct group_member_declarations;
+typedef boost::intrusive_ptr<group_member_declarations> group_member_declarations_ptr;
+typedef group_member_declarations *group_member_declarations_weak_ptr;
 struct group_member_declarations_1;
 typedef boost::intrusive_ptr<group_member_declarations_1> group_member_declarations_1_ptr;
 typedef group_member_declarations_1 *group_member_declarations_1_weak_ptr;
@@ -115,6 +125,8 @@ struct group_member_declarations_2;
 typedef boost::intrusive_ptr<group_member_declarations_2> group_member_declarations_2_ptr;
 typedef group_member_declarations_2 *group_member_declarations_2_weak_ptr;
 struct group_member_declaration;
+typedef boost::intrusive_ptr<group_member_declaration> group_member_declaration_ptr;
+typedef group_member_declaration *group_member_declaration_weak_ptr;
 struct group_member_declaration_1;
 typedef boost::intrusive_ptr<group_member_declaration_1> group_member_declaration_1_ptr;
 typedef group_member_declaration_1 *group_member_declaration_1_weak_ptr;
@@ -125,6 +137,8 @@ struct group_member_declaration_3;
 typedef boost::intrusive_ptr<group_member_declaration_3> group_member_declaration_3_ptr;
 typedef group_member_declaration_3 *group_member_declaration_3_weak_ptr;
 struct node_declaration;
+typedef boost::intrusive_ptr<node_declaration> node_declaration_ptr;
+typedef node_declaration *node_declaration_weak_ptr;
 struct node_declaration_1;
 typedef boost::intrusive_ptr<node_declaration_1> node_declaration_1_ptr;
 typedef node_declaration_1 *node_declaration_1_weak_ptr;
@@ -132,6 +146,8 @@ struct node_declaration_2;
 typedef boost::intrusive_ptr<node_declaration_2> node_declaration_2_ptr;
 typedef node_declaration_2 *node_declaration_2_weak_ptr;
 struct visitor_declaration;
+typedef boost::intrusive_ptr<visitor_declaration> visitor_declaration_ptr;
+typedef visitor_declaration *visitor_declaration_weak_ptr;
 struct visitor_declaration_1;
 typedef boost::intrusive_ptr<visitor_declaration_1> visitor_declaration_1_ptr;
 typedef visitor_declaration_1 *visitor_declaration_1_weak_ptr;
@@ -139,6 +155,8 @@ struct visitor_declaration_2;
 typedef boost::intrusive_ptr<visitor_declaration_2> visitor_declaration_2_ptr;
 typedef visitor_declaration_2 *visitor_declaration_2_weak_ptr;
 struct member_declarations;
+typedef boost::intrusive_ptr<member_declarations> member_declarations_ptr;
+typedef member_declarations *member_declarations_weak_ptr;
 struct member_declarations_1;
 typedef boost::intrusive_ptr<member_declarations_1> member_declarations_1_ptr;
 typedef member_declarations_1 *member_declarations_1_weak_ptr;
@@ -149,6 +167,8 @@ struct member_declarations_3;
 typedef boost::intrusive_ptr<member_declarations_3> member_declarations_3_ptr;
 typedef member_declarations_3 *member_declarations_3_weak_ptr;
 struct member_declaration;
+typedef boost::intrusive_ptr<member_declaration> member_declaration_ptr;
+typedef member_declaration *member_declaration_weak_ptr;
 struct member_declaration_1;
 typedef boost::intrusive_ptr<member_declaration_1> member_declaration_1_ptr;
 typedef member_declaration_1 *member_declaration_1_weak_ptr;
@@ -159,6 +179,8 @@ struct member_declaration_3;
 typedef boost::intrusive_ptr<member_declaration_3> member_declaration_3_ptr;
 typedef member_declaration_3 *member_declaration_3_weak_ptr;
 struct member_directive;
+typedef boost::intrusive_ptr<member_directive> member_directive_ptr;
+typedef member_directive *member_directive_weak_ptr;
 struct member_directive_1;
 typedef boost::intrusive_ptr<member_directive_1> member_directive_1_ptr;
 typedef member_directive_1 *member_directive_1_weak_ptr;
@@ -181,6 +203,8 @@ struct member_directive_7;
 typedef boost::intrusive_ptr<member_directive_7> member_directive_7_ptr;
 typedef member_directive_7 *member_directive_7_weak_ptr;
 struct parameter_list;
+typedef boost::intrusive_ptr<parameter_list> parameter_list_ptr;
+typedef parameter_list *parameter_list_weak_ptr;
 struct parameter_list_1;
 typedef boost::intrusive_ptr<parameter_list_1> parameter_list_1_ptr;
 typedef parameter_list_1 *parameter_list_1_weak_ptr;
@@ -191,6 +215,8 @@ struct parameter_list_3;
 typedef boost::intrusive_ptr<parameter_list_3> parameter_list_3_ptr;
 typedef parameter_list_3 *parameter_list_3_weak_ptr;
 struct parameters;
+typedef boost::intrusive_ptr<parameters> parameters_ptr;
+typedef parameters *parameters_weak_ptr;
 struct parameters_1;
 typedef boost::intrusive_ptr<parameters_1> parameters_1_ptr;
 typedef parameters_1 *parameters_1_weak_ptr;
@@ -198,6 +224,8 @@ struct parameters_2;
 typedef boost::intrusive_ptr<parameters_2> parameters_2_ptr;
 typedef parameters_2 *parameters_2_weak_ptr;
 struct parameter;
+typedef boost::intrusive_ptr<parameter> parameter_ptr;
+typedef parameter *parameter_weak_ptr;
 struct parameter_1;
 typedef boost::intrusive_ptr<parameter_1> parameter_1_ptr;
 typedef parameter_1 *parameter_1_weak_ptr;
@@ -205,6 +233,8 @@ struct parameter_2;
 typedef boost::intrusive_ptr<parameter_2> parameter_2_ptr;
 typedef parameter_2 *parameter_2_weak_ptr;
 struct void_or_nothing;
+typedef boost::intrusive_ptr<void_or_nothing> void_or_nothing_ptr;
+typedef void_or_nothing *void_or_nothing_weak_ptr;
 struct void_or_nothing_1;
 typedef boost::intrusive_ptr<void_or_nothing_1> void_or_nothing_1_ptr;
 typedef void_or_nothing_1 *void_or_nothing_1_weak_ptr;
@@ -212,6 +242,8 @@ struct void_or_nothing_2;
 typedef boost::intrusive_ptr<void_or_nothing_2> void_or_nothing_2_ptr;
 typedef void_or_nothing_2 *void_or_nothing_2_weak_ptr;
 struct declarator;
+typedef boost::intrusive_ptr<declarator> declarator_ptr;
+typedef declarator *declarator_weak_ptr;
 struct declarator_1;
 typedef boost::intrusive_ptr<declarator_1> declarator_1_ptr;
 typedef declarator_1 *declarator_1_weak_ptr;
@@ -222,6 +254,8 @@ struct declarator_3;
 typedef boost::intrusive_ptr<declarator_3> declarator_3_ptr;
 typedef declarator_3 *declarator_3_weak_ptr;
 struct reference;
+typedef boost::intrusive_ptr<reference> reference_ptr;
+typedef reference *reference_weak_ptr;
 struct reference_1;
 typedef boost::intrusive_ptr<reference_1> reference_1_ptr;
 typedef reference_1 *reference_1_weak_ptr;
@@ -229,6 +263,8 @@ struct reference_2;
 typedef boost::intrusive_ptr<reference_2> reference_2_ptr;
 typedef reference_2 *reference_2_weak_ptr;
 struct pointer;
+typedef boost::intrusive_ptr<pointer> pointer_ptr;
+typedef pointer *pointer_weak_ptr;
 struct pointer_1;
 typedef boost::intrusive_ptr<pointer_1> pointer_1_ptr;
 typedef pointer_1 *pointer_1_weak_ptr;
@@ -236,6 +272,8 @@ struct pointer_2;
 typedef boost::intrusive_ptr<pointer_2> pointer_2_ptr;
 typedef pointer_2 *pointer_2_weak_ptr;
 struct type_qualifiers;
+typedef boost::intrusive_ptr<type_qualifiers> type_qualifiers_ptr;
+typedef type_qualifiers *type_qualifiers_weak_ptr;
 struct type_qualifiers_1;
 typedef boost::intrusive_ptr<type_qualifiers_1> type_qualifiers_1_ptr;
 typedef type_qualifiers_1 *type_qualifiers_1_weak_ptr;
@@ -243,6 +281,8 @@ struct type_qualifiers_2;
 typedef boost::intrusive_ptr<type_qualifiers_2> type_qualifiers_2_ptr;
 typedef type_qualifiers_2 *type_qualifiers_2_weak_ptr;
 struct type_qualifier;
+typedef boost::intrusive_ptr<type_qualifier> type_qualifier_ptr;
+typedef type_qualifier *type_qualifier_weak_ptr;
 struct type_qualifier_1;
 typedef boost::intrusive_ptr<type_qualifier_1> type_qualifier_1_ptr;
 typedef type_qualifier_1 *type_qualifier_1_weak_ptr;
@@ -250,6 +290,8 @@ struct type_qualifier_2;
 typedef boost::intrusive_ptr<type_qualifier_2> type_qualifier_2_ptr;
 typedef type_qualifier_2 *type_qualifier_2_weak_ptr;
 struct arrays;
+typedef boost::intrusive_ptr<arrays> arrays_ptr;
+typedef arrays *arrays_weak_ptr;
 struct arrays_1;
 typedef boost::intrusive_ptr<arrays_1> arrays_1_ptr;
 typedef arrays_1 *arrays_1_weak_ptr;
@@ -257,6 +299,8 @@ struct arrays_2;
 typedef boost::intrusive_ptr<arrays_2> arrays_2_ptr;
 typedef arrays_2 *arrays_2_weak_ptr;
 struct bounded_arrays;
+typedef boost::intrusive_ptr<bounded_arrays> bounded_arrays_ptr;
+typedef bounded_arrays *bounded_arrays_weak_ptr;
 struct bounded_arrays_1;
 typedef boost::intrusive_ptr<bounded_arrays_1> bounded_arrays_1_ptr;
 typedef bounded_arrays_1 *bounded_arrays_1_weak_ptr;
@@ -264,6 +308,8 @@ struct bounded_arrays_2;
 typedef boost::intrusive_ptr<bounded_arrays_2> bounded_arrays_2_ptr;
 typedef bounded_arrays_2 *bounded_arrays_2_weak_ptr;
 struct type;
+typedef boost::intrusive_ptr<type> type_ptr;
+typedef type *type_weak_ptr;
 struct type_1;
 typedef boost::intrusive_ptr<type_1> type_1_ptr;
 typedef type_1 *type_1_weak_ptr;
@@ -277,6 +323,8 @@ struct type_4;
 typedef boost::intrusive_ptr<type_4> type_4_ptr;
 typedef type_4 *type_4_weak_ptr;
 struct template_argument_list;
+typedef boost::intrusive_ptr<template_argument_list> template_argument_list_ptr;
+typedef template_argument_list *template_argument_list_weak_ptr;
 struct template_argument_list_1;
 typedef boost::intrusive_ptr<template_argument_list_1> template_argument_list_1_ptr;
 typedef template_argument_list_1 *template_argument_list_1_weak_ptr;
@@ -284,6 +332,8 @@ struct template_argument_list_2;
 typedef boost::intrusive_ptr<template_argument_list_2> template_argument_list_2_ptr;
 typedef template_argument_list_2 *template_argument_list_2_weak_ptr;
 struct template_arguments;
+typedef boost::intrusive_ptr<template_arguments> template_arguments_ptr;
+typedef template_arguments *template_arguments_weak_ptr;
 struct template_arguments_1;
 typedef boost::intrusive_ptr<template_arguments_1> template_arguments_1_ptr;
 typedef template_arguments_1 *template_arguments_1_weak_ptr;
@@ -291,6 +341,8 @@ struct template_arguments_2;
 typedef boost::intrusive_ptr<template_arguments_2> template_arguments_2_ptr;
 typedef template_arguments_2 *template_arguments_2_weak_ptr;
 struct template_argument;
+typedef boost::intrusive_ptr<template_argument> template_argument_ptr;
+typedef template_argument *template_argument_weak_ptr;
 struct template_argument_1;
 typedef boost::intrusive_ptr<template_argument_1> template_argument_1_ptr;
 typedef template_argument_1 *template_argument_1_weak_ptr;
@@ -304,6 +356,8 @@ struct template_argument_4;
 typedef boost::intrusive_ptr<template_argument_4> template_argument_4_ptr;
 typedef template_argument_4 *template_argument_4_weak_ptr;
 struct scope;
+typedef boost::intrusive_ptr<scope> scope_ptr;
+typedef scope *scope_weak_ptr;
 struct scope_1;
 typedef boost::intrusive_ptr<scope_1> scope_1_ptr;
 typedef scope_1 *scope_1_weak_ptr;
@@ -311,6 +365,8 @@ struct scope_2;
 typedef boost::intrusive_ptr<scope_2> scope_2_ptr;
 typedef scope_2 *scope_2_weak_ptr;
 struct literal;
+typedef boost::intrusive_ptr<literal> literal_ptr;
+typedef literal *literal_weak_ptr;
 struct literal_1;
 typedef boost::intrusive_ptr<literal_1> literal_1_ptr;
 typedef literal_1 *literal_1_weak_ptr;
@@ -318,6 +374,8 @@ struct literal_2;
 typedef boost::intrusive_ptr<literal_2> literal_2_ptr;
 typedef literal_2 *literal_2_weak_ptr;
 struct boolean_literal;
+typedef boost::intrusive_ptr<boolean_literal> boolean_literal_ptr;
+typedef boolean_literal *boolean_literal_weak_ptr;
 struct boolean_literal_1;
 typedef boost::intrusive_ptr<boolean_literal_1> boolean_literal_1_ptr;
 typedef boolean_literal_1 *boolean_literal_1_weak_ptr;
@@ -369,8 +427,6 @@ struct node {
     virtual void apply(node_const_visitor &) const = 0;
     unsigned int refcount;
 };
-typedef boost::intrusive_ptr<node> node_ptr;
-typedef node *node_weak_ptr;
 inline void intrusive_ptr_add_ref(node *n) { ++n->refcount; }
 inline void intrusive_ptr_release(node *n) { if(!--n->refcount) delete n; }
 class node_const_visitor
@@ -464,8 +520,6 @@ struct declarations : node {
     declarations(void) throw() { }
     virtual ~declarations(void) throw() { }
 };
-typedef boost::intrusive_ptr<declarations> declarations_ptr;
-typedef declarations *declarations_weak_ptr;
 struct declarations_1 : declarations
 {
     declarations_1() throw() { }
@@ -485,8 +539,6 @@ struct declaration : node {
     declaration(void) throw() { }
     virtual ~declaration(void) throw() { }
 };
-typedef boost::intrusive_ptr<declaration> declaration_ptr;
-typedef declaration *declaration_weak_ptr;
 struct declaration_1 : declaration
 {
     declaration_1(boost::intrusive_ptr<namespace_declaration>  _1) throw() : 
@@ -507,8 +559,6 @@ struct namespace_member_declaration : node {
     namespace_member_declaration(void) throw() { }
     virtual ~namespace_member_declaration(void) throw() { }
 };
-typedef boost::intrusive_ptr<namespace_member_declaration> namespace_member_declaration_ptr;
-typedef namespace_member_declaration *namespace_member_declaration_weak_ptr;
 struct namespace_member_declaration_1 : namespace_member_declaration
 {
     namespace_member_declaration_1(boost::intrusive_ptr<group_declaration>  _1) throw() : 
@@ -537,8 +587,6 @@ struct group_member_declarations : node {
     group_member_declarations(void) throw() { }
     virtual ~group_member_declarations(void) throw() { }
 };
-typedef boost::intrusive_ptr<group_member_declarations> group_member_declarations_ptr;
-typedef group_member_declarations *group_member_declarations_weak_ptr;
 struct group_member_declarations_1 : group_member_declarations
 {
     group_member_declarations_1() throw() { }
@@ -558,8 +606,6 @@ struct group_member_declaration : node {
     group_member_declaration(void) throw() { }
     virtual ~group_member_declaration(void) throw() { }
 };
-typedef boost::intrusive_ptr<group_member_declaration> group_member_declaration_ptr;
-typedef group_member_declaration *group_member_declaration_weak_ptr;
 struct group_member_declaration_1 : group_member_declaration
 {
     group_member_declaration_1(boost::intrusive_ptr<group_declaration>  _1) throw() : 
@@ -588,8 +634,6 @@ struct node_declaration : node {
     node_declaration(void) throw() { }
     virtual ~node_declaration(void) throw() { }
 };
-typedef boost::intrusive_ptr<node_declaration> node_declaration_ptr;
-typedef node_declaration *node_declaration_weak_ptr;
 struct node_declaration_1 : node_declaration
 {
     node_declaration_1(std::string _1, boost::intrusive_ptr<member_declarations>  _2) throw() : 
@@ -611,8 +655,6 @@ struct visitor_declaration : node {
     visitor_declaration(void) throw() { }
     virtual ~visitor_declaration(void) throw() { }
 };
-typedef boost::intrusive_ptr<visitor_declaration> visitor_declaration_ptr;
-typedef visitor_declaration *visitor_declaration_weak_ptr;
 struct visitor_declaration_1 : visitor_declaration
 {
     visitor_declaration_1(std::string _1, boost::intrusive_ptr<member_declarations>  _2) throw() : 
@@ -635,8 +677,6 @@ struct member_declarations : node {
     member_declarations(void) throw() { }
     virtual ~member_declarations(void) throw() { }
 };
-typedef boost::intrusive_ptr<member_declarations> member_declarations_ptr;
-typedef member_declarations *member_declarations_weak_ptr;
 struct member_declarations_1 : member_declarations
 {
     member_declarations_1() throw() { }
@@ -665,8 +705,6 @@ struct member_declaration : node {
     member_declaration(void) throw() { }
     virtual ~member_declaration(void) throw() { }
 };
-typedef boost::intrusive_ptr<member_declaration> member_declaration_ptr;
-typedef member_declaration *member_declaration_weak_ptr;
 struct member_declaration_1 : member_declaration
 {
     member_declaration_1(boost::intrusive_ptr<data_member_declaration>  _1) throw() : 
@@ -695,8 +733,6 @@ struct member_directive : node {
     member_directive(void) throw() { }
     virtual ~member_directive(void) throw() { }
 };
-typedef boost::intrusive_ptr<member_directive> member_directive_ptr;
-typedef member_directive *member_directive_weak_ptr;
 struct member_directive_1 : member_directive
 {
     member_directive_1() throw() { }
@@ -750,8 +786,6 @@ struct parameter_list : node {
     parameter_list(void) throw() { }
     virtual ~parameter_list(void) throw() { }
 };
-typedef boost::intrusive_ptr<parameter_list> parameter_list_ptr;
-typedef parameter_list *parameter_list_weak_ptr;
 struct parameter_list_1 : parameter_list
 {
     parameter_list_1() throw() { }
@@ -777,8 +811,6 @@ struct parameters : node {
     parameters(void) throw() { }
     virtual ~parameters(void) throw() { }
 };
-typedef boost::intrusive_ptr<parameters> parameters_ptr;
-typedef parameters *parameters_weak_ptr;
 struct parameters_1 : parameters
 {
     parameters_1() throw() { }
@@ -798,8 +830,6 @@ struct parameter : node {
     parameter(void) throw() { }
     virtual ~parameter(void) throw() { }
 };
-typedef boost::intrusive_ptr<parameter> parameter_ptr;
-typedef parameter *parameter_weak_ptr;
 struct parameter_1 : parameter
 {
     parameter_1(boost::intrusive_ptr<type>  _1, boost::intrusive_ptr<reference>  _2) throw() : 
@@ -822,8 +852,6 @@ struct void_or_nothing : node {
     void_or_nothing(void) throw() { }
     virtual ~void_or_nothing(void) throw() { }
 };
-typedef boost::intrusive_ptr<void_or_nothing> void_or_nothing_ptr;
-typedef void_or_nothing *void_or_nothing_weak_ptr;
 struct void_or_nothing_1 : void_or_nothing
 {
     void_or_nothing_1() throw() { }
@@ -840,8 +868,6 @@ struct declarator : node {
     declarator(void) throw() { }
     virtual ~declarator(void) throw() { }
 };
-typedef boost::intrusive_ptr<declarator> declarator_ptr;
-typedef declarator *declarator_weak_ptr;
 struct declarator_1 : declarator
 {
     declarator_1(boost::intrusive_ptr<reference>  _1, std::string _2, boost::intrusive_ptr<arrays>  _3) throw() : 
@@ -874,8 +900,6 @@ struct reference : node {
     reference(void) throw() { }
     virtual ~reference(void) throw() { }
 };
-typedef boost::intrusive_ptr<reference> reference_ptr;
-typedef reference *reference_weak_ptr;
 struct reference_1 : reference
 {
     reference_1(boost::intrusive_ptr<pointer>  _1) throw() : 
@@ -896,8 +920,6 @@ struct pointer : node {
     pointer(void) throw() { }
     virtual ~pointer(void) throw() { }
 };
-typedef boost::intrusive_ptr<pointer> pointer_ptr;
-typedef pointer *pointer_weak_ptr;
 struct pointer_1 : pointer
 {
     pointer_1() throw() { }
@@ -917,8 +939,6 @@ struct type_qualifiers : node {
     type_qualifiers(void) throw() { }
     virtual ~type_qualifiers(void) throw() { }
 };
-typedef boost::intrusive_ptr<type_qualifiers> type_qualifiers_ptr;
-typedef type_qualifiers *type_qualifiers_weak_ptr;
 struct type_qualifiers_1 : type_qualifiers
 {
     type_qualifiers_1() throw() { }
@@ -938,8 +958,6 @@ struct type_qualifier : node {
     type_qualifier(void) throw() { }
     virtual ~type_qualifier(void) throw() { }
 };
-typedef boost::intrusive_ptr<type_qualifier> type_qualifier_ptr;
-typedef type_qualifier *type_qualifier_weak_ptr;
 struct type_qualifier_1 : type_qualifier
 {
     type_qualifier_1() throw() { }
@@ -956,8 +974,6 @@ struct arrays : node {
     arrays(void) throw() { }
     virtual ~arrays(void) throw() { }
 };
-typedef boost::intrusive_ptr<arrays> arrays_ptr;
-typedef arrays *arrays_weak_ptr;
 struct arrays_1 : arrays
 {
     arrays_1(boost::intrusive_ptr<bounded_arrays>  _1) throw() : 
@@ -979,8 +995,6 @@ struct bounded_arrays : node {
     bounded_arrays(void) throw() { }
     virtual ~bounded_arrays(void) throw() { }
 };
-typedef boost::intrusive_ptr<bounded_arrays> bounded_arrays_ptr;
-typedef bounded_arrays *bounded_arrays_weak_ptr;
 struct bounded_arrays_1 : bounded_arrays
 {
     bounded_arrays_1() throw() { }
@@ -1000,8 +1014,6 @@ struct type : node {
     type(void) throw() { }
     virtual ~type(void) throw() { }
 };
-typedef boost::intrusive_ptr<type> type_ptr;
-typedef type *type_weak_ptr;
 struct type_1 : type
 {
     type_1(boost::intrusive_ptr<template_name>  _1) throw() : 
@@ -1034,8 +1046,6 @@ struct template_argument_list : node {
     template_argument_list(void) throw() { }
     virtual ~template_argument_list(void) throw() { }
 };
-typedef boost::intrusive_ptr<template_argument_list> template_argument_list_ptr;
-typedef template_argument_list *template_argument_list_weak_ptr;
 struct template_argument_list_1 : template_argument_list
 {
     template_argument_list_1() throw() { }
@@ -1054,8 +1064,6 @@ struct template_arguments : node {
     template_arguments(void) throw() { }
     virtual ~template_arguments(void) throw() { }
 };
-typedef boost::intrusive_ptr<template_arguments> template_arguments_ptr;
-typedef template_arguments *template_arguments_weak_ptr;
 struct template_arguments_1 : template_arguments
 {
     template_arguments_1(boost::intrusive_ptr<template_argument>  _1) throw() : 
@@ -1077,8 +1085,6 @@ struct template_argument : node {
     template_argument(void) throw() { }
     virtual ~template_argument(void) throw() { }
 };
-typedef boost::intrusive_ptr<template_argument> template_argument_ptr;
-typedef template_argument *template_argument_weak_ptr;
 struct template_argument_1 : template_argument
 {
     template_argument_1(boost::intrusive_ptr<type>  _1) throw() : 
@@ -1111,8 +1117,6 @@ struct scope : node {
     scope(void) throw() { }
     virtual ~scope(void) throw() { }
 };
-typedef boost::intrusive_ptr<scope> scope_ptr;
-typedef scope *scope_weak_ptr;
 struct scope_1 : scope
 {
     scope_1() throw() { }
@@ -1132,8 +1136,6 @@ struct literal : node {
     literal(void) throw() { }
     virtual ~literal(void) throw() { }
 };
-typedef boost::intrusive_ptr<literal> literal_ptr;
-typedef literal *literal_weak_ptr;
 struct literal_1 : literal
 {
     literal_1(boost::intrusive_ptr<boolean_literal>  _1) throw() : 
@@ -1154,8 +1156,6 @@ struct boolean_literal : node {
     boolean_literal(void) throw() { }
     virtual ~boolean_literal(void) throw() { }
 };
-typedef boost::intrusive_ptr<boolean_literal> boolean_literal_ptr;
-typedef boolean_literal *boolean_literal_weak_ptr;
 struct boolean_literal_1 : boolean_literal
 {
     boolean_literal_1() throw() { }

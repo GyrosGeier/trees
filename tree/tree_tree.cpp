@@ -2,6 +2,46 @@
 
 namespace foundry {
 namespace tree {
+void basic_type_node::apply(node_visitor &v)
+{
+    v.visit(*this);
+}
+void basic_type_node::apply(node_const_visitor &v) const
+{
+    v.visit(*this);
+}
+void reference_type_node::apply(node_visitor &v)
+{
+    v.visit(*this);
+}
+void reference_type_node::apply(node_const_visitor &v) const
+{
+    v.visit(*this);
+}
+void pointer_type_node::apply(node_visitor &v)
+{
+    v.visit(*this);
+}
+void pointer_type_node::apply(node_const_visitor &v) const
+{
+    v.visit(*this);
+}
+void template_type_node::apply(node_visitor &v)
+{
+    v.visit(*this);
+}
+void template_type_node::apply(node_const_visitor &v) const
+{
+    v.visit(*this);
+}
+void list_type_node::apply(node_visitor &v)
+{
+    v.visit(*this);
+}
+void list_type_node::apply(node_const_visitor &v) const
+{
+    v.visit(*this);
+}
 void root::apply(node_visitor &v)
 {
     v.visit(*this);
@@ -47,46 +87,6 @@ void data_member_node::apply(node_visitor &v)
     v.visit(*this);
 }
 void data_member_node::apply(node_const_visitor &v) const
-{
-    v.visit(*this);
-}
-void basic_type_node::apply(node_visitor &v)
-{
-    v.visit(*this);
-}
-void basic_type_node::apply(node_const_visitor &v) const
-{
-    v.visit(*this);
-}
-void reference_type_node::apply(node_visitor &v)
-{
-    v.visit(*this);
-}
-void reference_type_node::apply(node_const_visitor &v) const
-{
-    v.visit(*this);
-}
-void pointer_type_node::apply(node_visitor &v)
-{
-    v.visit(*this);
-}
-void pointer_type_node::apply(node_const_visitor &v) const
-{
-    v.visit(*this);
-}
-void template_type_node::apply(node_visitor &v)
-{
-    v.visit(*this);
-}
-void template_type_node::apply(node_const_visitor &v) const
-{
-    v.visit(*this);
-}
-void list_type_node::apply(node_visitor &v)
-{
-    v.visit(*this);
-}
-void list_type_node::apply(node_const_visitor &v) const
 {
     v.visit(*this);
 }

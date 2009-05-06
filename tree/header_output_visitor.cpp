@@ -46,7 +46,9 @@ void header_output_visitor::visit(group_node const &n)
     switch(state)
     {
     case fwddecl:
-        out << "struct " << n.name << ";" << std::endl;
+        out << "struct " << n.name << ";" << std::endl
+            << "typedef boost::intrusive_ptr<" << n.name << "> " << n.name << "_ptr;" << std::endl
+            << "typedef " << n.name << " *" << n.name << "_weak_ptr;" << std::endl;
         if(n.has_const_visitor)
             out << "struct " << n.name << "_const_visitor;" << std::endl;
         if(n.has_visitor)
@@ -68,9 +70,7 @@ void header_output_visitor::visit(group_node const &n)
             out << "    virtual void apply(" << n.name << "_const_visitor &) const = 0;" << std::endl;
         if(!n.parent)
             out << "    unsigned int refcount;" << std::endl;
-        out << "};" << std::endl
-            << "typedef boost::intrusive_ptr<" << n.name << "> " << n.name << "_ptr;" << std::endl
-            << "typedef " << n.name << " *" << n.name << "_weak_ptr;" << std::endl;
+        out << "};" << std::endl;
         if(!n.parent)
             out << "inline void intrusive_ptr_add_ref(" << n.name << " *n) { ++n->refcount; }" << std::endl
                 << "inline void intrusive_ptr_release(" << n.name << " *n) { if(!--n->refcount) delete n; }" << std::endl;

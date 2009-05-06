@@ -21,8 +21,25 @@
 namespace foundry {
 namespace tree {
 struct node;
+typedef boost::intrusive_ptr<node> node_ptr;
+typedef node *node_weak_ptr;
 struct node_const_visitor;
 struct node_visitor;
+struct basic_type_node;
+typedef boost::intrusive_ptr<basic_type_node> basic_type_node_ptr;
+typedef basic_type_node *basic_type_node_weak_ptr;
+struct reference_type_node;
+typedef boost::intrusive_ptr<reference_type_node> reference_type_node_ptr;
+typedef reference_type_node *reference_type_node_weak_ptr;
+struct pointer_type_node;
+typedef boost::intrusive_ptr<pointer_type_node> pointer_type_node_ptr;
+typedef pointer_type_node *pointer_type_node_weak_ptr;
+struct template_type_node;
+typedef boost::intrusive_ptr<template_type_node> template_type_node_ptr;
+typedef template_type_node *template_type_node_weak_ptr;
+struct list_type_node;
+typedef boost::intrusive_ptr<list_type_node> list_type_node_ptr;
+typedef list_type_node *list_type_node_weak_ptr;
 struct root;
 typedef boost::intrusive_ptr<root> root_ptr;
 typedef root *root_weak_ptr;
@@ -41,23 +58,10 @@ typedef node_node *node_node_weak_ptr;
 struct data_member_node;
 typedef boost::intrusive_ptr<data_member_node> data_member_node_ptr;
 typedef data_member_node *data_member_node_weak_ptr;
-struct basic_type_node;
-typedef boost::intrusive_ptr<basic_type_node> basic_type_node_ptr;
-typedef basic_type_node *basic_type_node_weak_ptr;
-struct reference_type_node;
-typedef boost::intrusive_ptr<reference_type_node> reference_type_node_ptr;
-typedef reference_type_node *reference_type_node_weak_ptr;
-struct pointer_type_node;
-typedef boost::intrusive_ptr<pointer_type_node> pointer_type_node_ptr;
-typedef pointer_type_node *pointer_type_node_weak_ptr;
-struct template_type_node;
-typedef boost::intrusive_ptr<template_type_node> template_type_node_ptr;
-typedef template_type_node *template_type_node_weak_ptr;
-struct list_type_node;
-typedef boost::intrusive_ptr<list_type_node> list_type_node_ptr;
-typedef list_type_node *list_type_node_weak_ptr;
 }
 struct node;
+typedef boost::intrusive_ptr<node> node_ptr;
+typedef node *node_weak_ptr;
 }
 namespace foundry {
 namespace tree {
@@ -221,8 +225,6 @@ struct node {
     virtual ~node(void) throw() { }
     unsigned int refcount;
 };
-typedef boost::intrusive_ptr<node> node_ptr;
-typedef node *node_weak_ptr;
 inline void intrusive_ptr_add_ref(node *n) { ++n->refcount; }
 inline void intrusive_ptr_release(node *n) { if(!--n->refcount) delete n; }
 }
