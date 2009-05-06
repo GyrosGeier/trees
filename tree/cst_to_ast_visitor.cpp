@@ -77,12 +77,51 @@ void cst_to_ast_visitor::visit(cst::namespace_declaration const &n)
     current_namespace = tmp;
 }
 
-void cst_to_ast_visitor::visit(cst::group_declaration const&){ }
-void cst_to_ast_visitor::visit(cst::group_member_declarations_1 const&){ }
-void cst_to_ast_visitor::visit(cst::group_member_declarations_2 const&){ }
-void cst_to_ast_visitor::visit(cst::group_member_declaration_1 const&){ }
-void cst_to_ast_visitor::visit(cst::group_member_declaration_2 const&){ }
-void cst_to_ast_visitor::visit(cst::group_member_declaration_3 const&){ }
+void cst_to_ast_visitor::visit(cst::group_declaration const &gd)
+{
+    /* "group" IDENTIFIER group_member_declarations */
+    group_node_weak_ptr nn = new group_node;
+    nn->name = gd._1;
+    nn->ns = current_namespace;
+    nn->parent = current_group;
+    nn->has_const_visitor = false;
+    nn->has_visitor = false;
+    current_group->groups.push_back(nn);
+    current_group = nn;
+    gd._2->apply(*this);
+    current_group = current_group->parent;
+}
+
+void cst_to_ast_visitor::visit(cst::group_member_declarations_1 const &)
+{
+    /* empty */
+}
+
+void cst_to_ast_visitor::visit(cst::group_member_declarations_2 const &gmd)
+{
+    /* group_member_declarations group_member_declaration ";" */
+    gmd._1->apply(*this);
+    gmd._2->apply(*this);
+}
+
+void cst_to_ast_visitor::visit(cst::group_member_declaration_1 const &gmd)
+{
+    /* group_declaration */
+    gmd._1->apply(*this);
+}
+
+void cst_to_ast_visitor::visit(cst::group_member_declaration_2 const &gmd)
+{
+    /* node_declaration */
+    gmd._1->apply(*this);
+}
+
+void cst_to_ast_visitor::visit(cst::group_member_declaration_3 const &gmd)
+{
+    /* visitor_declaration */
+    gmd._1->apply(*this);
+}
+
 void cst_to_ast_visitor::visit(cst::node_declaration_1 const &n)
 {
     current_node = new node_node;
