@@ -47,38 +47,41 @@ node node_node {
 
 node data_member_node {
     %include <string>
-    node type;
+    type_node type;
     std::string name;
     bool needs_init;
 };
 
-node basic_type_node {
-    %include <string>
-    namespace_node_weak_ptr ns;
-    std::string name;
-    bool is_const;
-    bool is_volatile;
-};
+group type_node {
 
-node reference_type_node {
-    node type;
-};
+    node basic_type_node {
+        %include <string>
+        namespace_node_weak_ptr ns;
+        std::string name;
+        bool is_const;
+        bool is_volatile;
+    };
 
-node pointer_type_node {
-    node type;
-    bool is_const;
-    bool is_volatile;
-};
+    node reference_type_node {
+        node type;
+    };
 
-node template_type_node {
-    %include <string>
-    namespace_node_weak_ptr ns;
-    std::string name;
-    node template_args[];
-};
+    node pointer_type_node {
+        node type;
+        bool is_const;
+        bool is_volatile;
+    };
 
-node list_type_node {
-    node type;
+    node template_type_node {
+        %include <string>
+        namespace_node_weak_ptr ns;
+        std::string name;
+        node template_args[];
+    };
+
+    node list_type_node {
+        node type;
+    };
 };
 
 visitor smartpointer_visitor
