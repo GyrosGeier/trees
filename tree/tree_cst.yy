@@ -174,7 +174,7 @@ namespace_declaration: "namespace" IDENTIFIER "{" declarations "}" { $$ = new na
 group_declaration: "group" IDENTIFIER "{" group_member_declarations "}" { $$ = new group_declaration(std::string($2.data, $2.length), $4); }
 
 group_member_declarations: /* empty */ { $$ = new group_member_declarations_1; } |
-    group_member_declarations group_member_declaration { $$ = new group_member_declarations_2($1, $2); }
+    group_member_declarations group_member_declaration ";" { $$ = new group_member_declarations_2($1, $2); }
 
 group_member_declaration: group_declaration { $$ = new group_member_declaration_1($1); } |
     node_declaration { $$ = new group_member_declaration_2($1); } |
