@@ -202,6 +202,7 @@ struct group_node : node
     bool has_const_visitor;
     std::list<boost::intrusive_ptr<group_node> >  groups;
     std::list<boost::intrusive_ptr<node_node> >  nodes;
+    std::list<boost::intrusive_ptr<data_member_node> >  default_members;
 };
 struct node_node : node
 {

@@ -70,6 +70,8 @@ void header_output_visitor::visit(group_node const &n)
             out << "    virtual void apply(" << n.name << "_const_visitor &) const = 0;" << std::endl;
         if(!n.parent)
             out << "    unsigned int refcount;" << std::endl;
+        for(std::list<data_member_node_ptr>::const_iterator i = n.default_members.begin(); i!= n.default_members.end(); ++i)
+            (**i).apply(*this);
         out << "};" << std::endl;
         if(!n.parent)
             out << "inline void intrusive_ptr_add_ref(" << n.name << " *n) { ++n->refcount; }" << std::endl

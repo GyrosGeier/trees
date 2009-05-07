@@ -124,6 +124,7 @@ void cst_to_ast_visitor::visit(cst::group_member_declaration_3 const &gmd)
 
 void cst_to_ast_visitor::visit(cst::node_declaration_1 const &n)
 {
+    /* "node" IDENTIFIER "{" member_declarations "}" */
     current_node = new node_node;
     current_node->name = n._1;
     current_node->ns = current_namespace;
@@ -132,7 +133,15 @@ void cst_to_ast_visitor::visit(cst::node_declaration_1 const &n)
     n._2->apply(*this);
 }
 
-void cst_to_ast_visitor::visit(cst::node_declaration_2 const&){ }
+void cst_to_ast_visitor::visit(cst::node_declaration_2 const &n)
+{
+    /* "node" "{" member_declarations "}" */
+    node_node_ptr fake_node = new node_node;
+    current_node = fake_node.get();
+    n._1->apply(*this);
+    current_group->default_members.splice(current_group->default_members.end(), fake_node->members);
+}
+
 void cst_to_ast_visitor::visit(cst::visitor_declaration_1 const &)
 {
     /* "visitor" IDENTIFIER "{" member_declarations "}" */
