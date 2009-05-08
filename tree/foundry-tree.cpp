@@ -152,18 +152,6 @@ try
         fclose(f);
     }
 
-    /*
-
-    if(!outns.empty())
-        out << endl
-            << "}" << endl;
-
-    if(outmode == header)
-        out << endl
-            << "#endif" << endl;
-
-    */
-
     tree_cst_lex_destroy(cst_scanner);
     tree_bison_lex_destroy(bison_scanner);
 
@@ -242,60 +230,6 @@ try
         }
         break;
     }
-
-    /*
-            std::string::size_type slash = outfile.rfind('/');
-            if(slash == std::string::npos)
-                slash = 0;
-            else
-                ++slash;
-
-            std::string cppsymbol(outfile, slash);
-            for(unsigned int i = 0; i < cppsymbol.size(); ++i)
-            {
-                char c = cppsymbol[i];
-                if(c < '0' || (c > '9' && c < 'A') || (c > 'Z' && c < 'a') || c > 'z')
-                    cppsymbol[i] = '_';
-            }
-            out << "#ifndef " << cppsymbol << "_" << endl
-                << "#define " << cppsymbol << "_ 1" << endl
-                << endl
-                << "#include <string>" << endl
-                << "#include <typeinfo>" << endl
-                << "#include <stdexcept>" << endl
-                << endl;
-        }
-        break;
-    case source:
-        {
-            std::string::size_type dot = outfile.rfind('.');
-            if(dot == std::string::npos)
-                break;
-            std::string ext = outfile.substr(dot);
-            if(ext == ".cpp")
-                ext = ".hpp";
-            else if(ext == ".cc")
-                ext = ".hh";
-            else
-                break;
-            std::string::size_type slash = outfile.rfind('/');
-            if(slash == std::string::npos)
-                slash = 0;
-            else
-                ++slash;
-            std::string basename = outfile.substr(slash, dot - slash);
-            out << "#include <" << basename << ext << ">" << endl
-                << endl;
-        }
-    }
-
-    if(!outns.empty())
-        out << "namespace " << outns << " {" << endl
-            << endl;
-
-    output_visitor write(out, (outmode == header)?write.header:write.source);
-
-    */
 
     return 0;
 }
