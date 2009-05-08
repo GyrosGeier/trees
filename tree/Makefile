@@ -1,5 +1,6 @@
-LEX ?= flex
-YACC ?= bison
+CXX = g++
+LEX = flex
+YACC = bison
 
 CXXFLAGS ?= -g -Wall -W -Werror
 LDFLAGS ?= -g -Wall -W -Werror
