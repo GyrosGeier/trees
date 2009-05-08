@@ -11,7 +11,7 @@ impl_output_visitor::impl_output_visitor(std::ostream &out) :
 
 void impl_output_visitor::visit(root const &r)
 {
-    visit(*r.global_namespace);
+    descend(r.global_namespace);
 }
 
 void impl_output_visitor::visit(include_node const &)
@@ -41,12 +41,8 @@ void impl_output_visitor::visit(namespace_node const &n)
     if(!n.name.empty())
         out << "namespace " << n.name << " {" << std::endl;
 
-    for(std::list<namespace_node_ptr>::const_iterator i = n.namespaces.begin();
-            i != n.namespaces.end(); ++i)
-        visit(**i);
-
-    if(n.group)
-        visit(*n.group);
+    descend(n.namespaces);
+    descend(n.group);
 
     if(!n.name.empty())
         out <<  "}" << std::endl;
@@ -54,12 +50,8 @@ void impl_output_visitor::visit(namespace_node const &n)
 
 void impl_output_visitor::visit(group_node const &n)
 {
-    for(std::list<group_node_ptr>::const_iterator i = n.groups.begin();
-            i != n.groups.end(); ++i)
-        visit(**i);
-    for(std::list<node_node_ptr>::const_iterator i = n.nodes.begin();
-            i != n.nodes.end(); ++i)
-        visit(**i);
+    descend(n.groups);
+    descend(n.nodes);
 }
 
 void impl_output_visitor::visit(basic_type_node const &)

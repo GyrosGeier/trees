@@ -23,6 +23,7 @@ node namespace_node {
     std::string name;
     namespace_node namespaces[];
     group_node group;
+    bool uses_lists;
     std::set<std::string> node_types;
 };
 

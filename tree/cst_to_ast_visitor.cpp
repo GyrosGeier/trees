@@ -7,12 +7,13 @@ cst_to_ast_visitor::cst_to_ast_visitor(void)
 {
     ast_root = new root;
     ast_root->global_namespace = current_namespace = new namespace_node;
+    current_namespace->uses_lists = false;
 }
 
 void cst_to_ast_visitor::visit(cst::start const &s)
 {
     /* declarations */
-    s._1->apply(*this);
+    descend(s._1);
 }
 
 void cst_to_ast_visitor::visit(cst::declarations_1 const &)
@@ -23,38 +24,38 @@ void cst_to_ast_visitor::visit(cst::declarations_1 const &)
 void cst_to_ast_visitor::visit(cst::declarations_2 const &d)
 {
     /* declarations declaration */
-    d._1->apply(*this);
-    d._2->apply(*this);
+    descend(d._1);
+    descend(d._2);
 }
 
 void cst_to_ast_visitor::visit(cst::declaration_1 const &d)
 {
     /* namespace_declaration */
-    d._1->apply(*this);
+    descend(d._1);
 }
 
 void cst_to_ast_visitor::visit(cst::declaration_2 const &d)
 {
     /* namespace_member_declaration */
-    d._1->apply(*this);
+    descend(d._1);
 }
 
 void cst_to_ast_visitor::visit(cst::namespace_member_declaration_1 const &md)
 {
     /* group_declaration */
-    md._1->apply(*this);
+    descend(md._1);
 }
 
 void cst_to_ast_visitor::visit(cst::namespace_member_declaration_2 const &md)
 {
     /* node_declaration */
-    md._1->apply(*this);
+    descend(md._1);
 }
 
 void cst_to_ast_visitor::visit(cst::namespace_member_declaration_3 const &md)
 {
     /* namespace_member_declaration */
-    md._1->apply(*this);
+    descend(md._1);
 }
 
 void cst_to_ast_visitor::visit(cst::namespace_declaration const &n)
@@ -67,13 +68,14 @@ void cst_to_ast_visitor::visit(cst::namespace_declaration const &n)
     current_namespace->namespaces.push_back(nn);
     current_namespace = nn.get();
     current_namespace->group = new group_node;
+    current_namespace->uses_lists = false;
     current_group = current_namespace->group.get();
     current_group->name = "node";
     current_group->ns = current_namespace;
     current_group->parent = 0;
     current_group->has_const_visitor = false;
     current_group->has_visitor = false;
-    n._2->apply(*this);
+    descend(n._2);
     current_namespace = tmp;
 }
 
@@ -88,7 +90,7 @@ void cst_to_ast_visitor::visit(cst::group_declaration const &gd)
     nn->has_visitor = false;
     current_group->groups.push_back(nn);
     current_group = nn;
-    gd._2->apply(*this);
+    descend(gd._2);
     current_group = current_group->parent;
 }
 
@@ -100,26 +102,26 @@ void cst_to_ast_visitor::visit(cst::group_member_declarations_1 const &)
 void cst_to_ast_visitor::visit(cst::group_member_declarations_2 const &gmd)
 {
     /* group_member_declarations group_member_declaration ";" */
-    gmd._1->apply(*this);
-    gmd._2->apply(*this);
+    descend(gmd._1);
+    descend(gmd._2);
 }
 
 void cst_to_ast_visitor::visit(cst::group_member_declaration_1 const &gmd)
 {
     /* group_declaration */
-    gmd._1->apply(*this);
+    descend(gmd._1);
 }
 
 void cst_to_ast_visitor::visit(cst::group_member_declaration_2 const &gmd)
 {
     /* node_declaration */
-    gmd._1->apply(*this);
+    descend(gmd._1);
 }
 
 void cst_to_ast_visitor::visit(cst::group_member_declaration_3 const &gmd)
 {
     /* visitor_declaration */
-    gmd._1->apply(*this);
+    descend(gmd._1);
 }
 
 void cst_to_ast_visitor::visit(cst::node_declaration_1 const &n)
@@ -130,7 +132,7 @@ void cst_to_ast_visitor::visit(cst::node_declaration_1 const &n)
     current_node->ns = current_namespace;
     current_node->group = current_group;
     current_group->nodes.push_back(current_node);
-    n._2->apply(*this);
+    descend(n._2);
 }
 
 void cst_to_ast_visitor::visit(cst::node_declaration_2 const &n)
@@ -138,7 +140,7 @@ void cst_to_ast_visitor::visit(cst::node_declaration_2 const &n)
     /* "node" "{" member_declarations "}" */
     node_node_ptr fake_node = new node_node;
     current_node = fake_node.get();
-    n._1->apply(*this);
+    descend(n._1);
     current_group->default_members.splice(current_group->default_members.end(), fake_node->members);
 }
 
@@ -164,21 +166,21 @@ void cst_to_ast_visitor::visit(cst::member_declarations_1 const &)
 void cst_to_ast_visitor::visit(cst::member_declarations_2 const &md)
 {
     /* member_declarations member_declaration */
-    md._1->apply(*this);
-    md._2->apply(*this);
+    descend(md._1);
+    descend(md._2);
 }
 
 void cst_to_ast_visitor::visit(cst::member_declarations_3 const &md)
 {
     /* member_declarations member_directive */
-    md._1->apply(*this);
-    md._2->apply(*this);
+    descend(md._1);
+    descend(md._2);
 }
 
 void cst_to_ast_visitor::visit(cst::member_declaration_1 const &md)
 {
     /* data_member_declaration */    
-    md._1->apply(*this);
+    descend(md._1);
 }
 
 void cst_to_ast_visitor::visit(cst::member_declaration_2 const &){ }
@@ -205,9 +207,9 @@ void cst_to_ast_visitor::visit(cst::member_directive_7 const &md)
 void cst_to_ast_visitor::visit(cst::data_member_declaration const &dm)
 {
     /* type type_qualifiers declarator */
-    dm._1->apply(*this);
-    dm._2->apply(*this);
-    dm._3->apply(*this);
+    descend(dm._1);
+    descend(dm._2);
+    descend(dm._3);
     data_member_node_ptr nn = new data_member_node;
     nn->type = current_type;
     nn->name = current_identifier;
@@ -229,37 +231,37 @@ void cst_to_ast_visitor::visit(cst::void_or_nothing_2 const&){ }
 void cst_to_ast_visitor::visit(cst::declarator_1 const &d)
 {
     /* reference IDENTIFIER arrays */
-    d._1->apply(*this);
+    descend(d._1);
     current_identifier = d._2;
-    d._3->apply(*this);
+    descend(d._3);
 }
 
 void cst_to_ast_visitor::visit(cst::declarator_2 const &d)
 {
     /* reference "parent" arrays */
-    d._1->apply(*this);
+    descend(d._1);
     current_identifier = "parent";
-    d._2->apply(*this);
+    descend(d._2);
 }
 
 void cst_to_ast_visitor::visit(cst::declarator_3 const &d)
 {
     /* reference "parent" arrays */
-    d._1->apply(*this);
+    descend(d._1);
     current_identifier = "group";
-    d._2->apply(*this);
+    descend(d._2);
 }
 
 void cst_to_ast_visitor::visit(cst::reference_1 const &r)
 {
     /* pointer */
-    r._1->apply(*this);
+    descend(r._1);
 }
 
 void cst_to_ast_visitor::visit(cst::reference_2 const &r)
 {
     /* pointer "&" */
-    r._1->apply(*this);
+    descend(r._1);
     reference_type_node_ptr nn = new reference_type_node;
     nn->type = current_type;
     current_type = nn.get();
@@ -274,8 +276,8 @@ void cst_to_ast_visitor::visit(cst::pointer_1 const &)
 void cst_to_ast_visitor::visit(cst::pointer_2 const &p)
 {
     /* pointer type_qualifiers "*" */
-    p._1->apply(*this);
-    p._2->apply(*this);
+    descend(p._1);
+    descend(p._2);
     pointer_type_node_ptr nn = new pointer_type_node;
     nn->type = current_type;
     nn->is_const = false;
@@ -292,8 +294,8 @@ void cst_to_ast_visitor::visit(cst::type_qualifiers_1 const&)
 void cst_to_ast_visitor::visit(cst::type_qualifiers_2 const &q)
 {
     /* type_qualifiers type_qualifier */
-    q._1->apply(*this);
-    q._2->apply(*this);
+    descend(q._1);
+    descend(q._2);
 }
 
 void cst_to_ast_visitor::visit(cst::type_qualifier_1 const &)
@@ -325,14 +327,14 @@ void cst_to_ast_visitor::visit(cst::type_qualifier_2 const&)
 void cst_to_ast_visitor::visit(cst::arrays_1 const &a)
 {
     /* bounded_arrays */
-    a._1->apply(*this);
+    descend(a._1);
 }
 
 void cst_to_ast_visitor::visit(cst::arrays_2 const &a)
 {
     /* bounded_arrays unbounded_array */
-    a._1->apply(*this);
-    a._2->apply(*this);
+    descend(a._1);
+    descend(a._2);
 }
 
 void cst_to_ast_visitor::visit(cst::bounded_arrays_1 const &)
@@ -344,6 +346,7 @@ void cst_to_ast_visitor::visit(cst::bounded_arrays_2 const&){ }
 void cst_to_ast_visitor::visit(cst::bounded_array const&){ }
 void cst_to_ast_visitor::visit(cst::unbounded_array const &)
 {
+    current_namespace->uses_lists = true;
     list_type_node_ptr nn = new list_type_node;
     nn->type = current_type;
     current_type = nn.get();
@@ -359,7 +362,7 @@ void cst_to_ast_visitor::visit(cst::type_1 const &t)
     current_identifier.clear();
     std::list<node_ptr> *tmp2 = current_template_argument_list;
     current_template_argument_list = &nt->template_args;
-    t._1->apply(*this);
+    descend(t._1);
     nt->name = current_identifier;
     current_template_argument_list = tmp2;
     current_identifier = tmp1;
@@ -376,7 +379,7 @@ void cst_to_ast_visitor::visit(cst::type_2 const &t)
     current_type = nt;
     std::string tmp1 = current_identifier;
     current_identifier.clear();
-    t._1->apply(*this);
+    descend(t._1);
     nt->name = current_identifier;
     current_identifier = tmp1;
 }
@@ -408,8 +411,8 @@ void cst_to_ast_visitor::visit(cst::type_4 const&)
 void cst_to_ast_visitor::visit(cst::template_name const &tn)
 {
     /* scoped_name "<" template_argument_list ">" */
-    tn._1->apply(*this);
-    tn._2->apply(*this);
+    descend(tn._1);
+    descend(tn._2);
 }
 
 void cst_to_ast_visitor::visit(cst::template_argument_list_1 const &)
@@ -421,26 +424,26 @@ void cst_to_ast_visitor::visit(cst::template_argument_list_1 const &)
 void cst_to_ast_visitor::visit(cst::template_argument_list_2 const &tal)
 {
     /* template_arguments */
-    tal._1->apply(*this);
+    descend(tal._1);
 }
 
 void cst_to_ast_visitor::visit(cst::template_arguments_1 const &tas)
 {
     /* template_argument */
-    tas._1->apply(*this);
+    descend(tas._1);
 }
 
 void cst_to_ast_visitor::visit(cst::template_arguments_2 const &tas)
 {
     /* template_arguments "," template_argument */
-    tas._1->apply(*this);
-    tas._2->apply(*this);
+    descend(tas._1);
+    descend(tas._2);
 }
 
 void cst_to_ast_visitor::visit(cst::template_argument_1 const &ta)
 {
     /* type */
-    ta._1->apply(*this);
+    descend(ta._1);
     current_template_argument_list->push_back(current_type);
 }
 
@@ -450,7 +453,7 @@ void cst_to_ast_visitor::visit(cst::template_argument_4 const&){ }
 void cst_to_ast_visitor::visit(cst::scoped_name const &n)
 {
     /* scope IDENTIFIER */
-    n._1->apply(*this);
+    descend(n._1);
     if(!current_identifier.empty())
         current_identifier += "::";
     current_identifier += n._2;
@@ -464,7 +467,7 @@ void cst_to_ast_visitor::visit(cst::scope_1 const &)
 void cst_to_ast_visitor::visit(cst::scope_2 const &s)
 {
     /* scope "::" IDENTIFIER */
-    s._1->apply(*this);
+    descend(s._1);
     if(!current_identifier.empty())
         current_identifier += "::";
     current_identifier += s._2;

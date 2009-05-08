@@ -7,9 +7,9 @@ void smartpointer_visitor::visit(root &r)
 {
     ast_root = &r;
     state = collect;
-    visit(*r.global_namespace);
+    descend(r.global_namespace);
     state = mark;
-    visit(*r.global_namespace);
+    descend(r.global_namespace);
 }
 
 void smartpointer_visitor::visit(include_node &)
@@ -19,12 +19,8 @@ void smartpointer_visitor::visit(include_node &)
 
 void smartpointer_visitor::visit(namespace_node &n)
 {
-    for(std::list<namespace_node_ptr>::iterator i = n.namespaces.begin();
-            i != n.namespaces.end(); ++i)
-        visit(**i);
-
-    if(n.group)
-        visit(*n.group);
+    descend(n.namespaces);
+    descend(n.group);
 }
 
 void smartpointer_visitor::visit(group_node &n)
@@ -32,12 +28,8 @@ void smartpointer_visitor::visit(group_node &n)
     if(state == collect)
         n.ns->node_types.insert(n.name);
 
-    for(std::list<group_node_ptr>::iterator i = n.groups.begin();
-            i != n.groups.end(); ++i)
-        visit(**i);
-    for(std::list<node_node_ptr>::iterator i = n.nodes.begin();
-            i != n.nodes.end(); ++i)
-        visit(**i);
+    descend(n.groups);
+    descend(n.nodes);
 }
 
 void smartpointer_visitor::visit(node_node &n)
@@ -45,16 +37,14 @@ void smartpointer_visitor::visit(node_node &n)
     if(state == collect)
         n.ns->node_types.insert(n.name);
 
-    for(std::list<data_member_node_ptr>::iterator i = n.members.begin();
-            i != n.members.end(); ++i)
-        visit(**i);
+    descend(n.members);
 }
 
 void smartpointer_visitor::visit(data_member_node &n)
 {
     if(state == mark)
     {
-        n.type->apply(*this);
+        descend(n.type);
         if(is_node_type)
         {
             template_type_node_ptr nn = new template_type_node;
@@ -90,7 +80,7 @@ void smartpointer_visitor::visit(template_type_node &)
 
 void smartpointer_visitor::visit(list_type_node &n)
 {
-    n.type->apply(*this);
+    descend(n.type);
     if(is_node_type)
     {
         template_type_node_ptr nn = new template_type_node;

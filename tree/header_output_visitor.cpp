@@ -11,15 +11,13 @@ header_output_visitor::header_output_visitor(std::ostream &out) :
 
 void header_output_visitor::visit(root const &r)
 {
-    for(std::list<include_node_ptr>::const_iterator i = r.includes.begin();
-            i != r.includes.end(); ++i)
-        visit(**i);
+    descend(r.includes);
     out << "#include <boost/intrusive_ptr.hpp>" << std::endl
         << "#include <list>" << std::endl;
     state = fwddecl;
-    visit(*r.global_namespace);
+    descend(r.global_namespace);
     state = decl;
-    visit(*r.global_namespace);
+    descend(r.global_namespace);
 }
 
 void header_output_visitor::visit(include_node const &n)
@@ -32,11 +30,9 @@ void header_output_visitor::visit(namespace_node const &n)
     if(!n.name.empty())
         out << "namespace " << n.name << " {" << std::endl;
 
-    for(std::list<namespace_node_ptr>::const_iterator i = n.namespaces.begin(); i != n.namespaces.end(); ++i)
-        visit(**i);
+    descend(n.namespaces);
 
-    if(n.group)
-        visit(*n.group);
+    descend(n.group);
     if(!n.name.empty())
         out << "}" << std::endl;
 }
@@ -70,8 +66,7 @@ void header_output_visitor::visit(group_node const &n)
             out << "    virtual void apply(" << n.name << "_const_visitor &) const = 0;" << std::endl;
         if(!n.parent)
             out << "    unsigned int refcount;" << std::endl;
-        for(std::list<data_member_node_ptr>::const_iterator i = n.default_members.begin(); i!= n.default_members.end(); ++i)
-            (**i).apply(*this);
+        descend(n.default_members);
         out << "};" << std::endl;
         if(!n.parent)
             out << "inline void intrusive_ptr_add_ref(" << n.name << " *n) { ++n->refcount; }" << std::endl
@@ -81,12 +76,20 @@ void header_output_visitor::visit(group_node const &n)
             out << "class " << n.name << "_visitor" << std::endl
                 << "{" << std::endl
                 << "public:" << std::endl
-                << "    virtual ~" << n.name << "_visitor(void) throw() { }" << std::endl;
+                << "    virtual ~" << n.name << "_visitor(void) throw() { }" << std::endl
+                << "    inline void descend(" << n.name << " &n) { n.apply(*this); }" << std::endl
+                << "    template<typename T>" << std::endl
+                << "    inline void descend(boost::intrusive_ptr<T> const &p) { if(p) descend(*p); }" << std::endl;
+            if(n.ns->uses_lists)
+                out << "    template<typename T, typename Alloc>" << std::endl
+                    << "    inline void descend(std::list<T, Alloc> &l)" << std::endl
+                    << "    {" << std::endl
+                    << "        for(typename std::list<T, Alloc>::iterator i = l.begin(); i != l.end(); ++i)" << std::endl
+                    << "            descend(*i);" << std::endl
+                    << "    }" << std::endl;
             state = visit_decl;
-            for(std::list<group_node_ptr>::const_iterator i = n.groups.begin(); i != n.groups.end(); ++i)
-                visit(**i);
-            for(std::list<node_node_ptr>::const_iterator i = n.nodes.begin(); i != n.nodes.end(); ++i)
-                visit(**i);
+            descend(n.groups);
+            descend(n.nodes);
             state = decl;
             out << "};" << std::endl;
         }
@@ -96,12 +99,20 @@ void header_output_visitor::visit(group_node const &n)
             out << "class " << n.name << "_const_visitor" << std::endl
                 << "{" << std::endl
                 << "public:" << std::endl
-                << "    virtual ~" << n.name << "_const_visitor(void) throw() { }" << std::endl;
+                << "    virtual ~" << n.name << "_const_visitor(void) throw() { }" << std::endl
+                << "    inline void descend(" << n.name << " const &n) { n.apply(*this); }" << std::endl
+                << "    template<typename T>" << std::endl
+                << "    inline void descend(boost::intrusive_ptr<T> const &p) { if(p) descend(*p); }" << std::endl;
+            if(n.ns->uses_lists)
+                out << "    template<typename T, typename Alloc>" << std::endl
+                    << "    inline void descend(std::list<T, Alloc> const &l)" << std::endl
+                    << "    {" << std::endl
+                    << "        for(typename std::list<T, Alloc>::const_iterator i = l.begin(); i != l.end(); ++i)" << std::endl
+                    << "            descend(*i);" << std::endl
+                    << "    }" << std::endl;
             state = const_visit_decl;
-            for(std::list<group_node_ptr>::const_iterator i = n.groups.begin(); i != n.groups.end(); ++i)
-                visit(**i);
-            for(std::list<node_node_ptr>::const_iterator i = n.nodes.begin(); i != n.nodes.end(); ++i)
-                visit(**i);
+            descend(n.groups);
+            descend(n.nodes);
             state = decl;
             out << "};" << std::endl;
         }
@@ -111,20 +122,8 @@ void header_output_visitor::visit(group_node const &n)
         break;
     }
 
-        /*
-        out << "struct " << (**i).name << ";" << std::endl
-            << "typedef boost::intrusive_ptr<" << (**i).name << "> " << (**i).name << "_ptr;" << std::endl
-            << "typedef " << (**i).name << " *" << (**i).name << "_weak_ptr;" << std::endl;
-        for(std::list<node_node_ptr>::const_iterator j = (**i).nodes.begin(); j != (**i).nodes.end(); ++j)
-            out << "struct " << (**j).name << ";" << std::endl
-                << "typedef boost::intrusive_ptr<" << (**j).name << "> " << (**j).name << "_ptr;" << std::endl
-                << "typedef " << (**j).name << " *" << (**j).name << "_weak_ptr;" << std::endl;
-         */
-
-    for(std::list<group_node_ptr>::const_iterator i = n.groups.begin(); i != n.groups.end(); ++i)
-        visit(**i);
-    for(std::list<node_node_ptr>::const_iterator i = n.nodes.begin(); i != n.nodes.end(); ++i)
-        visit(**i);
+    descend(n.groups);
+    descend(n.nodes);
 }
 
 void header_output_visitor::visit(node_node const &n)
@@ -186,16 +185,19 @@ void header_output_visitor::visit(node_node const &n)
                 out << "    virtual void apply(" << i->name << "_const_visitor &) const;" << std::endl;
         }
 
-        for(std::list<data_member_node_ptr>::const_iterator i = n.members.begin(); i!= n.members.end(); ++i)
-            (**i).apply(*this);
+        descend(n.members);
 
         out << "};" << std::endl;
         break;
     case visit_decl:
-        out << "    virtual void visit(" << n.name << " &) = 0;" << std::endl;
+        out << "    virtual void visit(" << n.name << " &) = 0;" << std::endl
+            << "    inline void descend(" << n.name << " &n) { visit(n); }" << std::endl
+            << "    inline void descend(boost::intrusive_ptr<" << n.name << "> &p) { if(p) descend(*p); }" << std::endl;
         break;
     case const_visit_decl:
-        out << "    virtual void visit(" << n.name << " const &) = 0;" << std::endl;
+        out << "    virtual void visit(" << n.name << " const &) = 0;" << std::endl
+            << "    inline void descend(" << n.name << " const &n) { visit(n); }" << std::endl
+            << "    inline void descend(boost::intrusive_ptr<" << n.name << "> const &p) { if(p) descend(*p); }" << std::endl;
     }
 }
 
@@ -210,13 +212,13 @@ void header_output_visitor::visit(basic_type_node const &n)
 
 void header_output_visitor::visit(reference_type_node const &n)
 {
-    n.type->apply(*this);
+    descend(n.type);
     out << "&";
 }
 
 void header_output_visitor::visit(pointer_type_node const &n)
 {
-    n.type->apply(*this);
+    descend(n.type);
     out << "*";
     if(n.is_const)
         out << " const";
@@ -227,22 +229,21 @@ void header_output_visitor::visit(pointer_type_node const &n)
 void header_output_visitor::visit(template_type_node const &n)
 {
     out << n.name << "<";
-    for(std::list<node_ptr>::const_iterator i = n.template_args.begin(); i!= n.template_args.end(); ++i)
-        (**i).apply(*this);
+    descend(n.template_args);
     out << "> ";
 }
 
 void header_output_visitor::visit(data_member_node const &n)
 {
     out << "    ";
-    n.type->apply(*this);
+    descend(n.type);
     out << " " << n.name << ";" << std::endl;
 }
 
 void header_output_visitor::visit(list_type_node const &n)
 {
     out << "std::list<";
-    n.type->apply(*this);
+    descend(n.type);
     out << "> ";
 }
 

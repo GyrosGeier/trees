@@ -13,6 +13,7 @@ bison_to_ast_visitor::bison_to_ast_visitor(void)
     nn->name = "string";
     ast->includes.push_back(nn);
     current_namespace = ast->global_namespace.get();
+    current_namespace->uses_lists = false;
 }
 
 void bison_to_ast_visitor::visit(bison::start const &s)
@@ -28,7 +29,7 @@ void bison_to_ast_visitor::visit(bison::start const &s)
         current_group->has_visitor = false;
         current_namespace->group = current_group;
     }
-    s._1->apply(*this);
+    descend(s._1);
     for(std::list<basic_type_node_weak_ptr>::iterator i = unresolved.begin();
             i != unresolved.end(); ++i)
         (**i).name = "std::string";
@@ -42,8 +43,8 @@ void bison_to_ast_visitor::visit(bison::rules_1 const &)
 void bison_to_ast_visitor::visit(bison::rules_2 const &r)
 {
     /* rules rule */
-    r._1->apply(*this);
-    r._2->apply(*this);
+    descend(r._1);
+    descend(r._2);
 }
 
 void bison_to_ast_visitor::visit(bison::rule const &r)
@@ -61,13 +62,13 @@ void bison_to_ast_visitor::visit(bison::rule const &r)
     }
     current_count = 0;
     current_group = current_namespace->group.get();
-    r._2->apply(*this);
+    descend(r._2);
 }
 
 void bison_to_ast_visitor::visit(bison::alternatives_1 const &a)
 {
     /* components */
-    a._1->apply(*this);
+    descend(a._1);
 }
 
 void bison_to_ast_visitor::visit(bison::alternatives_2 const &a)
@@ -84,14 +85,14 @@ void bison_to_ast_visitor::visit(bison::alternatives_2 const &a)
         current_group->has_visitor = false;
         current_namespace->group->groups.push_back(current_group);
     }
-    a._1->apply(*this);
-    a._2->apply(*this);
+    descend(a._1);
+    descend(a._2);
 }
 
 void bison_to_ast_visitor::visit(bison::alternatives_3 const &a)
 {
     /* alternatives ";" */
-    a._1->apply(*this);
+    descend(a._1);
 }
 
 void bison_to_ast_visitor::visit(bison::components_1 const &)
@@ -115,14 +116,14 @@ void bison_to_ast_visitor::visit(bison::components_1 const &)
 void bison_to_ast_visitor::visit(bison::components_2 const &c)
 {
     /* components component */
-    c._1->apply(*this);
-    c._2->apply(*this);
+    descend(c._1);
+    descend(c._2);
 }
 
 void bison_to_ast_visitor::visit(bison::component_1 const &c)
 {
     /* symbol */
-    c._1->apply(*this);
+    descend(c._1);
 }
 
 void bison_to_ast_visitor::visit(bison::component_2 const &)
@@ -162,6 +163,7 @@ void bison_to_ast_visitor::push_initial_namespace(std::string const &ns)
     nn->name = ns;
     current_namespace->namespaces.push_back(nn);
     current_namespace = nn.get();
+    current_namespace->uses_lists = false;
 }
 
 }

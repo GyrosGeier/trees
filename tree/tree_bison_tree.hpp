@@ -94,19 +94,48 @@ class node_const_visitor
 {
 public:
     virtual ~node_const_visitor(void) throw() { }
+    inline void descend(node const &n) { n.apply(*this); }
+    template<typename T>
+    inline void descend(boost::intrusive_ptr<T> const &p) { if(p) descend(*p); }
     virtual void visit(rules_1 const &) = 0;
+    inline void descend(rules_1 const &n) { visit(n); }
+    inline void descend(boost::intrusive_ptr<rules_1> const &p) { if(p) descend(*p); }
     virtual void visit(rules_2 const &) = 0;
+    inline void descend(rules_2 const &n) { visit(n); }
+    inline void descend(boost::intrusive_ptr<rules_2> const &p) { if(p) descend(*p); }
     virtual void visit(alternatives_1 const &) = 0;
+    inline void descend(alternatives_1 const &n) { visit(n); }
+    inline void descend(boost::intrusive_ptr<alternatives_1> const &p) { if(p) descend(*p); }
     virtual void visit(alternatives_2 const &) = 0;
+    inline void descend(alternatives_2 const &n) { visit(n); }
+    inline void descend(boost::intrusive_ptr<alternatives_2> const &p) { if(p) descend(*p); }
     virtual void visit(alternatives_3 const &) = 0;
+    inline void descend(alternatives_3 const &n) { visit(n); }
+    inline void descend(boost::intrusive_ptr<alternatives_3> const &p) { if(p) descend(*p); }
     virtual void visit(components_1 const &) = 0;
+    inline void descend(components_1 const &n) { visit(n); }
+    inline void descend(boost::intrusive_ptr<components_1> const &p) { if(p) descend(*p); }
     virtual void visit(components_2 const &) = 0;
+    inline void descend(components_2 const &n) { visit(n); }
+    inline void descend(boost::intrusive_ptr<components_2> const &p) { if(p) descend(*p); }
     virtual void visit(component_1 const &) = 0;
+    inline void descend(component_1 const &n) { visit(n); }
+    inline void descend(boost::intrusive_ptr<component_1> const &p) { if(p) descend(*p); }
     virtual void visit(component_2 const &) = 0;
+    inline void descend(component_2 const &n) { visit(n); }
+    inline void descend(boost::intrusive_ptr<component_2> const &p) { if(p) descend(*p); }
     virtual void visit(symbol_1 const &) = 0;
+    inline void descend(symbol_1 const &n) { visit(n); }
+    inline void descend(boost::intrusive_ptr<symbol_1> const &p) { if(p) descend(*p); }
     virtual void visit(symbol_2 const &) = 0;
+    inline void descend(symbol_2 const &n) { visit(n); }
+    inline void descend(boost::intrusive_ptr<symbol_2> const &p) { if(p) descend(*p); }
     virtual void visit(start const &) = 0;
+    inline void descend(start const &n) { visit(n); }
+    inline void descend(boost::intrusive_ptr<start> const &p) { if(p) descend(*p); }
     virtual void visit(rule const &) = 0;
+    inline void descend(rule const &n) { visit(n); }
+    inline void descend(boost::intrusive_ptr<rule> const &p) { if(p) descend(*p); }
 };
 struct rules : node {
     rules(void) throw() { }
