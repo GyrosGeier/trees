@@ -147,14 +147,14 @@ void cst_to_ast_visitor::visit(cst::node_declaration_2 const &n)
 void cst_to_ast_visitor::visit(cst::visitor_declaration_1 const &)
 {
     /* "visitor" IDENTIFIER "{" member_declarations "}" */
-    current_namespace->group->has_visitor = true;
+    current_group->has_visitor = true;
     // TODO: Generate visitor
 }
 
 void cst_to_ast_visitor::visit(cst::visitor_declaration_2 const &)
 {
     /* "const" "visitor" IDENTIFIER "{" member_declarations "}" */
-    current_namespace->group->has_const_visitor = true;
+    current_group->has_const_visitor = true;
     // TODO: Generate visitor
 }
 
