@@ -184,7 +184,11 @@ node_declaration: "node" IDENTIFIER "{" member_declarations "}" { $$ = new node_
     "node" "{" member_declarations "}" { $$ = new node_declaration_2($3); }
 
 visitor_declaration: "visitor" IDENTIFIER "{" member_declarations "}" { $$ = new visitor_declaration_1(std::string($2.data, $2.length), $4); } |
-    "const" "visitor" IDENTIFIER "{" member_declarations "}" { $$ = new visitor_declaration_2(std::string($3.data, $3.length), $5); }
+    "const" "visitor" IDENTIFIER "{" member_declarations "}" { $$ = new visitor_declaration_2(std::string($3.data, $3.length), $5); } |
+    "visitor" IDENTIFIER { $$ = new visitor_declaration_3(std::string($2.data, $2.length)); } |
+    "const" "visitor" IDENTIFIER { $$ = new visitor_declaration_4(std::string($3.data, $3.length)); } |
+    "visitor" { $$ = new visitor_declaration_5; } |
+    "const" "visitor" { $$ = new visitor_declaration_6; }
 
 member_declarations: /* empty */ { $$ = new member_declarations_1; } |
     member_declarations member_declaration ";" { $$ = new member_declarations_2($1, $2); } |

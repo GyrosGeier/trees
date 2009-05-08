@@ -86,23 +86,8 @@ group type_node {
     };
 };
 
-visitor smartpointer_visitor
-{
-};
-
-const visitor header_output_visitor
-{
-    header_output_visitor(std::ostream &);
-
-    std::ostream &out;
-};
-
-const visitor impl_output_visitor
-{
-    header_output_visitor(std::ostream &);
-
-    std::ostream &out;
-};
+visitor;
+const visitor;
 
 }
 }

@@ -158,6 +158,32 @@ void cst_to_ast_visitor::visit(cst::visitor_declaration_2 const &)
     // TODO: Generate visitor
 }
 
+void cst_to_ast_visitor::visit(cst::visitor_declaration_3 const &)
+{
+    /* "visitor" IDENTIFIER */
+    current_group->has_visitor = true;
+    // TODO: Generate visitor
+}
+
+void cst_to_ast_visitor::visit(cst::visitor_declaration_4 const &)
+{
+    /* "const" "visitor" IDENTIFIER */
+    current_group->has_const_visitor = true;
+    // TODO: Generate visitor
+}
+
+void cst_to_ast_visitor::visit(cst::visitor_declaration_5 const &)
+{
+    /* "visitor" */
+    current_group->has_visitor = true;
+}
+
+void cst_to_ast_visitor::visit(cst::visitor_declaration_6 const &)
+{
+    /* "const" "visitor" */
+    current_group->has_const_visitor = true;
+}
+
 void cst_to_ast_visitor::visit(cst::member_declarations_1 const &)
 {
     /* empty */

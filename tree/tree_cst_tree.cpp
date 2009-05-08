@@ -67,6 +67,22 @@ void visitor_declaration_2::apply(node_const_visitor &v) const
 {
     v.visit(*this);
 }
+void visitor_declaration_3::apply(node_const_visitor &v) const
+{
+    v.visit(*this);
+}
+void visitor_declaration_4::apply(node_const_visitor &v) const
+{
+    v.visit(*this);
+}
+void visitor_declaration_5::apply(node_const_visitor &v) const
+{
+    v.visit(*this);
+}
+void visitor_declaration_6::apply(node_const_visitor &v) const
+{
+    v.visit(*this);
+}
 void member_declarations_1::apply(node_const_visitor &v) const
 {
     v.visit(*this);

@@ -37,6 +37,10 @@ public:
     virtual void visit(cst::node_declaration_2 const &);
     virtual void visit(cst::visitor_declaration_1 const &);
     virtual void visit(cst::visitor_declaration_2 const &);
+    virtual void visit(cst::visitor_declaration_3 const &);
+    virtual void visit(cst::visitor_declaration_4 const &);
+    virtual void visit(cst::visitor_declaration_5 const &);
+    virtual void visit(cst::visitor_declaration_6 const &);
     virtual void visit(cst::member_declarations_1 const &);
     virtual void visit(cst::member_declarations_2 const &);
     virtual void visit(cst::member_declarations_3 const &);

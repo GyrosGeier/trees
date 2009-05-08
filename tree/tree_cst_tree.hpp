@@ -154,6 +154,18 @@ typedef visitor_declaration_1 *visitor_declaration_1_weak_ptr;
 struct visitor_declaration_2;
 typedef boost::intrusive_ptr<visitor_declaration_2> visitor_declaration_2_ptr;
 typedef visitor_declaration_2 *visitor_declaration_2_weak_ptr;
+struct visitor_declaration_3;
+typedef boost::intrusive_ptr<visitor_declaration_3> visitor_declaration_3_ptr;
+typedef visitor_declaration_3 *visitor_declaration_3_weak_ptr;
+struct visitor_declaration_4;
+typedef boost::intrusive_ptr<visitor_declaration_4> visitor_declaration_4_ptr;
+typedef visitor_declaration_4 *visitor_declaration_4_weak_ptr;
+struct visitor_declaration_5;
+typedef boost::intrusive_ptr<visitor_declaration_5> visitor_declaration_5_ptr;
+typedef visitor_declaration_5 *visitor_declaration_5_weak_ptr;
+struct visitor_declaration_6;
+typedef boost::intrusive_ptr<visitor_declaration_6> visitor_declaration_6_ptr;
+typedef visitor_declaration_6 *visitor_declaration_6_weak_ptr;
 struct member_declarations;
 typedef boost::intrusive_ptr<member_declarations> member_declarations_ptr;
 typedef member_declarations *member_declarations_weak_ptr;
@@ -484,6 +496,18 @@ public:
     virtual void visit(visitor_declaration_2 const &) = 0;
     inline void descend(visitor_declaration_2 const &n) { visit(n); }
     inline void descend(boost::intrusive_ptr<visitor_declaration_2> const &p) { if(p) descend(*p); }
+    virtual void visit(visitor_declaration_3 const &) = 0;
+    inline void descend(visitor_declaration_3 const &n) { visit(n); }
+    inline void descend(boost::intrusive_ptr<visitor_declaration_3> const &p) { if(p) descend(*p); }
+    virtual void visit(visitor_declaration_4 const &) = 0;
+    inline void descend(visitor_declaration_4 const &n) { visit(n); }
+    inline void descend(boost::intrusive_ptr<visitor_declaration_4> const &p) { if(p) descend(*p); }
+    virtual void visit(visitor_declaration_5 const &) = 0;
+    inline void descend(visitor_declaration_5 const &n) { visit(n); }
+    inline void descend(boost::intrusive_ptr<visitor_declaration_5> const &p) { if(p) descend(*p); }
+    virtual void visit(visitor_declaration_6 const &) = 0;
+    inline void descend(visitor_declaration_6 const &n) { visit(n); }
+    inline void descend(boost::intrusive_ptr<visitor_declaration_6> const &p) { if(p) descend(*p); }
     virtual void visit(member_declarations_1 const &) = 0;
     inline void descend(member_declarations_1 const &n) { visit(n); }
     inline void descend(boost::intrusive_ptr<member_declarations_1> const &p) { if(p) descend(*p); }
@@ -839,6 +863,34 @@ struct visitor_declaration_2 : visitor_declaration
     virtual void apply(node_const_visitor &) const;
     std::string _1;
     boost::intrusive_ptr<member_declarations>  _2;
+};
+struct visitor_declaration_3 : visitor_declaration
+{
+    visitor_declaration_3(std::string _1) throw() : 
+        _1(_1) { }
+    virtual ~visitor_declaration_3(void) throw() { }
+    virtual void apply(node_const_visitor &) const;
+    std::string _1;
+};
+struct visitor_declaration_4 : visitor_declaration
+{
+    visitor_declaration_4(std::string _1) throw() : 
+        _1(_1) { }
+    virtual ~visitor_declaration_4(void) throw() { }
+    virtual void apply(node_const_visitor &) const;
+    std::string _1;
+};
+struct visitor_declaration_5 : visitor_declaration
+{
+    visitor_declaration_5() throw() { }
+    virtual ~visitor_declaration_5(void) throw() { }
+    virtual void apply(node_const_visitor &) const;
+};
+struct visitor_declaration_6 : visitor_declaration
+{
+    visitor_declaration_6() throw() { }
+    virtual ~visitor_declaration_6(void) throw() { }
+    virtual void apply(node_const_visitor &) const;
 };
 struct member_declarations : node {
     member_declarations(void) throw() { }
