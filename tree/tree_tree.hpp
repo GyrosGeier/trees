@@ -174,6 +174,7 @@ public:
 struct type_node : node {
     type_node(void) throw() { }
     virtual ~type_node(void) throw() { }
+    using node::apply;
 };
 struct basic_type_node : type_node
 {

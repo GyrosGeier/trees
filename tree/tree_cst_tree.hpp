@@ -710,6 +710,7 @@ public:
 struct declarations : node {
     declarations(void) throw() { }
     virtual ~declarations(void) throw() { }
+    using node::apply;
 };
 struct declarations_1 : declarations
 {
@@ -729,6 +730,7 @@ struct declarations_2 : declarations
 struct declaration : node {
     declaration(void) throw() { }
     virtual ~declaration(void) throw() { }
+    using node::apply;
 };
 struct declaration_1 : declaration
 {
@@ -749,6 +751,7 @@ struct declaration_2 : declaration
 struct namespace_member_declaration : node {
     namespace_member_declaration(void) throw() { }
     virtual ~namespace_member_declaration(void) throw() { }
+    using node::apply;
 };
 struct namespace_member_declaration_1 : namespace_member_declaration
 {
@@ -777,6 +780,7 @@ struct namespace_member_declaration_3 : namespace_member_declaration
 struct group_member_declarations : node {
     group_member_declarations(void) throw() { }
     virtual ~group_member_declarations(void) throw() { }
+    using node::apply;
 };
 struct group_member_declarations_1 : group_member_declarations
 {
@@ -796,6 +800,7 @@ struct group_member_declarations_2 : group_member_declarations
 struct group_member_declaration : node {
     group_member_declaration(void) throw() { }
     virtual ~group_member_declaration(void) throw() { }
+    using node::apply;
 };
 struct group_member_declaration_1 : group_member_declaration
 {
@@ -824,6 +829,7 @@ struct group_member_declaration_3 : group_member_declaration
 struct node_declaration : node {
     node_declaration(void) throw() { }
     virtual ~node_declaration(void) throw() { }
+    using node::apply;
 };
 struct node_declaration_1 : node_declaration
 {
@@ -845,6 +851,7 @@ struct node_declaration_2 : node_declaration
 struct visitor_declaration : node {
     visitor_declaration(void) throw() { }
     virtual ~visitor_declaration(void) throw() { }
+    using node::apply;
 };
 struct visitor_declaration_1 : visitor_declaration
 {
@@ -895,6 +902,7 @@ struct visitor_declaration_6 : visitor_declaration
 struct member_declarations : node {
     member_declarations(void) throw() { }
     virtual ~member_declarations(void) throw() { }
+    using node::apply;
 };
 struct member_declarations_1 : member_declarations
 {
@@ -923,6 +931,7 @@ struct member_declarations_3 : member_declarations
 struct member_declaration : node {
     member_declaration(void) throw() { }
     virtual ~member_declaration(void) throw() { }
+    using node::apply;
 };
 struct member_declaration_1 : member_declaration
 {
@@ -951,6 +960,7 @@ struct member_declaration_3 : member_declaration
 struct member_directive : node {
     member_directive(void) throw() { }
     virtual ~member_directive(void) throw() { }
+    using node::apply;
 };
 struct member_directive_1 : member_directive
 {
@@ -1004,6 +1014,7 @@ struct member_directive_7 : member_directive
 struct parameter_list : node {
     parameter_list(void) throw() { }
     virtual ~parameter_list(void) throw() { }
+    using node::apply;
 };
 struct parameter_list_1 : parameter_list
 {
@@ -1029,6 +1040,7 @@ struct parameter_list_3 : parameter_list
 struct parameters : node {
     parameters(void) throw() { }
     virtual ~parameters(void) throw() { }
+    using node::apply;
 };
 struct parameters_1 : parameters
 {
@@ -1048,6 +1060,7 @@ struct parameters_2 : parameters
 struct parameter : node {
     parameter(void) throw() { }
     virtual ~parameter(void) throw() { }
+    using node::apply;
 };
 struct parameter_1 : parameter
 {
@@ -1070,6 +1083,7 @@ struct parameter_2 : parameter
 struct void_or_nothing : node {
     void_or_nothing(void) throw() { }
     virtual ~void_or_nothing(void) throw() { }
+    using node::apply;
 };
 struct void_or_nothing_1 : void_or_nothing
 {
@@ -1086,6 +1100,7 @@ struct void_or_nothing_2 : void_or_nothing
 struct declarator : node {
     declarator(void) throw() { }
     virtual ~declarator(void) throw() { }
+    using node::apply;
 };
 struct declarator_1 : declarator
 {
@@ -1118,6 +1133,7 @@ struct declarator_3 : declarator
 struct reference : node {
     reference(void) throw() { }
     virtual ~reference(void) throw() { }
+    using node::apply;
 };
 struct reference_1 : reference
 {
@@ -1138,6 +1154,7 @@ struct reference_2 : reference
 struct pointer : node {
     pointer(void) throw() { }
     virtual ~pointer(void) throw() { }
+    using node::apply;
 };
 struct pointer_1 : pointer
 {
@@ -1157,6 +1174,7 @@ struct pointer_2 : pointer
 struct type_qualifiers : node {
     type_qualifiers(void) throw() { }
     virtual ~type_qualifiers(void) throw() { }
+    using node::apply;
 };
 struct type_qualifiers_1 : type_qualifiers
 {
@@ -1176,6 +1194,7 @@ struct type_qualifiers_2 : type_qualifiers
 struct type_qualifier : node {
     type_qualifier(void) throw() { }
     virtual ~type_qualifier(void) throw() { }
+    using node::apply;
 };
 struct type_qualifier_1 : type_qualifier
 {
@@ -1192,6 +1211,7 @@ struct type_qualifier_2 : type_qualifier
 struct arrays : node {
     arrays(void) throw() { }
     virtual ~arrays(void) throw() { }
+    using node::apply;
 };
 struct arrays_1 : arrays
 {
@@ -1213,6 +1233,7 @@ struct arrays_2 : arrays
 struct bounded_arrays : node {
     bounded_arrays(void) throw() { }
     virtual ~bounded_arrays(void) throw() { }
+    using node::apply;
 };
 struct bounded_arrays_1 : bounded_arrays
 {
@@ -1232,6 +1253,7 @@ struct bounded_arrays_2 : bounded_arrays
 struct type : node {
     type(void) throw() { }
     virtual ~type(void) throw() { }
+    using node::apply;
 };
 struct type_1 : type
 {
@@ -1264,6 +1286,7 @@ struct type_4 : type
 struct template_argument_list : node {
     template_argument_list(void) throw() { }
     virtual ~template_argument_list(void) throw() { }
+    using node::apply;
 };
 struct template_argument_list_1 : template_argument_list
 {
@@ -1282,6 +1305,7 @@ struct template_argument_list_2 : template_argument_list
 struct template_arguments : node {
     template_arguments(void) throw() { }
     virtual ~template_arguments(void) throw() { }
+    using node::apply;
 };
 struct template_arguments_1 : template_arguments
 {
@@ -1303,6 +1327,7 @@ struct template_arguments_2 : template_arguments
 struct template_argument : node {
     template_argument(void) throw() { }
     virtual ~template_argument(void) throw() { }
+    using node::apply;
 };
 struct template_argument_1 : template_argument
 {
@@ -1335,6 +1360,7 @@ struct template_argument_4 : template_argument
 struct scope : node {
     scope(void) throw() { }
     virtual ~scope(void) throw() { }
+    using node::apply;
 };
 struct scope_1 : scope
 {
@@ -1354,6 +1380,7 @@ struct scope_2 : scope
 struct literal : node {
     literal(void) throw() { }
     virtual ~literal(void) throw() { }
+    using node::apply;
 };
 struct literal_1 : literal
 {
@@ -1374,6 +1401,7 @@ struct literal_2 : literal
 struct boolean_literal : node {
     boolean_literal(void) throw() { }
     virtual ~boolean_literal(void) throw() { }
+    using node::apply;
 };
 struct boolean_literal_1 : boolean_literal
 {

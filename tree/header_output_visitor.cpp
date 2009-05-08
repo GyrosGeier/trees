@@ -64,6 +64,8 @@ void header_output_visitor::visit(group_node const &n)
             out << "    virtual void apply(" << n.name << "_visitor &) = 0;" << std::endl;
         if(n.has_const_visitor)
             out << "    virtual void apply(" << n.name << "_const_visitor &) const = 0;" << std::endl;
+        if(n.parent)
+            out << "    using " << n.parent->name << "::apply;" << std::endl;
         if(!n.parent)
             out << "    unsigned int refcount;" << std::endl;
         descend(n.default_members);

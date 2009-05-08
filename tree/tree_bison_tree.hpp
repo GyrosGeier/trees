@@ -140,6 +140,7 @@ public:
 struct rules : node {
     rules(void) throw() { }
     virtual ~rules(void) throw() { }
+    using node::apply;
 };
 struct rules_1 : rules
 {
@@ -159,6 +160,7 @@ struct rules_2 : rules
 struct alternatives : node {
     alternatives(void) throw() { }
     virtual ~alternatives(void) throw() { }
+    using node::apply;
 };
 struct alternatives_1 : alternatives
 {
@@ -188,6 +190,7 @@ struct alternatives_3 : alternatives
 struct components : node {
     components(void) throw() { }
     virtual ~components(void) throw() { }
+    using node::apply;
 };
 struct components_1 : components
 {
@@ -207,6 +210,7 @@ struct components_2 : components
 struct component : node {
     component(void) throw() { }
     virtual ~component(void) throw() { }
+    using node::apply;
 };
 struct component_1 : component
 {
@@ -227,6 +231,7 @@ struct component_2 : component
 struct symbol : node {
     symbol(void) throw() { }
     virtual ~symbol(void) throw() { }
+    using node::apply;
 };
 struct symbol_1 : symbol
 {
