@@ -1,8 +1,8 @@
-LEX = flex
-YACC = bison
+LEX ?= flex
+YACC ?= bison
 
-CXXFLAGS = -g -Wall -W -Werror
-LDFLAGS = -g -Wall -W -Werror
+CXXFLAGS ?= -g -Wall -W -Werror
+LDFLAGS ?= -g -Wall -W -Werror
 
 CXXSOURCES = $(wildcard *.cpp)
 LEXSOURCES = $(wildcard *.ll)
