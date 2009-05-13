@@ -1,3 +1,8 @@
+/* Copyright 2009 Simon Richter <Simon.Richter@hogyros.de>
+ *
+ * Released under the GNU General Public Licence version 3.
+ */
+
 #include "cst_to_ast_visitor.hpp"
 
 namespace foundry {

@@ -1,3 +1,8 @@
+/* Copyright 2009 Simon Richter <Simon.Richter@hogyros.de>
+ *
+ * Released under the GNU General Public Licence version 3.
+ */
+
 #ifndef foundry_tree_smartpointer_visitor_hpp_
 #define foundry_tree_smartpointer_visitor_hpp_ 1
 
