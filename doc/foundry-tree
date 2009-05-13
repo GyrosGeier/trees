@@ -1,0 +1,171 @@
+Using foundry-tree
+==================
+
+Commandline invocation:
+-----------------------
+
+foundry-tree [-c] [-n namespace]... -o output inputs...
+
+The -c option switches output from a C++ header file containing the tree
+node and visitor definitions to a C++ source file with the corresponding
+"apply" functions for each node.
+
+The -n option can be used to move all classes into a namespace when using a
+bison compatible input file (it is ignored otherwise). Nested namespaces
+are specified by using multiple -n options.
+
+Generally, you want to build both files. :-)
+
+Concepts
+--------
+
+The generator builds definitions for tree classes according to the
+specification. For each group or node definition, one class is created (so
+groups and nodes share the same name space).
+
+Each namespace has a default group called "node", and each group has an
+unnamed node type that collects members that should be common to all nodes
+in that group. Every group can have non-const and const visitors that
+handle all nodes within the group.
+
+Operation
+---------
+
+There are two different input formats: our own, and a bison compatible one.
+The latter does not support namespaces, so if you want the definitions to
+be declared inside a namespace, use the -n commandline option.
+
+In the bison compatible format, only the rules are evaluated; each rule is
+converted to either a node with the same name if there is only one
+alternative, or a group and a set of numbered nodes for each alternative.
+All data members are either pointers to other nodes (for each nonterminal
+referenced) or strings (for terminals). Tokens written as quoted strings
+are ignored.
+
+For each group, an abstract class is written that has the common data
+members of that group and one "apply" method for every visitor type
+declared in that group. The class inherits from the parent group's class.
+
+For every node, a concrete class is emitted that has the node's data
+members and implements the "apply" method. The node class inherits from the
+class generated for its group.
+
+For every visitor type, a class with the group name and "_visitor" or
+"_const_visitor" appended is output that declares abstracts methods to
+handle every node in the group.
+
+Examples:
+
+< node foo {
+<     bar bars[];
+< };
+< 
+< group bar {
+<     node {
+<         bool common;
+<     };
+<     node baz {
+<         bool fubar;
+<         bar anotherbar;
+<     };
+<     node quux {
+<         bool const xyzzy;
+<     };
+<     const visitor;
+< };
+< 
+< const visitor;
+
+This generates declarations equivalent to
+
+> struct node
+> {
+>     virtual void apply(node_const_visitor &) const = 0;
+> };
+> 
+> struct foo : node {
+>     std::list<bar_ptr> bars;
+>     virtual void apply(node_const_visitor &) const;
+> };
+> 
+> struct bar : node {
+>     virtual void apply(bar_const_visitor &) const = 0;
+>     bool common;
+> };
+> 
+> struct baz : bar {
+>     virtual void apply(node_const_visitor &) const;
+>     virtual void apply(bar_const_visitor &) const;
+>     bool fubar;
+>     bar_ptr anotherbar;
+> };
+> 
+> struct quux : bar {
+>     quux(bool xyzzy) : xyzzy(xyzzy) { }
+>     virtual void apply(node_const_visitor &) const;
+>     virtual void apply(bar_const_visitor &) const;
+>     bool const xyzzy;
+> };
+> 
+> struct node_const_visitor
+> {
+>     virtual void visit(foo const &) = 0;
+>     virtual void visit(baz const &) = 0;
+>     virtual void visit(quux const &) = 0;
+> };
+> 
+> struct bar_const_visitor
+> {
+>     virtual void visit(baz const &) = 0;
+>     virtual void visit(quux const &) = 0;
+> };
+> 
+> typedef boost::intrusive_ptr<bar> bar_ptr;
+
+Bison compatible example:
+
+< start: declarations
+<
+< declarations: /* empty */ |
+<     declarations declaration
+<
+< declaration: "keyword" IDENTIFIER "{" declarations "}"
+
+This generates the following classes:
+
+> struct node {
+>     virtual void apply(node_const_visitor &) = 0;
+> };
+> 
+> struct start : node {
+>     start(declarations_ptr _1) : _1(_1) { }
+>     declarations_ptr const _1;
+>     virtual void apply(node_const_visitor &);
+> };
+> 
+> struct declarations : node {
+> };
+> 
+> struct declarations_1 : declarations {
+> };
+> 
+> struct declarations_2 : declarations {
+>     declarations_2(declarations_ptr _1, declarations_ptr _2) :
+>         _1(_1), _2(_2) { }
+>     declarations_ptr const _1;
+>     declaration_ptr const _2;
+> };
+> 
+> struct declaration : node {
+>     declaration(std::string const &_1, declarations_ptr _2) :
+>         _1(_1), _2(_2) { }
+>     std::string const _1;
+>     declarations_ptr const _2;
+> };
+> 
+> struct node_const_visitor {
+>     virtual void visit(start const &) = 0;
+>     virtual void visit(declarations_1 const &) = 0;
+>     virtual void visit(declarations_2 const &) = 0;
+>     virtual void visit(declaration const &) = 0;
+> };
