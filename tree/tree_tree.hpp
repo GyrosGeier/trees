@@ -193,7 +193,7 @@ struct reference_type_node : type_node
     virtual ~reference_type_node(void) throw() { }
     virtual void apply(node_visitor &);
     virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr<node>  type;
+    boost::intrusive_ptr< ::foundry::tree::node>  type;
 };
 struct pointer_type_node : type_node
 {
@@ -201,7 +201,7 @@ struct pointer_type_node : type_node
     virtual ~pointer_type_node(void) throw() { }
     virtual void apply(node_visitor &);
     virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr<node>  type;
+    boost::intrusive_ptr< ::foundry::tree::node>  type;
     bool is_const;
     bool is_volatile;
 };
@@ -213,7 +213,7 @@ struct template_type_node : type_node
     virtual void apply(node_const_visitor &) const;
     namespace_node_weak_ptr ns;
     std::string name;
-    std::list<boost::intrusive_ptr<node> >  template_args;
+    std::list<boost::intrusive_ptr< ::foundry::tree::node> >  template_args;
 };
 struct list_type_node : type_node
 {
@@ -221,7 +221,7 @@ struct list_type_node : type_node
     virtual ~list_type_node(void) throw() { }
     virtual void apply(node_visitor &);
     virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr<node>  type;
+    boost::intrusive_ptr< ::foundry::tree::node>  type;
 };
 struct root : node
 {
@@ -229,8 +229,8 @@ struct root : node
     virtual ~root(void) throw() { }
     virtual void apply(node_visitor &);
     virtual void apply(node_const_visitor &) const;
-    std::list<boost::intrusive_ptr<include_node> >  includes;
-    boost::intrusive_ptr<namespace_node>  global_namespace;
+    std::list<boost::intrusive_ptr< ::foundry::tree::include_node> >  includes;
+    boost::intrusive_ptr< ::foundry::tree::namespace_node>  global_namespace;
 };
 struct include_node : node
 {
@@ -248,10 +248,10 @@ struct namespace_node : node
     virtual void apply(node_const_visitor &) const;
     namespace_node_weak_ptr parent;
     std::string name;
-    std::list<boost::intrusive_ptr<namespace_node> >  namespaces;
-    boost::intrusive_ptr<group_node>  group;
+    std::list<boost::intrusive_ptr< ::foundry::tree::namespace_node> >  namespaces;
+    boost::intrusive_ptr< ::foundry::tree::group_node>  group;
     bool uses_lists;
-    std::set<std::string>  node_types;
+    std::set< std::string>  node_types;
 };
 struct group_node : node
 {
@@ -264,9 +264,9 @@ struct group_node : node
     std::string name;
     bool has_visitor;
     bool has_const_visitor;
-    std::list<boost::intrusive_ptr<group_node> >  groups;
-    std::list<boost::intrusive_ptr<node_node> >  nodes;
-    std::list<boost::intrusive_ptr<data_member_node> >  default_members;
+    std::list<boost::intrusive_ptr< ::foundry::tree::group_node> >  groups;
+    std::list<boost::intrusive_ptr< ::foundry::tree::node_node> >  nodes;
+    std::list<boost::intrusive_ptr< ::foundry::tree::data_member_node> >  default_members;
 };
 struct node_node : node
 {
@@ -277,7 +277,7 @@ struct node_node : node
     namespace_node_weak_ptr ns;
     group_node_weak_ptr group;
     std::string name;
-    std::list<boost::intrusive_ptr<data_member_node> >  members;
+    std::list<boost::intrusive_ptr< ::foundry::tree::data_member_node> >  members;
 };
 struct data_member_node : node
 {
@@ -285,7 +285,7 @@ struct data_member_node : node
     virtual ~data_member_node(void) throw() { }
     virtual void apply(node_visitor &);
     virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr<type_node>  type;
+    boost::intrusive_ptr< ::foundry::tree::type_node>  type;
     std::string name;
     bool needs_init;
 };

@@ -66,6 +66,13 @@ void smartpointer_visitor::visit(data_member_node &n)
 void smartpointer_visitor::visit(basic_type_node &n)
 {
     is_node_type = (n.ns->node_types.find(n.name) != n.ns->node_types.end());
+    if(is_node_type)
+    {
+        std::string ns;
+        for(namespace_node_weak_ptr i = n.ns; i; i = i->parent)
+            ns = i->name + "::" + ns;
+        n.name = ns + n.name;
+    }
 }
 
 void smartpointer_visitor::visit(reference_type_node &)

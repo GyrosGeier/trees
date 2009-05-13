@@ -235,7 +235,7 @@ void header_output_visitor::visit(pointer_type_node const &n)
 
 void header_output_visitor::visit(template_type_node const &n)
 {
-    out << n.name << "<";
+    out << n.name << "< ";
     bool first = true;
     for(std::list<node_ptr>::const_iterator i = n.template_args.begin();
             i != n.template_args.end(); ++i)
