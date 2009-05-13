@@ -166,6 +166,7 @@ void bison_to_ast_visitor::push_initial_namespace(std::string const &ns)
 {
     namespace_node_ptr nn = new namespace_node;
     nn->name = ns;
+    nn->parent = current_namespace;
     current_namespace->namespaces.push_back(nn);
     current_namespace = nn.get();
     current_namespace->uses_lists = false;
