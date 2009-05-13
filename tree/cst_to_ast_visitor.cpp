@@ -206,6 +206,7 @@ void cst_to_ast_visitor::visit(cst::member_declarations_3 const &md)
 void cst_to_ast_visitor::visit(cst::member_declaration_1 const &md)
 {
     /* data_member_declaration */    
+    current_type_needs_init = false;
     descend(md._1);
 }
 
