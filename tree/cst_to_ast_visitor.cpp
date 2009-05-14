@@ -226,6 +226,7 @@ void cst_to_ast_visitor::visit(cst::member_directive_6 const &md)
 {
     include_node_ptr nn = new include_node;
     nn->name = md._1;
+    nn->is_local = true;
     ast_root->includes.push_back(nn);
 }
 
@@ -233,6 +234,7 @@ void cst_to_ast_visitor::visit(cst::member_directive_7 const &md)
 {
     include_node_ptr nn = new include_node;
     nn->name = md._1;
+    nn->is_local = false;
     ast_root->includes.push_back(nn);
 }
 

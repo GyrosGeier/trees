@@ -239,6 +239,7 @@ struct include_node : node
     virtual void apply(node_visitor &);
     virtual void apply(node_const_visitor &) const;
     std::string name;
+    bool is_local;
 };
 struct namespace_node : node
 {

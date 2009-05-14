@@ -16,6 +16,7 @@ bison_to_ast_visitor::bison_to_ast_visitor(void)
     ast->global_namespace = new namespace_node;
     include_node_weak_ptr nn = new include_node;
     nn->name = "string";
+    nn->is_local = false;
     ast->includes.push_back(nn);
     current_namespace = ast->global_namespace.get();
     current_namespace->uses_lists = false;

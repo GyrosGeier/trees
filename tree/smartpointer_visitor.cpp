@@ -59,6 +59,7 @@ void smartpointer_visitor::visit(data_member_node &n)
             n.type = nn;
             include_node_ptr ni = new include_node;
             ni->name = "boost/intrusive_ptr.hpp";
+            ni->is_local = false;
             ast_root->includes.push_back(ni);
         }
     }

@@ -27,7 +27,7 @@ void header_output_visitor::visit(root const &r)
 
 void header_output_visitor::visit(include_node const &n)
 {
-    out << "#include <" << n.name << ">" << std::endl;
+    out << "#include " << (n.is_local?'"':'<') << n.name << (n.is_local?'"':'>') << std::endl;
 }
 
 void header_output_visitor::visit(namespace_node const &n)
