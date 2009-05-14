@@ -39,7 +39,6 @@ std::string extension(std::string const &s)
 int main(int argc, char **argv)
 try
 {
-    using foundry::tree::cst::start;
     using namespace foundry::tree;
     using std::endl;
 
@@ -146,7 +145,7 @@ try
         else
         {
             tree_cst_restart(f, cst_scanner);
-            start *tree = 0;
+            cst::start *tree = 0;
             if(tree_cst_parse(cst_scanner, tree) == 0)
             {
                 tree->apply(cst_to_ast);
