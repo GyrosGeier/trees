@@ -62,9 +62,6 @@ struct data_member_node;
 typedef boost::intrusive_ptr<data_member_node> data_member_node_ptr;
 typedef data_member_node *data_member_node_weak_ptr;
 }
-struct node;
-typedef boost::intrusive_ptr<node> node_ptr;
-typedef node *node_weak_ptr;
 }
 namespace foundry {
 namespace tree {
@@ -291,12 +288,5 @@ struct data_member_node : node
     bool needs_init;
 };
 }
-struct node {
-    node(void) throw() : refcount(0) { }
-    virtual ~node(void) throw() { }
-    unsigned int refcount;
-};
-inline void intrusive_ptr_add_ref(node *n) { ++n->refcount; }
-inline void intrusive_ptr_release(node *n) { if(!--n->refcount) delete n; }
 }
 #endif

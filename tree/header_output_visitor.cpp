@@ -44,6 +44,9 @@ void header_output_visitor::visit(namespace_node const &n)
 
 void header_output_visitor::visit(group_node const &n)
 {
+    if(n.nodes.empty() && n.groups.empty())
+        return;
+
     switch(state)
     {
     case fwddecl:
