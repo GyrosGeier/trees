@@ -34,6 +34,7 @@ void smartpointer_visitor::visit(group_node &n)
         n.ns->node_types.insert(n.name);
 
     descend(n.groups);
+    descend(n.default_members);
     descend(n.nodes);
 }
 
