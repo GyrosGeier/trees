@@ -3,12 +3,6 @@
  * Released under the GNU General Public Licence version 3.
  */
 
-#include <iostream>
-#include <exception>
-
-#include <list>
-#include <fstream>
-
 #include "cst_to_ast_visitor.hpp"
 #include "bison_to_ast_visitor.hpp"
 
@@ -24,6 +18,12 @@
 #include "tree_cst_tree.hpp"
 #include "tree_cst_parse.hpp"
 #include "tree_cst_lex.hpp"
+
+#include <iostream>
+#include <exception>
+
+#include <list>
+#include <fstream>
 
 extern int tree_bison_parse(void *scanner, foundry::tree::bison::start *&ret);
 extern int tree_cst_parse(void *scanner, foundry::tree::cst::start *&ret);
