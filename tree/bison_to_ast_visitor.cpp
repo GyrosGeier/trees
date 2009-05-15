@@ -14,6 +14,7 @@ bison_to_ast_visitor::bison_to_ast_visitor(void)
 {
     ast = new root;
     ast->global_namespace = new namespace_node;
+    ast->global_namespace->parent = 0;
     include_node_weak_ptr nn = new include_node;
     nn->name = "string";
     nn->is_local = false;
