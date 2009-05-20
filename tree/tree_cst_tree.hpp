@@ -77,6 +77,8 @@
 #include <boost/intrusive_ptr.hpp>
 #include <boost/intrusive_ptr.hpp>
 #include <boost/intrusive_ptr.hpp>
+#include <boost/intrusive_ptr.hpp>
+#include <boost/intrusive_ptr.hpp>
 #include <list>
 namespace foundry {
 namespace tree {
@@ -265,6 +267,9 @@ typedef declarator_2 *declarator_2_weak_ptr;
 struct declarator_3;
 typedef boost::intrusive_ptr<declarator_3> declarator_3_ptr;
 typedef declarator_3 *declarator_3_weak_ptr;
+struct declarator_4;
+typedef boost::intrusive_ptr<declarator_4> declarator_4_ptr;
+typedef declarator_4 *declarator_4_weak_ptr;
 struct reference;
 typedef boost::intrusive_ptr<reference> reference_ptr;
 typedef reference *reference_weak_ptr;
@@ -583,6 +588,9 @@ public:
     virtual void visit(declarator_3 const &) = 0;
     inline void descend(declarator_3 const &n) { visit(n); }
     inline void descend(boost::intrusive_ptr<declarator_3> const &p) { if(p) descend(*p); }
+    virtual void visit(declarator_4 const &) = 0;
+    inline void descend(declarator_4 const &n) { visit(n); }
+    inline void descend(boost::intrusive_ptr<declarator_4> const &p) { if(p) descend(*p); }
     virtual void visit(reference_1 const &) = 0;
     inline void descend(reference_1 const &n) { visit(n); }
     inline void descend(boost::intrusive_ptr<reference_1> const &p) { if(p) descend(*p); }
@@ -1126,6 +1134,15 @@ struct declarator_3 : declarator
     declarator_3(boost::intrusive_ptr< ::foundry::tree::cst::reference>  _1, boost::intrusive_ptr< ::foundry::tree::cst::arrays>  _2) throw() : 
         _1(_1), _2(_2) { }
     virtual ~declarator_3(void) throw() { }
+    virtual void apply(node_const_visitor &) const;
+    boost::intrusive_ptr< ::foundry::tree::cst::reference>  _1;
+    boost::intrusive_ptr< ::foundry::tree::cst::arrays>  _2;
+};
+struct declarator_4 : declarator
+{
+    declarator_4(boost::intrusive_ptr< ::foundry::tree::cst::reference>  _1, boost::intrusive_ptr< ::foundry::tree::cst::arrays>  _2) throw() : 
+        _1(_1), _2(_2) { }
+    virtual ~declarator_4(void) throw() { }
     virtual void apply(node_const_visitor &) const;
     boost::intrusive_ptr< ::foundry::tree::cst::reference>  _1;
     boost::intrusive_ptr< ::foundry::tree::cst::arrays>  _2;

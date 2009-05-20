@@ -74,6 +74,7 @@ public:
     virtual void visit(cst::declarator_1 const &);
     virtual void visit(cst::declarator_2 const &);
     virtual void visit(cst::declarator_3 const &);
+    virtual void visit(cst::declarator_4 const &);
     virtual void visit(cst::reference_1 const &);
     virtual void visit(cst::reference_2 const &);
     virtual void visit(cst::pointer_1 const &);

@@ -183,6 +183,10 @@ void declarator_3::apply(node_const_visitor &v) const
 {
     v.visit(*this);
 }
+void declarator_4::apply(node_const_visitor &v) const
+{
+    v.visit(*this);
+}
 void reference_1::apply(node_const_visitor &v) const
 {
     v.visit(*this);

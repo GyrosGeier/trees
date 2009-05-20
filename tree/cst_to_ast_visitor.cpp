@@ -286,6 +286,14 @@ void cst_to_ast_visitor::visit(cst::declarator_3 const &d)
     descend(d._2);
 }
 
+void cst_to_ast_visitor::visit(cst::declarator_4 const &d)
+{
+    /* reference "node" arrays */
+    descend(d._1);
+    current_identifier = "node";
+    descend(d._2);
+}
+
 void cst_to_ast_visitor::visit(cst::reference_1 const &r)
 {
     /* pointer */
