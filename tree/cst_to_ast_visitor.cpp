@@ -12,6 +12,7 @@ cst_to_ast_visitor::cst_to_ast_visitor(void)
 {
     ast_root = new root;
     ast_root->global_namespace = current_namespace = new namespace_node;
+    current_namespace->parent = 0;
     current_namespace->uses_lists = false;
 }
 
