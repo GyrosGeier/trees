@@ -6,6 +6,7 @@
 #include "cst_to_ast_visitor.hpp"
 #include "bison_to_ast_visitor.hpp"
 
+#include "mark_nodes_visitor.hpp"
 #include "smartpointer_visitor.hpp"
 #include "header_output_visitor.hpp"
 #include "impl_output_visitor.hpp"
@@ -178,6 +179,9 @@ try
         else
             ast->global_namespace->group = ast2->global_namespace->group;
     }
+
+    mark_nodes_visitor mark_nodes;
+    ast->apply(mark_nodes);
 
     smartpointer_visitor smartptr;
     ast->apply(smartptr);

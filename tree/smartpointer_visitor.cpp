@@ -11,9 +11,6 @@ namespace tree {
 void smartpointer_visitor::visit(root &r)
 {
     ast_root = &r;
-    state = collect;
-    descend(r.global_namespace);
-    state = mark;
     descend(r.global_namespace);
 }
 
@@ -30,9 +27,6 @@ void smartpointer_visitor::visit(namespace_node &n)
 
 void smartpointer_visitor::visit(group_node &n)
 {
-    if(state == collect)
-        n.ns->node_types.insert(n.name);
-
     descend(n.groups);
     descend(n.default_members);
     descend(n.nodes);
@@ -40,34 +34,28 @@ void smartpointer_visitor::visit(group_node &n)
 
 void smartpointer_visitor::visit(node_node &n)
 {
-    if(state == collect)
-        n.ns->node_types.insert(n.name);
-
     descend(n.members);
 }
 
 void smartpointer_visitor::visit(data_member_node &n)
 {
-    if(state == mark)
+    descend(n.type);
+    if(is_node_type)
     {
-        descend(n.type);
-        if(is_node_type)
-        {
-            template_type_node_ptr nn = new template_type_node;
-            nn->name = "boost::intrusive_ptr";
-            nn->template_args.push_back(n.type);
-            n.type = nn;
-            include_node_ptr ni = new include_node;
-            ni->name = "boost/intrusive_ptr.hpp";
-            ni->is_local = false;
-            ast_root->includes.push_back(ni);
-        }
+        template_type_node_ptr nn = new template_type_node;
+        nn->name = "boost::intrusive_ptr";
+        nn->template_args.push_back(n.type);
+        n.type = nn;
+        include_node_ptr ni = new include_node;
+        ni->name = "boost/intrusive_ptr.hpp";
+        ni->is_local = false;
+        ast_root->includes.push_back(ni);
     }
 }
 
 void smartpointer_visitor::visit(basic_type_node &n)
 {
-    is_node_type = (n.ns->node_types.find(n.name) != n.ns->node_types.end());
+    is_node_type = n.is_node;
     if(is_node_type)
     {
         std::string ns;

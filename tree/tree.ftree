@@ -61,6 +61,7 @@ group type_node {
         %include <string>
         namespace_node_weak_ptr ns;
         std::string name;
+        bool is_node;
         bool is_const;
         bool is_volatile;
     };

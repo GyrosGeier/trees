@@ -31,13 +31,6 @@ public:
 
 private:
     bool is_node_type;
-
-    enum
-    {
-        collect,
-        mark
-    } state;
-
     root_weak_ptr ast_root;
 };
 
