@@ -56,7 +56,6 @@ node data_member_node {
 };
 
 group type_node {
-
     node basic_type_node {
         %include <string>
         namespace_node_weak_ptr ns;
