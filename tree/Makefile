@@ -14,9 +14,9 @@ OBJECTS = $(CXXSOURCES:%.cpp=%.o) $(LEXSOURCES:%.ll=%_lex.o) $(YACCSOURCES:%.yy=
 DEPFILES = $(addprefix stage1/,$(OBJECTS:%.o=.%.d)) $(addprefix stage2/,$(OBJECTS:%.o=.%.d))
 
 all: foundry-tree \
-    update-tree_tree.hpp update-tree_tree.cpp \
-    update-tree_bison_tree.hpp update-tree_bison_tree.cpp \
-    update-tree_cst_tree.hpp update-tree_cst_tree.cpp
+    tree_tree.hpp-stamp tree_tree.cpp-stamp \
+    tree_bison_tree.hpp-stamp tree_bison_tree.cpp-stamp \
+    tree_cst_tree.hpp-stamp tree_cst_tree.cpp-stamp
 
 foundry-tree: $(addprefix stage2/,$(OBJECTS))
 	$(CXX) $(LDFLAGS) -o $@ $^
@@ -36,8 +36,9 @@ stage2/%_tree.hpp: %.yy stage1/foundry-tree
 stage2/%_tree.cpp: %.yy stage1/foundry-tree
 	stage1/foundry-tree -n foundry -n $(subst _, -n ,$*) -c -o $@ $<
 
-update-%: % update/% stage2/%
+%-stamp: % update/% stage2/%
 	cmp $(wordlist 1,2,$^) || (cmp $(wordlist 2,3,$^) && mv update/$< $<)
+	touch $@
 
 update/%_tree.hpp: %.ftree foundry-tree
 	@mkdir -p update
@@ -90,6 +91,7 @@ stage1/tree_cst_lex.o stage2/tree_cst_lex.o: CXXFLAGS+=-Wno-unused
 	touch $@
 
 clean:
+	$(RM) *-stamp
 	$(RM) foundry-tree
 	$(RM) -r update stage2 stage1
 

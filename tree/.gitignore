@@ -10,3 +10,4 @@ tree_cst_lex.cpp
 tree_cst_lex.hpp
 tree_cst_parse.cpp
 tree_cst_parse.hpp
+*-stamp
