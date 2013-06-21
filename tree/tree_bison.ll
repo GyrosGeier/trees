@@ -54,7 +54,7 @@ IDENT                   [[:alpha:]_][[:alnum:]_]*
 
   \/\*                  BEGIN(ccomment);
 
-  \"([^"\\\n]|\\.|\\\n)*\"    yylval->string = yytext; return STRING;
+  \"(\\.|[^"])*\"       yylval->string = yytext; return STRING;
   {IDENT}:              yylval->string = yytext; yytext[yyleng-1] = 0; return IDENTIFIER_COLON;
   {IDENT}               yylval->string = yytext; return IDENTIFIER;
 }
