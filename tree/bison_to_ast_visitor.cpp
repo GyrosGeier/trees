@@ -129,18 +129,6 @@ void bison_to_ast_visitor::visit(bison::components_2 const &c)
 
 void bison_to_ast_visitor::visit(bison::component_1 const &c)
 {
-    /* symbol */
-    descend(c._1);
-}
-
-void bison_to_ast_visitor::visit(bison::component_2 const &)
-{
-    /* ACTION */
-    return;
-}
-
-void bison_to_ast_visitor::visit(bison::symbol_1 const &s)
-{
     /* IDENTIFIER */
     data_member_node_weak_ptr nn = new data_member_node;
     std::ostringstream str;
@@ -148,8 +136,8 @@ void bison_to_ast_visitor::visit(bison::symbol_1 const &s)
     nn->name = str.str();
     nn->needs_init = true;
     basic_type_node_weak_ptr nt = new basic_type_node;
-    nt->name = s._1;
-    if(nonterminals.find(s._1) == nonterminals.end())
+    nt->name = c._1;
+    if(nonterminals.find(c._1) == nonterminals.end())
         unresolved.push_back(nt);
     nt->ns = current_namespace;
     nt->is_const = false;
@@ -158,7 +146,7 @@ void bison_to_ast_visitor::visit(bison::symbol_1 const &s)
     current_node->members.push_back(nn);
 } 
 
-void bison_to_ast_visitor::visit(bison::symbol_2 const &)
+void bison_to_ast_visitor::visit(bison::component_2 const &)
 {
     /* STRING */
     return;

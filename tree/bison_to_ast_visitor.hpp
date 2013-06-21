@@ -36,8 +36,6 @@ public:
     virtual void visit(bison::components_2 const &);
     virtual void visit(bison::component_1 const &);
     virtual void visit(bison::component_2 const &);
-    virtual void visit(bison::symbol_1 const &);
-    virtual void visit(bison::symbol_2 const &);
 
     void push_initial_namespace(std::string const &);
 

@@ -15,7 +15,6 @@ using namespace foundry::tree::bison;
     foundry::tree::bison::alternatives *alternatives;
     foundry::tree::bison::components *components;
     foundry::tree::bison::component *component;
-    foundry::tree::bison::symbol *symbol;
     char const *string;
 }
 
@@ -44,7 +43,6 @@ void tree_bison_error(YYLTYPE *, void *, start *&, char const *msg);
 %token <string> STRING
 
 %token <string> TYPE
-%token ACTION
 
 %token SEMICOLON ";"
 %token BAR "|"
@@ -60,7 +58,6 @@ void tree_bison_error(YYLTYPE *, void *, start *&, char const *msg);
 %type <alternatives> alternatives
 %type <components> components
 %type <component> component
-%type <symbol> symbol
 
 %%
 
@@ -78,8 +75,5 @@ alternatives: components { $$ = new alternatives_1($1); } |
 components: /* empty */ { $$ = new components_1; } |
     components component { $$ = new components_2($1, $2); }
 
-component: symbol { $$ = new component_1($1); } |
-    ACTION { $$ = new component_2(std::string()); }
-
-symbol: IDENTIFIER { $$ = new symbol_1($1); } |
-    STRING { $$ = new symbol_2($1); }
+component: IDENTIFIER { $$ = new component_1($1); } |
+    STRING { $$ = new component_2($1); }

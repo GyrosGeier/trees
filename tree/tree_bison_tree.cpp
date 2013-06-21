@@ -39,14 +39,6 @@ void component_2::apply(node_const_visitor &v) const
 {
     v.visit(*this);
 }
-void symbol_1::apply(node_const_visitor &v) const
-{
-    v.visit(*this);
-}
-void symbol_2::apply(node_const_visitor &v) const
-{
-    v.visit(*this);
-}
 void start::apply(node_const_visitor &v) const
 {
     v.visit(*this);

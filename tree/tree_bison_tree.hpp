@@ -13,7 +13,6 @@
 #include <boost/intrusive_ptr.hpp>
 #include <boost/intrusive_ptr.hpp>
 #include <boost/intrusive_ptr.hpp>
-#include <boost/intrusive_ptr.hpp>
 #include <list>
 namespace foundry {
 namespace tree {
@@ -61,15 +60,6 @@ typedef component_1 *component_1_weak_ptr;
 struct component_2;
 typedef boost::intrusive_ptr<component_2> component_2_ptr;
 typedef component_2 *component_2_weak_ptr;
-struct symbol;
-typedef boost::intrusive_ptr<symbol> symbol_ptr;
-typedef symbol *symbol_weak_ptr;
-struct symbol_1;
-typedef boost::intrusive_ptr<symbol_1> symbol_1_ptr;
-typedef symbol_1 *symbol_1_weak_ptr;
-struct symbol_2;
-typedef boost::intrusive_ptr<symbol_2> symbol_2_ptr;
-typedef symbol_2 *symbol_2_weak_ptr;
 struct start;
 typedef boost::intrusive_ptr<start> start_ptr;
 typedef start *start_weak_ptr;
@@ -124,12 +114,6 @@ public:
     virtual void visit(component_2 const &) = 0;
     inline void descend(component_2 const &n) { visit(n); }
     inline void descend(boost::intrusive_ptr<component_2> const &p) { if(p) descend(*p); }
-    virtual void visit(symbol_1 const &) = 0;
-    inline void descend(symbol_1 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<symbol_1> const &p) { if(p) descend(*p); }
-    virtual void visit(symbol_2 const &) = 0;
-    inline void descend(symbol_2 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<symbol_2> const &p) { if(p) descend(*p); }
     virtual void visit(start const &) = 0;
     inline void descend(start const &n) { visit(n); }
     inline void descend(boost::intrusive_ptr<start> const &p) { if(p) descend(*p); }
@@ -214,38 +198,17 @@ struct component : node {
 };
 struct component_1 : component
 {
-    component_1(boost::intrusive_ptr< ::foundry::tree::bison::symbol>  _1) throw() : 
+    component_1(std::string _1) throw() : 
         _1(_1) { }
     virtual ~component_1(void) throw() { }
     virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::bison::symbol>  _1;
+    std::string _1;
 };
 struct component_2 : component
 {
     component_2(std::string _1) throw() : 
         _1(_1) { }
     virtual ~component_2(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    std::string _1;
-};
-struct symbol : node {
-    symbol(void) throw() { }
-    virtual ~symbol(void) throw() { }
-    using node::apply;
-};
-struct symbol_1 : symbol
-{
-    symbol_1(std::string _1) throw() : 
-        _1(_1) { }
-    virtual ~symbol_1(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    std::string _1;
-};
-struct symbol_2 : symbol
-{
-    symbol_2(std::string _1) throw() : 
-        _1(_1) { }
-    virtual ~symbol_2(void) throw() { }
     virtual void apply(node_const_visitor &) const;
     std::string _1;
 };

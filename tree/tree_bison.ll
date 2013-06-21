@@ -37,7 +37,7 @@ IDENT                   [[:alpha:]_][[:alnum:]_]*
 
 <action>{
   \{                    ++yyextra->bracecount;
-  \}                    if(!--yyextra->bracecount) BEGIN(rules); else return ACTION;
+  \}                    if(!--yyextra->bracecount) { BEGIN(rules); }
   \n                    /* ignore */
   .                     /* ignore */
 }
