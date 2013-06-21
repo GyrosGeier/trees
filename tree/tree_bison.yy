@@ -15,7 +15,7 @@ using namespace foundry::tree::bison;
     foundry::tree::bison::alternatives *alternatives;
     foundry::tree::bison::components *components;
     foundry::tree::bison::component *component;
-    char const *string;
+    char *string;
 }
 
 %debug
@@ -60,7 +60,7 @@ start: rules { ret = new start($1); }
 rules: /* empty */ { $$ = new rules_1; } |
     rules rule { $$ = new rules_2($1, $2); }
 
-rule: IDENTIFIER_COLON alternatives { $$ = new rule($1, $2); }
+rule: IDENTIFIER_COLON alternatives { $$ = new rule($1, $2); free($1); }
 
 alternatives: components { $$ = new alternatives_1($1); } |
     alternatives "|" components { $$ = new alternatives_2($1, $3); } |
@@ -69,5 +69,5 @@ alternatives: components { $$ = new alternatives_1($1); } |
 components: /* empty */ { $$ = new components_1; } |
     components component { $$ = new components_2($1, $2); }
 
-component: IDENTIFIER { $$ = new component_1($1); } |
-    STRING { $$ = new component_2($1); }
+component: IDENTIFIER { $$ = new component_1($1); free($1); } |
+    STRING { $$ = new component_2($1); free($1); }

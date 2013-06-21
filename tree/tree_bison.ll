@@ -54,9 +54,9 @@ IDENT                   [[:alpha:]_][[:alnum:]_]*
 
   \/\*                  BEGIN(ccomment);
 
-  \"(\\.|[^"])*\"       yylval->string = yytext; return STRING;
-  {IDENT}:              yylval->string = yytext; yytext[yyleng-1] = 0; return IDENTIFIER_COLON;
-  {IDENT}               yylval->string = yytext; return IDENTIFIER;
+  \"(\\.|[^"])*\"       yylval->string = strdup(yytext); return STRING;
+  {IDENT}:              yylval->string = strdup(yytext); yylval->string[yyleng-1] = 0; return IDENTIFIER_COLON;
+  {IDENT}               yylval->string = strdup(yytext); return IDENTIFIER;
 }
 
 <ccomment>{
