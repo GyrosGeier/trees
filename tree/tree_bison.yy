@@ -42,14 +42,8 @@ void tree_bison_error(YYLTYPE *, void *, start *&, char const *msg);
 
 %token <string> STRING
 
-%token <string> TYPE
-
 %token SEMICOLON ";"
 %token BAR "|"
-
-%token PREC "%prec"
-%token DPREC "%dprec"
-%token MERGE "%merge"
 
 %token INVALID
 
