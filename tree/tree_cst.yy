@@ -2,6 +2,7 @@
 #include <tree_cst_tree.hpp>
 
 #include <iostream>
+#include <cstdio>
 
 using namespace foundry::tree::cst;
 %}
@@ -61,14 +62,14 @@ using namespace foundry::tree::cst;
 %expect 0
 
 %parse-param {void *scanner}
-%parse-param {start *&ret}
+%parse-param {foundry::tree::cst::start *&ret}
 %lex-param {void *scanner}
 
 %name-prefix="tree_cst_"
 
 %{
 int tree_cst_lex(YYSTYPE *, YYLTYPE *, void *);
-void tree_cst_error(YYLTYPE *, void *, start *&, char const *msg);
+void tree_cst_error(YYLTYPE *, void *, foundry::tree::cst::start *&, char const *msg);
 %}
 
 %token <string> IDENTIFIER

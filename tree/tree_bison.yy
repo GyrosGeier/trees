@@ -2,6 +2,7 @@
 #include <tree_bison_tree.hpp>
 
 #include <iostream>
+#include <cstdio>
 
 using std::cout;
 using std::endl;
@@ -27,14 +28,14 @@ using namespace foundry::tree::bison;
 %expect 0
 
 %parse-param {void *scanner}
-%parse-param {start *&ret}
+%parse-param {foundry::tree::bison::start *&ret}
 %lex-param {void *scanner}
 
 %name-prefix="tree_bison_"
 
 %{
 int tree_bison_lex(YYSTYPE *, YYLTYPE *, void *);
-void tree_bison_error(YYLTYPE *, void *, start *&, char const *msg);
+void tree_bison_error(YYLTYPE *, void *, foundry::tree::bison::start *&, char const *msg);
 %}
 
 %token <string> IDENTIFIER
