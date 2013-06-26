@@ -1,0 +1,27 @@
+#ifndef foundry_parse_lex_output_visitor_hpp_
+#define foundry_parse_lex_output_visitor_hpp_ 1
+
+#include "parse_tree.hpp"
+
+namespace foundry {
+namespace parse {
+
+class lex_output_visitor :
+        public node_const_visitor
+{
+public:
+        lex_output_visitor(std::ostream &out);
+
+        virtual void visit(foundry::parse::root const &);
+        virtual void visit(foundry::parse::rule const &);
+        virtual void visit(foundry::parse::alternative const &);
+        virtual void visit(foundry::parse::component const &);
+
+private:
+        std::ostream &out;
+};
+
+}
+}
+
+#endif

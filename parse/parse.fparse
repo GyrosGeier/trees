@@ -1,0 +1,25 @@
+start:          rules
+;
+
+rules:          rule rules |
+                /* empty */
+;
+
+rule:           IDENTIFIER ":" alternatives ";"
+;
+
+alternatives:   components alternatives_tail
+;
+
+alternatives_tail:
+                "|" alternatives |
+                /* empty */
+;
+
+components:     component components |
+                /* empty */
+;
+
+component:      IDENTIFIER |
+                STRING_LITERAL
+;

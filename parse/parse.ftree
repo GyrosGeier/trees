@@ -1,0 +1,27 @@
+namespace foundry {
+namespace parse {
+
+node root {
+        rule rules[];
+};
+
+node rule {
+        std::string name;
+        bool is_start;
+        alternative alternatives[];
+};
+
+node alternative {
+        component components[];
+};
+
+node component {
+        std::string name;
+        bool literal;
+        rule nonterminal;
+};
+
+const visitor;
+
+}
+}
