@@ -2,6 +2,7 @@
 #include "tree_bison_context.hpp"
 #include "tree_bison_tree.hpp"
 #include "tree_bison_parse.hpp"
+#define YY_USER_ACTION yylloc->first_line = yylloc->last_line = yylineno;
 %}
 
 %option nostdinit
@@ -11,6 +12,7 @@
 %option reentrant
 %option bison-bridge
 %option bison-locations
+%option yylineno
 %option prefix="tree_bison_"
 %option header-file="tree_bison_lex.hpp"
 %option extra-type="context *"

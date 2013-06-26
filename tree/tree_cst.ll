@@ -1,6 +1,7 @@
 %{
 #include "tree_cst_tree.hpp"
 #include "tree_cst_parse.hpp"
+#define YY_USER_ACTION yylloc->first_line = yylloc->last_line = yylineno;
 %}
 
 %option nostdinit
@@ -10,6 +11,7 @@
 %option reentrant
 %option bison-bridge
 %option bison-locations
+%option yylineno
 %option prefix="tree_cst_"
 %option header-file="tree_cst_lex.hpp"
 
