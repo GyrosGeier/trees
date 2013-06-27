@@ -58,7 +58,15 @@ void lex_output_visitor::visit(alternative const &)
 {
 }
 
-void lex_output_visitor::visit(component const &)
+void lex_output_visitor::visit(string_literal const &)
+{
+}
+
+void lex_output_visitor::visit(terminal const &)
+{
+}
+
+void lex_output_visitor::visit(nonterminal const &)
 {
 }
 

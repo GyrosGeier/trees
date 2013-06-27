@@ -116,7 +116,22 @@ void bison_output_visitor::visit(alternative const &a)
         state = write_rules;
 }
 
-void bison_output_visitor::visit(component const &c)
+void bison_output_visitor::visit(string_literal const &c)
+{
+        ++current_component;
+        switch(state)
+        {
+        case write_components:
+                out << ' ' << c.text;
+                break;
+        case write_action:
+                break;
+        default:
+                throw;
+        }
+}
+
+void bison_output_visitor::visit(terminal const &c)
 {
         ++current_component;
         switch(state)
@@ -125,14 +140,31 @@ void bison_output_visitor::visit(component const &c)
                 out << ' ' << c.name;
                 break;
         case write_action:
-                if(!c.literal)
-                {
-                        if(!first_component)
-                                out << ", ";
-                        else
-                                first_component = false;
-                        out << '$' << current_component;
-                }
+                if(!first_component)
+                        out << ", ";
+                else
+                        first_component = false;
+                out << '$' << current_component;
+                break;
+        default:
+                throw;
+        }
+}
+
+void bison_output_visitor::visit(nonterminal const &c)
+{
+        ++current_component;
+        switch(state)
+        {
+        case write_components:
+                out << ' ' << c.name;
+                break;
+        case write_action:
+                if(!first_component)
+                        out << ", ";
+                else
+                        first_component = false;
+                out << '$' << current_component;
                 break;
         default:
                 throw;

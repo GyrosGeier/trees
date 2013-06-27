@@ -76,18 +76,16 @@ void cst_to_ast_visitor::visit(cst::components_2 const &)
 
 void cst_to_ast_visitor::visit(cst::component_1 const &c)
 {
-        component_ptr nc = new component;
-        nc->name = c._1;
-        nc->literal = false;
-        current_alternative->components.push_back(nc);
+        terminal_ptr t = new terminal;
+        t->name = c._1;
+        current_alternative->components.push_back(t);
 }
 
 void cst_to_ast_visitor::visit(cst::component_2 const &c)
 {
-        component_ptr nc = new component;
-        nc->name = c._1;
-        nc->literal = true;
-        current_alternative->components.push_back(nc);
+        string_literal_ptr sl = new string_literal;
+        sl->text = c._1;
+        current_alternative->components.push_back(sl);
 }
 
 }

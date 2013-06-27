@@ -12,10 +12,12 @@ class lex_output_visitor :
 public:
         lex_output_visitor(std::ostream &out);
 
-        virtual void visit(foundry::parse::root const &);
-        virtual void visit(foundry::parse::rule const &);
-        virtual void visit(foundry::parse::alternative const &);
-        virtual void visit(foundry::parse::component const &);
+        virtual void visit(root const &);
+        virtual void visit(rule const &);
+        virtual void visit(alternative const &);
+        virtual void visit(string_literal const &);
+        virtual void visit(terminal const &);
+        virtual void visit(nonterminal const &);
 
 private:
         std::ostream &out;

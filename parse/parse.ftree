@@ -15,10 +15,21 @@ node alternative {
         component components[];
 };
 
-node component {
-        std::string name;
-        bool literal;
-        rule nonterminal;
+group component {
+        node {
+                std::string name;
+        };
+
+        node string_literal
+        {
+                std::string text;
+        };
+
+        node terminal {};
+        node nonterminal
+        {
+                rule rule;
+        };
 };
 
 const visitor;
