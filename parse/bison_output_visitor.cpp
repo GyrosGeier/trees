@@ -57,8 +57,6 @@ void bison_output_visitor::visit(root const &r)
         out << "}" << std::endl;
         state = write_type_decls;
         descend(r.rules);
-        out << "%type<string> IDENTIFIER;" << std::endl;
-        out << "%type<string> STRING_LITERAL;" << std::endl;
         out << "%%" << std::endl;
         state = write_rules;
         descend(r.rules);
@@ -138,6 +136,7 @@ void bison_output_visitor::visit(terminal const &c)
         {
         case write_terminals:
                 out << "%token " << c.name << ";" << std::endl;
+                out << "%type<string> " << c.name << ";" << std::endl;
                 break;
         case write_components:
                 out << ' ' << c.name;

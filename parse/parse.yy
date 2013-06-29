@@ -26,7 +26,9 @@ void parse_error(YYLTYPE *loc, void *, ::foundry::parse::cst::start *&, char con
 }
 %}
 %token IDENTIFIER;
+%type<string> IDENTIFIER;
 %token STRING_LITERAL;
+%type<string> STRING_LITERAL;
 %token SEMICOLON ";"
 %token COLON ":"
 %token PIPE "|"
@@ -47,8 +49,6 @@ void parse_error(YYLTYPE *loc, void *, ::foundry::parse::cst::start *&, char con
 %type<alternatives_tail> alternatives_tail;
 %type<components> components;
 %type<component> component;
-%type<string> IDENTIFIER;
-%type<string> STRING_LITERAL;
 %%
 start: rules { ret = new start($1); };
 rules: rule rules { $$ = new rules_1($1, $2); } | { $$ = new rules_2(); };
