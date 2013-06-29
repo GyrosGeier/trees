@@ -18,6 +18,7 @@ public:
         virtual void visit(cst::directives_2 const &);
         virtual void visit(cst::rules_1 const &);
         virtual void visit(cst::rules_2 const &);
+        virtual void visit(cst::alternatives const &);
         virtual void visit(cst::alternatives_tail_1 const &);
         virtual void visit(cst::alternatives_tail_2 const &);
         virtual void visit(cst::components_1 const &);
@@ -26,7 +27,6 @@ public:
         virtual void visit(cst::component_2 const &);
         virtual void visit(cst::start const &);
         virtual void visit(cst::rule const &);
-        virtual void visit(cst::alternatives const &);
 
         root_ptr get_root() { return rt; }
 
