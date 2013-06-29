@@ -42,6 +42,7 @@ void resolve_symbols_visitor::visit(root &r)
         {
                 terminal_ptr t = new terminal;
                 t->name = i.first;
+                r.terminals.push_back(t);
 
                 if(verbose)
                         std::cerr << "Resolving " << i.second.size() << " references to " << i.first << std::endl;

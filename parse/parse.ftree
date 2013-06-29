@@ -3,6 +3,7 @@ namespace parse {
 
 node root {
         rule rules[];
+        terminal terminals[];
 };
 
 node rule {
