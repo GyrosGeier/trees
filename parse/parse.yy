@@ -33,6 +33,7 @@ void parse_error(YYLTYPE *loc, void *, ::foundry::parse::cst::start *&, char con
 %token LITERAL_1 ":"
 %token LITERAL_2 ";"
 %token LITERAL_3 "|"
+%token LITERAL_4 "-"
 %union {
         char const *string;
         ::foundry::parse::cst::start *start;
@@ -41,6 +42,7 @@ void parse_error(YYLTYPE *loc, void *, ::foundry::parse::cst::start *&, char con
         ::foundry::parse::cst::rule *rule;
         ::foundry::parse::cst::alternatives *alternatives;
         ::foundry::parse::cst::alternatives_tail *alternatives_tail;
+        ::foundry::parse::cst::alternative *alternative;
         ::foundry::parse::cst::components *components;
         ::foundry::parse::cst::component *component;
 }
@@ -50,6 +52,7 @@ void parse_error(YYLTYPE *loc, void *, ::foundry::parse::cst::start *&, char con
 %type<rule> rule;
 %type<alternatives> alternatives;
 %type<alternatives_tail> alternatives_tail;
+%type<alternative> alternative;
 %type<components> components;
 %type<component> component;
 %%
@@ -57,7 +60,8 @@ start: directives rules { ret = new ::foundry::parse::cst::start($1, $2); };
 directives: DIRECTIVE directives { $$ = new ::foundry::parse::cst::directives_1($1, $2); } | { $$ = new ::foundry::parse::cst::directives_2(); };
 rules: rule rules { $$ = new ::foundry::parse::cst::rules_1($1, $2); } | { $$ = new ::foundry::parse::cst::rules_2(); };
 rule: IDENTIFIER ":" alternatives ";" { $$ = new ::foundry::parse::cst::rule($1, $3); };
-alternatives: components alternatives_tail { $$ = new ::foundry::parse::cst::alternatives($1, $2); };
+alternatives: alternative alternatives_tail { $$ = new ::foundry::parse::cst::alternatives($1, $2); };
 alternatives_tail: "|" alternatives { $$ = new ::foundry::parse::cst::alternatives_tail_1($2); } | { $$ = new ::foundry::parse::cst::alternatives_tail_2(); };
+alternative: components { $$ = new ::foundry::parse::cst::alternative_1($1); } | "-" IDENTIFIER "-" components { $$ = new ::foundry::parse::cst::alternative_2($2, $4); };
 components: component components { $$ = new ::foundry::parse::cst::components_1($1, $2); } | { $$ = new ::foundry::parse::cst::components_2(); };
 component: IDENTIFIER { $$ = new ::foundry::parse::cst::component_1($1); } | STRING_LITERAL { $$ = new ::foundry::parse::cst::component_2($1); };

@@ -14,12 +14,16 @@ rules:          rule rules |
 rule:           IDENTIFIER ":" alternatives ";"
 ;
 
-alternatives:   components alternatives_tail
+alternatives:   alternative alternatives_tail
 ;
 
 alternatives_tail:
                 "|" alternatives |
                 /* empty */
+;
+
+alternative:    components |
+                "-" IDENTIFIER "-" components
 ;
 
 components:     component components |

@@ -86,6 +86,16 @@ void cst_to_ast_visitor::visit(cst::alternatives_tail_2 const &)
         current_rule->alternatives.push_back(current_alternative);
 }
 
+void cst_to_ast_visitor::visit(cst::alternative_1 const &a)
+{
+        descend(a._1);
+}
+
+void cst_to_ast_visitor::visit(cst::alternative_2 const &a)
+{
+        descend(a._2);
+}
+
 void cst_to_ast_visitor::visit(cst::components_1 const &c)
 {
         descend(c._1);

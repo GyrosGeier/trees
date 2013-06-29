@@ -21,6 +21,8 @@ public:
         virtual void visit(cst::alternatives const &);
         virtual void visit(cst::alternatives_tail_1 const &);
         virtual void visit(cst::alternatives_tail_2 const &);
+        virtual void visit(cst::alternative_1 const &);
+        virtual void visit(cst::alternative_2 const &);
         virtual void visit(cst::components_1 const &);
         virtual void visit(cst::components_2 const &);
         virtual void visit(cst::component_1 const &);

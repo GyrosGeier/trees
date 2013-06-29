@@ -27,6 +27,7 @@ IDENT           [[:alpha:]_][[:alnum:]_]*
 :	return LITERAL_1;
 \;	return LITERAL_2;
 \|	return LITERAL_3;
+-	return LITERAL_4;
 \               /* ignore */
 \n              /* ignore */
 
