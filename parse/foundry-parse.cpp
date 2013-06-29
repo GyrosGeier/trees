@@ -89,6 +89,8 @@ int main(int argc, char **argv)
 
         parse_lex_destroy(scanner);
 
+        root_ptr r = v.get_root();
+
         std::ofstream out(output.c_str());
 
         switch(output_format)
@@ -96,13 +98,13 @@ int main(int argc, char **argv)
         case yacc:
                 {
                         bison_output_visitor yaccout(out);
-                        v.get_root()->apply(yaccout);
+                        r->apply(yaccout);
                 }
                 break;
         case lex:
                 {
                         lex_output_visitor lexout(out);
-                        v.get_root()->apply(lexout);
+                        r->apply(lexout);
                 }
                 break;
         }
