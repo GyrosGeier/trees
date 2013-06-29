@@ -36,7 +36,8 @@ private:
                 write_type_decls,
                 write_rules,
                 write_components,
-                write_action
+                write_action,
+                write_cleanup
         } state;
 };
 

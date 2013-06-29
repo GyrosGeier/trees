@@ -52,7 +52,7 @@ void bison_output_visitor::visit(root const &r)
         descend(r.terminals);
         descend(r.literals);
         out << "%union {" << std::endl;
-        out << "        char const *string;" << std::endl;
+        out << "        char *string;" << std::endl;
         state = write_union_members;
         descend(r.rules);
         out << "}" << std::endl;
@@ -107,7 +107,11 @@ void bison_output_visitor::visit(alternative const &a)
         first_component = true;
         current_component = 0;
         descend(a.components);
-        out << "); }";
+        out << "); ";
+        state = write_cleanup;
+        current_component = 0;
+        descend(a.components);
+        out << "}";
         state = write_rules;
 }
 
@@ -123,6 +127,7 @@ void bison_output_visitor::visit(string_literal const &c)
                 out << ' ' << c.text;
                 break;
         case write_action:
+        case write_cleanup:
                 break;
         default:
                 throw;
@@ -148,6 +153,9 @@ void bison_output_visitor::visit(terminal const &c)
                         first_component = false;
                 out << '$' << current_component;
                 break;
+        case write_cleanup:
+                out << "free($" << current_component << "); ";
+                break;
         default:
                 throw;
         }
@@ -167,6 +175,8 @@ void bison_output_visitor::visit(nonterminal const &c)
                 else
                         first_component = false;
                 out << '$' << current_component;
+                break;
+        case write_cleanup:
                 break;
         default:
                 throw;
