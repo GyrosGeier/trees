@@ -10,7 +10,6 @@ node root {
 
 node rule {
         std::string name;
-        bool is_start;
         alternative alternatives[];
 };
 

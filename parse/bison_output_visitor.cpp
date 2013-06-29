@@ -15,12 +15,15 @@ bison_output_visitor::bison_output_visitor(std::ostream &out) :
 
 void bison_output_visitor::visit(root const &r)
 {
+        if(r.rules.empty())
+                return;
+
         if(r.ns.empty())
                 ns = "::";
         else
                 ns = "::" + r.ns + "::";
-        if(!r.rules.empty())
-                r.rules.front()->is_start = true;
+
+        start = r.rules.front().get();
 
         out << "%{" << std::endl;
         out << "#include \"parse_cst.hpp\"" << std::endl;
@@ -98,7 +101,7 @@ void bison_output_visitor::visit(alternative const &a)
         descend(a.components);
         state = write_action;
         out << " { ";
-        if(current_rule->is_start)
+        if(current_rule == start)
                 out << "ret";
         else
                 out << "$$";
