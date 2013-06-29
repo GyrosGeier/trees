@@ -29,6 +29,7 @@ int main(int argc, char **argv)
 
         std::list<std::string> inputs;
         std::string output;
+        bool verbose = false;
 
         for(char **i = &argv[1]; i != &argv[argc]; ++i)
         {
@@ -36,7 +37,9 @@ int main(int argc, char **argv)
                 switch(state)
                 {
                 case initial:
-                        if(arg == "-y")
+                        if(arg == "-v")
+                                verbose = true;
+                        else if(arg == "-y")
                                 output_format = yacc;
                         else if(arg == "-l")
                                 output_format = lex;
