@@ -23,6 +23,7 @@ IDENT           [[:alpha:]_][[:alnum:]_]*
 <COMMENT>\*\/   BEGIN(INITIAL);
 <COMMENT>.      /* ignore */
 
+%[^\n]*          yylval->string = strdup(yytext); return DIRECTIVE;
 \;              return SEMICOLON;
 :               return COLON;
 \|              return PIPE;

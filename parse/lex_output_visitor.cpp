@@ -40,6 +40,7 @@ void lex_output_visitor::visit(root const &)
         out << "<COMMENT>\\*\\/   BEGIN(INITIAL);" << std::endl;
         out << "<COMMENT>.      /* ignore */" << std::endl;
         out << "" << std::endl;
+        out << "%[^\\n]*          yylval->string = strdup(yytext); return DIRECTIVE;" << std::endl;
         out << "\\;              return SEMICOLON;" << std::endl;
         out << ":               return COLON;" << std::endl;
         out << "\\|              return PIPE;" << std::endl;
