@@ -56,12 +56,12 @@ void parse_error(YYLTYPE *loc, void *, ::foundry::parse::cst::start *&, char con
 %type<components> components;
 %type<component> component;
 %%
-start: directives rules { ret = new ::foundry::parse::cst::start($1, $2); };
-directives: DIRECTIVE directives { $$ = new ::foundry::parse::cst::directives_1($1, $2); } | { $$ = new ::foundry::parse::cst::directives_2(); };
-rules: rule rules { $$ = new ::foundry::parse::cst::rules_1($1, $2); } | { $$ = new ::foundry::parse::cst::rules_2(); };
-rule: IDENTIFIER ":" alternatives ";" { $$ = new ::foundry::parse::cst::rule($1, $3); };
-alternatives: alternative alternatives_tail { $$ = new ::foundry::parse::cst::alternatives($1, $2); };
-alternatives_tail: "|" alternatives { $$ = new ::foundry::parse::cst::alternatives_tail_1($2); } | { $$ = new ::foundry::parse::cst::alternatives_tail_2(); };
-alternative: components { $$ = new ::foundry::parse::cst::alternative_1($1); } | "-" IDENTIFIER "-" components { $$ = new ::foundry::parse::cst::alternative_2($2, $4); };
-components: component components { $$ = new ::foundry::parse::cst::components_1($1, $2); } | { $$ = new ::foundry::parse::cst::components_2(); };
-component: IDENTIFIER { $$ = new ::foundry::parse::cst::component_1($1); } | STRING_LITERAL { $$ = new ::foundry::parse::cst::component_2($1); };
+start: /*-start-*/ directives rules { ret = new ::foundry::parse::cst::start($1, $2); };
+directives: /*-directives_1-*/ DIRECTIVE directives { $$ = new ::foundry::parse::cst::directives_1($1, $2); } | /*-directives_2-*/ { $$ = new ::foundry::parse::cst::directives_2(); };
+rules: /*-rules_1-*/ rule rules { $$ = new ::foundry::parse::cst::rules_1($1, $2); } | /*-rules_2-*/ { $$ = new ::foundry::parse::cst::rules_2(); };
+rule: /*-rule-*/ IDENTIFIER ":" alternatives ";" { $$ = new ::foundry::parse::cst::rule($1, $3); };
+alternatives: /*-alternatives-*/ alternative alternatives_tail { $$ = new ::foundry::parse::cst::alternatives($1, $2); };
+alternatives_tail: /*-alternatives_tail_1-*/ "|" alternatives { $$ = new ::foundry::parse::cst::alternatives_tail_1($2); } | /*-alternatives_tail_2-*/ { $$ = new ::foundry::parse::cst::alternatives_tail_2(); };
+alternative: /*-alternative_1-*/ components { $$ = new ::foundry::parse::cst::alternative_1($1); } | /*-alternative_2-*/ "-" IDENTIFIER "-" components { $$ = new ::foundry::parse::cst::alternative_2($2, $4); };
+components: /*-components_1-*/ component components { $$ = new ::foundry::parse::cst::components_1($1, $2); } | /*-components_2-*/ { $$ = new ::foundry::parse::cst::components_2(); };
+component: /*-component_1-*/ IDENTIFIER { $$ = new ::foundry::parse::cst::component_1($1); } | /*-component_2-*/ STRING_LITERAL { $$ = new ::foundry::parse::cst::component_2($1); };

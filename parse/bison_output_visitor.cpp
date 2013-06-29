@@ -91,6 +91,7 @@ void bison_output_visitor::visit(alternative const &a)
                 out << " |";
         else
                 first_alternative = false;
+        out << " /*-" << a.name << "-*/";
         state = write_components;
         first_component = true;
         current_component = 0;
