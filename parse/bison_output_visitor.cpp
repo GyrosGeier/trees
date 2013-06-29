@@ -15,6 +15,10 @@ bison_output_visitor::bison_output_visitor(std::ostream &out) :
 
 void bison_output_visitor::visit(root const &r)
 {
+        if(r.ns.empty())
+                ns = "::";
+        else
+                ns = "::" + r.ns + "::";
         if(!r.rules.empty())
                 (*r.rules.begin())->is_start = true;
 
@@ -22,7 +26,6 @@ void bison_output_visitor::visit(root const &r)
         out << "#include \"parse_cst.hpp\"" << std::endl;
         out << "#include \"parse_parse.hpp\"" << std::endl;
         out << "#include \"parse_lex.hpp\"" << std::endl;
-        out << "using namespace foundry::parse::cst;" << std::endl;
         out << "%}" << std::endl;
         out << "" << std::endl;
         out << "%debug" << std::endl;
@@ -34,13 +37,13 @@ void bison_output_visitor::visit(root const &r)
         out << "%expect 0" << std::endl;
         out << "" << std::endl;
         out << "%parse-param {void *scanner}" << std::endl;
-        out << "%parse-param {::foundry::parse::cst::start *&ret}" << std::endl;
+        out << "%parse-param {" << ns << "start *&ret}" << std::endl;
         out << "%lex-param {void *scanner}" << std::endl;
         out << "" << std::endl;
         out << "%name-prefix=\"parse_\"" << std::endl;
         out << "" << std::endl;
         out << "%{" << std::endl;
-        out << "void parse_error(YYLTYPE *loc, void *, ::foundry::parse::cst::start *&, char const *msg)" << std::endl;
+        out << "void parse_error(YYLTYPE *loc, void *, " << ns << "start *&, char const *msg)" << std::endl;
         out << "{" << std::endl;
         out << "        std::cerr << loc->first_line << \":\" << msg << std::endl;" << std::endl;
         out << "}" << std::endl;
@@ -67,7 +70,7 @@ void bison_output_visitor::visit(rule const &r)
         switch(state)
         {
         case write_union_members:
-                out << "        ::foundry::parse::cst::" << r.name << " *" << r.name <<";" << std::endl;
+                out << "        " << ns << r.name << " *" << r.name <<";" << std::endl;
                 break;
         case write_type_decls:
                 out << "%type<" << r.name << "> " << r.name << ";" << std::endl;
@@ -103,7 +106,7 @@ void bison_output_visitor::visit(alternative const &a)
                 out << "ret";
         else
                 out << "$$";
-        out << " = new " << current_rule->name;
+        out << " = new " << ns << current_rule->name;
         if(multiple_alternatives)
                 out << '_' << current_alternative;
         out << '(';

@@ -2,7 +2,6 @@
 #include "parse_cst.hpp"
 #include "parse_parse.hpp"
 #include "parse_lex.hpp"
-using namespace foundry::parse::cst;
 %}
 
 %debug
@@ -54,11 +53,11 @@ void parse_error(YYLTYPE *loc, void *, ::foundry::parse::cst::start *&, char con
 %type<components> components;
 %type<component> component;
 %%
-start: directives rules { ret = new start($1, $2); };
-directives: DIRECTIVE directives { $$ = new directives_1($1, $2); } | { $$ = new directives_2(); };
-rules: rule rules { $$ = new rules_1($1, $2); } | { $$ = new rules_2(); };
-rule: IDENTIFIER ":" alternatives ";" { $$ = new rule($1, $3); };
-alternatives: components alternatives_tail { $$ = new alternatives($1, $2); };
-alternatives_tail: "|" alternatives { $$ = new alternatives_tail_1($2); } | { $$ = new alternatives_tail_2(); };
-components: component components { $$ = new components_1($1, $2); } | { $$ = new components_2(); };
-component: IDENTIFIER { $$ = new component_1($1); } | STRING_LITERAL { $$ = new component_2($1); };
+start: directives rules { ret = new ::foundry::parse::cst::start($1, $2); };
+directives: DIRECTIVE directives { $$ = new ::foundry::parse::cst::directives_1($1, $2); } | { $$ = new ::foundry::parse::cst::directives_2(); };
+rules: rule rules { $$ = new ::foundry::parse::cst::rules_1($1, $2); } | { $$ = new ::foundry::parse::cst::rules_2(); };
+rule: IDENTIFIER ":" alternatives ";" { $$ = new ::foundry::parse::cst::rule($1, $3); };
+alternatives: components alternatives_tail { $$ = new ::foundry::parse::cst::alternatives($1, $2); };
+alternatives_tail: "|" alternatives { $$ = new ::foundry::parse::cst::alternatives_tail_1($2); } | { $$ = new ::foundry::parse::cst::alternatives_tail_2(); };
+components: component components { $$ = new ::foundry::parse::cst::components_1($1, $2); } | { $$ = new ::foundry::parse::cst::components_2(); };
+component: IDENTIFIER { $$ = new ::foundry::parse::cst::component_1($1); } | STRING_LITERAL { $$ = new ::foundry::parse::cst::component_2($1); };

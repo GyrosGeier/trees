@@ -27,6 +27,18 @@ void cst_to_ast_visitor::visit(cst::start const &s)
 
 void cst_to_ast_visitor::visit(cst::directives_1 const &d)
 {
+        std::string::size_type const space = d._1.find(' ');
+        if(space != d._1.npos)
+        {
+                std::string const cmd(d._1, 1, space-1);
+                std::string const arg(d._1, space +1);
+                if(cmd == "namespace")
+                        rt->ns = arg;
+                else
+                        throw;
+        }
+        else
+                throw;
         descend(d._2);
 }
 

@@ -1,3 +1,5 @@
+%namespace foundry::parse::cst
+
 start:          directives rules
 ;
 

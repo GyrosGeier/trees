@@ -23,6 +23,7 @@ public:
 
 private:
         std::ostream &out;
+        std::string ns;
         rule const *current_rule;
         bool first_alternative, first_component;
         bool multiple_alternatives;

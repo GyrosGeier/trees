@@ -2,6 +2,7 @@ namespace foundry {
 namespace parse {
 
 node root {
+        std::string ns;
         rule rules[];
         terminal terminals[];
 };
