@@ -45,8 +45,8 @@ void bison_output_visitor::visit(root const &r)
         out << "        std::cerr << loc->first_line << \":\" << msg << std::endl;" << std::endl;
         out << "}" << std::endl;
         out << "%}" << std::endl;
-        out << "%token IDENTIFIER;" << std::endl;
-        out << "%token STRING_LITERAL;" << std::endl;
+        state = write_terminals;
+        descend(r.terminals);
         out << "%token SEMICOLON \";\"" << std::endl;
         out << "%token COLON \":\"" << std::endl;
         out << "%token PIPE \"|\"" << std::endl;
@@ -136,6 +136,9 @@ void bison_output_visitor::visit(terminal const &c)
         ++current_component;
         switch(state)
         {
+        case write_terminals:
+                out << "%token " << c.name << ";" << std::endl;
+                break;
         case write_components:
                 out << ' ' << c.name;
                 break;

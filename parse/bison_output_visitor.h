@@ -30,6 +30,7 @@ private:
 
         enum
         {
+                write_terminals,
                 write_union_members,
                 write_type_decls,
                 write_rules,
