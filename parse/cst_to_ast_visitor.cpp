@@ -62,6 +62,7 @@ void cst_to_ast_visitor::visit(cst::rule const &r)
 {
         current_rule = new rule;
         current_rule->name = r._1;
+        current_rule->is_start = false;
         descend(r._2);
         rt->rules.push_back(current_rule);
         current_rule = 0;
