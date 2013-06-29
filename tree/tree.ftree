@@ -48,13 +48,6 @@ node node_node {
     data_member_node members[];
 };
 
-node data_member_node {
-    %include <string>
-    type_node type;
-    std::string name;
-    bool needs_init;
-};
-
 group type_node {
     node basic_type_node {
         %include <string>
@@ -85,6 +78,13 @@ group type_node {
     node list_type_node {
         node type;
     };
+};
+
+node data_member_node {
+    %include <string>
+    type_node type;
+    std::string name;
+    bool needs_init;
 };
 
 visitor;
