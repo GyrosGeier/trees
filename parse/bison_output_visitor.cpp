@@ -20,7 +20,7 @@ void bison_output_visitor::visit(root const &r)
         else
                 ns = "::" + r.ns + "::";
         if(!r.rules.empty())
-                (*r.rules.begin())->is_start = true;
+                r.rules.front()->is_start = true;
 
         out << "%{" << std::endl;
         out << "#include \"parse_cst.hpp\"" << std::endl;
