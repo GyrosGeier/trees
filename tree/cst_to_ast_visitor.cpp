@@ -403,7 +403,7 @@ void cst_to_ast_visitor::visit(cst::type_1 const &t)
     nt->ns = current_namespace;
     std::string tmp1 = current_identifier;
     current_identifier.clear();
-    std::list<node_ptr> *tmp2 = current_template_argument_list;
+    std::list<type_node_ptr> *tmp2 = current_template_argument_list;
     current_template_argument_list = &nt->template_args;
     descend(t._1);
     nt->name = current_identifier;

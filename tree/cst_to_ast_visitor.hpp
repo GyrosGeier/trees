@@ -119,7 +119,7 @@ private:
     type_node_ptr current_type;
     bool current_type_needs_init;
     std::string current_identifier;
-    std::list<node_ptr> *current_template_argument_list;
+    std::list<type_node_ptr> *current_template_argument_list;
 };
 
 }

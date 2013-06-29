@@ -59,11 +59,11 @@ group type_node {
     };
 
     node reference_type_node {
-        node type;
+        type_node type;
     };
 
     node pointer_type_node {
-        node type;
+        type_node type;
         bool is_const;
         bool is_volatile;
     };
@@ -72,11 +72,11 @@ group type_node {
         %include <string>
         namespace_node_weak_ptr ns;
         std::string name;
-        node template_args[];
+        type_node template_args[];
     };
 
     node list_type_node {
-        node type;
+        type_node type;
     };
 };
 
