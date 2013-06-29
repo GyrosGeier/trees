@@ -3,6 +3,8 @@ CPPFLAGS ?=
 CXXFLAGS ?= -W -Wall -Werror -g
 LDFLAGS ?= -W -Wall -Werror -g
 
+CXXFLAGS += -std=c++0x
+
 MKDIR ?= mkdir -p
 
 CXXSOURCES = $(wildcard *.cpp)
