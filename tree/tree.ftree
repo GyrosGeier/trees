@@ -28,27 +28,27 @@ node namespace_node {
     std::set<std::string> node_types;
 };
 
-node group_node {
-    %include <string>
-    namespace_node_weak_ptr ns;
-    group_node_weak_ptr parent;
-    std::string name;
-    bool has_visitor;
-    bool has_const_visitor;
-    group_node groups[];
-    node_node nodes[];
-    data_member_node default_members[];
-};
-
-node node_node {
-    %include <string>
-    namespace_node_weak_ptr ns;
-    group_node_weak_ptr group;
-    std::string name;
-    data_member_node members[];
-};
-
 group type_node {
+    node group_node {
+        %include <string>
+        namespace_node_weak_ptr ns;
+        group_node_weak_ptr parent;
+        std::string name;
+        bool has_visitor;
+        bool has_const_visitor;
+        group_node groups[];
+        node_node nodes[];
+        data_member_node default_members[];
+    };
+    
+    node node_node {
+        %include <string>
+        namespace_node_weak_ptr ns;
+        group_node_weak_ptr group;
+        std::string name;
+        data_member_node members[];
+    };
+
     node basic_type_node {
         %include <string>
         namespace_node_weak_ptr ns;

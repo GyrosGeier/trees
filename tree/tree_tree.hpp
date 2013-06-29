@@ -28,6 +28,12 @@ struct node_visitor;
 struct type_node;
 typedef boost::intrusive_ptr<type_node> type_node_ptr;
 typedef type_node *type_node_weak_ptr;
+struct group_node;
+typedef boost::intrusive_ptr<group_node> group_node_ptr;
+typedef group_node *group_node_weak_ptr;
+struct node_node;
+typedef boost::intrusive_ptr<node_node> node_node_ptr;
+typedef node_node *node_node_weak_ptr;
 struct basic_type_node;
 typedef boost::intrusive_ptr<basic_type_node> basic_type_node_ptr;
 typedef basic_type_node *basic_type_node_weak_ptr;
@@ -52,12 +58,6 @@ typedef include_node *include_node_weak_ptr;
 struct namespace_node;
 typedef boost::intrusive_ptr<namespace_node> namespace_node_ptr;
 typedef namespace_node *namespace_node_weak_ptr;
-struct group_node;
-typedef boost::intrusive_ptr<group_node> group_node_ptr;
-typedef group_node *group_node_weak_ptr;
-struct node_node;
-typedef boost::intrusive_ptr<node_node> node_node_ptr;
-typedef node_node *node_node_weak_ptr;
 struct data_member_node;
 typedef boost::intrusive_ptr<data_member_node> data_member_node_ptr;
 typedef data_member_node *data_member_node_weak_ptr;
@@ -87,6 +87,12 @@ public:
         for(typename std::list<T, Alloc>::iterator i = l.begin(); i != l.end(); ++i)
             descend(*i);
     }
+    virtual void visit(group_node &) = 0;
+    inline void descend(group_node &n) { visit(n); }
+    inline void descend(boost::intrusive_ptr<group_node> &p) { if(p) descend(*p); }
+    virtual void visit(node_node &) = 0;
+    inline void descend(node_node &n) { visit(n); }
+    inline void descend(boost::intrusive_ptr<node_node> &p) { if(p) descend(*p); }
     virtual void visit(basic_type_node &) = 0;
     inline void descend(basic_type_node &n) { visit(n); }
     inline void descend(boost::intrusive_ptr<basic_type_node> &p) { if(p) descend(*p); }
@@ -111,12 +117,6 @@ public:
     virtual void visit(namespace_node &) = 0;
     inline void descend(namespace_node &n) { visit(n); }
     inline void descend(boost::intrusive_ptr<namespace_node> &p) { if(p) descend(*p); }
-    virtual void visit(group_node &) = 0;
-    inline void descend(group_node &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<group_node> &p) { if(p) descend(*p); }
-    virtual void visit(node_node &) = 0;
-    inline void descend(node_node &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<node_node> &p) { if(p) descend(*p); }
     virtual void visit(data_member_node &) = 0;
     inline void descend(data_member_node &n) { visit(n); }
     inline void descend(boost::intrusive_ptr<data_member_node> &p) { if(p) descend(*p); }
@@ -134,6 +134,12 @@ public:
         for(typename std::list<T, Alloc>::const_iterator i = l.begin(); i != l.end(); ++i)
             descend(*i);
     }
+    virtual void visit(group_node const &) = 0;
+    inline void descend(group_node const &n) { visit(n); }
+    inline void descend(boost::intrusive_ptr<group_node> const &p) { if(p) descend(*p); }
+    virtual void visit(node_node const &) = 0;
+    inline void descend(node_node const &n) { visit(n); }
+    inline void descend(boost::intrusive_ptr<node_node> const &p) { if(p) descend(*p); }
     virtual void visit(basic_type_node const &) = 0;
     inline void descend(basic_type_node const &n) { visit(n); }
     inline void descend(boost::intrusive_ptr<basic_type_node> const &p) { if(p) descend(*p); }
@@ -158,12 +164,6 @@ public:
     virtual void visit(namespace_node const &) = 0;
     inline void descend(namespace_node const &n) { visit(n); }
     inline void descend(boost::intrusive_ptr<namespace_node> const &p) { if(p) descend(*p); }
-    virtual void visit(group_node const &) = 0;
-    inline void descend(group_node const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<group_node> const &p) { if(p) descend(*p); }
-    virtual void visit(node_node const &) = 0;
-    inline void descend(node_node const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<node_node> const &p) { if(p) descend(*p); }
     virtual void visit(data_member_node const &) = 0;
     inline void descend(data_member_node const &n) { visit(n); }
     inline void descend(boost::intrusive_ptr<data_member_node> const &p) { if(p) descend(*p); }
@@ -172,6 +172,32 @@ struct type_node : node {
     type_node(void) throw() { }
     virtual ~type_node(void) throw() { }
     using node::apply;
+};
+struct group_node : type_node
+{
+    group_node() throw() { }
+    virtual ~group_node(void) throw() { }
+    virtual void apply(node_visitor &);
+    virtual void apply(node_const_visitor &) const;
+    namespace_node_weak_ptr ns;
+    group_node_weak_ptr parent;
+    std::string name;
+    bool has_visitor;
+    bool has_const_visitor;
+    std::list<boost::intrusive_ptr< ::foundry::tree::group_node> >  groups;
+    std::list<boost::intrusive_ptr< ::foundry::tree::node_node> >  nodes;
+    std::list<boost::intrusive_ptr< ::foundry::tree::data_member_node> >  default_members;
+};
+struct node_node : type_node
+{
+    node_node() throw() { }
+    virtual ~node_node(void) throw() { }
+    virtual void apply(node_visitor &);
+    virtual void apply(node_const_visitor &) const;
+    namespace_node_weak_ptr ns;
+    group_node_weak_ptr group;
+    std::string name;
+    std::list<boost::intrusive_ptr< ::foundry::tree::data_member_node> >  members;
 };
 struct basic_type_node : type_node
 {
@@ -251,32 +277,6 @@ struct namespace_node : node
     boost::intrusive_ptr< ::foundry::tree::group_node>  group;
     bool uses_lists;
     std::set< std::string>  node_types;
-};
-struct group_node : node
-{
-    group_node() throw() { }
-    virtual ~group_node(void) throw() { }
-    virtual void apply(node_visitor &);
-    virtual void apply(node_const_visitor &) const;
-    namespace_node_weak_ptr ns;
-    group_node_weak_ptr parent;
-    std::string name;
-    bool has_visitor;
-    bool has_const_visitor;
-    std::list<boost::intrusive_ptr< ::foundry::tree::group_node> >  groups;
-    std::list<boost::intrusive_ptr< ::foundry::tree::node_node> >  nodes;
-    std::list<boost::intrusive_ptr< ::foundry::tree::data_member_node> >  default_members;
-};
-struct node_node : node
-{
-    node_node() throw() { }
-    virtual ~node_node(void) throw() { }
-    virtual void apply(node_visitor &);
-    virtual void apply(node_const_visitor &) const;
-    namespace_node_weak_ptr ns;
-    group_node_weak_ptr group;
-    std::string name;
-    std::list<boost::intrusive_ptr< ::foundry::tree::data_member_node> >  members;
 };
 struct data_member_node : node
 {

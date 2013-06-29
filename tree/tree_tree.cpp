@@ -2,6 +2,22 @@
 
 namespace foundry {
 namespace tree {
+void group_node::apply(node_visitor &v)
+{
+    v.visit(*this);
+}
+void group_node::apply(node_const_visitor &v) const
+{
+    v.visit(*this);
+}
+void node_node::apply(node_visitor &v)
+{
+    v.visit(*this);
+}
+void node_node::apply(node_const_visitor &v) const
+{
+    v.visit(*this);
+}
 void basic_type_node::apply(node_visitor &v)
 {
     v.visit(*this);
@@ -63,22 +79,6 @@ void namespace_node::apply(node_visitor &v)
     v.visit(*this);
 }
 void namespace_node::apply(node_const_visitor &v) const
-{
-    v.visit(*this);
-}
-void group_node::apply(node_visitor &v)
-{
-    v.visit(*this);
-}
-void group_node::apply(node_const_visitor &v) const
-{
-    v.visit(*this);
-}
-void node_node::apply(node_visitor &v)
-{
-    v.visit(*this);
-}
-void node_node::apply(node_const_visitor &v) const
 {
     v.visit(*this);
 }
