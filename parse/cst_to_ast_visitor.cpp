@@ -4,6 +4,8 @@
 
 #include "cst_to_ast_visitor.h"
 
+#include <sstream>
+
 namespace foundry {
 namespace parse {
 
@@ -64,6 +66,21 @@ void cst_to_ast_visitor::visit(cst::rule const &r)
         current_rule->name = r._1;
         current_rule->is_start = false;
         descend(r._2);
+        if(current_rule->alternatives.size() != 1)
+        {
+                unsigned int n = 1;
+                for(auto i : current_rule->alternatives)
+                {
+                        if(i->name == r._1)
+                        {
+                                std::ostringstream os;
+                                os << i->name << "_" << n;
+                                i->name = os.str();
+                        }
+                        ++n;
+                }
+        }
+
         rt->rules.push_back(current_rule);
         current_rule = 0;
 }
@@ -89,11 +106,13 @@ void cst_to_ast_visitor::visit(cst::alternatives_tail_2 const &)
 
 void cst_to_ast_visitor::visit(cst::alternative_1 const &a)
 {
+        current_alternative->name = current_rule->name;
         descend(a._1);
 }
 
 void cst_to_ast_visitor::visit(cst::alternative_2 const &a)
 {
+        current_alternative->name = a._1;
         descend(a._2);
 }
 

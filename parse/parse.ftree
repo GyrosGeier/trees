@@ -15,6 +15,7 @@ node rule {
 };
 
 node alternative {
+        std::string name;
         component components[];
 };
 

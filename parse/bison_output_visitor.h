@@ -27,7 +27,7 @@ private:
         rule const *current_rule;
         bool first_alternative, first_component;
         bool multiple_alternatives;
-        unsigned int current_alternative, current_component;
+        unsigned int current_component;
 
         enum
         {

@@ -77,8 +77,6 @@ void bison_output_visitor::visit(rule const &r)
                 current_rule = &r;
                 out << r.name << ':';
                 first_alternative = true;
-                current_alternative = 0;
-                multiple_alternatives = (r.alternatives.size() > 1);
                 descend(r.alternatives);
                 out << ';' << std::endl;
                 break;
@@ -89,7 +87,6 @@ void bison_output_visitor::visit(rule const &r)
 
 void bison_output_visitor::visit(alternative const &a)
 {
-        ++current_alternative;
         if(!first_alternative)
                 out << " |";
         else
@@ -104,9 +101,7 @@ void bison_output_visitor::visit(alternative const &a)
                 out << "ret";
         else
                 out << "$$";
-        out << " = new " << ns << current_rule->name;
-        if(multiple_alternatives)
-                out << '_' << current_alternative;
+        out << " = new " << ns << a.name;
         out << '(';
         first_component = true;
         current_component = 0;
