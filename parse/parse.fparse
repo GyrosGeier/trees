@@ -1,4 +1,8 @@
-start:          rules
+start:          directives rules
+;
+
+directives:     DIRECTIVE directives |
+                /* empty */
 ;
 
 rules:          rule rules |

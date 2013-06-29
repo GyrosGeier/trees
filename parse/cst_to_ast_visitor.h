@@ -14,6 +14,8 @@ public:
         cst_to_ast_visitor();
         ~cst_to_ast_visitor() throw();
 
+        virtual void visit(cst::directives_1 const &);
+        virtual void visit(cst::directives_2 const &);
         virtual void visit(cst::rules_1 const &);
         virtual void visit(cst::rules_2 const &);
         virtual void visit(cst::alternatives_tail_1 const &);

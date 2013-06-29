@@ -25,6 +25,8 @@ void parse_error(YYLTYPE *loc, void *, ::foundry::parse::cst::start *&, char con
         std::cerr << loc->first_line << ":" << msg << std::endl;
 }
 %}
+%token DIRECTIVE;
+%type<string> DIRECTIVE;
 %token IDENTIFIER;
 %type<string> IDENTIFIER;
 %token STRING_LITERAL;
@@ -35,6 +37,7 @@ void parse_error(YYLTYPE *loc, void *, ::foundry::parse::cst::start *&, char con
 %union {
         char const *string;
         ::foundry::parse::cst::start *start;
+        ::foundry::parse::cst::directives *directives;
         ::foundry::parse::cst::rules *rules;
         ::foundry::parse::cst::rule *rule;
         ::foundry::parse::cst::alternatives *alternatives;
@@ -43,6 +46,7 @@ void parse_error(YYLTYPE *loc, void *, ::foundry::parse::cst::start *&, char con
         ::foundry::parse::cst::component *component;
 }
 %type<start> start;
+%type<directives> directives;
 %type<rules> rules;
 %type<rule> rule;
 %type<alternatives> alternatives;
@@ -50,7 +54,8 @@ void parse_error(YYLTYPE *loc, void *, ::foundry::parse::cst::start *&, char con
 %type<components> components;
 %type<component> component;
 %%
-start: rules { ret = new start($1); };
+start: directives rules { ret = new start($1, $2); };
+directives: DIRECTIVE directives { $$ = new directives_1($1, $2); } | { $$ = new directives_2(); };
 rules: rule rules { $$ = new rules_1($1, $2); } | { $$ = new rules_2(); };
 rule: IDENTIFIER ":" alternatives ";" { $$ = new rule($1, $3); };
 alternatives: components alternatives_tail { $$ = new alternatives($1, $2); };

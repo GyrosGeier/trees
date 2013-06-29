@@ -22,6 +22,17 @@ void cst_to_ast_visitor::visit(cst::start const &s)
         if(!rt)
                 rt = new root;
         descend(s._1);
+        descend(s._2);
+}
+
+void cst_to_ast_visitor::visit(cst::directives_1 const &d)
+{
+        descend(d._2);
+}
+
+void cst_to_ast_visitor::visit(cst::directives_2 const &)
+{
+        return;
 }
 
 void cst_to_ast_visitor::visit(cst::rules_1 const &r)
