@@ -93,7 +93,7 @@ stage2/%_cst.hpp: stage2/%.yy ../tree/foundry-tree
 	../tree/foundry-tree -n foundry -n parse -n cst -o $@ $<
 
 stage2/%_lex.cpp: stage2/%.ll
-	cd stage2 && flex -o $(notdir $@) --header-file=$(basename $(notdir $@)).hpp ../$(notdir $<)
+	cd stage2 && flex -o $(notdir $@) --header-file=$(basename $(notdir $@)).hpp $(notdir $<)
 
 stage2/%_lex.hpp: stage2/%_lex.cpp
 	test -f $@ || ($(RM) $< && $(MAKE) $<)
