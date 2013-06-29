@@ -76,9 +76,9 @@ void cst_to_ast_visitor::visit(cst::components_2 const &)
 
 void cst_to_ast_visitor::visit(cst::component_1 const &c)
 {
-        terminal_ptr t = new terminal;
-        t->name = c._1;
-        current_alternative->components.push_back(t);
+        unresolved_symbol_ptr u = new unresolved_symbol;
+        u->name = c._1;
+        current_alternative->components.push_back(u);
 }
 
 void cst_to_ast_visitor::visit(cst::component_2 const &c)

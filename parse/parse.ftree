@@ -25,6 +25,8 @@ group component {
                 std::string text;
         };
 
+        node unresolved_symbol {};
+
         node terminal {};
         node nonterminal
         {
@@ -33,6 +35,7 @@ group component {
 };
 
 const visitor;
+visitor;
 
 }
 }

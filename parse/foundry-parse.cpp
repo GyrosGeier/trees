@@ -5,6 +5,8 @@
 
 #include "cst_to_ast_visitor.h"
 
+#include "resolve_symbols_visitor.h"
+
 #include "bison_output_visitor.h"
 #include "lex_output_visitor.h"
 
@@ -93,6 +95,9 @@ int main(int argc, char **argv)
         parse_lex_destroy(scanner);
 
         root_ptr r = v.get_root();
+
+        resolve_symbols_visitor resolve_symbols;
+        r->apply(resolve_symbols);
 
         std::ofstream out(output.c_str());
 
