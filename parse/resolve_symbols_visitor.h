@@ -13,6 +13,7 @@ class resolve_symbols_visitor :
         public node_visitor
 {
 public:
+        resolve_symbols_visitor(bool verbose) : verbose(verbose) { }
         virtual ~resolve_symbols_visitor() throw() { }
 
         virtual void visit(string_literal &);
@@ -24,6 +25,7 @@ public:
         virtual void visit(alternative &);
 
 private:
+        bool verbose;
         std::map<std::string, nonterminal_ptr> nonterminals;
         std::map<std::string, std::list<component_ptr *> > unresolved_references;
 

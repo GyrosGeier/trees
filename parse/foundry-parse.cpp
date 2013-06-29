@@ -96,7 +96,7 @@ int main(int argc, char **argv)
 
         root_ptr r = v.get_root();
 
-        resolve_symbols_visitor resolve_symbols;
+        resolve_symbols_visitor resolve_symbols(verbose);
         r->apply(resolve_symbols);
 
         std::ofstream out(output.c_str());
