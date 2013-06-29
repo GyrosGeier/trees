@@ -24,9 +24,9 @@ IDENT           [[:alpha:]_][[:alnum:]_]*
 <COMMENT>.      /* ignore */
 
 %[^\n]*          yylval->string = strdup(yytext); return DIRECTIVE;
-\;              return SEMICOLON;
-:               return COLON;
-\|              return PIPE;
+:	return LITERAL_1;
+\;	return LITERAL_2;
+\|	return LITERAL_3;
 \               /* ignore */
 \n              /* ignore */
 

@@ -50,9 +50,7 @@ void bison_output_visitor::visit(root const &r)
         out << "%}" << std::endl;
         state = write_terminals;
         descend(r.terminals);
-        out << "%token SEMICOLON \";\"" << std::endl;
-        out << "%token COLON \":\"" << std::endl;
-        out << "%token PIPE \"|\"" << std::endl;
+        descend(r.literals);
         out << "%union {" << std::endl;
         out << "        char const *string;" << std::endl;
         state = write_union_members;
@@ -122,6 +120,9 @@ void bison_output_visitor::visit(string_literal const &c)
         ++current_component;
         switch(state)
         {
+        case write_terminals:
+                out << "%token " << c.name << ' ' << c.text << std::endl;
+                break;
         case write_components:
                 out << ' ' << c.text;
                 break;

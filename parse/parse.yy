@@ -30,9 +30,9 @@ void parse_error(YYLTYPE *loc, void *, ::foundry::parse::cst::start *&, char con
 %type<string> IDENTIFIER;
 %token STRING_LITERAL;
 %type<string> STRING_LITERAL;
-%token SEMICOLON ";"
-%token COLON ":"
-%token PIPE "|"
+%token LITERAL_1 ":"
+%token LITERAL_2 ";"
+%token LITERAL_3 "|"
 %union {
         char const *string;
         ::foundry::parse::cst::start *start;

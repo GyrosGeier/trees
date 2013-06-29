@@ -13,7 +13,7 @@ lex_output_visitor::lex_output_visitor(std::ostream &out) :
         return;
 }
 
-void lex_output_visitor::visit(root const &)
+void lex_output_visitor::visit(root const &r)
 {
         out << "%{" << std::endl;
         out << "#include \"parse_cst.hpp\"" << std::endl;
@@ -41,9 +41,7 @@ void lex_output_visitor::visit(root const &)
         out << "<COMMENT>.      /* ignore */" << std::endl;
         out << "" << std::endl;
         out << "%[^\\n]*          yylval->string = strdup(yytext); return DIRECTIVE;" << std::endl;
-        out << "\\;              return SEMICOLON;" << std::endl;
-        out << ":               return COLON;" << std::endl;
-        out << "\\|              return PIPE;" << std::endl;
+        descend(r.literals);
         out << "\\               /* ignore */" << std::endl;
         out << "\\n              /* ignore */" << std::endl;
         out << "" << std::endl;
@@ -59,8 +57,32 @@ void lex_output_visitor::visit(alternative const &)
 {
 }
 
-void lex_output_visitor::visit(string_literal const &)
+void lex_output_visitor::visit(string_literal const &l)
 {
+        std::string const text = l.text.substr(1, l.text.size() - 2);
+        for(auto i : text)
+        {
+                switch(i)
+                {
+                case ';':
+                case '|':
+                case '?':
+                case '^':
+                case '*':
+                case '+':
+                case '/':
+                case '\\':
+                case '(': case ')':
+                case '<': case '>':
+                case '[': case ']':
+                        out << '\\' << i;
+                        break;
+                default:
+                        out << i;
+                        break;
+                }
+        }
+        out << "\treturn " << l.name << ";" << std::endl;
 }
 
 void lex_output_visitor::visit(terminal const &)

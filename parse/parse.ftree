@@ -5,6 +5,7 @@ node root {
         std::string ns;
         rule rules[];
         terminal terminals[];
+        string_literal literals[];
 };
 
 node rule {
