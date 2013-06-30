@@ -8,6 +8,8 @@
 #include "resolve_symbols_visitor.h"
 #include "resolve_literals_visitor.h"
 
+#include "unroll_repetitions_visitor.h"
+
 #include "bison_output_visitor.h"
 #include "lex_output_visitor.h"
 
@@ -102,6 +104,9 @@ int main(int argc, char **argv)
 
         resolve_literals_visitor resolve_literals(verbose);
         r->apply(resolve_literals);
+
+        unroll_repetitions_visitor unroll_repetitions(verbose);
+        r->apply(unroll_repetitions);
 
         std::ofstream out(output.c_str());
 

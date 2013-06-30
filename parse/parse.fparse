@@ -26,8 +26,7 @@ alternative:    -unnamed_alternative- components |
                 -named_alternative- "-" IDENTIFIER "-" components
 ;
 
-components:     -components_chain- component repetition_qualifier components |
-                -end_of_components- /* empty */
+components:     ( component repetition_qualifier ) *
 ;
 
 repetition_qualifier:

@@ -121,17 +121,27 @@ void cst_to_ast_visitor::visit(cst::named_alternative const &a)
         descend(a._2);
 }
 
+void cst_to_ast_visitor::visit(cst::components const &c)
+{
+        descend(c._1);
+}
+
 void cst_to_ast_visitor::visit(cst::components_chain const &c)
 {
-        // Resolve repetition first
-        descend(c._2);
         descend(c._1);
-        descend(c._3);
+        descend(c._2);
 }
 
 void cst_to_ast_visitor::visit(cst::end_of_components const &)
 {
         return;
+}
+
+void cst_to_ast_visitor::visit(cst::components_elem const &c)
+{
+        // Resolve repetition first
+        descend(c._2);
+        descend(c._1);
 }
 
 void cst_to_ast_visitor::visit(cst::no_repetition const &)
@@ -172,9 +182,12 @@ void cst_to_ast_visitor::visit(cst::literal const &c)
 
 void cst_to_ast_visitor::visit(cst::group const &g)
 {
+        group_ptr ng = new group;
+        ng->rep = current_repeat;
+        current_group->components.push_back(ng);
+
         group_ptr stack = current_group;
-        current_group = new group;
-        current_group->rep = current_repeat;
+        current_group = ng;
         descend(g._1);
         current_group = stack;
 }
