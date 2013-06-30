@@ -40,6 +40,7 @@ public:
     virtual void visit(cst::group_member_declaration_3 const &);
     virtual void visit(cst::node_declaration_1 const &);
     virtual void visit(cst::node_declaration_2 const &);
+    virtual void visit(cst::node_declaration_3 const &);
     virtual void visit(cst::visitor_declaration_1 const &);
     virtual void visit(cst::visitor_declaration_2 const &);
     virtual void visit(cst::visitor_declaration_3 const &);
@@ -93,6 +94,7 @@ public:
     virtual void visit(cst::type_2 const &);
     virtual void visit(cst::type_3 const &);
     virtual void visit(cst::type_4 const &);
+    virtual void visit(cst::type_5 const &);
     virtual void visit(cst::template_name const &);
     virtual void visit(cst::template_argument_list_1 const &);
     virtual void visit(cst::template_argument_list_2 const &);

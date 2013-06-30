@@ -143,6 +143,17 @@ void cst_to_ast_visitor::visit(cst::node_declaration_1 const &n)
 
 void cst_to_ast_visitor::visit(cst::node_declaration_2 const &n)
 {
+    /* "node" "group" "{" member_declarations "}" */
+    current_node = new node_node;
+    current_node->name = "group";
+    current_node->ns = current_namespace;
+    current_node->group = current_group;
+    current_group->nodes.push_back(current_node);
+    descend(n._1);
+}
+
+void cst_to_ast_visitor::visit(cst::node_declaration_3 const &n)
+{
     /* "node" "{" member_declarations "}" */
     node_node_ptr fake_node = new node_node;
     current_node = fake_node.get();
@@ -440,6 +451,18 @@ void cst_to_ast_visitor::visit(cst::type_3 const&)
 }
 
 void cst_to_ast_visitor::visit(cst::type_4 const&)
+{
+    /* "group" */
+    basic_type_node_weak_ptr nt = new basic_type_node;
+    nt->is_const = false;
+    nt->is_volatile = false;
+    nt->ns = current_namespace;
+    nt->name = "group";
+    current_type = nt;
+    current_type_needs_init = false;
+}
+
+void cst_to_ast_visitor::visit(cst::type_5 const&)
 {
     /* "parent" */
     basic_type_node_weak_ptr nt = new basic_type_node;

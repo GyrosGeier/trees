@@ -79,6 +79,7 @@
 #include <boost/intrusive_ptr.hpp>
 #include <boost/intrusive_ptr.hpp>
 #include <boost/intrusive_ptr.hpp>
+#include <boost/intrusive_ptr.hpp>
 #include <list>
 namespace foundry {
 namespace tree {
@@ -147,6 +148,9 @@ typedef node_declaration_1 *node_declaration_1_weak_ptr;
 struct node_declaration_2;
 typedef boost::intrusive_ptr<node_declaration_2> node_declaration_2_ptr;
 typedef node_declaration_2 *node_declaration_2_weak_ptr;
+struct node_declaration_3;
+typedef boost::intrusive_ptr<node_declaration_3> node_declaration_3_ptr;
+typedef node_declaration_3 *node_declaration_3_weak_ptr;
 struct visitor_declaration;
 typedef boost::intrusive_ptr<visitor_declaration> visitor_declaration_ptr;
 typedef visitor_declaration *visitor_declaration_weak_ptr;
@@ -339,6 +343,9 @@ typedef type_3 *type_3_weak_ptr;
 struct type_4;
 typedef boost::intrusive_ptr<type_4> type_4_ptr;
 typedef type_4 *type_4_weak_ptr;
+struct type_5;
+typedef boost::intrusive_ptr<type_5> type_5_ptr;
+typedef type_5 *type_5_weak_ptr;
 struct template_argument_list;
 typedef boost::intrusive_ptr<template_argument_list> template_argument_list_ptr;
 typedef template_argument_list *template_argument_list_weak_ptr;
@@ -495,6 +502,9 @@ public:
     virtual void visit(node_declaration_2 const &) = 0;
     inline void descend(node_declaration_2 const &n) { visit(n); }
     inline void descend(boost::intrusive_ptr<node_declaration_2> const &p) { if(p) descend(*p); }
+    virtual void visit(node_declaration_3 const &) = 0;
+    inline void descend(node_declaration_3 const &n) { visit(n); }
+    inline void descend(boost::intrusive_ptr<node_declaration_3> const &p) { if(p) descend(*p); }
     virtual void visit(visitor_declaration_1 const &) = 0;
     inline void descend(visitor_declaration_1 const &n) { visit(n); }
     inline void descend(boost::intrusive_ptr<visitor_declaration_1> const &p) { if(p) descend(*p); }
@@ -639,6 +649,9 @@ public:
     virtual void visit(type_4 const &) = 0;
     inline void descend(type_4 const &n) { visit(n); }
     inline void descend(boost::intrusive_ptr<type_4> const &p) { if(p) descend(*p); }
+    virtual void visit(type_5 const &) = 0;
+    inline void descend(type_5 const &n) { visit(n); }
+    inline void descend(boost::intrusive_ptr<type_5> const &p) { if(p) descend(*p); }
     virtual void visit(template_argument_list_1 const &) = 0;
     inline void descend(template_argument_list_1 const &n) { visit(n); }
     inline void descend(boost::intrusive_ptr<template_argument_list_1> const &p) { if(p) descend(*p); }
@@ -853,6 +866,14 @@ struct node_declaration_2 : node_declaration
     node_declaration_2(boost::intrusive_ptr< ::foundry::tree::cst::member_declarations>  _1) throw() : 
         _1(_1) { }
     virtual ~node_declaration_2(void) throw() { }
+    virtual void apply(node_const_visitor &) const;
+    boost::intrusive_ptr< ::foundry::tree::cst::member_declarations>  _1;
+};
+struct node_declaration_3 : node_declaration
+{
+    node_declaration_3(boost::intrusive_ptr< ::foundry::tree::cst::member_declarations>  _1) throw() : 
+        _1(_1) { }
+    virtual ~node_declaration_3(void) throw() { }
     virtual void apply(node_const_visitor &) const;
     boost::intrusive_ptr< ::foundry::tree::cst::member_declarations>  _1;
 };
@@ -1298,6 +1319,12 @@ struct type_4 : type
 {
     type_4() throw() { }
     virtual ~type_4(void) throw() { }
+    virtual void apply(node_const_visitor &) const;
+};
+struct type_5 : type
+{
+    type_5() throw() { }
+    virtual ~type_5(void) throw() { }
     virtual void apply(node_const_visitor &) const;
 };
 struct template_argument_list : node {

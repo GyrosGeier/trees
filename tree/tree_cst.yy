@@ -182,7 +182,8 @@ group_member_declaration: group_declaration { $$ = new group_member_declaration_
     visitor_declaration { $$ = new group_member_declaration_3($1); }
 
 node_declaration: "node" IDENTIFIER "{" member_declarations "}" { $$ = new node_declaration_1(std::string($2.data, $2.length), $4); } |
-    "node" "{" member_declarations "}" { $$ = new node_declaration_2($3); }
+    "node" "group" "{" member_declarations "}" { $$ = new node_declaration_2($4); } |
+    "node" "{" member_declarations "}" { $$ = new node_declaration_3($3); }
 
 visitor_declaration: "visitor" IDENTIFIER "{" member_declarations "}" { $$ = new visitor_declaration_1(std::string($2.data, $2.length), $4); } |
     "const" "visitor" IDENTIFIER "{" member_declarations "}" { $$ = new visitor_declaration_2(std::string($3.data, $3.length), $5); } |
@@ -256,7 +257,8 @@ unbounded_array: "[" "]" { $$ = new unbounded_array; }
 type: template_name { $$ = new type_1($1); } |
     scoped_name { $$ = new type_2($1); } |
     "node" { $$ = new type_3; } |
-    "parent" { $$ = new type_4; }
+    "group" { $$ = new type_4; } |
+    "parent" { $$ = new type_5; }
 
 template_name: scoped_name "<" template_argument_list ">" { $$ = new template_name($1, $3); }
 

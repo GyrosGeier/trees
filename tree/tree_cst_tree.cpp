@@ -59,6 +59,10 @@ void node_declaration_2::apply(node_const_visitor &v) const
 {
     v.visit(*this);
 }
+void node_declaration_3::apply(node_const_visitor &v) const
+{
+    v.visit(*this);
+}
 void visitor_declaration_1::apply(node_const_visitor &v) const
 {
     v.visit(*this);
@@ -248,6 +252,10 @@ void type_3::apply(node_const_visitor &v) const
     v.visit(*this);
 }
 void type_4::apply(node_const_visitor &v) const
+{
+    v.visit(*this);
+}
+void type_5::apply(node_const_visitor &v) const
 {
     v.visit(*this);
 }
