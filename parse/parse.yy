@@ -34,6 +34,8 @@ void parse_error(YYLTYPE *loc, void *, ::foundry::parse::cst::start *&, char con
 %token LITERAL_2 ";"
 %token LITERAL_3 "|"
 %token LITERAL_4 "-"
+%token LITERAL_5 "("
+%token LITERAL_6 ")"
 %union {
         char *string;
         ::foundry::parse::cst::start *start;
@@ -64,4 +66,4 @@ alternatives: /*-alternatives-*/ alternative alternatives_tail { $$ = new ::foun
 alternatives_tail: /*-more_alternatives-*/ "|" alternatives { $$ = new ::foundry::parse::cst::more_alternatives($2); } | /*-end_of_alternatives-*/ { $$ = new ::foundry::parse::cst::end_of_alternatives(); };
 alternative: /*-unnamed_alternative-*/ components { $$ = new ::foundry::parse::cst::unnamed_alternative($1); } | /*-named_alternative-*/ "-" IDENTIFIER "-" components { $$ = new ::foundry::parse::cst::named_alternative($2, $4); free($2); };
 components: /*-components_chain-*/ component components { $$ = new ::foundry::parse::cst::components_chain($1, $2); } | /*-end_of_components-*/ { $$ = new ::foundry::parse::cst::end_of_components(); };
-component: /*-symbol-*/ IDENTIFIER { $$ = new ::foundry::parse::cst::symbol($1); free($1); } | /*-literal-*/ STRING_LITERAL { $$ = new ::foundry::parse::cst::literal($1); free($1); };
+component: /*-symbol-*/ IDENTIFIER { $$ = new ::foundry::parse::cst::symbol($1); free($1); } | /*-literal-*/ STRING_LITERAL { $$ = new ::foundry::parse::cst::literal($1); free($1); } | /*-group-*/ "(" components ")" { $$ = new ::foundry::parse::cst::group($2); };

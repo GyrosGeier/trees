@@ -31,5 +31,6 @@ components:     -components_chain- component components |
 ;
 
 component:      -symbol- IDENTIFIER |
-                -literal- STRING_LITERAL
+                -literal- STRING_LITERAL |
+                -group- "(" components ")"
 ;

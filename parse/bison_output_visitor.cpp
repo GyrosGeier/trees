@@ -98,7 +98,7 @@ void bison_output_visitor::visit(alternative const &a)
         state = write_components;
         first_component = true;
         current_component = 0;
-        descend(a.components);
+        descend(a.group);
         state = write_action;
         out << " { ";
         if(current_rule == start)
@@ -109,13 +109,18 @@ void bison_output_visitor::visit(alternative const &a)
         out << '(';
         first_component = true;
         current_component = 0;
-        descend(a.components);
+        descend(a.group);
         out << "); ";
         state = write_cleanup;
         current_component = 0;
-        descend(a.components);
+        descend(a.group);
         out << "}";
         state = write_rules;
+}
+
+void bison_output_visitor::visit(group const &g)
+{
+        descend(g.components);
 }
 
 void bison_output_visitor::visit(string_literal const &c)

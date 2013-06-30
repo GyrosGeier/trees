@@ -57,6 +57,10 @@ void lex_output_visitor::visit(alternative const &)
 {
 }
 
+void lex_output_visitor::visit(group const &)
+{
+}
+
 void lex_output_visitor::visit(string_literal const &l)
 {
         std::string const text = l.text.substr(1, l.text.size() - 2);

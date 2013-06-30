@@ -9,6 +9,15 @@
 namespace foundry {
 namespace parse {
 
+void resolve_literals_visitor::visit(group &g)
+{
+        for(auto &i : g.components)
+        {
+                current_context = &i;
+                descend(i);
+        }
+}
+
 void resolve_literals_visitor::visit(string_literal &l)
 {
         auto litref = literals.find(l.text);
@@ -30,14 +39,7 @@ void resolve_literals_visitor::visit(terminal &) { }
 void resolve_literals_visitor::visit(nonterminal &) { }
 void resolve_literals_visitor::visit(root &r) { rt = &r; descend(r.rules); }
 void resolve_literals_visitor::visit(rule &r) { descend(r.alternatives);  }
-void resolve_literals_visitor::visit(alternative &a)
-{
-        for(auto &i : a.components)
-        {
-                current_context = &i;
-                descend(i);
-        }
-}
+void resolve_literals_visitor::visit(alternative &a) { descend(a.group); }
 
 }
 }

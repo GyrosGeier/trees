@@ -16,6 +16,7 @@ public:
         resolve_literals_visitor(bool verbose) : verbose(verbose), num(0) { }
         virtual ~resolve_literals_visitor() throw() { }
 
+        virtual void visit(group &);
         virtual void visit(string_literal &);
         virtual void visit(unresolved_symbol &);
         virtual void visit(terminal &);

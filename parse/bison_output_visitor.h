@@ -20,6 +20,7 @@ public:
         virtual void visit(string_literal const &);
         virtual void visit(terminal const &);
         virtual void visit(nonterminal const &);
+        virtual void visit(group const &);
 
 private:
         std::ostream &out;

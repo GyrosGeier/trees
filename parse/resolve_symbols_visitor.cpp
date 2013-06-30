@@ -9,6 +9,15 @@
 namespace foundry {
 namespace parse {
 
+void resolve_symbols_visitor::visit(group &g)
+{
+        for(auto &i : g.components)
+        {
+                current_context = &i;
+                descend(i);
+        }
+}
+
 void resolve_symbols_visitor::visit(string_literal &) { }
 void resolve_symbols_visitor::visit(unresolved_symbol &s)
 {
@@ -82,11 +91,7 @@ void resolve_symbols_visitor::visit(rule &r)
 
 void resolve_symbols_visitor::visit(alternative &a)
 {
-        for(auto &i : a.components)
-        {
-                current_context = &i;
-                descend(i);
-        }
+        descend(a.group);
 }
 
 }

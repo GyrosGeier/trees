@@ -87,6 +87,8 @@ void cst_to_ast_visitor::visit(cst::rule const &r)
 void cst_to_ast_visitor::visit(cst::alternatives const &a)
 {
         current_alternative = new alternative;
+        current_alternative->group = new group;
+        current_group = current_alternative->group;
         descend(a._1);
         descend(a._2);
 }
@@ -95,6 +97,8 @@ void cst_to_ast_visitor::visit(cst::more_alternatives const &t)
 {
         current_rule->alternatives.push_back(current_alternative);
         current_alternative = new alternative;
+        current_alternative->group = new group;
+        current_group = current_alternative->group;
         descend(t._1);
 }
 
@@ -130,14 +134,22 @@ void cst_to_ast_visitor::visit(cst::symbol const &c)
 {
         unresolved_symbol_ptr u = new unresolved_symbol;
         u->name = c._1;
-        current_alternative->components.push_back(u);
+        current_group->components.push_back(u);
 }
 
 void cst_to_ast_visitor::visit(cst::literal const &c)
 {
         string_literal_ptr sl = new string_literal;
         sl->text = c._1;
-        current_alternative->components.push_back(sl);
+        current_group->components.push_back(sl);
+}
+
+void cst_to_ast_visitor::visit(cst::group const &g)
+{
+        group_ptr stack = current_group;
+        current_group = new group;
+        descend(g._1);
+        current_group = stack;
 }
 
 }

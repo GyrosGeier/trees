@@ -27,6 +27,7 @@ public:
         virtual void visit(cst::end_of_components const &);
         virtual void visit(cst::symbol const &);
         virtual void visit(cst::literal const &);
+        virtual void visit(cst::group const &);
         virtual void visit(cst::start const &);
         virtual void visit(cst::rule const &);
 
@@ -36,6 +37,7 @@ private:
         root_ptr rt;
         rule_ptr current_rule;
         alternative_ptr current_alternative;
+        group_ptr current_group;
 };
 
 }
