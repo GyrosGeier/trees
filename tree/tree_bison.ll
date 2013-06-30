@@ -54,6 +54,7 @@ IDENT                   [[:alpha:]_][[:alnum:]_]*
   \|                    return BAR;
   \{                    yyextra->bracecount = 1; BEGIN(action);
 
+  \/\*-[^-]*-\*\/       yylval->string = strndup(yytext+3, yyleng-6); return NAME_HINT;
   \/\*                  BEGIN(ccomment);
 
   \"(\\.|[^"])*\"       yylval->string = strdup(yytext); return STRING;

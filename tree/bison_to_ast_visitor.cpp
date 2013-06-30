@@ -72,15 +72,45 @@ void bison_to_ast_visitor::visit(bison::rule const &r)
     descend(r._2);
 }
 
-void bison_to_ast_visitor::visit(bison::alternatives_1 const &a)
+void bison_to_ast_visitor::visit(bison::alternative_1 const &a)
 {
     /* components */
+    current_node = new node_node;
+    current_node->ns = current_namespace;
+    current_node->group = current_group;
+    if(current_count == 0)
+        current_node->name = current_identifier;
+    else
+    {
+        std::ostringstream str;
+        str << current_identifier;
+        str << "_" << current_count++;
+        current_node->name = str.str();
+    }
+    current_group->nodes.push_back(current_node);
+    descend(a._1);
+}
+
+void bison_to_ast_visitor::visit(bison::alternative_2 const &a)
+{
+    /* NAME_HINT components */
+    current_node = new node_node;
+    current_node->ns = current_namespace;
+    current_node->group = current_group;
+    current_node->name = a._1;
+    current_group->nodes.push_back(current_node);
+    descend(a._2);
+}
+
+void bison_to_ast_visitor::visit(bison::alternatives_1 const &a)
+{
+    /* alternative */
     descend(a._1);
 }
 
 void bison_to_ast_visitor::visit(bison::alternatives_2 const &a)
 {
-    /* alternatives "|" components */
+    /* alternatives "|" alternative */
     if(current_count == 0)
     {
         current_count = 1;
@@ -105,19 +135,6 @@ void bison_to_ast_visitor::visit(bison::alternatives_3 const &a)
 void bison_to_ast_visitor::visit(bison::components_1 const &)
 {
     /* empty */
-    current_node = new node_node;
-    current_node->ns = current_namespace;
-    current_node->group = current_group;
-    if(current_count == 0)
-        current_node->name = current_identifier;
-    else
-    {
-        std::ostringstream str;
-        str << current_identifier;
-        str << "_" << current_count++;
-        current_node->name = str.str();
-    }
-    current_group->nodes.push_back(current_node);
 }
 
 void bison_to_ast_visitor::visit(bison::components_2 const &c)

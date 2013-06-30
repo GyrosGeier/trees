@@ -13,6 +13,8 @@
 #include <boost/intrusive_ptr.hpp>
 #include <boost/intrusive_ptr.hpp>
 #include <boost/intrusive_ptr.hpp>
+#include <boost/intrusive_ptr.hpp>
+#include <boost/intrusive_ptr.hpp>
 #include <list>
 namespace foundry {
 namespace tree {
@@ -42,6 +44,15 @@ typedef alternatives_2 *alternatives_2_weak_ptr;
 struct alternatives_3;
 typedef boost::intrusive_ptr<alternatives_3> alternatives_3_ptr;
 typedef alternatives_3 *alternatives_3_weak_ptr;
+struct alternative;
+typedef boost::intrusive_ptr<alternative> alternative_ptr;
+typedef alternative *alternative_weak_ptr;
+struct alternative_1;
+typedef boost::intrusive_ptr<alternative_1> alternative_1_ptr;
+typedef alternative_1 *alternative_1_weak_ptr;
+struct alternative_2;
+typedef boost::intrusive_ptr<alternative_2> alternative_2_ptr;
+typedef alternative_2 *alternative_2_weak_ptr;
 struct components;
 typedef boost::intrusive_ptr<components> components_ptr;
 typedef components *components_weak_ptr;
@@ -102,6 +113,12 @@ public:
     virtual void visit(alternatives_3 const &) = 0;
     inline void descend(alternatives_3 const &n) { visit(n); }
     inline void descend(boost::intrusive_ptr<alternatives_3> const &p) { if(p) descend(*p); }
+    virtual void visit(alternative_1 const &) = 0;
+    inline void descend(alternative_1 const &n) { visit(n); }
+    inline void descend(boost::intrusive_ptr<alternative_1> const &p) { if(p) descend(*p); }
+    virtual void visit(alternative_2 const &) = 0;
+    inline void descend(alternative_2 const &n) { visit(n); }
+    inline void descend(boost::intrusive_ptr<alternative_2> const &p) { if(p) descend(*p); }
     virtual void visit(components_1 const &) = 0;
     inline void descend(components_1 const &n) { visit(n); }
     inline void descend(boost::intrusive_ptr<components_1> const &p) { if(p) descend(*p); }
@@ -148,20 +165,20 @@ struct alternatives : node {
 };
 struct alternatives_1 : alternatives
 {
-    alternatives_1(boost::intrusive_ptr< ::foundry::tree::bison::components>  _1) throw() : 
+    alternatives_1(boost::intrusive_ptr< ::foundry::tree::bison::alternative>  _1) throw() : 
         _1(_1) { }
     virtual ~alternatives_1(void) throw() { }
     virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::bison::components>  _1;
+    boost::intrusive_ptr< ::foundry::tree::bison::alternative>  _1;
 };
 struct alternatives_2 : alternatives
 {
-    alternatives_2(boost::intrusive_ptr< ::foundry::tree::bison::alternatives>  _1, boost::intrusive_ptr< ::foundry::tree::bison::components>  _2) throw() : 
+    alternatives_2(boost::intrusive_ptr< ::foundry::tree::bison::alternatives>  _1, boost::intrusive_ptr< ::foundry::tree::bison::alternative>  _2) throw() : 
         _1(_1), _2(_2) { }
     virtual ~alternatives_2(void) throw() { }
     virtual void apply(node_const_visitor &) const;
     boost::intrusive_ptr< ::foundry::tree::bison::alternatives>  _1;
-    boost::intrusive_ptr< ::foundry::tree::bison::components>  _2;
+    boost::intrusive_ptr< ::foundry::tree::bison::alternative>  _2;
 };
 struct alternatives_3 : alternatives
 {
@@ -170,6 +187,28 @@ struct alternatives_3 : alternatives
     virtual ~alternatives_3(void) throw() { }
     virtual void apply(node_const_visitor &) const;
     boost::intrusive_ptr< ::foundry::tree::bison::alternatives>  _1;
+};
+struct alternative : node {
+    alternative(void) throw() { }
+    virtual ~alternative(void) throw() { }
+    using node::apply;
+};
+struct alternative_1 : alternative
+{
+    alternative_1(boost::intrusive_ptr< ::foundry::tree::bison::components>  _1) throw() : 
+        _1(_1) { }
+    virtual ~alternative_1(void) throw() { }
+    virtual void apply(node_const_visitor &) const;
+    boost::intrusive_ptr< ::foundry::tree::bison::components>  _1;
+};
+struct alternative_2 : alternative
+{
+    alternative_2(std::string _1, boost::intrusive_ptr< ::foundry::tree::bison::components>  _2) throw() : 
+        _1(_1), _2(_2) { }
+    virtual ~alternative_2(void) throw() { }
+    virtual void apply(node_const_visitor &) const;
+    std::string _1;
+    boost::intrusive_ptr< ::foundry::tree::bison::components>  _2;
 };
 struct components : node {
     components(void) throw() { }

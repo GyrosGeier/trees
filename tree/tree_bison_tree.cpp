@@ -23,6 +23,14 @@ void alternatives_3::apply(node_const_visitor &v) const
 {
     v.visit(*this);
 }
+void alternative_1::apply(node_const_visitor &v) const
+{
+    v.visit(*this);
+}
+void alternative_2::apply(node_const_visitor &v) const
+{
+    v.visit(*this);
+}
 void components_1::apply(node_const_visitor &v) const
 {
     v.visit(*this);

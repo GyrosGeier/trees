@@ -29,6 +29,8 @@ public:
     virtual void visit(bison::rules_1 const &);
     virtual void visit(bison::rules_2 const &);
     virtual void visit(bison::rule const &);
+    virtual void visit(bison::alternative_1 const &);
+    virtual void visit(bison::alternative_2 const &);
     virtual void visit(bison::alternatives_1 const &);
     virtual void visit(bison::alternatives_2 const &);
     virtual void visit(bison::alternatives_3 const &);
