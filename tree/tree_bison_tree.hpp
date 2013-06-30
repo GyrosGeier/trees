@@ -26,51 +26,51 @@ struct node_const_visitor;
 struct rules;
 typedef boost::intrusive_ptr<rules> rules_ptr;
 typedef rules *rules_weak_ptr;
-struct rules_1;
-typedef boost::intrusive_ptr<rules_1> rules_1_ptr;
-typedef rules_1 *rules_1_weak_ptr;
-struct rules_2;
-typedef boost::intrusive_ptr<rules_2> rules_2_ptr;
-typedef rules_2 *rules_2_weak_ptr;
+struct empty_rules;
+typedef boost::intrusive_ptr<empty_rules> empty_rules_ptr;
+typedef empty_rules *empty_rules_weak_ptr;
+struct chained_rules;
+typedef boost::intrusive_ptr<chained_rules> chained_rules_ptr;
+typedef chained_rules *chained_rules_weak_ptr;
 struct alternatives;
 typedef boost::intrusive_ptr<alternatives> alternatives_ptr;
 typedef alternatives *alternatives_weak_ptr;
-struct alternatives_1;
-typedef boost::intrusive_ptr<alternatives_1> alternatives_1_ptr;
-typedef alternatives_1 *alternatives_1_weak_ptr;
-struct alternatives_2;
-typedef boost::intrusive_ptr<alternatives_2> alternatives_2_ptr;
-typedef alternatives_2 *alternatives_2_weak_ptr;
-struct alternatives_3;
-typedef boost::intrusive_ptr<alternatives_3> alternatives_3_ptr;
-typedef alternatives_3 *alternatives_3_weak_ptr;
+struct single_alternative;
+typedef boost::intrusive_ptr<single_alternative> single_alternative_ptr;
+typedef single_alternative *single_alternative_weak_ptr;
+struct chained_alternatives;
+typedef boost::intrusive_ptr<chained_alternatives> chained_alternatives_ptr;
+typedef chained_alternatives *chained_alternatives_weak_ptr;
+struct terminated_alternatives;
+typedef boost::intrusive_ptr<terminated_alternatives> terminated_alternatives_ptr;
+typedef terminated_alternatives *terminated_alternatives_weak_ptr;
 struct alternative;
 typedef boost::intrusive_ptr<alternative> alternative_ptr;
 typedef alternative *alternative_weak_ptr;
-struct alternative_1;
-typedef boost::intrusive_ptr<alternative_1> alternative_1_ptr;
-typedef alternative_1 *alternative_1_weak_ptr;
-struct alternative_2;
-typedef boost::intrusive_ptr<alternative_2> alternative_2_ptr;
-typedef alternative_2 *alternative_2_weak_ptr;
+struct unnamed_alternative;
+typedef boost::intrusive_ptr<unnamed_alternative> unnamed_alternative_ptr;
+typedef unnamed_alternative *unnamed_alternative_weak_ptr;
+struct named_alternative;
+typedef boost::intrusive_ptr<named_alternative> named_alternative_ptr;
+typedef named_alternative *named_alternative_weak_ptr;
 struct components;
 typedef boost::intrusive_ptr<components> components_ptr;
 typedef components *components_weak_ptr;
-struct components_1;
-typedef boost::intrusive_ptr<components_1> components_1_ptr;
-typedef components_1 *components_1_weak_ptr;
-struct components_2;
-typedef boost::intrusive_ptr<components_2> components_2_ptr;
-typedef components_2 *components_2_weak_ptr;
+struct empty_components;
+typedef boost::intrusive_ptr<empty_components> empty_components_ptr;
+typedef empty_components *empty_components_weak_ptr;
+struct chained_components;
+typedef boost::intrusive_ptr<chained_components> chained_components_ptr;
+typedef chained_components *chained_components_weak_ptr;
 struct component;
 typedef boost::intrusive_ptr<component> component_ptr;
 typedef component *component_weak_ptr;
-struct component_1;
-typedef boost::intrusive_ptr<component_1> component_1_ptr;
-typedef component_1 *component_1_weak_ptr;
-struct component_2;
-typedef boost::intrusive_ptr<component_2> component_2_ptr;
-typedef component_2 *component_2_weak_ptr;
+struct symbol;
+typedef boost::intrusive_ptr<symbol> symbol_ptr;
+typedef symbol *symbol_weak_ptr;
+struct literal;
+typedef boost::intrusive_ptr<literal> literal_ptr;
+typedef literal *literal_weak_ptr;
 struct start;
 typedef boost::intrusive_ptr<start> start_ptr;
 typedef start *start_weak_ptr;
@@ -98,39 +98,39 @@ public:
     inline void descend(node const &n) { n.apply(*this); }
     template<typename T>
     inline void descend(boost::intrusive_ptr<T> const &p) { if(p) descend(*p); }
-    virtual void visit(rules_1 const &) = 0;
-    inline void descend(rules_1 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<rules_1> const &p) { if(p) descend(*p); }
-    virtual void visit(rules_2 const &) = 0;
-    inline void descend(rules_2 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<rules_2> const &p) { if(p) descend(*p); }
-    virtual void visit(alternatives_1 const &) = 0;
-    inline void descend(alternatives_1 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<alternatives_1> const &p) { if(p) descend(*p); }
-    virtual void visit(alternatives_2 const &) = 0;
-    inline void descend(alternatives_2 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<alternatives_2> const &p) { if(p) descend(*p); }
-    virtual void visit(alternatives_3 const &) = 0;
-    inline void descend(alternatives_3 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<alternatives_3> const &p) { if(p) descend(*p); }
-    virtual void visit(alternative_1 const &) = 0;
-    inline void descend(alternative_1 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<alternative_1> const &p) { if(p) descend(*p); }
-    virtual void visit(alternative_2 const &) = 0;
-    inline void descend(alternative_2 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<alternative_2> const &p) { if(p) descend(*p); }
-    virtual void visit(components_1 const &) = 0;
-    inline void descend(components_1 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<components_1> const &p) { if(p) descend(*p); }
-    virtual void visit(components_2 const &) = 0;
-    inline void descend(components_2 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<components_2> const &p) { if(p) descend(*p); }
-    virtual void visit(component_1 const &) = 0;
-    inline void descend(component_1 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<component_1> const &p) { if(p) descend(*p); }
-    virtual void visit(component_2 const &) = 0;
-    inline void descend(component_2 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<component_2> const &p) { if(p) descend(*p); }
+    virtual void visit(empty_rules const &) = 0;
+    inline void descend(empty_rules const &n) { visit(n); }
+    inline void descend(boost::intrusive_ptr<empty_rules> const &p) { if(p) descend(*p); }
+    virtual void visit(chained_rules const &) = 0;
+    inline void descend(chained_rules const &n) { visit(n); }
+    inline void descend(boost::intrusive_ptr<chained_rules> const &p) { if(p) descend(*p); }
+    virtual void visit(single_alternative const &) = 0;
+    inline void descend(single_alternative const &n) { visit(n); }
+    inline void descend(boost::intrusive_ptr<single_alternative> const &p) { if(p) descend(*p); }
+    virtual void visit(chained_alternatives const &) = 0;
+    inline void descend(chained_alternatives const &n) { visit(n); }
+    inline void descend(boost::intrusive_ptr<chained_alternatives> const &p) { if(p) descend(*p); }
+    virtual void visit(terminated_alternatives const &) = 0;
+    inline void descend(terminated_alternatives const &n) { visit(n); }
+    inline void descend(boost::intrusive_ptr<terminated_alternatives> const &p) { if(p) descend(*p); }
+    virtual void visit(unnamed_alternative const &) = 0;
+    inline void descend(unnamed_alternative const &n) { visit(n); }
+    inline void descend(boost::intrusive_ptr<unnamed_alternative> const &p) { if(p) descend(*p); }
+    virtual void visit(named_alternative const &) = 0;
+    inline void descend(named_alternative const &n) { visit(n); }
+    inline void descend(boost::intrusive_ptr<named_alternative> const &p) { if(p) descend(*p); }
+    virtual void visit(empty_components const &) = 0;
+    inline void descend(empty_components const &n) { visit(n); }
+    inline void descend(boost::intrusive_ptr<empty_components> const &p) { if(p) descend(*p); }
+    virtual void visit(chained_components const &) = 0;
+    inline void descend(chained_components const &n) { visit(n); }
+    inline void descend(boost::intrusive_ptr<chained_components> const &p) { if(p) descend(*p); }
+    virtual void visit(symbol const &) = 0;
+    inline void descend(symbol const &n) { visit(n); }
+    inline void descend(boost::intrusive_ptr<symbol> const &p) { if(p) descend(*p); }
+    virtual void visit(literal const &) = 0;
+    inline void descend(literal const &n) { visit(n); }
+    inline void descend(boost::intrusive_ptr<literal> const &p) { if(p) descend(*p); }
     virtual void visit(start const &) = 0;
     inline void descend(start const &n) { visit(n); }
     inline void descend(boost::intrusive_ptr<start> const &p) { if(p) descend(*p); }
@@ -143,17 +143,17 @@ struct rules : node {
     virtual ~rules(void) throw() { }
     using node::apply;
 };
-struct rules_1 : rules
+struct empty_rules : rules
 {
-    rules_1() throw() { }
-    virtual ~rules_1(void) throw() { }
+    empty_rules() throw() { }
+    virtual ~empty_rules(void) throw() { }
     virtual void apply(node_const_visitor &) const;
 };
-struct rules_2 : rules
+struct chained_rules : rules
 {
-    rules_2(boost::intrusive_ptr< ::foundry::tree::bison::rules>  _1, boost::intrusive_ptr< ::foundry::tree::bison::rule>  _2) throw() : 
+    chained_rules(boost::intrusive_ptr< ::foundry::tree::bison::rules>  _1, boost::intrusive_ptr< ::foundry::tree::bison::rule>  _2) throw() : 
         _1(_1), _2(_2) { }
-    virtual ~rules_2(void) throw() { }
+    virtual ~chained_rules(void) throw() { }
     virtual void apply(node_const_visitor &) const;
     boost::intrusive_ptr< ::foundry::tree::bison::rules>  _1;
     boost::intrusive_ptr< ::foundry::tree::bison::rule>  _2;
@@ -163,28 +163,28 @@ struct alternatives : node {
     virtual ~alternatives(void) throw() { }
     using node::apply;
 };
-struct alternatives_1 : alternatives
+struct single_alternative : alternatives
 {
-    alternatives_1(boost::intrusive_ptr< ::foundry::tree::bison::alternative>  _1) throw() : 
+    single_alternative(boost::intrusive_ptr< ::foundry::tree::bison::alternative>  _1) throw() : 
         _1(_1) { }
-    virtual ~alternatives_1(void) throw() { }
+    virtual ~single_alternative(void) throw() { }
     virtual void apply(node_const_visitor &) const;
     boost::intrusive_ptr< ::foundry::tree::bison::alternative>  _1;
 };
-struct alternatives_2 : alternatives
+struct chained_alternatives : alternatives
 {
-    alternatives_2(boost::intrusive_ptr< ::foundry::tree::bison::alternatives>  _1, boost::intrusive_ptr< ::foundry::tree::bison::alternative>  _2) throw() : 
+    chained_alternatives(boost::intrusive_ptr< ::foundry::tree::bison::alternatives>  _1, boost::intrusive_ptr< ::foundry::tree::bison::alternative>  _2) throw() : 
         _1(_1), _2(_2) { }
-    virtual ~alternatives_2(void) throw() { }
+    virtual ~chained_alternatives(void) throw() { }
     virtual void apply(node_const_visitor &) const;
     boost::intrusive_ptr< ::foundry::tree::bison::alternatives>  _1;
     boost::intrusive_ptr< ::foundry::tree::bison::alternative>  _2;
 };
-struct alternatives_3 : alternatives
+struct terminated_alternatives : alternatives
 {
-    alternatives_3(boost::intrusive_ptr< ::foundry::tree::bison::alternatives>  _1) throw() : 
+    terminated_alternatives(boost::intrusive_ptr< ::foundry::tree::bison::alternatives>  _1) throw() : 
         _1(_1) { }
-    virtual ~alternatives_3(void) throw() { }
+    virtual ~terminated_alternatives(void) throw() { }
     virtual void apply(node_const_visitor &) const;
     boost::intrusive_ptr< ::foundry::tree::bison::alternatives>  _1;
 };
@@ -193,19 +193,19 @@ struct alternative : node {
     virtual ~alternative(void) throw() { }
     using node::apply;
 };
-struct alternative_1 : alternative
+struct unnamed_alternative : alternative
 {
-    alternative_1(boost::intrusive_ptr< ::foundry::tree::bison::components>  _1) throw() : 
+    unnamed_alternative(boost::intrusive_ptr< ::foundry::tree::bison::components>  _1) throw() : 
         _1(_1) { }
-    virtual ~alternative_1(void) throw() { }
+    virtual ~unnamed_alternative(void) throw() { }
     virtual void apply(node_const_visitor &) const;
     boost::intrusive_ptr< ::foundry::tree::bison::components>  _1;
 };
-struct alternative_2 : alternative
+struct named_alternative : alternative
 {
-    alternative_2(std::string _1, boost::intrusive_ptr< ::foundry::tree::bison::components>  _2) throw() : 
+    named_alternative(std::string _1, boost::intrusive_ptr< ::foundry::tree::bison::components>  _2) throw() : 
         _1(_1), _2(_2) { }
-    virtual ~alternative_2(void) throw() { }
+    virtual ~named_alternative(void) throw() { }
     virtual void apply(node_const_visitor &) const;
     std::string _1;
     boost::intrusive_ptr< ::foundry::tree::bison::components>  _2;
@@ -215,17 +215,17 @@ struct components : node {
     virtual ~components(void) throw() { }
     using node::apply;
 };
-struct components_1 : components
+struct empty_components : components
 {
-    components_1() throw() { }
-    virtual ~components_1(void) throw() { }
+    empty_components() throw() { }
+    virtual ~empty_components(void) throw() { }
     virtual void apply(node_const_visitor &) const;
 };
-struct components_2 : components
+struct chained_components : components
 {
-    components_2(boost::intrusive_ptr< ::foundry::tree::bison::components>  _1, boost::intrusive_ptr< ::foundry::tree::bison::component>  _2) throw() : 
+    chained_components(boost::intrusive_ptr< ::foundry::tree::bison::components>  _1, boost::intrusive_ptr< ::foundry::tree::bison::component>  _2) throw() : 
         _1(_1), _2(_2) { }
-    virtual ~components_2(void) throw() { }
+    virtual ~chained_components(void) throw() { }
     virtual void apply(node_const_visitor &) const;
     boost::intrusive_ptr< ::foundry::tree::bison::components>  _1;
     boost::intrusive_ptr< ::foundry::tree::bison::component>  _2;
@@ -235,19 +235,19 @@ struct component : node {
     virtual ~component(void) throw() { }
     using node::apply;
 };
-struct component_1 : component
+struct symbol : component
 {
-    component_1(std::string _1) throw() : 
+    symbol(std::string _1) throw() : 
         _1(_1) { }
-    virtual ~component_1(void) throw() { }
+    virtual ~symbol(void) throw() { }
     virtual void apply(node_const_visitor &) const;
     std::string _1;
 };
-struct component_2 : component
+struct literal : component
 {
-    component_2(std::string _1) throw() : 
+    literal(std::string _1) throw() : 
         _1(_1) { }
-    virtual ~component_2(void) throw() { }
+    virtual ~literal(void) throw() { }
     virtual void apply(node_const_visitor &) const;
     std::string _1;
 };

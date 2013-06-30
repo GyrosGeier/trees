@@ -3,47 +3,47 @@
 namespace foundry {
 namespace tree {
 namespace bison {
-void rules_1::apply(node_const_visitor &v) const
+void empty_rules::apply(node_const_visitor &v) const
 {
     v.visit(*this);
 }
-void rules_2::apply(node_const_visitor &v) const
+void chained_rules::apply(node_const_visitor &v) const
 {
     v.visit(*this);
 }
-void alternatives_1::apply(node_const_visitor &v) const
+void single_alternative::apply(node_const_visitor &v) const
 {
     v.visit(*this);
 }
-void alternatives_2::apply(node_const_visitor &v) const
+void chained_alternatives::apply(node_const_visitor &v) const
 {
     v.visit(*this);
 }
-void alternatives_3::apply(node_const_visitor &v) const
+void terminated_alternatives::apply(node_const_visitor &v) const
 {
     v.visit(*this);
 }
-void alternative_1::apply(node_const_visitor &v) const
+void unnamed_alternative::apply(node_const_visitor &v) const
 {
     v.visit(*this);
 }
-void alternative_2::apply(node_const_visitor &v) const
+void named_alternative::apply(node_const_visitor &v) const
 {
     v.visit(*this);
 }
-void components_1::apply(node_const_visitor &v) const
+void empty_components::apply(node_const_visitor &v) const
 {
     v.visit(*this);
 }
-void components_2::apply(node_const_visitor &v) const
+void chained_components::apply(node_const_visitor &v) const
 {
     v.visit(*this);
 }
-void component_1::apply(node_const_visitor &v) const
+void symbol::apply(node_const_visitor &v) const
 {
     v.visit(*this);
 }
-void component_2::apply(node_const_visitor &v) const
+void literal::apply(node_const_visitor &v) const
 {
     v.visit(*this);
 }

@@ -42,12 +42,12 @@ void bison_to_ast_visitor::visit(bison::start const &s)
         (**i).name = "std::string";
 }
 
-void bison_to_ast_visitor::visit(bison::rules_1 const &)
+void bison_to_ast_visitor::visit(bison::empty_rules const &)
 {
     /* empty */
 }
 
-void bison_to_ast_visitor::visit(bison::rules_2 const &r)
+void bison_to_ast_visitor::visit(bison::chained_rules const &r)
 {
     /* rules rule */
     descend(r._1);
@@ -72,7 +72,7 @@ void bison_to_ast_visitor::visit(bison::rule const &r)
     descend(r._2);
 }
 
-void bison_to_ast_visitor::visit(bison::alternative_1 const &a)
+void bison_to_ast_visitor::visit(bison::unnamed_alternative const &a)
 {
     /* components */
     current_node = new node_node;
@@ -91,7 +91,7 @@ void bison_to_ast_visitor::visit(bison::alternative_1 const &a)
     descend(a._1);
 }
 
-void bison_to_ast_visitor::visit(bison::alternative_2 const &a)
+void bison_to_ast_visitor::visit(bison::named_alternative const &a)
 {
     /* NAME_HINT components */
     current_node = new node_node;
@@ -102,13 +102,13 @@ void bison_to_ast_visitor::visit(bison::alternative_2 const &a)
     descend(a._2);
 }
 
-void bison_to_ast_visitor::visit(bison::alternatives_1 const &a)
+void bison_to_ast_visitor::visit(bison::single_alternative const &a)
 {
     /* alternative */
     descend(a._1);
 }
 
-void bison_to_ast_visitor::visit(bison::alternatives_2 const &a)
+void bison_to_ast_visitor::visit(bison::chained_alternatives const &a)
 {
     /* alternatives "|" alternative */
     if(current_count == 0)
@@ -126,25 +126,25 @@ void bison_to_ast_visitor::visit(bison::alternatives_2 const &a)
     descend(a._2);
 }
 
-void bison_to_ast_visitor::visit(bison::alternatives_3 const &a)
+void bison_to_ast_visitor::visit(bison::terminated_alternatives const &a)
 {
     /* alternatives ";" */
     descend(a._1);
 }
 
-void bison_to_ast_visitor::visit(bison::components_1 const &)
+void bison_to_ast_visitor::visit(bison::empty_components const &)
 {
     /* empty */
 }
 
-void bison_to_ast_visitor::visit(bison::components_2 const &c)
+void bison_to_ast_visitor::visit(bison::chained_components const &c)
 {
     /* components component */
     descend(c._1);
     descend(c._2);
 }
 
-void bison_to_ast_visitor::visit(bison::component_1 const &c)
+void bison_to_ast_visitor::visit(bison::symbol const &c)
 {
     /* IDENTIFIER */
     data_member_node_weak_ptr nn = new data_member_node;
@@ -163,7 +163,7 @@ void bison_to_ast_visitor::visit(bison::component_1 const &c)
     current_node->members.push_back(nn);
 } 
 
-void bison_to_ast_visitor::visit(bison::component_2 const &)
+void bison_to_ast_visitor::visit(bison::literal const &)
 {
     /* STRING */
     return;

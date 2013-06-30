@@ -26,18 +26,18 @@ public:
     root_ptr get_ast(void) { return ast; }
 
     virtual void visit(bison::start const &);
-    virtual void visit(bison::rules_1 const &);
-    virtual void visit(bison::rules_2 const &);
+    virtual void visit(bison::empty_rules const &);
+    virtual void visit(bison::chained_rules const &);
     virtual void visit(bison::rule const &);
-    virtual void visit(bison::alternative_1 const &);
-    virtual void visit(bison::alternative_2 const &);
-    virtual void visit(bison::alternatives_1 const &);
-    virtual void visit(bison::alternatives_2 const &);
-    virtual void visit(bison::alternatives_3 const &);
-    virtual void visit(bison::components_1 const &);
-    virtual void visit(bison::components_2 const &);
-    virtual void visit(bison::component_1 const &);
-    virtual void visit(bison::component_2 const &);
+    virtual void visit(bison::unnamed_alternative const &);
+    virtual void visit(bison::named_alternative const &);
+    virtual void visit(bison::single_alternative const &);
+    virtual void visit(bison::chained_alternatives const &);
+    virtual void visit(bison::terminated_alternatives const &);
+    virtual void visit(bison::empty_components const &);
+    virtual void visit(bison::chained_components const &);
+    virtual void visit(bison::symbol const &);
+    virtual void visit(bison::literal const &);
 
     void push_initial_namespace(std::string const &);
 

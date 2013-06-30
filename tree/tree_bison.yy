@@ -58,22 +58,22 @@ void tree_bison_error(YYLTYPE *, void *, foundry::tree::bison::start *&, char co
 
 %%
 
-start: rules { ret = new start($1); }
+start:          rules { ret = new start($1); }
 
-rules: /* empty */ { $$ = new rules_1; } |
-    rules rule { $$ = new rules_2($1, $2); }
+rules:          /*-empty_rules-*/ { $$ = new empty_rules; } |
+                /*-chained_rules-*/ rules rule { $$ = new chained_rules($1, $2); }
 
-rule: IDENTIFIER_COLON alternatives { $$ = new rule($1, $2); free($1); }
+rule:           IDENTIFIER_COLON alternatives { $$ = new rule($1, $2); free($1); }
 
-alternatives: alternative { $$ = new alternatives_1($1); } |
-    alternatives "|" alternative { $$ = new alternatives_2($1, $3); } |
-    alternatives ";" { $$ = new alternatives_3($1); }
+alternatives:   /*-single_alternative-*/ alternative { $$ = new single_alternative($1); } |
+                /*-chained_alternatives-*/ alternatives "|" alternative { $$ = new chained_alternatives($1, $3); } |
+                /*-terminated_alternatives-*/ alternatives ";" { $$ = new terminated_alternatives($1); }
 
-alternative: components { $$ = new alternative_1($1); } |
-    NAME_HINT components { $$ = new alternative_2($1, $2); }
+alternative:    /*-unnamed_alternative-*/ components { $$ = new unnamed_alternative($1); } |
+                /*-named_alternative-*/ NAME_HINT components { $$ = new named_alternative($1, $2); }
 
-components: /* empty */ { $$ = new components_1; } |
-    components component { $$ = new components_2($1, $2); }
+components:     /*-empty_components-*/ { $$ = new empty_components; } |
+                /*-chained_components-*/ components component { $$ = new chained_components($1, $2); }
 
-component: IDENTIFIER { $$ = new component_1($1); free($1); } |
-    STRING { $$ = new component_2($1); free($1); }
+component:      /*-symbol-*/ IDENTIFIER { $$ = new symbol($1); free($1); } |
+                /*-literal-*/ STRING { $$ = new literal($1); free($1); }
