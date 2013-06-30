@@ -20,7 +20,9 @@ node alternative {
 
 group component {
         node {
+                %include <parse.h>
                 std::string name;
+                repetition rep;
         };
 
         node string_literal

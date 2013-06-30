@@ -89,6 +89,7 @@ void cst_to_ast_visitor::visit(cst::alternatives const &a)
         current_alternative = new alternative;
         current_alternative->group = new group;
         current_group = current_alternative->group;
+        current_group->rep = repeat_none;
         descend(a._1);
         descend(a._2);
 }
@@ -99,6 +100,7 @@ void cst_to_ast_visitor::visit(cst::more_alternatives const &t)
         current_alternative = new alternative;
         current_alternative->group = new group;
         current_group = current_alternative->group;
+        current_group->rep = repeat_none;
         descend(t._1);
 }
 
@@ -121,8 +123,10 @@ void cst_to_ast_visitor::visit(cst::named_alternative const &a)
 
 void cst_to_ast_visitor::visit(cst::components_chain const &c)
 {
-        descend(c._1);
+        // Resolve repetition first
         descend(c._2);
+        descend(c._1);
+        descend(c._3);
 }
 
 void cst_to_ast_visitor::visit(cst::end_of_components const &)
@@ -130,10 +134,31 @@ void cst_to_ast_visitor::visit(cst::end_of_components const &)
         return;
 }
 
+void cst_to_ast_visitor::visit(cst::no_repetition const &)
+{
+        current_repeat = repeat_none;
+}
+
+void cst_to_ast_visitor::visit(cst::zero_or_one const &)
+{
+        current_repeat = repeat_zero_or_one;
+}
+
+void cst_to_ast_visitor::visit(cst::one_or_more const &)
+{
+        current_repeat = repeat_one_or_more;
+}
+
+void cst_to_ast_visitor::visit(cst::zero_or_more const &)
+{
+        current_repeat = repeat_zero_or_more;
+}
+
 void cst_to_ast_visitor::visit(cst::symbol const &c)
 {
         unresolved_symbol_ptr u = new unresolved_symbol;
         u->name = c._1;
+        u->rep = current_repeat;
         current_group->components.push_back(u);
 }
 
@@ -141,6 +166,7 @@ void cst_to_ast_visitor::visit(cst::literal const &c)
 {
         string_literal_ptr sl = new string_literal;
         sl->text = c._1;
+        sl->rep = current_repeat;
         current_group->components.push_back(sl);
 }
 
@@ -148,6 +174,7 @@ void cst_to_ast_visitor::visit(cst::group const &g)
 {
         group_ptr stack = current_group;
         current_group = new group;
+        current_group->rep = current_repeat;
         descend(g._1);
         current_group = stack;
 }

@@ -73,10 +73,10 @@ stage1/%_tree.cpp: %.ftree ../tree/foundry-tree
 
 stage1/%.o: %.cpp
 	@$(MKDIR) stage1
-	$(CXX) $(CPPFLAGS) -Istage1 $(CXXFLAGS) -MD -MF stage1/.$*.d -o $@ -c $<
+	$(CXX) $(CPPFLAGS) -Istage1 -I. $(CXXFLAGS) -MD -MF stage1/.$*.d -o $@ -c $<
 
 stage1/%.o: stage1/%.cpp
-	$(CXX) $(CPPFLAGS) -Istage1 $(CXXFLAGS) -MD -MF stage1/.$*.d -o $@ -c $<
+	$(CXX) $(CPPFLAGS) -Istage1 -I. $(CXXFLAGS) -MD -MF stage1/.$*.d -o $@ -c $<
 
 stage1/%_lex.o: CXXFLAGS+=-Wno-unused
 
@@ -114,10 +114,10 @@ stage2/%_tree.hpp: %.ftree ../tree/foundry-tree
 
 stage2/%.o: %.cpp
 	@$(MKDIR) stage2
-	$(CXX) $(CPPFLAGE) -Istage2 $(CXXFLAGS) -MD -MF stage2/.$*.d -o $@ -c $<
+	$(CXX) $(CPPFLAGE) -Istage2 -I. $(CXXFLAGS) -MD -MF stage2/.$*.d -o $@ -c $<
 
 stage2/%.o: stage2/%.cpp
-	$(CXX) $(CPPFLAGS) -Istage2 $(CXXFLAGS) -MD -MF stage2/.$*.d -o $@ -c $<
+	$(CXX) $(CPPFLAGS) -Istage2 -I. $(CXXFLAGS) -MD -MF stage2/.$*.d -o $@ -c $<
 
 stage2/%_lex.o: CXXFLAGS+=-Wno-unused
 

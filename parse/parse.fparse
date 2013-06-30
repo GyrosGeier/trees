@@ -26,8 +26,15 @@ alternative:    -unnamed_alternative- components |
                 -named_alternative- "-" IDENTIFIER "-" components
 ;
 
-components:     -components_chain- component components |
+components:     -components_chain- component repetition_qualifier components |
                 -end_of_components- /* empty */
+;
+
+repetition_qualifier:
+                -no_repetition- /* empty */ |
+                -zero_or_one- "?" |
+                -one_or_more- "+" |
+                -zero_or_more- "*"
 ;
 
 component:      -symbol- IDENTIFIER |
