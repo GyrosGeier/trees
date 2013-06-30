@@ -3,12 +3,12 @@
 start:          directives rules
 ;
 
-directives:     DIRECTIVE directives |
-                /* empty */
+directives:     -directives_chain- DIRECTIVE directives |
+                -end_of_directives- /* empty */
 ;
 
-rules:          rule rules |
-                /* empty */
+rules:          -rules_chain- rule rules |
+                -end_of_rules- /* empty */
 ;
 
 rule:           IDENTIFIER ":" alternatives ";"
@@ -18,18 +18,18 @@ alternatives:   alternative alternatives_tail
 ;
 
 alternatives_tail:
-                "|" alternatives |
-                /* empty */
+                -more_alternatives- "|" alternatives |
+                -end_of_alternatives- /* empty */
 ;
 
-alternative:    components |
-                "-" IDENTIFIER "-" components
+alternative:    -unnamed_alternative- components |
+                -named_alternative- "-" IDENTIFIER "-" components
 ;
 
-components:     component components |
-                /* empty */
+components:     -components_chain- component components |
+                -end_of_components- /* empty */
 ;
 
-component:      IDENTIFIER |
-                STRING_LITERAL
+component:      -symbol- IDENTIFIER |
+                -literal- STRING_LITERAL
 ;

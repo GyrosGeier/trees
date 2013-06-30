@@ -14,19 +14,19 @@ public:
         cst_to_ast_visitor();
         ~cst_to_ast_visitor() throw();
 
-        virtual void visit(cst::directives_1 const &);
-        virtual void visit(cst::directives_2 const &);
-        virtual void visit(cst::rules_1 const &);
-        virtual void visit(cst::rules_2 const &);
+        virtual void visit(cst::directives_chain const &);
+        virtual void visit(cst::end_of_directives const &);
+        virtual void visit(cst::rules_chain const &);
+        virtual void visit(cst::end_of_rules const &);
         virtual void visit(cst::alternatives const &);
-        virtual void visit(cst::alternatives_tail_1 const &);
-        virtual void visit(cst::alternatives_tail_2 const &);
-        virtual void visit(cst::alternative_1 const &);
-        virtual void visit(cst::alternative_2 const &);
-        virtual void visit(cst::components_1 const &);
-        virtual void visit(cst::components_2 const &);
-        virtual void visit(cst::component_1 const &);
-        virtual void visit(cst::component_2 const &);
+        virtual void visit(cst::more_alternatives const &);
+        virtual void visit(cst::end_of_alternatives const &);
+        virtual void visit(cst::unnamed_alternative const &);
+        virtual void visit(cst::named_alternative const &);
+        virtual void visit(cst::components_chain const &);
+        virtual void visit(cst::end_of_components const &);
+        virtual void visit(cst::symbol const &);
+        virtual void visit(cst::literal const &);
         virtual void visit(cst::start const &);
         virtual void visit(cst::rule const &);
 

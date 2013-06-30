@@ -27,7 +27,7 @@ void cst_to_ast_visitor::visit(cst::start const &s)
         descend(s._2);
 }
 
-void cst_to_ast_visitor::visit(cst::directives_1 const &d)
+void cst_to_ast_visitor::visit(cst::directives_chain const &d)
 {
         std::string::size_type const space = d._1.find(' ');
         if(space != d._1.npos)
@@ -44,18 +44,18 @@ void cst_to_ast_visitor::visit(cst::directives_1 const &d)
         descend(d._2);
 }
 
-void cst_to_ast_visitor::visit(cst::directives_2 const &)
+void cst_to_ast_visitor::visit(cst::end_of_directives const &)
 {
         return;
 }
 
-void cst_to_ast_visitor::visit(cst::rules_1 const &r)
+void cst_to_ast_visitor::visit(cst::rules_chain const &r)
 {
         descend(r._1);
         descend(r._2);
 }
 
-void cst_to_ast_visitor::visit(cst::rules_2 const &)
+void cst_to_ast_visitor::visit(cst::end_of_rules const &)
 {
         return;
 }
@@ -91,49 +91,49 @@ void cst_to_ast_visitor::visit(cst::alternatives const &a)
         descend(a._2);
 }
 
-void cst_to_ast_visitor::visit(cst::alternatives_tail_1 const &t)
+void cst_to_ast_visitor::visit(cst::more_alternatives const &t)
 {
         current_rule->alternatives.push_back(current_alternative);
         current_alternative = new alternative;
         descend(t._1);
 }
 
-void cst_to_ast_visitor::visit(cst::alternatives_tail_2 const &)
+void cst_to_ast_visitor::visit(cst::end_of_alternatives const &)
 {
         current_rule->alternatives.push_back(current_alternative);
 }
 
-void cst_to_ast_visitor::visit(cst::alternative_1 const &a)
+void cst_to_ast_visitor::visit(cst::unnamed_alternative const &a)
 {
         current_alternative->name = current_rule->name;
         descend(a._1);
 }
 
-void cst_to_ast_visitor::visit(cst::alternative_2 const &a)
+void cst_to_ast_visitor::visit(cst::named_alternative const &a)
 {
         current_alternative->name = a._1;
         descend(a._2);
 }
 
-void cst_to_ast_visitor::visit(cst::components_1 const &c)
+void cst_to_ast_visitor::visit(cst::components_chain const &c)
 {
         descend(c._1);
         descend(c._2);
 }
 
-void cst_to_ast_visitor::visit(cst::components_2 const &)
+void cst_to_ast_visitor::visit(cst::end_of_components const &)
 {
         return;
 }
 
-void cst_to_ast_visitor::visit(cst::component_1 const &c)
+void cst_to_ast_visitor::visit(cst::symbol const &c)
 {
         unresolved_symbol_ptr u = new unresolved_symbol;
         u->name = c._1;
         current_alternative->components.push_back(u);
 }
 
-void cst_to_ast_visitor::visit(cst::component_2 const &c)
+void cst_to_ast_visitor::visit(cst::literal const &c)
 {
         string_literal_ptr sl = new string_literal;
         sl->text = c._1;
