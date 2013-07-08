@@ -8,7 +8,7 @@ namespace foundry {
 namespace parse {
 
 void inline_simple_visitor::visit(foundry::parse::string_literal&) { }
-void inline_simple_visitor::visit(foundry::parse::unresolved_symbol&) { }
+void inline_simple_visitor::visit(foundry::parse::unresolved_symbol&) { throw; }
 void inline_simple_visitor::visit(foundry::parse::terminal&) { }
 
 void inline_simple_visitor::visit(foundry::parse::nonterminal &nt)
