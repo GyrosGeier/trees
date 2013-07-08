@@ -7,6 +7,7 @@
 
 #include "resolve_symbols_visitor.h"
 #include "resolve_literals_visitor.h"
+#include "inline_simple_visitor.h"
 
 #include "unroll_repetitions_visitor.h"
 
@@ -104,6 +105,9 @@ int main(int argc, char **argv)
 
         resolve_literals_visitor resolve_literals(verbose);
         r->apply(resolve_literals);
+
+        inline_simple_visitor inline_simple(verbose);
+        r->apply(inline_simple);
 
         unroll_repetitions_visitor unroll_repetitions(verbose);
         r->apply(unroll_repetitions);
