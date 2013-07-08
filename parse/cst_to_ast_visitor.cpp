@@ -180,6 +180,14 @@ void cst_to_ast_visitor::visit(cst::literal const &c)
         current_group->components.push_back(sl);
 }
 
+void cst_to_ast_visitor::visit(cst::regex const &c)
+{
+        regex_ptr rx = new regex;
+        rx->text = c._1;
+        rx->rep = current_repeat;
+        current_group->components.push_back(rx);
+}
+
 void cst_to_ast_visitor::visit(cst::group const &g)
 {
         group_ptr ng = new group;

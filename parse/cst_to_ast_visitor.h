@@ -33,6 +33,7 @@ public:
         virtual void visit(cst::zero_or_more const &);
         virtual void visit(cst::symbol const &);
         virtual void visit(cst::literal const &);
+        virtual void visit(cst::regex const &);
         virtual void visit(cst::group const &);
         virtual void visit(cst::start const &);
         virtual void visit(cst::rule const &);

@@ -18,6 +18,7 @@ void resolve_symbols_visitor::visit(group &g)
         }
 }
 
+void resolve_symbols_visitor::visit(regex &) { }
 void resolve_symbols_visitor::visit(string_literal &) { }
 void resolve_symbols_visitor::visit(unresolved_symbol &s)
 {

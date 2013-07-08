@@ -18,6 +18,7 @@ void resolve_literals_visitor::visit(group &g)
         }
 }
 
+void resolve_literals_visitor::visit(regex &) { }
 void resolve_literals_visitor::visit(string_literal &l)
 {
         auto litref = literals.find(l.text);

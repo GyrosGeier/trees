@@ -53,6 +53,7 @@ void bison_output_visitor::visit(root const &r)
         out << "%}" << std::endl;
         state = write_terminals;
         descend(r.terminals);
+        descend(r.regexes);
         descend(r.literals);
         out << "%union {" << std::endl;
         out << "        char *string;" << std::endl;
@@ -121,6 +122,26 @@ void bison_output_visitor::visit(alternative const &a)
 void bison_output_visitor::visit(group const &g)
 {
         descend(g.components);
+}
+
+void bison_output_visitor::visit(regex const &c)
+{
+        ++current_component;
+        switch(state)
+        {
+        case write_terminals:
+                out << "%token " << c.name << std::endl;
+                out << "%type<string> " << c.name << ";" << std::endl;
+                break;
+        case write_components:
+                out << ' ' << c.name;
+                break;
+        case write_action:
+        case write_cleanup:
+                break;
+        default:
+                throw;
+        }
 }
 
 void bison_output_visitor::visit(string_literal const &c)

@@ -6,6 +6,7 @@ node root {
         rule rules[];
         terminal terminals[];
         string_literal literals[];
+        regex regexes[];
 };
 
 node rule {
@@ -36,6 +37,11 @@ group component {
         node nonterminal
         {
                 rule rule;
+        };
+
+        node regex
+        {
+                std::string text;
         };
 
         node group

@@ -38,5 +38,10 @@ repetition_qualifier:
 
 component:      -symbol- IDENTIFIER |
                 -literal- STRING_LITERAL |
-                -group- "(" components ")"
+                -group- "(" components ")" |
+                -regex- REGEX
 ;
+IDENTIFIER:     /[a-zA-Z_][a-zA-Z0-9_]*/;
+REGEX:          /\/(\/|(\\.|[^*])(\\.|[^\/])*)\//;
+DIRECTIVE:      /%[^\n]*/;
+STRING_LITERAL: /"(\\.|[^"])*"/;

@@ -40,13 +40,10 @@ void lex_output_visitor::visit(root const &r)
         out << "<COMMENT>\\*\\/   BEGIN(INITIAL);" << std::endl;
         out << "<COMMENT>.      /* ignore */" << std::endl;
         out << "" << std::endl;
-        out << "%[^\\n]*          yylval->string = strdup(yytext); return DIRECTIVE;" << std::endl;
-        descend(r.literals);
         out << "\\               /* ignore */" << std::endl;
         out << "\\n              /* ignore */" << std::endl;
-        out << "" << std::endl;
-        out << "{IDENT}         yylval->string = strdup(yytext); return IDENTIFIER;" << std::endl;
-        out << "\\\"(\\\\.|[^\"])*\\\" yylval->string = strdup(yytext); return STRING_LITERAL;" << std::endl;
+        descend(r.regexes);
+        descend(r.literals);
 }
 
 void lex_output_visitor::visit(rule const &)
@@ -61,6 +58,23 @@ void lex_output_visitor::visit(group const &)
 {
 }
 
+void lex_output_visitor::visit(regex const &r)
+{
+        std::string const text = r.text.substr(1, r.text.size() - 2);
+        for(auto i : text)
+        {
+                switch(i)
+                {
+                case '"':
+                        out << '\\' << i;
+                        break;
+                default:
+                        out << i;
+                        break;
+                }
+        }
+        out << "\tyylval->string = strdup(yytext); return " << r.name << ";" << std::endl;
+}
 void lex_output_visitor::visit(string_literal const &l)
 {
         std::string const text = l.text.substr(1, l.text.size() - 2);

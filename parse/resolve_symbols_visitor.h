@@ -17,6 +17,7 @@ public:
         virtual ~resolve_symbols_visitor() throw() { }
 
         virtual void visit(group &);
+        virtual void visit(regex &);
         virtual void visit(string_literal &);
         virtual void visit(unresolved_symbol &);
         virtual void visit(terminal &);

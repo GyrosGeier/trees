@@ -17,6 +17,7 @@ public:
         virtual void visit(foundry::parse::unresolved_symbol&);
         virtual void visit(foundry::parse::terminal&);
         virtual void visit(foundry::parse::nonterminal&);
+        virtual void visit(foundry::parse::regex&);
         virtual void visit(foundry::parse::group&);
         virtual void visit(foundry::parse::root&);
         virtual void visit(foundry::parse::rule&);

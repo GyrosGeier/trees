@@ -17,6 +17,7 @@ void inline_simple_visitor::visit(foundry::parse::nonterminal &nt)
                 *current_component_context = nt.rule->alternatives.front()->group->components.front();
 }
 
+void inline_simple_visitor::visit(foundry::parse::regex&) { }
 void inline_simple_visitor::visit(foundry::parse::group &)
 {
         is_simple = false;

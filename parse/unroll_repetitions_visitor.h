@@ -13,6 +13,7 @@ public:
         unroll_repetitions_visitor(bool verbose) : verbose(verbose) { }
         virtual ~unroll_repetitions_visitor() throw() { }
 
+        virtual void visit(regex &);
         virtual void visit(string_literal &);
         virtual void visit(unresolved_symbol &);
         virtual void visit(terminal &);
