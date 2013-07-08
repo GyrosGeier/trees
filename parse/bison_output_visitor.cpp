@@ -52,7 +52,6 @@ void bison_output_visitor::visit(root const &r)
         out << "}" << std::endl;
         out << "%}" << std::endl;
         state = write_terminals;
-        descend(r.terminals);
         descend(r.regexes);
         descend(r.literals);
         out << "%union {" << std::endl;

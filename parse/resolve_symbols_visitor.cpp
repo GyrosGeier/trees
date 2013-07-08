@@ -45,20 +45,12 @@ void resolve_symbols_visitor::visit(root &r)
         descend(r.rules);
 
         if(verbose)
-                std::cerr << unresolved_references.size() << " unresolved symbols remaining." << std::endl;
-
-        // assume remaining unresolved references are terminals
-        for(auto i : unresolved_references)
         {
-                terminal_ptr t = new terminal;
-                t->name = i.first;
-                r.terminals.push_back(t);
-
-                if(verbose)
-                        std::cerr << "Resolving " << i.second.size() << " references to " << i.first << std::endl;
-
-                for(auto j : i.second)
-                        *j = t;
+                std::cerr << unresolved_references.size() << " unresolved symbols remaining." << std::endl;
+                for(auto i : unresolved_references)
+                {
+                        std::cerr << "Symbol " << i.first << ": " << i.second.size() << " references" << std::endl;
+                }
         }
 }
 
