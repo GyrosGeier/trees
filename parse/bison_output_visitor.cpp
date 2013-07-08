@@ -4,6 +4,8 @@
 
 #include "bison_output_visitor.h"
 
+#include "errors.h"
+
 namespace foundry {
 namespace parse {
 
@@ -84,7 +86,7 @@ void bison_output_visitor::visit(rule const &r)
                 out << ';' << std::endl;
                 break;
         default:
-                throw;
+                throw internal_error("Illegal output generator state");
         }
 }
 
@@ -139,7 +141,7 @@ void bison_output_visitor::visit(regex const &c)
         case write_cleanup:
                 break;
         default:
-                throw;
+                throw internal_error("Illegal output generator state");
         }
 }
 
@@ -158,7 +160,7 @@ void bison_output_visitor::visit(string_literal const &c)
         case write_cleanup:
                 break;
         default:
-                throw;
+                throw internal_error("Illegal output generator state");
         }
 }
 
@@ -185,7 +187,7 @@ void bison_output_visitor::visit(terminal const &c)
                 out << "free($" << current_component << "); ";
                 break;
         default:
-                throw;
+                throw internal_error("Illegal output generator state");
         }
 }
 
@@ -207,8 +209,13 @@ void bison_output_visitor::visit(nonterminal const &c)
         case write_cleanup:
                 break;
         default:
-                throw;
+                throw internal_error("Illegal output generator state");
         }
+}
+
+void bison_output_visitor::visit(unresolved_symbol const &)
+{
+        throw internal_error("unresolved symbol found during output");
 }
 
 }

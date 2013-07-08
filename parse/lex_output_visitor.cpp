@@ -4,6 +4,8 @@
 
 #include "lex_output_visitor.h"
 
+#include "errors.h"
+
 namespace foundry {
 namespace parse {
 
@@ -109,6 +111,11 @@ void lex_output_visitor::visit(terminal const &)
 
 void lex_output_visitor::visit(nonterminal const &)
 {
+}
+
+void lex_output_visitor::visit(unresolved_symbol const &)
+{
+        throw internal_error("unresolved symbol found during output");
 }
 
 }

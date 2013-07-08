@@ -18,9 +18,33 @@
 #include "parse_parse.hpp"
 #include "parse_lex.hpp"
 
+#include "errors.h"
+
 extern int parse_parse(yyscan_t scanner, ::foundry::parse::cst::start *&ret);
 
+int go(int argc, char **argv);
+
 int main(int argc, char **argv)
+{
+        using namespace foundry::parse;
+
+        try
+        {
+                return go(argc, argv);
+        }
+        catch(internal_error &e)
+        {
+                std::cerr << e.what() << std::endl;
+                return 2;
+        }
+        catch(input_error &e)
+        {
+                std::cerr << e.what() << std::endl;
+                return 1;
+        }
+}
+
+int go(int argc, char **argv)
 {
         using namespace foundry::parse;
 

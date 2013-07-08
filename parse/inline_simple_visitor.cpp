@@ -4,11 +4,18 @@
 
 #include "inline_simple_visitor.h"
 
+#include "errors.h"
+
 namespace foundry {
 namespace parse {
 
 void inline_simple_visitor::visit(foundry::parse::string_literal&) { }
-void inline_simple_visitor::visit(foundry::parse::unresolved_symbol&) { throw; }
+
+void inline_simple_visitor::visit(foundry::parse::unresolved_symbol &)
+{
+        throw internal_error("Unresolved symbol found during inlining");
+}
+
 void inline_simple_visitor::visit(foundry::parse::terminal&) { }
 
 void inline_simple_visitor::visit(foundry::parse::nonterminal &nt)

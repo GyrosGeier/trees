@@ -4,6 +4,8 @@
 
 #include "unroll_repetitions_visitor.h"
 
+#include "errors.h"
+
 #include <iostream>
 
 namespace foundry {
@@ -11,7 +13,12 @@ namespace parse {
 
 void unroll_repetitions_visitor::visit(regex &rx) { unroll_common(rx); }
 void unroll_repetitions_visitor::visit(string_literal &sl) { unroll_common(sl); }
-void unroll_repetitions_visitor::visit(unresolved_symbol &) { throw; }
+
+void unroll_repetitions_visitor::visit(unresolved_symbol &)
+{
+        throw internal_error("Unresolved symbol found during unrolling");
+}
+
 void unroll_repetitions_visitor::visit(terminal &t) { unroll_common(t); }
 void unroll_repetitions_visitor::visit(nonterminal &n) { unroll_common(n); }
 void unroll_repetitions_visitor::visit(group &g)

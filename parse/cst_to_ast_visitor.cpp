@@ -4,6 +4,8 @@
 
 #include "cst_to_ast_visitor.h"
 
+#include "errors.h"
+
 #include <sstream>
 
 namespace foundry {
@@ -37,10 +39,10 @@ void cst_to_ast_visitor::visit(cst::directives_chain const &d)
                 if(cmd == "namespace")
                         rt->ns = arg;
                 else
-                        throw;
+                        throw unhandled_directive(d._1);
         }
         else
-                throw;
+                throw unhandled_directive(d._1);
         descend(d._2);
 }
 

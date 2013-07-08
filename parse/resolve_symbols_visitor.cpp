@@ -4,6 +4,8 @@
 
 #include "resolve_symbols_visitor.h"
 
+#include "errors.h"
+
 #include <iostream>
 
 namespace foundry {
@@ -65,7 +67,7 @@ void resolve_symbols_visitor::visit(rule &r)
 
         auto ntref = nonterminals.find(r.name);
         if(ntref != nonterminals.end())
-                throw;
+                throw duplicate_rule(r.name);
 
         nonterminals[r.name] = nt;
 
