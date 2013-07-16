@@ -21,6 +21,13 @@ public:
         input_error(std::string const &msg) : std::logic_error(msg) { }
 };
 
+class unknown_production :
+        public input_error
+{
+public:
+        unknown_production() : input_error("unknown production") { }
+};
+
 class unhandled_directive :
         public input_error
 {

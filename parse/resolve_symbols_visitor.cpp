@@ -53,6 +53,7 @@ void resolve_symbols_visitor::visit(root &r)
                 {
                         std::cerr << "Symbol " << i.first << ": " << i.second.size() << " references" << std::endl;
                 }
+                throw unknown_production();
         }
 }
 
