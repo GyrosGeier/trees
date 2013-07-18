@@ -45,11 +45,11 @@ clean:
 stage1/foundry-parse: $(addprefix stage1/,$(OBJECTS))
 	$(CXX) $(LDFLAGS) -o $@ $^
 
-stage1/%_cst.cpp: %.yy ../tree/foundry-tree
-	../tree/foundry-tree -n foundry -n parse -n cst -o $@ -c $<
+stage1/%_cst.cpp: %.yy ../lang/foundry-tree
+	../lang/foundry-tree -n foundry -n parse -n cst -o $@ -c $<
 
-stage1/%_cst.hpp: %.yy ../tree/foundry-tree
-	../tree/foundry-tree -n foundry -n parse -n cst -o $@ $<
+stage1/%_cst.hpp: %.yy ../lang/foundry-tree
+	../lang/foundry-tree -n foundry -n parse -n cst -o $@ $<
 
 stage1/%_lex.cpp: %.ll
 	cd stage1 && flex -o $(notdir $@) --header-file=$(basename $(notdir $@)).hpp ../$(notdir $<)
@@ -65,11 +65,11 @@ stage1/%_parse.hpp: stage1/%_parse.cpp
 	test -f $@ || ($(RM) $< && $(MAKE) $<)
 	touch $@
 
-stage1/%_tree.hpp: %.ftree ../tree/foundry-tree
-	../tree/foundry-tree -o $@ $<
+stage1/%_tree.hpp: %.ftree ../lang/foundry-tree
+	../lang/foundry-tree -o $@ $<
 
-stage1/%_tree.cpp: %.ftree ../tree/foundry-tree
-	../tree/foundry-tree -o $@ -c $<
+stage1/%_tree.cpp: %.ftree ../lang/foundry-tree
+	../lang/foundry-tree -o $@ -c $<
 
 stage1/%.o: %.cpp
 	@$(MKDIR) stage1
@@ -86,11 +86,11 @@ stage2/%.ll: %.fparse stage1/foundry-parse
 stage2/%.yy: %.fparse stage1/foundry-parse
 	stage1/foundry-parse -o $@ -y $<
 
-stage2/%_cst.cpp: stage2/%.yy ../tree/foundry-tree
-	../tree/foundry-tree -n foundry -n parse -n cst -o $@ -c $<
+stage2/%_cst.cpp: stage2/%.yy ../lang/foundry-tree
+	../lang/foundry-tree -n foundry -n parse -n cst -o $@ -c $<
 
-stage2/%_cst.hpp: stage2/%.yy ../tree/foundry-tree
-	../tree/foundry-tree -n foundry -n parse -n cst -o $@ $<
+stage2/%_cst.hpp: stage2/%.yy ../lang/foundry-tree
+	../lang/foundry-tree -n foundry -n parse -n cst -o $@ $<
 
 stage2/%_lex.cpp: stage2/%.ll
 	cd stage2 && flex -o $(notdir $@) --header-file=$(basename $(notdir $@)).hpp $(notdir $<)
@@ -106,11 +106,11 @@ stage2/%_parse.hpp: stage2/%_parse.cpp
 	test -f $@ || ($(RM) $< && $(MAKE) $<)
 	touch $@
 
-stage2/%_tree.cpp: %.ftree ../tree/foundry-tree
-	../tree/foundry-tree -o $@ -c $<
+stage2/%_tree.cpp: %.ftree ../lang/foundry-tree
+	../lang/foundry-tree -o $@ -c $<
 
-stage2/%_tree.hpp: %.ftree ../tree/foundry-tree
-	../tree/foundry-tree -o $@ $<
+stage2/%_tree.hpp: %.ftree ../lang/foundry-tree
+	../lang/foundry-tree -o $@ $<
 
 stage2/%.o: %.cpp
 	@$(MKDIR) stage2
