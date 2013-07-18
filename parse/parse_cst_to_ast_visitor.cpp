@@ -2,7 +2,7 @@
 #include <config.h>
 #endif
 
-#include "cst_to_ast_visitor.h"
+#include "parse_cst_to_ast_visitor.h"
 
 #include "errors.h"
 

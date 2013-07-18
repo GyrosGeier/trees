@@ -3,7 +3,7 @@
  * Released under the GNU General Public Licence version 3.
  */
 
-#include "cst_to_ast_visitor.hpp"
+#include "tree_cst_to_ast_visitor.hpp"
 
 namespace foundry {
 namespace tree {
