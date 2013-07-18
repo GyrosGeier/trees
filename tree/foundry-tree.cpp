@@ -60,12 +60,73 @@ int go(int argc, char **argv)
         arg_iterator const args_begin = &argv[1];
         arg_iterator const args_end = &argv[argc];
 
+        enum
+        {
+                header,
+                source
+        } output_format = header;
+
+        std::list<std::string> outns;
+
+        enum
+        {
+                initial,
+                expect_ns,
+                expect_output
+        } state = initial;
+
         typedef std::string file;
         typedef std::list<file> file_list;
 
-        file_list files;
+        file_list inputs;
+        file output;
 
-        file outfile;
+        for(arg_iterator i = args_begin; i != args_end; ++i)
+        {
+                std::string const arg(*i);
+
+                switch(state)
+                {
+                case initial:
+                        if(arg == "-o")
+                                state = expect_output;
+                        else if(arg == "-n")
+                                state = expect_ns;
+                        else if(arg == "-c")
+                                output_format = source;
+                        else
+                                inputs.push_back(arg);
+                        break;
+
+                case expect_ns:
+                        outns.push_back(arg);
+                        state = initial;
+                        break;
+
+                case expect_output:
+                        output = arg;
+                        state = initial;
+                        break;
+                }
+        }
+
+        switch(state)
+        {
+        case initial:
+                break;
+        case expect_ns:
+                std::cerr << "E: Option -n requires an argument" << std::endl;
+                return 1;
+        case expect_output:
+                std::cerr << "E: Option -o requires an argument" << std::endl;
+                return 1;
+        }
+
+        if(output.empty())
+        {
+                std::cerr << "E: No output file given" << std::endl;
+                return 1;
+        }
 
         yyscan_t bison_scanner;
         yyscan_t cst_scanner;
@@ -74,69 +135,13 @@ int go(int argc, char **argv)
         tree_bison_lex_init_extra(&bison_context, &bison_scanner);
         tree_cst_lex_init(&cst_scanner);
 
-        enum
-        {
-                header,
-                source
-        } outmode = header;
-
-        std::list<std::string> outns;
-
-        enum
-        {
-                initial,
-                ns,
-                output
-        } state = initial;
-
-        for(arg_iterator i = args_begin; i != args_end; ++i)
-        {
-                std::string arg(*i);
-
-                switch(state)
-                {
-                case initial:
-                        if(arg == "-o")
-                                state = output;
-                        else if(arg == "-n")
-                                state = ns;
-                        else if(arg == "-c")
-                                outmode = source;
-                        else
-                                files.push_back(arg);
-                        break;
-
-                case ns:
-                        outns.push_back(arg);
-                        state = initial;
-                        break;
-
-                case output:
-                        outfile = arg;
-                        state = initial;
-                        break;
-                }
-        }
-
-        if(state != initial)
-        {
-                std::cerr << "E: missing parameter" << std::endl;
-                return 1;
-        }
-
-        if(outfile.empty())
-        {
-                std::cerr << "E: no output file given" << std::endl;
-                return 1;
-        }
-
         cst_to_ast_visitor cst_to_ast;
         bison_to_ast_visitor bison_to_ast;
         for(std::list<std::string>::const_iterator i = outns.begin();
                         i != outns.end(); ++i)
                 bison_to_ast.push_initial_namespace(*i);
 
-        for(file_list::const_iterator i = files.begin(); i != files.end(); ++i)
+        for(file_list::const_iterator i = inputs.begin(); i != inputs.end(); ++i)
         {
                 FILE *f = fopen(i->c_str(), "r");
                 if(!f)
@@ -198,19 +203,19 @@ int go(int argc, char **argv)
         smartpointer_visitor smartptr;
         ast->apply(smartptr);
 
-        std::ofstream out(outfile.c_str());
+        std::ofstream out(output.c_str());
 
-        switch(outmode)
+        switch(output_format)
         {
         case header:
                 {
-                        std::string::size_type slash = outfile.rfind('/');
+                        std::string::size_type slash = output.rfind('/');
                         if(slash == std::string::npos)
                                 slash = 0;
                         else
                                 ++slash;
 
-                        std::string cppsymbol(outfile, slash);
+                        std::string cppsymbol(output, slash);
                         for(unsigned int i = 0; i < cppsymbol.size(); ++i)
                         {
                                 char c = cppsymbol[i];
@@ -227,22 +232,22 @@ int go(int argc, char **argv)
                 break;
         case source:
                 {
-                        std::string::size_type dot = outfile.rfind('.');
+                        std::string::size_type dot = output.rfind('.');
                         if(dot == std::string::npos)
                                 break;
-                        std::string ext = outfile.substr(dot);
+                        std::string ext = output.substr(dot);
                         if(ext == ".cpp")
                                 ext = ".hpp";
                         else if(ext == ".cc")
                                 ext = ".hh";
                         else
                                 break;
-                        std::string::size_type slash = outfile.rfind('/');
+                        std::string::size_type slash = output.rfind('/');
                         if(slash == std::string::npos)
                                 slash = 0;
                         else
                                 ++slash;
-                        std::string basename = outfile.substr(slash, dot - slash);
+                        std::string basename = output.substr(slash, dot - slash);
                         out << "#include <" << basename << ext << ">" << std::endl
                                 << std::endl;
                         impl_output_visitor write_impl(out);

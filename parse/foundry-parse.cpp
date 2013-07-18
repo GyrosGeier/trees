@@ -48,6 +48,11 @@ int go(int argc, char **argv)
 {
         using namespace foundry::parse;
 
+        typedef char const *const *arg_iterator;
+
+        arg_iterator const args_begin = &argv[1];
+        arg_iterator const args_end = &argv[argc];
+
         enum {
                 yacc,
                 lex
@@ -58,13 +63,18 @@ int go(int argc, char **argv)
                 expect_output
         } state = initial;
 
-        std::list<std::string> inputs;
-        std::string output;
+        typedef std::string file;
+        typedef std::list<file> file_list;
+
+        file_list inputs;
+        file output;
+
         bool verbose = false;
 
-        for(char **i = &argv[1]; i != &argv[argc]; ++i)
+        for(arg_iterator i = args_begin; i != args_end; ++i)
         {
                 std::string const arg(*i);
+
                 switch(state)
                 {
                 case initial:
@@ -106,7 +116,7 @@ int go(int argc, char **argv)
 
         cst_to_ast_visitor v;
 
-        for(std::list<std::string>::const_iterator i = inputs.begin(); i != inputs.end(); ++i)
+        for(file_list::const_iterator i = inputs.begin(); i != inputs.end(); ++i)
         {
                 FILE *f = fopen(i->c_str(), "r");
                 if(!f)
