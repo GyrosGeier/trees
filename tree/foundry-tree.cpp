@@ -37,8 +37,22 @@ std::string extension(std::string const &s)
         return s.substr(dot);
 }
 
+int go(int argc, char **argv);
+
 int main(int argc, char **argv)
-try
+{
+        try
+        {
+                return go(argc, argv);
+        }
+        catch(std::exception &e)
+        {
+                std::cerr << "E: " << e.what() << std::endl;
+                return 1;
+        }
+}
+
+int go(int argc, char **argv)
 {
         using namespace foundry::tree;
         using std::endl;
@@ -240,9 +254,4 @@ try
         }
 
         return 0;
-}
-catch(std::exception &e)
-{
-        std::cerr << "E: " << e.what() << std::endl;
-        return 1;
 }
