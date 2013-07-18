@@ -55,7 +55,6 @@ int main(int argc, char **argv)
 int go(int argc, char **argv)
 {
         using namespace foundry::tree;
-        using std::endl;
 
         typedef char const *const *arg_iterator;
 
@@ -219,12 +218,12 @@ int go(int argc, char **argv)
                                 if(c < '0' || (c > '9' && c < 'A') || (c > 'Z' && c < 'a') || c > 'z')
                                         cppsymbol[i] = '_';
                         }
-                        out << "#ifndef " << cppsymbol << "_" << endl
-                                << "#define " << cppsymbol << "_ 1" << endl
-                                << endl;
+                        out << "#ifndef " << cppsymbol << "_" << std::endl
+                                << "#define " << cppsymbol << "_ 1" << std::endl
+                                << std::endl;
                         header_output_visitor write_header(out);
                         ast->apply(write_header);
-                        out << "#endif" << endl;
+                        out << "#endif" << std::endl;
                 }
                 break;
         case source:
@@ -245,8 +244,8 @@ int go(int argc, char **argv)
                         else
                                 ++slash;
                         std::string basename = outfile.substr(slash, dot - slash);
-                        out << "#include <" << basename << ext << ">" << endl
-                                << endl;
+                        out << "#include <" << basename << ext << ">" << std::endl
+                                << std::endl;
                         impl_output_visitor write_impl(out);
                         ast->apply(write_impl);
                 }
