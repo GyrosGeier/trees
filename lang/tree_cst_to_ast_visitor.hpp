@@ -6,7 +6,7 @@
 #ifndef foundry_tree_cst_to_ast_visitor_hpp_
 #define foundry_tree_cst_to_ast_visitor_hpp_
 
-#include <tree_cst_tree.hpp>
+#include <tree_cst_cst.hpp>
 #include <tree_tree.hpp>
 
 #include <boost/intrusive_ptr.hpp>

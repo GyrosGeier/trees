@@ -1,6 +1,6 @@
 %{
-#include "parse_cst.hpp"
-#include "parse_parse.hpp"
+#include "parse_cst_cst.hpp"
+#include "parse_cst_parse.hpp"
 #define YY_USER_ACTION yylloc->first_line = yylloc->last_line = yylineno;
 %}
 

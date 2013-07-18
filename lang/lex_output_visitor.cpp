@@ -18,8 +18,8 @@ lex_output_visitor::lex_output_visitor(std::ostream &out) :
 void lex_output_visitor::visit(root const &r)
 {
         out << "%{" << std::endl;
-        out << "#include \"parse_cst.hpp\"" << std::endl;
-        out << "#include \"parse_parse.hpp\"" << std::endl;
+        out << "#include \"parse_cst_cst.hpp\"" << std::endl;
+        out << "#include \"parse_cst_parse.hpp\"" << std::endl;
         out << "#define YY_USER_ACTION yylloc->first_line = yylloc->last_line = yylineno;" << std::endl;
         out << "%}" << std::endl;
         out << "" << std::endl;

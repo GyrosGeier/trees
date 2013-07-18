@@ -1,5 +1,5 @@
 %{
-#include "tree_cst_tree.hpp"
+#include "tree_cst_cst.hpp"
 #include "tree_cst_parse.hpp"
 #define YY_USER_ACTION yylloc->first_line = yylloc->last_line = yylineno;
 %}

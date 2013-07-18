@@ -6,7 +6,7 @@
 #ifndef foundry_tree_bison_to_ast_visitor_hpp_
 #define foundry_tree_bison_to_ast_visitor_hpp_ 1
 
-#include <tree_bison_tree.hpp>
+#include <tree_bison_cst.hpp>
 #include <tree_tree.hpp>
 
 #include <set>

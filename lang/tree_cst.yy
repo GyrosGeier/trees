@@ -1,5 +1,5 @@
 %{
-#include <tree_cst_tree.hpp>
+#include <tree_cst_cst.hpp>
 
 #include <iostream>
 #include <cstdio>

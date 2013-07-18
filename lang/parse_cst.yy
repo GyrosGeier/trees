@@ -1,7 +1,7 @@
 %{
-#include "parse_cst.hpp"
-#include "parse_parse.hpp"
-#include "parse_lex.hpp"
+#include "parse_cst_cst.hpp"
+#include "parse_cst_parse.hpp"
+#include "parse_cst_lex.hpp"
 %}
 
 %debug

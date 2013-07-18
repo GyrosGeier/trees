@@ -28,9 +28,9 @@ void bison_output_visitor::visit(root const &r)
         start = r.rules.front().get();
 
         out << "%{" << std::endl;
-        out << "#include \"parse_cst.hpp\"" << std::endl;
-        out << "#include \"parse_parse.hpp\"" << std::endl;
-        out << "#include \"parse_lex.hpp\"" << std::endl;
+        out << "#include \"parse_cst_cst.hpp\"" << std::endl;
+        out << "#include \"parse_cst_parse.hpp\"" << std::endl;
+        out << "#include \"parse_cst_lex.hpp\"" << std::endl;
         out << "%}" << std::endl;
         out << "" << std::endl;
         out << "%debug" << std::endl;

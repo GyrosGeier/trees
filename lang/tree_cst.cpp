@@ -7,7 +7,7 @@
 
 #include <stdexcept>
 
-#include "tree_cst_tree.hpp"
+#include "tree_cst_cst.hpp"
 #include "tree_cst_parse.hpp"
 
 class parse_error :

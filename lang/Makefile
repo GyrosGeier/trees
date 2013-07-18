@@ -1,23 +1,41 @@
-CXX = g++
-LEX = flex
-YACC = bison
+CXX ?= g++
+LEX ?= flex
+YACC ?= bison
 
-CXXFLAGS ?= -g -Wall -W -Werror
-LDFLAGS ?= -g -Wall -W -Werror
+CPPFLAGS ?=
+CXXFLAGS ?= -W -Wall -Werror -g
+LDFLAGS ?= -W -Wall -Werror -g
+
+CXXFLAGS += -std=c++0x
+
+MKDIR ?= mkdir -p
 
 CXXSOURCES = $(wildcard *.cpp)
 LEXSOURCES = $(wildcard *.ll)
-YACCSOURCES = $(wildcard *.yy)
+YACCSOURCES = $(wildcard *.yy) $(PARSESOURCES:%.fparse=%.yy)
 TREESOURCES = $(wildcard *.ftree)
+PARSESOURCES = $(wildcard *.fparse)
 
-BOOTSTRAP = $(YACCSOURCES:.yy=_tree.cpp) $(YACCSOURCES:.yy=_tree.hpp) $(TREESOURCES:.ftree=_tree.cpp) $(TREESOURCES:.ftree=_tree.hpp)
+BOOTSTRAP_SOURCES = $(YACCSOURCES:%.yy=%_cst.cpp) $(TREESOURCES:%.ftree=%_tree.cpp)
+BOOTSTRAP_HEADERS = $(YACCSOURCES:%.yy=%_cst.hpp) $(TREESOURCES:%.ftree=%_tree.hpp)
+BOOTSTRAP_MISC = $(PARSESOURCES:%.fparse=%.ll) $(PARSESOURCES:%.fparse=%.yy)
 
-OBJECTS = $(CXXSOURCES:%.cpp=%.o) $(LEXSOURCES:%.ll=%_lex.o) $(YACCSOURCES:%.yy=%_parse.o) $(YACCSOURCES:%.yy=%_tree.o)
+BOOTSTRAP = $(BOOTSTRAP_SOURCES) $(BOOTSTRAP_HEADERS) $(BOOTSTRAP_MISC)
+
+BUILT_SOURCES = $(YACCSOURCES:%.yy=%_parse.cpp) $(LEXSOURCES:%.ll=%_lex.cpp)
+BUILT_HEADERS = $(YACCSOURCES:%.yy=%_parse.hpp) $(LEXSOURCES:%.ll=%_lex.hpp)
+BUILT_MISC = $(PARSESOURCES:%.fparse=%.ll) $(PARSESOURCES:%.fparse=%.yy)
+
+STAGE1_BUILT_HEADERS = $(addprefix stage1/,$(YACCSOURCES:%.yy=%_parse.hpp) $(LEXSOURCES:%.ll=%_lex.hpp))
+STAGE2_BUILT_HEADERS = $(addprefix stage2/,$(BUILT_HEADERS))
+
+OBJECTS = $(sort $(CXXSOURCES:%.cpp=%.o) $(BUILT_SOURCES:%.cpp=%.o))
 DEPFILES = $(addprefix stage1/,$(OBJECTS:%.o=.%.d)) $(addprefix stage2/,$(OBJECTS:%.o=.%.d))
 
-all: foundry-tree
+PARSEOBJECTS = $(filter-out foundry-tree.o, $(OBJECTS))
+TREEOBJECTS = $(filter-out foundry-parse.o, $(OBJECTS))
 
-check: $(addprefix update/,$(BOOTSTRAP))
+all: foundry-tree foundry-parse
 
 .PHONY: update
 
@@ -31,11 +49,53 @@ update: $(addprefix update/,$(BOOTSTRAP))
 	  fi; \
 	done
 
-foundry-tree: $(addprefix stage2/,$(OBJECTS))
+.PHONY: check test
+
+check test: $(addprefix update/,$(BOOTSTRAP))
+
+.PHONY: clean
+
+clean:
+	$(RM) foundry-parse foundry-tree
+	$(RM) -r stage1
+	$(RM) -r stage2
+	$(RM) -r update
+
+foundry-parse: $(addprefix stage2/,$(PARSEOBJECTS))
 	$(CXX) $(LDFLAGS) -o $@ $^
 
-stage1/foundry-tree: $(addprefix stage1/,$(OBJECTS))
+foundry-tree: $(addprefix stage2/,$(TREEOBJECTS))
 	$(CXX) $(LDFLAGS) -o $@ $^
+
+update/parse_cst.ll: parse_cst.fparse foundry-parse stage2/parse_cst.ll
+	@mkdir -p update
+	./foundry-parse -l $< -o $@
+	cmp -s $@ stage2/$(notdir $@)
+
+update/parse_cst.yy: parse_cst.fparse foundry-parse stage2/parse_cst.yy
+	@mkdir -p update
+	./foundry-parse -y $< -o $@
+	cmp -s $@ stage2/$(notdir $@)
+
+update/%_tree.hpp: %.ftree foundry-tree stage2/%_tree.hpp
+	@mkdir -p update
+	./foundry-tree -o $@ $<
+	cmp -s $@ stage2/$(notdir $@)
+
+update/%_tree.cpp: %.ftree foundry-tree stage2/%_tree.cpp
+	@mkdir -p update
+	./foundry-tree -c -o $@ $<
+	cmp -s $@ stage2/$(notdir $@)
+
+update/%_cst.hpp: %.yy foundry-tree stage2/%_cst.hpp
+	@mkdir -p update
+	./foundry-tree -n foundry -n $(subst _, -n ,$*) -o $@ $<
+	cmp -s $@ stage2/$(notdir $@)
+
+update/%_cst.cpp: %.yy foundry-tree stage2/%_cst.cpp
+	@mkdir -p update
+	./foundry-tree -n foundry -n $(subst _, -n ,$*) -c -o $@ $<
+	cmp -s $@ stage2/$(notdir $@)
 
 stage2/%_tree.hpp: %.ftree stage1/foundry-tree
 	stage1/foundry-tree -o $@ $<
@@ -43,31 +103,79 @@ stage2/%_tree.hpp: %.ftree stage1/foundry-tree
 stage2/%_tree.cpp: %.ftree stage1/foundry-tree
 	stage1/foundry-tree -c -o $@ $<
 
-stage2/%_tree.hpp: %.yy stage1/foundry-tree
+stage2/%_cst.hpp: %.yy stage1/foundry-tree
 	stage1/foundry-tree -n foundry -n $(subst _, -n ,$*) -o $@ $<
 
-stage2/%_tree.cpp: %.yy stage1/foundry-tree
+stage2/%_cst.cpp: %.yy stage1/foundry-tree
 	stage1/foundry-tree -n foundry -n $(subst _, -n ,$*) -c -o $@ $<
 
-update/%_tree.hpp: %.ftree foundry-tree
-	@mkdir -p update
-	./foundry-tree -o $@ $<
-	cmp -s $@ stage2/$(notdir $@)
+stage2/%_cst.hpp: stage2/%.yy stage1/foundry-tree
+	stage1/foundry-tree -n foundry -n $(subst _, -n ,$*) -o $@ $<
 
-update/%_tree.cpp: %.ftree foundry-tree
-	@mkdir -p update
-	./foundry-tree -c -o $@ $<
-	cmp -s $@ stage2/$(notdir $@)
+stage2/%_cst.cpp: stage2/%.yy stage1/foundry-tree
+	stage1/foundry-tree -n foundry -n $(subst _, -n ,$*) -c -o $@ $<
 
-update/%_tree.hpp: %.yy foundry-tree
-	@mkdir -p update
-	./foundry-tree -n foundry -n $(subst _, -n ,$*) -o $@ $<
-	cmp -s $@ stage2/$(notdir $@)
+stage2/%_lex.hpp: stage2/%_lex.cpp
+	test -f $@ || ($(RM) $< && $(MAKE) $<)
+	touch $@
 
-update/%_tree.cpp: %.yy foundry-tree
-	@mkdir -p update
-	./foundry-tree -n foundry -n $(subst _, -n ,$*) -c -o $@ $<
-	cmp -s $@ stage2/$(notdir $@)
+stage2/%_lex.cpp: stage2/%.ll
+	cd stage2 && flex -o $(notdir $@) --header-file=$(basename $(notdir $@)).hpp $(notdir $<)
+
+stage2/%_parse.hpp: stage2/%_parse.cpp
+	test -f $@ || ($(RM) $< && $(MAKE) $<)
+	touch $@
+
+stage2/%_parse.cpp: stage2/%.yy
+	bison -d $< -o $@
+
+stage2/%.ll: %.fparse stage1/foundry-parse
+	stage1/foundry-parse -o $@ -l $<
+
+stage2/%.yy: %.fparse stage1/foundry-parse
+	stage1/foundry-parse -o $@ -y $<
+
+stage2/tree_%.ll: tree_%.ll
+	cp $< $@
+
+stage2/tree_%.yy: tree_%.yy
+	cp $< $@
+
+stage2/%.o: %.cpp
+	@$(MKDIR) stage2
+	$(CXX) $(CPPFLAGE) -Istage2 -I. $(CXXFLAGS) -MD -MF stage2/.$*.d -o $@ -c $<
+
+stage2/%.o: stage2/%.cpp
+	$(CXX) $(CPPFLAGS) -Istage2 -I. $(CXXFLAGS) -MD -MF stage2/.$*.d -o $@ -c $<
+
+stage2/parse_cst.o: stage2/parse_cst.cpp
+
+stage1/foundry-tree: $(addprefix stage1/,$(TREEOBJECTS))
+	$(CXX) $(LDFLAGS) -o $@ $^
+
+stage1/foundry-parse: $(addprefix stage1/,$(PARSEOBJECTS))
+	$(CXX) $(LDFLAGS) -o $@ $^
+
+stage1/%_lex.hpp: stage1/%_lex.cpp
+	test -f $@ || ($(RM) $< && $(MAKE) $<)
+	touch $@
+
+stage1/%_lex.cpp: %.ll
+	cd stage1 && flex -o $(notdir $@) --header-file=$(basename $(notdir $@)).hpp ../$(notdir $<)
+
+stage1/%_parse.hpp: stage1/%_parse.cpp
+	test -f $@ || ($(RM) $< && $(MAKE) $<)
+	touch $@
+
+stage1/%_parse.cpp: %.yy
+	bison -d $< -o $@
+
+stage1/%.o: %.cpp
+	@$(MKDIR) stage1
+	$(CXX) $(CPPFLAGS) -Istage1 -I. $(CXXFLAGS) -MD -MF stage1/.$*.d -o $@ -c $<
+
+stage1/%.o: stage1/%.cpp
+	$(CXX) $(CPPFLAGS) -Istage1 -I. $(CXXFLAGS) -MD -MF stage1/.$*.d -o $@ -c $<
 
 %_lex.cpp: %.ll
 	$(LEX) -o $@ $<
@@ -75,33 +183,8 @@ update/%_tree.cpp: %.yy foundry-tree
 %_parse.cpp: %.yy
 	$(YACC) -o $@ $<
 
-%_lex.hpp: %_lex.cpp
-	@
-
-%_parse.hpp: %_parse.cpp
-	@
-
-STAGE1_BUILT_HEADERS = $(YACCSOURCES:%.yy=%_parse.hpp) $(YACCSOURCES:%.yy=%_tree.hpp) $(LEXSOURCES:%.ll=%_lex.hpp) $(TREESOURCES:%.ftree=%_tree.hpp)
-
-STAGE2_BUILT_HEADERS = $(YACCSOURCES:%.yy=%_parse.hpp) $(addprefix stage2/,$(YACCSOURCES:%.yy=%_tree.hpp)) $(LEXSOURCES:%.ll=%_lex.hpp) $(addprefix stage2/,$(TREESOURCES:%.ftree=%_tree.hpp))
-
-stage1/%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -I. -o $@ -MD -MF stage1/.$*.d -c $<
-
-stage2/%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -Istage2 -I. -o $@ -MD -MF stage2/.$*.d -c $<
-
-stage2/tree_tree.o: stage2/tree_tree.cpp
-	$(CXX) $(CXXFLAGS) -Istage2 -I. -o $@ -MD -MF stage2/.$*.d -c $<
-
-stage2/tree_bison_tree.o: stage2/tree_bison_tree.cpp
-	$(CXX) $(CXXFLAGS) -Istage2 -I. -o $@ -MD -MF stage2/.$*.d -c $<
-
-stage2/tree_cst_tree.o: stage2/tree_cst_tree.cpp
-	$(CXX) $(CXXFLAGS) -Istage2 -I. -o $@ -MD -MF stage2/.$*.d -c $<
-
-stage1/tree_bison_lex.o stage2/tree_bison_lex.o: CXXFLAGS+=-Wno-unused
-stage1/tree_cst_lex.o stage2/tree_cst_lex.o: CXXFLAGS+=-Wno-unused
+stage1/%_lex.o: CXXFLAGS+=-Wno-unused
+stage2/%_lex.o: CXXFLAGS+=-Wno-unused
 
 stage1/.%.d:
 	@mkdir -p $(@D)
@@ -111,12 +194,9 @@ stage2/.%.d:
 	@mkdir -p $(@D)
 	@echo >$@ "stage2/$*.o: $(STAGE2_BUILT_HEADERS)"
 
-clean:
-	$(RM) *-stamp
-	$(RM) foundry-tree
-	$(RM) -r update stage2 stage1
-
-sinclude $(DEPFILES)
-
 .SUFFIXES:
 .DELETE_ON_ERROR:
+
+DEPENDS = $(OBJECTS:%.o=.%.d)
+
+sinclude $(addprefix stage1/,$(DEPENDS)) $(addprefix stage2/,$(DEPENDS))

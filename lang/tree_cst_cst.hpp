@@ -1,5 +1,5 @@
-#ifndef tree_cst_tree_hpp_
-#define tree_cst_tree_hpp_ 1
+#ifndef tree_cst_cst_hpp_
+#define tree_cst_cst_hpp_ 1
 
 #include <string>
 #include <boost/intrusive_ptr.hpp>

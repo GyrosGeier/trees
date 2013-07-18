@@ -1,7 +1,7 @@
 #ifndef foundry_parse_cst_to_ast_visitor_h_
 #define foundry_parse_cst_to_ast_visitor_h_ 1
 
-#include "parse_cst.hpp"
+#include "parse_cst_cst.hpp"
 #include "parse_tree.hpp"
 
 namespace foundry {

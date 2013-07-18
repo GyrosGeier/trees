@@ -1,6 +1,6 @@
 %{
 #include "tree_bison_context.hpp"
-#include "tree_bison_tree.hpp"
+#include "tree_bison_cst.hpp"
 #include "tree_bison_parse.hpp"
 #define YY_USER_ACTION yylloc->first_line = yylloc->last_line = yylineno;
 %}
