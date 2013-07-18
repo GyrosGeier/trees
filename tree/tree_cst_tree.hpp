@@ -446,1112 +446,1112 @@ namespace foundry {
 namespace tree {
 namespace cst {
 struct node {
-    node(void) throw() : refcount(0) { }
-    virtual ~node(void) throw() { }
-    virtual void apply(node_const_visitor &) const = 0;
-    unsigned int refcount;
+        node(void) throw() : refcount(0) { }
+        virtual ~node(void) throw() { }
+        virtual void apply(node_const_visitor &) const = 0;
+        unsigned int refcount;
 };
 inline void intrusive_ptr_add_ref(node *n) { ++n->refcount; }
 inline void intrusive_ptr_release(node *n) { if(!--n->refcount) delete n; }
 class node_const_visitor
 {
 public:
-    virtual ~node_const_visitor(void) throw() { }
-    inline void descend(node const &n) { n.apply(*this); }
-    template<typename T>
-    inline void descend(boost::intrusive_ptr<T> const &p) { if(p) descend(*p); }
-    virtual void visit(declarations_1 const &) = 0;
-    inline void descend(declarations_1 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<declarations_1> const &p) { if(p) descend(*p); }
-    virtual void visit(declarations_2 const &) = 0;
-    inline void descend(declarations_2 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<declarations_2> const &p) { if(p) descend(*p); }
-    virtual void visit(declaration_1 const &) = 0;
-    inline void descend(declaration_1 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<declaration_1> const &p) { if(p) descend(*p); }
-    virtual void visit(declaration_2 const &) = 0;
-    inline void descend(declaration_2 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<declaration_2> const &p) { if(p) descend(*p); }
-    virtual void visit(namespace_member_declaration_1 const &) = 0;
-    inline void descend(namespace_member_declaration_1 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<namespace_member_declaration_1> const &p) { if(p) descend(*p); }
-    virtual void visit(namespace_member_declaration_2 const &) = 0;
-    inline void descend(namespace_member_declaration_2 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<namespace_member_declaration_2> const &p) { if(p) descend(*p); }
-    virtual void visit(namespace_member_declaration_3 const &) = 0;
-    inline void descend(namespace_member_declaration_3 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<namespace_member_declaration_3> const &p) { if(p) descend(*p); }
-    virtual void visit(group_member_declarations_1 const &) = 0;
-    inline void descend(group_member_declarations_1 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<group_member_declarations_1> const &p) { if(p) descend(*p); }
-    virtual void visit(group_member_declarations_2 const &) = 0;
-    inline void descend(group_member_declarations_2 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<group_member_declarations_2> const &p) { if(p) descend(*p); }
-    virtual void visit(group_member_declaration_1 const &) = 0;
-    inline void descend(group_member_declaration_1 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<group_member_declaration_1> const &p) { if(p) descend(*p); }
-    virtual void visit(group_member_declaration_2 const &) = 0;
-    inline void descend(group_member_declaration_2 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<group_member_declaration_2> const &p) { if(p) descend(*p); }
-    virtual void visit(group_member_declaration_3 const &) = 0;
-    inline void descend(group_member_declaration_3 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<group_member_declaration_3> const &p) { if(p) descend(*p); }
-    virtual void visit(node_declaration_1 const &) = 0;
-    inline void descend(node_declaration_1 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<node_declaration_1> const &p) { if(p) descend(*p); }
-    virtual void visit(node_declaration_2 const &) = 0;
-    inline void descend(node_declaration_2 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<node_declaration_2> const &p) { if(p) descend(*p); }
-    virtual void visit(node_declaration_3 const &) = 0;
-    inline void descend(node_declaration_3 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<node_declaration_3> const &p) { if(p) descend(*p); }
-    virtual void visit(visitor_declaration_1 const &) = 0;
-    inline void descend(visitor_declaration_1 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<visitor_declaration_1> const &p) { if(p) descend(*p); }
-    virtual void visit(visitor_declaration_2 const &) = 0;
-    inline void descend(visitor_declaration_2 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<visitor_declaration_2> const &p) { if(p) descend(*p); }
-    virtual void visit(visitor_declaration_3 const &) = 0;
-    inline void descend(visitor_declaration_3 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<visitor_declaration_3> const &p) { if(p) descend(*p); }
-    virtual void visit(visitor_declaration_4 const &) = 0;
-    inline void descend(visitor_declaration_4 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<visitor_declaration_4> const &p) { if(p) descend(*p); }
-    virtual void visit(visitor_declaration_5 const &) = 0;
-    inline void descend(visitor_declaration_5 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<visitor_declaration_5> const &p) { if(p) descend(*p); }
-    virtual void visit(visitor_declaration_6 const &) = 0;
-    inline void descend(visitor_declaration_6 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<visitor_declaration_6> const &p) { if(p) descend(*p); }
-    virtual void visit(member_declarations_1 const &) = 0;
-    inline void descend(member_declarations_1 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<member_declarations_1> const &p) { if(p) descend(*p); }
-    virtual void visit(member_declarations_2 const &) = 0;
-    inline void descend(member_declarations_2 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<member_declarations_2> const &p) { if(p) descend(*p); }
-    virtual void visit(member_declarations_3 const &) = 0;
-    inline void descend(member_declarations_3 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<member_declarations_3> const &p) { if(p) descend(*p); }
-    virtual void visit(member_declaration_1 const &) = 0;
-    inline void descend(member_declaration_1 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<member_declaration_1> const &p) { if(p) descend(*p); }
-    virtual void visit(member_declaration_2 const &) = 0;
-    inline void descend(member_declaration_2 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<member_declaration_2> const &p) { if(p) descend(*p); }
-    virtual void visit(member_declaration_3 const &) = 0;
-    inline void descend(member_declaration_3 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<member_declaration_3> const &p) { if(p) descend(*p); }
-    virtual void visit(member_directive_1 const &) = 0;
-    inline void descend(member_directive_1 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<member_directive_1> const &p) { if(p) descend(*p); }
-    virtual void visit(member_directive_2 const &) = 0;
-    inline void descend(member_directive_2 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<member_directive_2> const &p) { if(p) descend(*p); }
-    virtual void visit(member_directive_3 const &) = 0;
-    inline void descend(member_directive_3 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<member_directive_3> const &p) { if(p) descend(*p); }
-    virtual void visit(member_directive_4 const &) = 0;
-    inline void descend(member_directive_4 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<member_directive_4> const &p) { if(p) descend(*p); }
-    virtual void visit(member_directive_5 const &) = 0;
-    inline void descend(member_directive_5 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<member_directive_5> const &p) { if(p) descend(*p); }
-    virtual void visit(member_directive_6 const &) = 0;
-    inline void descend(member_directive_6 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<member_directive_6> const &p) { if(p) descend(*p); }
-    virtual void visit(member_directive_7 const &) = 0;
-    inline void descend(member_directive_7 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<member_directive_7> const &p) { if(p) descend(*p); }
-    virtual void visit(parameter_list_1 const &) = 0;
-    inline void descend(parameter_list_1 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<parameter_list_1> const &p) { if(p) descend(*p); }
-    virtual void visit(parameter_list_2 const &) = 0;
-    inline void descend(parameter_list_2 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<parameter_list_2> const &p) { if(p) descend(*p); }
-    virtual void visit(parameter_list_3 const &) = 0;
-    inline void descend(parameter_list_3 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<parameter_list_3> const &p) { if(p) descend(*p); }
-    virtual void visit(parameters_1 const &) = 0;
-    inline void descend(parameters_1 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<parameters_1> const &p) { if(p) descend(*p); }
-    virtual void visit(parameters_2 const &) = 0;
-    inline void descend(parameters_2 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<parameters_2> const &p) { if(p) descend(*p); }
-    virtual void visit(parameter_1 const &) = 0;
-    inline void descend(parameter_1 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<parameter_1> const &p) { if(p) descend(*p); }
-    virtual void visit(parameter_2 const &) = 0;
-    inline void descend(parameter_2 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<parameter_2> const &p) { if(p) descend(*p); }
-    virtual void visit(void_or_nothing_1 const &) = 0;
-    inline void descend(void_or_nothing_1 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<void_or_nothing_1> const &p) { if(p) descend(*p); }
-    virtual void visit(void_or_nothing_2 const &) = 0;
-    inline void descend(void_or_nothing_2 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<void_or_nothing_2> const &p) { if(p) descend(*p); }
-    virtual void visit(declarator_1 const &) = 0;
-    inline void descend(declarator_1 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<declarator_1> const &p) { if(p) descend(*p); }
-    virtual void visit(declarator_2 const &) = 0;
-    inline void descend(declarator_2 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<declarator_2> const &p) { if(p) descend(*p); }
-    virtual void visit(declarator_3 const &) = 0;
-    inline void descend(declarator_3 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<declarator_3> const &p) { if(p) descend(*p); }
-    virtual void visit(declarator_4 const &) = 0;
-    inline void descend(declarator_4 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<declarator_4> const &p) { if(p) descend(*p); }
-    virtual void visit(reference_1 const &) = 0;
-    inline void descend(reference_1 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<reference_1> const &p) { if(p) descend(*p); }
-    virtual void visit(reference_2 const &) = 0;
-    inline void descend(reference_2 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<reference_2> const &p) { if(p) descend(*p); }
-    virtual void visit(pointer_1 const &) = 0;
-    inline void descend(pointer_1 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<pointer_1> const &p) { if(p) descend(*p); }
-    virtual void visit(pointer_2 const &) = 0;
-    inline void descend(pointer_2 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<pointer_2> const &p) { if(p) descend(*p); }
-    virtual void visit(type_qualifiers_1 const &) = 0;
-    inline void descend(type_qualifiers_1 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<type_qualifiers_1> const &p) { if(p) descend(*p); }
-    virtual void visit(type_qualifiers_2 const &) = 0;
-    inline void descend(type_qualifiers_2 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<type_qualifiers_2> const &p) { if(p) descend(*p); }
-    virtual void visit(type_qualifier_1 const &) = 0;
-    inline void descend(type_qualifier_1 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<type_qualifier_1> const &p) { if(p) descend(*p); }
-    virtual void visit(type_qualifier_2 const &) = 0;
-    inline void descend(type_qualifier_2 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<type_qualifier_2> const &p) { if(p) descend(*p); }
-    virtual void visit(arrays_1 const &) = 0;
-    inline void descend(arrays_1 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<arrays_1> const &p) { if(p) descend(*p); }
-    virtual void visit(arrays_2 const &) = 0;
-    inline void descend(arrays_2 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<arrays_2> const &p) { if(p) descend(*p); }
-    virtual void visit(bounded_arrays_1 const &) = 0;
-    inline void descend(bounded_arrays_1 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<bounded_arrays_1> const &p) { if(p) descend(*p); }
-    virtual void visit(bounded_arrays_2 const &) = 0;
-    inline void descend(bounded_arrays_2 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<bounded_arrays_2> const &p) { if(p) descend(*p); }
-    virtual void visit(type_1 const &) = 0;
-    inline void descend(type_1 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<type_1> const &p) { if(p) descend(*p); }
-    virtual void visit(type_2 const &) = 0;
-    inline void descend(type_2 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<type_2> const &p) { if(p) descend(*p); }
-    virtual void visit(type_3 const &) = 0;
-    inline void descend(type_3 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<type_3> const &p) { if(p) descend(*p); }
-    virtual void visit(type_4 const &) = 0;
-    inline void descend(type_4 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<type_4> const &p) { if(p) descend(*p); }
-    virtual void visit(type_5 const &) = 0;
-    inline void descend(type_5 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<type_5> const &p) { if(p) descend(*p); }
-    virtual void visit(template_argument_list_1 const &) = 0;
-    inline void descend(template_argument_list_1 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<template_argument_list_1> const &p) { if(p) descend(*p); }
-    virtual void visit(template_argument_list_2 const &) = 0;
-    inline void descend(template_argument_list_2 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<template_argument_list_2> const &p) { if(p) descend(*p); }
-    virtual void visit(template_arguments_1 const &) = 0;
-    inline void descend(template_arguments_1 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<template_arguments_1> const &p) { if(p) descend(*p); }
-    virtual void visit(template_arguments_2 const &) = 0;
-    inline void descend(template_arguments_2 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<template_arguments_2> const &p) { if(p) descend(*p); }
-    virtual void visit(template_argument_1 const &) = 0;
-    inline void descend(template_argument_1 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<template_argument_1> const &p) { if(p) descend(*p); }
-    virtual void visit(template_argument_2 const &) = 0;
-    inline void descend(template_argument_2 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<template_argument_2> const &p) { if(p) descend(*p); }
-    virtual void visit(template_argument_3 const &) = 0;
-    inline void descend(template_argument_3 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<template_argument_3> const &p) { if(p) descend(*p); }
-    virtual void visit(template_argument_4 const &) = 0;
-    inline void descend(template_argument_4 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<template_argument_4> const &p) { if(p) descend(*p); }
-    virtual void visit(scope_1 const &) = 0;
-    inline void descend(scope_1 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<scope_1> const &p) { if(p) descend(*p); }
-    virtual void visit(scope_2 const &) = 0;
-    inline void descend(scope_2 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<scope_2> const &p) { if(p) descend(*p); }
-    virtual void visit(literal_1 const &) = 0;
-    inline void descend(literal_1 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<literal_1> const &p) { if(p) descend(*p); }
-    virtual void visit(literal_2 const &) = 0;
-    inline void descend(literal_2 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<literal_2> const &p) { if(p) descend(*p); }
-    virtual void visit(boolean_literal_1 const &) = 0;
-    inline void descend(boolean_literal_1 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<boolean_literal_1> const &p) { if(p) descend(*p); }
-    virtual void visit(boolean_literal_2 const &) = 0;
-    inline void descend(boolean_literal_2 const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<boolean_literal_2> const &p) { if(p) descend(*p); }
-    virtual void visit(start const &) = 0;
-    inline void descend(start const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<start> const &p) { if(p) descend(*p); }
-    virtual void visit(namespace_declaration const &) = 0;
-    inline void descend(namespace_declaration const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<namespace_declaration> const &p) { if(p) descend(*p); }
-    virtual void visit(group_declaration const &) = 0;
-    inline void descend(group_declaration const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<group_declaration> const &p) { if(p) descend(*p); }
-    virtual void visit(data_member_declaration const &) = 0;
-    inline void descend(data_member_declaration const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<data_member_declaration> const &p) { if(p) descend(*p); }
-    virtual void visit(constructor_declaration const &) = 0;
-    inline void descend(constructor_declaration const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<constructor_declaration> const &p) { if(p) descend(*p); }
-    virtual void visit(destructor_declaration const &) = 0;
-    inline void descend(destructor_declaration const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<destructor_declaration> const &p) { if(p) descend(*p); }
-    virtual void visit(bounded_array const &) = 0;
-    inline void descend(bounded_array const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<bounded_array> const &p) { if(p) descend(*p); }
-    virtual void visit(unbounded_array const &) = 0;
-    inline void descend(unbounded_array const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<unbounded_array> const &p) { if(p) descend(*p); }
-    virtual void visit(template_name const &) = 0;
-    inline void descend(template_name const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<template_name> const &p) { if(p) descend(*p); }
-    virtual void visit(scoped_name const &) = 0;
-    inline void descend(scoped_name const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<scoped_name> const &p) { if(p) descend(*p); }
-    virtual void visit(integer_literal const &) = 0;
-    inline void descend(integer_literal const &n) { visit(n); }
-    inline void descend(boost::intrusive_ptr<integer_literal> const &p) { if(p) descend(*p); }
+        virtual ~node_const_visitor(void) throw() { }
+        inline void descend(node const &n) { n.apply(*this); }
+        template<typename T>
+        inline void descend(boost::intrusive_ptr<T> const &p) { if(p) descend(*p); }
+        virtual void visit(declarations_1 const &) = 0;
+        inline void descend(declarations_1 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<declarations_1> const &p) { if(p) descend(*p); }
+        virtual void visit(declarations_2 const &) = 0;
+        inline void descend(declarations_2 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<declarations_2> const &p) { if(p) descend(*p); }
+        virtual void visit(declaration_1 const &) = 0;
+        inline void descend(declaration_1 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<declaration_1> const &p) { if(p) descend(*p); }
+        virtual void visit(declaration_2 const &) = 0;
+        inline void descend(declaration_2 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<declaration_2> const &p) { if(p) descend(*p); }
+        virtual void visit(namespace_member_declaration_1 const &) = 0;
+        inline void descend(namespace_member_declaration_1 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<namespace_member_declaration_1> const &p) { if(p) descend(*p); }
+        virtual void visit(namespace_member_declaration_2 const &) = 0;
+        inline void descend(namespace_member_declaration_2 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<namespace_member_declaration_2> const &p) { if(p) descend(*p); }
+        virtual void visit(namespace_member_declaration_3 const &) = 0;
+        inline void descend(namespace_member_declaration_3 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<namespace_member_declaration_3> const &p) { if(p) descend(*p); }
+        virtual void visit(group_member_declarations_1 const &) = 0;
+        inline void descend(group_member_declarations_1 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<group_member_declarations_1> const &p) { if(p) descend(*p); }
+        virtual void visit(group_member_declarations_2 const &) = 0;
+        inline void descend(group_member_declarations_2 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<group_member_declarations_2> const &p) { if(p) descend(*p); }
+        virtual void visit(group_member_declaration_1 const &) = 0;
+        inline void descend(group_member_declaration_1 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<group_member_declaration_1> const &p) { if(p) descend(*p); }
+        virtual void visit(group_member_declaration_2 const &) = 0;
+        inline void descend(group_member_declaration_2 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<group_member_declaration_2> const &p) { if(p) descend(*p); }
+        virtual void visit(group_member_declaration_3 const &) = 0;
+        inline void descend(group_member_declaration_3 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<group_member_declaration_3> const &p) { if(p) descend(*p); }
+        virtual void visit(node_declaration_1 const &) = 0;
+        inline void descend(node_declaration_1 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<node_declaration_1> const &p) { if(p) descend(*p); }
+        virtual void visit(node_declaration_2 const &) = 0;
+        inline void descend(node_declaration_2 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<node_declaration_2> const &p) { if(p) descend(*p); }
+        virtual void visit(node_declaration_3 const &) = 0;
+        inline void descend(node_declaration_3 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<node_declaration_3> const &p) { if(p) descend(*p); }
+        virtual void visit(visitor_declaration_1 const &) = 0;
+        inline void descend(visitor_declaration_1 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<visitor_declaration_1> const &p) { if(p) descend(*p); }
+        virtual void visit(visitor_declaration_2 const &) = 0;
+        inline void descend(visitor_declaration_2 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<visitor_declaration_2> const &p) { if(p) descend(*p); }
+        virtual void visit(visitor_declaration_3 const &) = 0;
+        inline void descend(visitor_declaration_3 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<visitor_declaration_3> const &p) { if(p) descend(*p); }
+        virtual void visit(visitor_declaration_4 const &) = 0;
+        inline void descend(visitor_declaration_4 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<visitor_declaration_4> const &p) { if(p) descend(*p); }
+        virtual void visit(visitor_declaration_5 const &) = 0;
+        inline void descend(visitor_declaration_5 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<visitor_declaration_5> const &p) { if(p) descend(*p); }
+        virtual void visit(visitor_declaration_6 const &) = 0;
+        inline void descend(visitor_declaration_6 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<visitor_declaration_6> const &p) { if(p) descend(*p); }
+        virtual void visit(member_declarations_1 const &) = 0;
+        inline void descend(member_declarations_1 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<member_declarations_1> const &p) { if(p) descend(*p); }
+        virtual void visit(member_declarations_2 const &) = 0;
+        inline void descend(member_declarations_2 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<member_declarations_2> const &p) { if(p) descend(*p); }
+        virtual void visit(member_declarations_3 const &) = 0;
+        inline void descend(member_declarations_3 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<member_declarations_3> const &p) { if(p) descend(*p); }
+        virtual void visit(member_declaration_1 const &) = 0;
+        inline void descend(member_declaration_1 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<member_declaration_1> const &p) { if(p) descend(*p); }
+        virtual void visit(member_declaration_2 const &) = 0;
+        inline void descend(member_declaration_2 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<member_declaration_2> const &p) { if(p) descend(*p); }
+        virtual void visit(member_declaration_3 const &) = 0;
+        inline void descend(member_declaration_3 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<member_declaration_3> const &p) { if(p) descend(*p); }
+        virtual void visit(member_directive_1 const &) = 0;
+        inline void descend(member_directive_1 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<member_directive_1> const &p) { if(p) descend(*p); }
+        virtual void visit(member_directive_2 const &) = 0;
+        inline void descend(member_directive_2 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<member_directive_2> const &p) { if(p) descend(*p); }
+        virtual void visit(member_directive_3 const &) = 0;
+        inline void descend(member_directive_3 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<member_directive_3> const &p) { if(p) descend(*p); }
+        virtual void visit(member_directive_4 const &) = 0;
+        inline void descend(member_directive_4 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<member_directive_4> const &p) { if(p) descend(*p); }
+        virtual void visit(member_directive_5 const &) = 0;
+        inline void descend(member_directive_5 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<member_directive_5> const &p) { if(p) descend(*p); }
+        virtual void visit(member_directive_6 const &) = 0;
+        inline void descend(member_directive_6 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<member_directive_6> const &p) { if(p) descend(*p); }
+        virtual void visit(member_directive_7 const &) = 0;
+        inline void descend(member_directive_7 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<member_directive_7> const &p) { if(p) descend(*p); }
+        virtual void visit(parameter_list_1 const &) = 0;
+        inline void descend(parameter_list_1 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<parameter_list_1> const &p) { if(p) descend(*p); }
+        virtual void visit(parameter_list_2 const &) = 0;
+        inline void descend(parameter_list_2 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<parameter_list_2> const &p) { if(p) descend(*p); }
+        virtual void visit(parameter_list_3 const &) = 0;
+        inline void descend(parameter_list_3 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<parameter_list_3> const &p) { if(p) descend(*p); }
+        virtual void visit(parameters_1 const &) = 0;
+        inline void descend(parameters_1 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<parameters_1> const &p) { if(p) descend(*p); }
+        virtual void visit(parameters_2 const &) = 0;
+        inline void descend(parameters_2 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<parameters_2> const &p) { if(p) descend(*p); }
+        virtual void visit(parameter_1 const &) = 0;
+        inline void descend(parameter_1 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<parameter_1> const &p) { if(p) descend(*p); }
+        virtual void visit(parameter_2 const &) = 0;
+        inline void descend(parameter_2 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<parameter_2> const &p) { if(p) descend(*p); }
+        virtual void visit(void_or_nothing_1 const &) = 0;
+        inline void descend(void_or_nothing_1 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<void_or_nothing_1> const &p) { if(p) descend(*p); }
+        virtual void visit(void_or_nothing_2 const &) = 0;
+        inline void descend(void_or_nothing_2 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<void_or_nothing_2> const &p) { if(p) descend(*p); }
+        virtual void visit(declarator_1 const &) = 0;
+        inline void descend(declarator_1 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<declarator_1> const &p) { if(p) descend(*p); }
+        virtual void visit(declarator_2 const &) = 0;
+        inline void descend(declarator_2 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<declarator_2> const &p) { if(p) descend(*p); }
+        virtual void visit(declarator_3 const &) = 0;
+        inline void descend(declarator_3 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<declarator_3> const &p) { if(p) descend(*p); }
+        virtual void visit(declarator_4 const &) = 0;
+        inline void descend(declarator_4 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<declarator_4> const &p) { if(p) descend(*p); }
+        virtual void visit(reference_1 const &) = 0;
+        inline void descend(reference_1 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<reference_1> const &p) { if(p) descend(*p); }
+        virtual void visit(reference_2 const &) = 0;
+        inline void descend(reference_2 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<reference_2> const &p) { if(p) descend(*p); }
+        virtual void visit(pointer_1 const &) = 0;
+        inline void descend(pointer_1 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<pointer_1> const &p) { if(p) descend(*p); }
+        virtual void visit(pointer_2 const &) = 0;
+        inline void descend(pointer_2 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<pointer_2> const &p) { if(p) descend(*p); }
+        virtual void visit(type_qualifiers_1 const &) = 0;
+        inline void descend(type_qualifiers_1 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<type_qualifiers_1> const &p) { if(p) descend(*p); }
+        virtual void visit(type_qualifiers_2 const &) = 0;
+        inline void descend(type_qualifiers_2 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<type_qualifiers_2> const &p) { if(p) descend(*p); }
+        virtual void visit(type_qualifier_1 const &) = 0;
+        inline void descend(type_qualifier_1 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<type_qualifier_1> const &p) { if(p) descend(*p); }
+        virtual void visit(type_qualifier_2 const &) = 0;
+        inline void descend(type_qualifier_2 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<type_qualifier_2> const &p) { if(p) descend(*p); }
+        virtual void visit(arrays_1 const &) = 0;
+        inline void descend(arrays_1 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<arrays_1> const &p) { if(p) descend(*p); }
+        virtual void visit(arrays_2 const &) = 0;
+        inline void descend(arrays_2 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<arrays_2> const &p) { if(p) descend(*p); }
+        virtual void visit(bounded_arrays_1 const &) = 0;
+        inline void descend(bounded_arrays_1 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<bounded_arrays_1> const &p) { if(p) descend(*p); }
+        virtual void visit(bounded_arrays_2 const &) = 0;
+        inline void descend(bounded_arrays_2 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<bounded_arrays_2> const &p) { if(p) descend(*p); }
+        virtual void visit(type_1 const &) = 0;
+        inline void descend(type_1 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<type_1> const &p) { if(p) descend(*p); }
+        virtual void visit(type_2 const &) = 0;
+        inline void descend(type_2 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<type_2> const &p) { if(p) descend(*p); }
+        virtual void visit(type_3 const &) = 0;
+        inline void descend(type_3 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<type_3> const &p) { if(p) descend(*p); }
+        virtual void visit(type_4 const &) = 0;
+        inline void descend(type_4 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<type_4> const &p) { if(p) descend(*p); }
+        virtual void visit(type_5 const &) = 0;
+        inline void descend(type_5 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<type_5> const &p) { if(p) descend(*p); }
+        virtual void visit(template_argument_list_1 const &) = 0;
+        inline void descend(template_argument_list_1 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<template_argument_list_1> const &p) { if(p) descend(*p); }
+        virtual void visit(template_argument_list_2 const &) = 0;
+        inline void descend(template_argument_list_2 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<template_argument_list_2> const &p) { if(p) descend(*p); }
+        virtual void visit(template_arguments_1 const &) = 0;
+        inline void descend(template_arguments_1 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<template_arguments_1> const &p) { if(p) descend(*p); }
+        virtual void visit(template_arguments_2 const &) = 0;
+        inline void descend(template_arguments_2 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<template_arguments_2> const &p) { if(p) descend(*p); }
+        virtual void visit(template_argument_1 const &) = 0;
+        inline void descend(template_argument_1 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<template_argument_1> const &p) { if(p) descend(*p); }
+        virtual void visit(template_argument_2 const &) = 0;
+        inline void descend(template_argument_2 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<template_argument_2> const &p) { if(p) descend(*p); }
+        virtual void visit(template_argument_3 const &) = 0;
+        inline void descend(template_argument_3 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<template_argument_3> const &p) { if(p) descend(*p); }
+        virtual void visit(template_argument_4 const &) = 0;
+        inline void descend(template_argument_4 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<template_argument_4> const &p) { if(p) descend(*p); }
+        virtual void visit(scope_1 const &) = 0;
+        inline void descend(scope_1 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<scope_1> const &p) { if(p) descend(*p); }
+        virtual void visit(scope_2 const &) = 0;
+        inline void descend(scope_2 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<scope_2> const &p) { if(p) descend(*p); }
+        virtual void visit(literal_1 const &) = 0;
+        inline void descend(literal_1 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<literal_1> const &p) { if(p) descend(*p); }
+        virtual void visit(literal_2 const &) = 0;
+        inline void descend(literal_2 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<literal_2> const &p) { if(p) descend(*p); }
+        virtual void visit(boolean_literal_1 const &) = 0;
+        inline void descend(boolean_literal_1 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<boolean_literal_1> const &p) { if(p) descend(*p); }
+        virtual void visit(boolean_literal_2 const &) = 0;
+        inline void descend(boolean_literal_2 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<boolean_literal_2> const &p) { if(p) descend(*p); }
+        virtual void visit(start const &) = 0;
+        inline void descend(start const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<start> const &p) { if(p) descend(*p); }
+        virtual void visit(namespace_declaration const &) = 0;
+        inline void descend(namespace_declaration const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<namespace_declaration> const &p) { if(p) descend(*p); }
+        virtual void visit(group_declaration const &) = 0;
+        inline void descend(group_declaration const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<group_declaration> const &p) { if(p) descend(*p); }
+        virtual void visit(data_member_declaration const &) = 0;
+        inline void descend(data_member_declaration const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<data_member_declaration> const &p) { if(p) descend(*p); }
+        virtual void visit(constructor_declaration const &) = 0;
+        inline void descend(constructor_declaration const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<constructor_declaration> const &p) { if(p) descend(*p); }
+        virtual void visit(destructor_declaration const &) = 0;
+        inline void descend(destructor_declaration const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<destructor_declaration> const &p) { if(p) descend(*p); }
+        virtual void visit(bounded_array const &) = 0;
+        inline void descend(bounded_array const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<bounded_array> const &p) { if(p) descend(*p); }
+        virtual void visit(unbounded_array const &) = 0;
+        inline void descend(unbounded_array const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<unbounded_array> const &p) { if(p) descend(*p); }
+        virtual void visit(template_name const &) = 0;
+        inline void descend(template_name const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<template_name> const &p) { if(p) descend(*p); }
+        virtual void visit(scoped_name const &) = 0;
+        inline void descend(scoped_name const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<scoped_name> const &p) { if(p) descend(*p); }
+        virtual void visit(integer_literal const &) = 0;
+        inline void descend(integer_literal const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<integer_literal> const &p) { if(p) descend(*p); }
 };
 struct declarations : node {
-    declarations(void) throw() { }
-    virtual ~declarations(void) throw() { }
-    using node::apply;
+        declarations(void) throw() { }
+        virtual ~declarations(void) throw() { }
+        using node::apply;
 };
 struct declarations_1 : declarations
 {
-    declarations_1() throw() { }
-    virtual ~declarations_1(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
+        declarations_1() throw() { }
+        virtual ~declarations_1(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
 };
 struct declarations_2 : declarations
 {
-    declarations_2(boost::intrusive_ptr< ::foundry::tree::cst::declarations>  _1, boost::intrusive_ptr< ::foundry::tree::cst::declaration>  _2) throw() : 
-        _1(_1), _2(_2) { }
-    virtual ~declarations_2(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::declarations>  _1;
-    boost::intrusive_ptr< ::foundry::tree::cst::declaration>  _2;
+        declarations_2(boost::intrusive_ptr< ::foundry::tree::cst::declarations>  _1, boost::intrusive_ptr< ::foundry::tree::cst::declaration>  _2) throw() : 
+                _1(_1), _2(_2) { }
+        virtual ~declarations_2(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::declarations>  _1;
+        boost::intrusive_ptr< ::foundry::tree::cst::declaration>  _2;
 };
 struct declaration : node {
-    declaration(void) throw() { }
-    virtual ~declaration(void) throw() { }
-    using node::apply;
+        declaration(void) throw() { }
+        virtual ~declaration(void) throw() { }
+        using node::apply;
 };
 struct declaration_1 : declaration
 {
-    declaration_1(boost::intrusive_ptr< ::foundry::tree::cst::namespace_declaration>  _1) throw() : 
-        _1(_1) { }
-    virtual ~declaration_1(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::namespace_declaration>  _1;
+        declaration_1(boost::intrusive_ptr< ::foundry::tree::cst::namespace_declaration>  _1) throw() : 
+                _1(_1) { }
+        virtual ~declaration_1(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::namespace_declaration>  _1;
 };
 struct declaration_2 : declaration
 {
-    declaration_2(boost::intrusive_ptr< ::foundry::tree::cst::namespace_member_declaration>  _1) throw() : 
-        _1(_1) { }
-    virtual ~declaration_2(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::namespace_member_declaration>  _1;
+        declaration_2(boost::intrusive_ptr< ::foundry::tree::cst::namespace_member_declaration>  _1) throw() : 
+                _1(_1) { }
+        virtual ~declaration_2(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::namespace_member_declaration>  _1;
 };
 struct namespace_member_declaration : node {
-    namespace_member_declaration(void) throw() { }
-    virtual ~namespace_member_declaration(void) throw() { }
-    using node::apply;
+        namespace_member_declaration(void) throw() { }
+        virtual ~namespace_member_declaration(void) throw() { }
+        using node::apply;
 };
 struct namespace_member_declaration_1 : namespace_member_declaration
 {
-    namespace_member_declaration_1(boost::intrusive_ptr< ::foundry::tree::cst::group_declaration>  _1) throw() : 
-        _1(_1) { }
-    virtual ~namespace_member_declaration_1(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::group_declaration>  _1;
+        namespace_member_declaration_1(boost::intrusive_ptr< ::foundry::tree::cst::group_declaration>  _1) throw() : 
+                _1(_1) { }
+        virtual ~namespace_member_declaration_1(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::group_declaration>  _1;
 };
 struct namespace_member_declaration_2 : namespace_member_declaration
 {
-    namespace_member_declaration_2(boost::intrusive_ptr< ::foundry::tree::cst::node_declaration>  _1) throw() : 
-        _1(_1) { }
-    virtual ~namespace_member_declaration_2(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::node_declaration>  _1;
+        namespace_member_declaration_2(boost::intrusive_ptr< ::foundry::tree::cst::node_declaration>  _1) throw() : 
+                _1(_1) { }
+        virtual ~namespace_member_declaration_2(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::node_declaration>  _1;
 };
 struct namespace_member_declaration_3 : namespace_member_declaration
 {
-    namespace_member_declaration_3(boost::intrusive_ptr< ::foundry::tree::cst::visitor_declaration>  _1) throw() : 
-        _1(_1) { }
-    virtual ~namespace_member_declaration_3(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::visitor_declaration>  _1;
+        namespace_member_declaration_3(boost::intrusive_ptr< ::foundry::tree::cst::visitor_declaration>  _1) throw() : 
+                _1(_1) { }
+        virtual ~namespace_member_declaration_3(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::visitor_declaration>  _1;
 };
 struct group_member_declarations : node {
-    group_member_declarations(void) throw() { }
-    virtual ~group_member_declarations(void) throw() { }
-    using node::apply;
+        group_member_declarations(void) throw() { }
+        virtual ~group_member_declarations(void) throw() { }
+        using node::apply;
 };
 struct group_member_declarations_1 : group_member_declarations
 {
-    group_member_declarations_1() throw() { }
-    virtual ~group_member_declarations_1(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
+        group_member_declarations_1() throw() { }
+        virtual ~group_member_declarations_1(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
 };
 struct group_member_declarations_2 : group_member_declarations
 {
-    group_member_declarations_2(boost::intrusive_ptr< ::foundry::tree::cst::group_member_declarations>  _1, boost::intrusive_ptr< ::foundry::tree::cst::group_member_declaration>  _2) throw() : 
-        _1(_1), _2(_2) { }
-    virtual ~group_member_declarations_2(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::group_member_declarations>  _1;
-    boost::intrusive_ptr< ::foundry::tree::cst::group_member_declaration>  _2;
+        group_member_declarations_2(boost::intrusive_ptr< ::foundry::tree::cst::group_member_declarations>  _1, boost::intrusive_ptr< ::foundry::tree::cst::group_member_declaration>  _2) throw() : 
+                _1(_1), _2(_2) { }
+        virtual ~group_member_declarations_2(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::group_member_declarations>  _1;
+        boost::intrusive_ptr< ::foundry::tree::cst::group_member_declaration>  _2;
 };
 struct group_member_declaration : node {
-    group_member_declaration(void) throw() { }
-    virtual ~group_member_declaration(void) throw() { }
-    using node::apply;
+        group_member_declaration(void) throw() { }
+        virtual ~group_member_declaration(void) throw() { }
+        using node::apply;
 };
 struct group_member_declaration_1 : group_member_declaration
 {
-    group_member_declaration_1(boost::intrusive_ptr< ::foundry::tree::cst::group_declaration>  _1) throw() : 
-        _1(_1) { }
-    virtual ~group_member_declaration_1(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::group_declaration>  _1;
+        group_member_declaration_1(boost::intrusive_ptr< ::foundry::tree::cst::group_declaration>  _1) throw() : 
+                _1(_1) { }
+        virtual ~group_member_declaration_1(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::group_declaration>  _1;
 };
 struct group_member_declaration_2 : group_member_declaration
 {
-    group_member_declaration_2(boost::intrusive_ptr< ::foundry::tree::cst::node_declaration>  _1) throw() : 
-        _1(_1) { }
-    virtual ~group_member_declaration_2(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::node_declaration>  _1;
+        group_member_declaration_2(boost::intrusive_ptr< ::foundry::tree::cst::node_declaration>  _1) throw() : 
+                _1(_1) { }
+        virtual ~group_member_declaration_2(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::node_declaration>  _1;
 };
 struct group_member_declaration_3 : group_member_declaration
 {
-    group_member_declaration_3(boost::intrusive_ptr< ::foundry::tree::cst::visitor_declaration>  _1) throw() : 
-        _1(_1) { }
-    virtual ~group_member_declaration_3(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::visitor_declaration>  _1;
+        group_member_declaration_3(boost::intrusive_ptr< ::foundry::tree::cst::visitor_declaration>  _1) throw() : 
+                _1(_1) { }
+        virtual ~group_member_declaration_3(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::visitor_declaration>  _1;
 };
 struct node_declaration : node {
-    node_declaration(void) throw() { }
-    virtual ~node_declaration(void) throw() { }
-    using node::apply;
+        node_declaration(void) throw() { }
+        virtual ~node_declaration(void) throw() { }
+        using node::apply;
 };
 struct node_declaration_1 : node_declaration
 {
-    node_declaration_1(std::string _1, boost::intrusive_ptr< ::foundry::tree::cst::member_declarations>  _2) throw() : 
-        _1(_1), _2(_2) { }
-    virtual ~node_declaration_1(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    std::string _1;
-    boost::intrusive_ptr< ::foundry::tree::cst::member_declarations>  _2;
+        node_declaration_1(std::string _1, boost::intrusive_ptr< ::foundry::tree::cst::member_declarations>  _2) throw() : 
+                _1(_1), _2(_2) { }
+        virtual ~node_declaration_1(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        std::string _1;
+        boost::intrusive_ptr< ::foundry::tree::cst::member_declarations>  _2;
 };
 struct node_declaration_2 : node_declaration
 {
-    node_declaration_2(boost::intrusive_ptr< ::foundry::tree::cst::member_declarations>  _1) throw() : 
-        _1(_1) { }
-    virtual ~node_declaration_2(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::member_declarations>  _1;
+        node_declaration_2(boost::intrusive_ptr< ::foundry::tree::cst::member_declarations>  _1) throw() : 
+                _1(_1) { }
+        virtual ~node_declaration_2(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::member_declarations>  _1;
 };
 struct node_declaration_3 : node_declaration
 {
-    node_declaration_3(boost::intrusive_ptr< ::foundry::tree::cst::member_declarations>  _1) throw() : 
-        _1(_1) { }
-    virtual ~node_declaration_3(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::member_declarations>  _1;
+        node_declaration_3(boost::intrusive_ptr< ::foundry::tree::cst::member_declarations>  _1) throw() : 
+                _1(_1) { }
+        virtual ~node_declaration_3(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::member_declarations>  _1;
 };
 struct visitor_declaration : node {
-    visitor_declaration(void) throw() { }
-    virtual ~visitor_declaration(void) throw() { }
-    using node::apply;
+        visitor_declaration(void) throw() { }
+        virtual ~visitor_declaration(void) throw() { }
+        using node::apply;
 };
 struct visitor_declaration_1 : visitor_declaration
 {
-    visitor_declaration_1(std::string _1, boost::intrusive_ptr< ::foundry::tree::cst::member_declarations>  _2) throw() : 
-        _1(_1), _2(_2) { }
-    virtual ~visitor_declaration_1(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    std::string _1;
-    boost::intrusive_ptr< ::foundry::tree::cst::member_declarations>  _2;
+        visitor_declaration_1(std::string _1, boost::intrusive_ptr< ::foundry::tree::cst::member_declarations>  _2) throw() : 
+                _1(_1), _2(_2) { }
+        virtual ~visitor_declaration_1(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        std::string _1;
+        boost::intrusive_ptr< ::foundry::tree::cst::member_declarations>  _2;
 };
 struct visitor_declaration_2 : visitor_declaration
 {
-    visitor_declaration_2(std::string _1, boost::intrusive_ptr< ::foundry::tree::cst::member_declarations>  _2) throw() : 
-        _1(_1), _2(_2) { }
-    virtual ~visitor_declaration_2(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    std::string _1;
-    boost::intrusive_ptr< ::foundry::tree::cst::member_declarations>  _2;
+        visitor_declaration_2(std::string _1, boost::intrusive_ptr< ::foundry::tree::cst::member_declarations>  _2) throw() : 
+                _1(_1), _2(_2) { }
+        virtual ~visitor_declaration_2(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        std::string _1;
+        boost::intrusive_ptr< ::foundry::tree::cst::member_declarations>  _2;
 };
 struct visitor_declaration_3 : visitor_declaration
 {
-    visitor_declaration_3(std::string _1) throw() : 
-        _1(_1) { }
-    virtual ~visitor_declaration_3(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    std::string _1;
+        visitor_declaration_3(std::string _1) throw() : 
+                _1(_1) { }
+        virtual ~visitor_declaration_3(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        std::string _1;
 };
 struct visitor_declaration_4 : visitor_declaration
 {
-    visitor_declaration_4(std::string _1) throw() : 
-        _1(_1) { }
-    virtual ~visitor_declaration_4(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    std::string _1;
+        visitor_declaration_4(std::string _1) throw() : 
+                _1(_1) { }
+        virtual ~visitor_declaration_4(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        std::string _1;
 };
 struct visitor_declaration_5 : visitor_declaration
 {
-    visitor_declaration_5() throw() { }
-    virtual ~visitor_declaration_5(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
+        visitor_declaration_5() throw() { }
+        virtual ~visitor_declaration_5(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
 };
 struct visitor_declaration_6 : visitor_declaration
 {
-    visitor_declaration_6() throw() { }
-    virtual ~visitor_declaration_6(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
+        visitor_declaration_6() throw() { }
+        virtual ~visitor_declaration_6(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
 };
 struct member_declarations : node {
-    member_declarations(void) throw() { }
-    virtual ~member_declarations(void) throw() { }
-    using node::apply;
+        member_declarations(void) throw() { }
+        virtual ~member_declarations(void) throw() { }
+        using node::apply;
 };
 struct member_declarations_1 : member_declarations
 {
-    member_declarations_1() throw() { }
-    virtual ~member_declarations_1(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
+        member_declarations_1() throw() { }
+        virtual ~member_declarations_1(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
 };
 struct member_declarations_2 : member_declarations
 {
-    member_declarations_2(boost::intrusive_ptr< ::foundry::tree::cst::member_declarations>  _1, boost::intrusive_ptr< ::foundry::tree::cst::member_declaration>  _2) throw() : 
-        _1(_1), _2(_2) { }
-    virtual ~member_declarations_2(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::member_declarations>  _1;
-    boost::intrusive_ptr< ::foundry::tree::cst::member_declaration>  _2;
+        member_declarations_2(boost::intrusive_ptr< ::foundry::tree::cst::member_declarations>  _1, boost::intrusive_ptr< ::foundry::tree::cst::member_declaration>  _2) throw() : 
+                _1(_1), _2(_2) { }
+        virtual ~member_declarations_2(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::member_declarations>  _1;
+        boost::intrusive_ptr< ::foundry::tree::cst::member_declaration>  _2;
 };
 struct member_declarations_3 : member_declarations
 {
-    member_declarations_3(boost::intrusive_ptr< ::foundry::tree::cst::member_declarations>  _1, boost::intrusive_ptr< ::foundry::tree::cst::member_directive>  _2) throw() : 
-        _1(_1), _2(_2) { }
-    virtual ~member_declarations_3(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::member_declarations>  _1;
-    boost::intrusive_ptr< ::foundry::tree::cst::member_directive>  _2;
+        member_declarations_3(boost::intrusive_ptr< ::foundry::tree::cst::member_declarations>  _1, boost::intrusive_ptr< ::foundry::tree::cst::member_directive>  _2) throw() : 
+                _1(_1), _2(_2) { }
+        virtual ~member_declarations_3(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::member_declarations>  _1;
+        boost::intrusive_ptr< ::foundry::tree::cst::member_directive>  _2;
 };
 struct member_declaration : node {
-    member_declaration(void) throw() { }
-    virtual ~member_declaration(void) throw() { }
-    using node::apply;
+        member_declaration(void) throw() { }
+        virtual ~member_declaration(void) throw() { }
+        using node::apply;
 };
 struct member_declaration_1 : member_declaration
 {
-    member_declaration_1(boost::intrusive_ptr< ::foundry::tree::cst::data_member_declaration>  _1) throw() : 
-        _1(_1) { }
-    virtual ~member_declaration_1(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::data_member_declaration>  _1;
+        member_declaration_1(boost::intrusive_ptr< ::foundry::tree::cst::data_member_declaration>  _1) throw() : 
+                _1(_1) { }
+        virtual ~member_declaration_1(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::data_member_declaration>  _1;
 };
 struct member_declaration_2 : member_declaration
 {
-    member_declaration_2(boost::intrusive_ptr< ::foundry::tree::cst::constructor_declaration>  _1) throw() : 
-        _1(_1) { }
-    virtual ~member_declaration_2(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::constructor_declaration>  _1;
+        member_declaration_2(boost::intrusive_ptr< ::foundry::tree::cst::constructor_declaration>  _1) throw() : 
+                _1(_1) { }
+        virtual ~member_declaration_2(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::constructor_declaration>  _1;
 };
 struct member_declaration_3 : member_declaration
 {
-    member_declaration_3(boost::intrusive_ptr< ::foundry::tree::cst::destructor_declaration>  _1) throw() : 
-        _1(_1) { }
-    virtual ~member_declaration_3(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::destructor_declaration>  _1;
+        member_declaration_3(boost::intrusive_ptr< ::foundry::tree::cst::destructor_declaration>  _1) throw() : 
+                _1(_1) { }
+        virtual ~member_declaration_3(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::destructor_declaration>  _1;
 };
 struct member_directive : node {
-    member_directive(void) throw() { }
-    virtual ~member_directive(void) throw() { }
-    using node::apply;
+        member_directive(void) throw() { }
+        virtual ~member_directive(void) throw() { }
+        using node::apply;
 };
 struct member_directive_1 : member_directive
 {
-    member_directive_1() throw() { }
-    virtual ~member_directive_1(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
+        member_directive_1() throw() { }
+        virtual ~member_directive_1(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
 };
 struct member_directive_2 : member_directive
 {
-    member_directive_2() throw() { }
-    virtual ~member_directive_2(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
+        member_directive_2() throw() { }
+        virtual ~member_directive_2(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
 };
 struct member_directive_3 : member_directive
 {
-    member_directive_3() throw() { }
-    virtual ~member_directive_3(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
+        member_directive_3() throw() { }
+        virtual ~member_directive_3(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
 };
 struct member_directive_4 : member_directive
 {
-    member_directive_4() throw() { }
-    virtual ~member_directive_4(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
+        member_directive_4() throw() { }
+        virtual ~member_directive_4(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
 };
 struct member_directive_5 : member_directive
 {
-    member_directive_5(boost::intrusive_ptr< ::foundry::tree::cst::type>  _1, boost::intrusive_ptr< ::foundry::tree::cst::reference>  _2) throw() : 
-        _1(_1), _2(_2) { }
-    virtual ~member_directive_5(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::type>  _1;
-    boost::intrusive_ptr< ::foundry::tree::cst::reference>  _2;
+        member_directive_5(boost::intrusive_ptr< ::foundry::tree::cst::type>  _1, boost::intrusive_ptr< ::foundry::tree::cst::reference>  _2) throw() : 
+                _1(_1), _2(_2) { }
+        virtual ~member_directive_5(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::type>  _1;
+        boost::intrusive_ptr< ::foundry::tree::cst::reference>  _2;
 };
 struct member_directive_6 : member_directive
 {
-    member_directive_6(std::string _1) throw() : 
-        _1(_1) { }
-    virtual ~member_directive_6(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    std::string _1;
+        member_directive_6(std::string _1) throw() : 
+                _1(_1) { }
+        virtual ~member_directive_6(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        std::string _1;
 };
 struct member_directive_7 : member_directive
 {
-    member_directive_7(std::string _1) throw() : 
-        _1(_1) { }
-    virtual ~member_directive_7(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    std::string _1;
+        member_directive_7(std::string _1) throw() : 
+                _1(_1) { }
+        virtual ~member_directive_7(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        std::string _1;
 };
 struct parameter_list : node {
-    parameter_list(void) throw() { }
-    virtual ~parameter_list(void) throw() { }
-    using node::apply;
+        parameter_list(void) throw() { }
+        virtual ~parameter_list(void) throw() { }
+        using node::apply;
 };
 struct parameter_list_1 : parameter_list
 {
-    parameter_list_1() throw() { }
-    virtual ~parameter_list_1(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
+        parameter_list_1() throw() { }
+        virtual ~parameter_list_1(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
 };
 struct parameter_list_2 : parameter_list
 {
-    parameter_list_2() throw() { }
-    virtual ~parameter_list_2(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
+        parameter_list_2() throw() { }
+        virtual ~parameter_list_2(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
 };
 struct parameter_list_3 : parameter_list
 {
-    parameter_list_3(boost::intrusive_ptr< ::foundry::tree::cst::parameters>  _1, boost::intrusive_ptr< ::foundry::tree::cst::parameter>  _2) throw() : 
-        _1(_1), _2(_2) { }
-    virtual ~parameter_list_3(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::parameters>  _1;
-    boost::intrusive_ptr< ::foundry::tree::cst::parameter>  _2;
+        parameter_list_3(boost::intrusive_ptr< ::foundry::tree::cst::parameters>  _1, boost::intrusive_ptr< ::foundry::tree::cst::parameter>  _2) throw() : 
+                _1(_1), _2(_2) { }
+        virtual ~parameter_list_3(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::parameters>  _1;
+        boost::intrusive_ptr< ::foundry::tree::cst::parameter>  _2;
 };
 struct parameters : node {
-    parameters(void) throw() { }
-    virtual ~parameters(void) throw() { }
-    using node::apply;
+        parameters(void) throw() { }
+        virtual ~parameters(void) throw() { }
+        using node::apply;
 };
 struct parameters_1 : parameters
 {
-    parameters_1() throw() { }
-    virtual ~parameters_1(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
+        parameters_1() throw() { }
+        virtual ~parameters_1(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
 };
 struct parameters_2 : parameters
 {
-    parameters_2(boost::intrusive_ptr< ::foundry::tree::cst::parameters>  _1, boost::intrusive_ptr< ::foundry::tree::cst::parameter>  _2) throw() : 
-        _1(_1), _2(_2) { }
-    virtual ~parameters_2(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::parameters>  _1;
-    boost::intrusive_ptr< ::foundry::tree::cst::parameter>  _2;
+        parameters_2(boost::intrusive_ptr< ::foundry::tree::cst::parameters>  _1, boost::intrusive_ptr< ::foundry::tree::cst::parameter>  _2) throw() : 
+                _1(_1), _2(_2) { }
+        virtual ~parameters_2(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::parameters>  _1;
+        boost::intrusive_ptr< ::foundry::tree::cst::parameter>  _2;
 };
 struct parameter : node {
-    parameter(void) throw() { }
-    virtual ~parameter(void) throw() { }
-    using node::apply;
+        parameter(void) throw() { }
+        virtual ~parameter(void) throw() { }
+        using node::apply;
 };
 struct parameter_1 : parameter
 {
-    parameter_1(boost::intrusive_ptr< ::foundry::tree::cst::type>  _1, boost::intrusive_ptr< ::foundry::tree::cst::reference>  _2) throw() : 
-        _1(_1), _2(_2) { }
-    virtual ~parameter_1(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::type>  _1;
-    boost::intrusive_ptr< ::foundry::tree::cst::reference>  _2;
+        parameter_1(boost::intrusive_ptr< ::foundry::tree::cst::type>  _1, boost::intrusive_ptr< ::foundry::tree::cst::reference>  _2) throw() : 
+                _1(_1), _2(_2) { }
+        virtual ~parameter_1(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::type>  _1;
+        boost::intrusive_ptr< ::foundry::tree::cst::reference>  _2;
 };
 struct parameter_2 : parameter
 {
-    parameter_2(boost::intrusive_ptr< ::foundry::tree::cst::type>  _1, boost::intrusive_ptr< ::foundry::tree::cst::declarator>  _2) throw() : 
-        _1(_1), _2(_2) { }
-    virtual ~parameter_2(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::type>  _1;
-    boost::intrusive_ptr< ::foundry::tree::cst::declarator>  _2;
+        parameter_2(boost::intrusive_ptr< ::foundry::tree::cst::type>  _1, boost::intrusive_ptr< ::foundry::tree::cst::declarator>  _2) throw() : 
+                _1(_1), _2(_2) { }
+        virtual ~parameter_2(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::type>  _1;
+        boost::intrusive_ptr< ::foundry::tree::cst::declarator>  _2;
 };
 struct void_or_nothing : node {
-    void_or_nothing(void) throw() { }
-    virtual ~void_or_nothing(void) throw() { }
-    using node::apply;
+        void_or_nothing(void) throw() { }
+        virtual ~void_or_nothing(void) throw() { }
+        using node::apply;
 };
 struct void_or_nothing_1 : void_or_nothing
 {
-    void_or_nothing_1() throw() { }
-    virtual ~void_or_nothing_1(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
+        void_or_nothing_1() throw() { }
+        virtual ~void_or_nothing_1(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
 };
 struct void_or_nothing_2 : void_or_nothing
 {
-    void_or_nothing_2() throw() { }
-    virtual ~void_or_nothing_2(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
+        void_or_nothing_2() throw() { }
+        virtual ~void_or_nothing_2(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
 };
 struct declarator : node {
-    declarator(void) throw() { }
-    virtual ~declarator(void) throw() { }
-    using node::apply;
+        declarator(void) throw() { }
+        virtual ~declarator(void) throw() { }
+        using node::apply;
 };
 struct declarator_1 : declarator
 {
-    declarator_1(boost::intrusive_ptr< ::foundry::tree::cst::reference>  _1, std::string _2, boost::intrusive_ptr< ::foundry::tree::cst::arrays>  _3) throw() : 
-        _1(_1), _2(_2), _3(_3) { }
-    virtual ~declarator_1(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::reference>  _1;
-    std::string _2;
-    boost::intrusive_ptr< ::foundry::tree::cst::arrays>  _3;
+        declarator_1(boost::intrusive_ptr< ::foundry::tree::cst::reference>  _1, std::string _2, boost::intrusive_ptr< ::foundry::tree::cst::arrays>  _3) throw() : 
+                _1(_1), _2(_2), _3(_3) { }
+        virtual ~declarator_1(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::reference>  _1;
+        std::string _2;
+        boost::intrusive_ptr< ::foundry::tree::cst::arrays>  _3;
 };
 struct declarator_2 : declarator
 {
-    declarator_2(boost::intrusive_ptr< ::foundry::tree::cst::reference>  _1, boost::intrusive_ptr< ::foundry::tree::cst::arrays>  _2) throw() : 
-        _1(_1), _2(_2) { }
-    virtual ~declarator_2(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::reference>  _1;
-    boost::intrusive_ptr< ::foundry::tree::cst::arrays>  _2;
+        declarator_2(boost::intrusive_ptr< ::foundry::tree::cst::reference>  _1, boost::intrusive_ptr< ::foundry::tree::cst::arrays>  _2) throw() : 
+                _1(_1), _2(_2) { }
+        virtual ~declarator_2(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::reference>  _1;
+        boost::intrusive_ptr< ::foundry::tree::cst::arrays>  _2;
 };
 struct declarator_3 : declarator
 {
-    declarator_3(boost::intrusive_ptr< ::foundry::tree::cst::reference>  _1, boost::intrusive_ptr< ::foundry::tree::cst::arrays>  _2) throw() : 
-        _1(_1), _2(_2) { }
-    virtual ~declarator_3(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::reference>  _1;
-    boost::intrusive_ptr< ::foundry::tree::cst::arrays>  _2;
+        declarator_3(boost::intrusive_ptr< ::foundry::tree::cst::reference>  _1, boost::intrusive_ptr< ::foundry::tree::cst::arrays>  _2) throw() : 
+                _1(_1), _2(_2) { }
+        virtual ~declarator_3(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::reference>  _1;
+        boost::intrusive_ptr< ::foundry::tree::cst::arrays>  _2;
 };
 struct declarator_4 : declarator
 {
-    declarator_4(boost::intrusive_ptr< ::foundry::tree::cst::reference>  _1, boost::intrusive_ptr< ::foundry::tree::cst::arrays>  _2) throw() : 
-        _1(_1), _2(_2) { }
-    virtual ~declarator_4(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::reference>  _1;
-    boost::intrusive_ptr< ::foundry::tree::cst::arrays>  _2;
+        declarator_4(boost::intrusive_ptr< ::foundry::tree::cst::reference>  _1, boost::intrusive_ptr< ::foundry::tree::cst::arrays>  _2) throw() : 
+                _1(_1), _2(_2) { }
+        virtual ~declarator_4(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::reference>  _1;
+        boost::intrusive_ptr< ::foundry::tree::cst::arrays>  _2;
 };
 struct reference : node {
-    reference(void) throw() { }
-    virtual ~reference(void) throw() { }
-    using node::apply;
+        reference(void) throw() { }
+        virtual ~reference(void) throw() { }
+        using node::apply;
 };
 struct reference_1 : reference
 {
-    reference_1(boost::intrusive_ptr< ::foundry::tree::cst::pointer>  _1) throw() : 
-        _1(_1) { }
-    virtual ~reference_1(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::pointer>  _1;
+        reference_1(boost::intrusive_ptr< ::foundry::tree::cst::pointer>  _1) throw() : 
+                _1(_1) { }
+        virtual ~reference_1(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::pointer>  _1;
 };
 struct reference_2 : reference
 {
-    reference_2(boost::intrusive_ptr< ::foundry::tree::cst::pointer>  _1) throw() : 
-        _1(_1) { }
-    virtual ~reference_2(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::pointer>  _1;
+        reference_2(boost::intrusive_ptr< ::foundry::tree::cst::pointer>  _1) throw() : 
+                _1(_1) { }
+        virtual ~reference_2(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::pointer>  _1;
 };
 struct pointer : node {
-    pointer(void) throw() { }
-    virtual ~pointer(void) throw() { }
-    using node::apply;
+        pointer(void) throw() { }
+        virtual ~pointer(void) throw() { }
+        using node::apply;
 };
 struct pointer_1 : pointer
 {
-    pointer_1() throw() { }
-    virtual ~pointer_1(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
+        pointer_1() throw() { }
+        virtual ~pointer_1(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
 };
 struct pointer_2 : pointer
 {
-    pointer_2(boost::intrusive_ptr< ::foundry::tree::cst::pointer>  _1, boost::intrusive_ptr< ::foundry::tree::cst::type_qualifiers>  _2) throw() : 
-        _1(_1), _2(_2) { }
-    virtual ~pointer_2(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::pointer>  _1;
-    boost::intrusive_ptr< ::foundry::tree::cst::type_qualifiers>  _2;
+        pointer_2(boost::intrusive_ptr< ::foundry::tree::cst::pointer>  _1, boost::intrusive_ptr< ::foundry::tree::cst::type_qualifiers>  _2) throw() : 
+                _1(_1), _2(_2) { }
+        virtual ~pointer_2(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::pointer>  _1;
+        boost::intrusive_ptr< ::foundry::tree::cst::type_qualifiers>  _2;
 };
 struct type_qualifiers : node {
-    type_qualifiers(void) throw() { }
-    virtual ~type_qualifiers(void) throw() { }
-    using node::apply;
+        type_qualifiers(void) throw() { }
+        virtual ~type_qualifiers(void) throw() { }
+        using node::apply;
 };
 struct type_qualifiers_1 : type_qualifiers
 {
-    type_qualifiers_1() throw() { }
-    virtual ~type_qualifiers_1(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
+        type_qualifiers_1() throw() { }
+        virtual ~type_qualifiers_1(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
 };
 struct type_qualifiers_2 : type_qualifiers
 {
-    type_qualifiers_2(boost::intrusive_ptr< ::foundry::tree::cst::type_qualifiers>  _1, boost::intrusive_ptr< ::foundry::tree::cst::type_qualifier>  _2) throw() : 
-        _1(_1), _2(_2) { }
-    virtual ~type_qualifiers_2(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::type_qualifiers>  _1;
-    boost::intrusive_ptr< ::foundry::tree::cst::type_qualifier>  _2;
+        type_qualifiers_2(boost::intrusive_ptr< ::foundry::tree::cst::type_qualifiers>  _1, boost::intrusive_ptr< ::foundry::tree::cst::type_qualifier>  _2) throw() : 
+                _1(_1), _2(_2) { }
+        virtual ~type_qualifiers_2(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::type_qualifiers>  _1;
+        boost::intrusive_ptr< ::foundry::tree::cst::type_qualifier>  _2;
 };
 struct type_qualifier : node {
-    type_qualifier(void) throw() { }
-    virtual ~type_qualifier(void) throw() { }
-    using node::apply;
+        type_qualifier(void) throw() { }
+        virtual ~type_qualifier(void) throw() { }
+        using node::apply;
 };
 struct type_qualifier_1 : type_qualifier
 {
-    type_qualifier_1() throw() { }
-    virtual ~type_qualifier_1(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
+        type_qualifier_1() throw() { }
+        virtual ~type_qualifier_1(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
 };
 struct type_qualifier_2 : type_qualifier
 {
-    type_qualifier_2() throw() { }
-    virtual ~type_qualifier_2(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
+        type_qualifier_2() throw() { }
+        virtual ~type_qualifier_2(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
 };
 struct arrays : node {
-    arrays(void) throw() { }
-    virtual ~arrays(void) throw() { }
-    using node::apply;
+        arrays(void) throw() { }
+        virtual ~arrays(void) throw() { }
+        using node::apply;
 };
 struct arrays_1 : arrays
 {
-    arrays_1(boost::intrusive_ptr< ::foundry::tree::cst::bounded_arrays>  _1) throw() : 
-        _1(_1) { }
-    virtual ~arrays_1(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::bounded_arrays>  _1;
+        arrays_1(boost::intrusive_ptr< ::foundry::tree::cst::bounded_arrays>  _1) throw() : 
+                _1(_1) { }
+        virtual ~arrays_1(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::bounded_arrays>  _1;
 };
 struct arrays_2 : arrays
 {
-    arrays_2(boost::intrusive_ptr< ::foundry::tree::cst::bounded_arrays>  _1, boost::intrusive_ptr< ::foundry::tree::cst::unbounded_array>  _2) throw() : 
-        _1(_1), _2(_2) { }
-    virtual ~arrays_2(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::bounded_arrays>  _1;
-    boost::intrusive_ptr< ::foundry::tree::cst::unbounded_array>  _2;
+        arrays_2(boost::intrusive_ptr< ::foundry::tree::cst::bounded_arrays>  _1, boost::intrusive_ptr< ::foundry::tree::cst::unbounded_array>  _2) throw() : 
+                _1(_1), _2(_2) { }
+        virtual ~arrays_2(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::bounded_arrays>  _1;
+        boost::intrusive_ptr< ::foundry::tree::cst::unbounded_array>  _2;
 };
 struct bounded_arrays : node {
-    bounded_arrays(void) throw() { }
-    virtual ~bounded_arrays(void) throw() { }
-    using node::apply;
+        bounded_arrays(void) throw() { }
+        virtual ~bounded_arrays(void) throw() { }
+        using node::apply;
 };
 struct bounded_arrays_1 : bounded_arrays
 {
-    bounded_arrays_1() throw() { }
-    virtual ~bounded_arrays_1(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
+        bounded_arrays_1() throw() { }
+        virtual ~bounded_arrays_1(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
 };
 struct bounded_arrays_2 : bounded_arrays
 {
-    bounded_arrays_2(boost::intrusive_ptr< ::foundry::tree::cst::bounded_arrays>  _1, boost::intrusive_ptr< ::foundry::tree::cst::bounded_array>  _2) throw() : 
-        _1(_1), _2(_2) { }
-    virtual ~bounded_arrays_2(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::bounded_arrays>  _1;
-    boost::intrusive_ptr< ::foundry::tree::cst::bounded_array>  _2;
+        bounded_arrays_2(boost::intrusive_ptr< ::foundry::tree::cst::bounded_arrays>  _1, boost::intrusive_ptr< ::foundry::tree::cst::bounded_array>  _2) throw() : 
+                _1(_1), _2(_2) { }
+        virtual ~bounded_arrays_2(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::bounded_arrays>  _1;
+        boost::intrusive_ptr< ::foundry::tree::cst::bounded_array>  _2;
 };
 struct type : node {
-    type(void) throw() { }
-    virtual ~type(void) throw() { }
-    using node::apply;
+        type(void) throw() { }
+        virtual ~type(void) throw() { }
+        using node::apply;
 };
 struct type_1 : type
 {
-    type_1(boost::intrusive_ptr< ::foundry::tree::cst::template_name>  _1) throw() : 
-        _1(_1) { }
-    virtual ~type_1(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::template_name>  _1;
+        type_1(boost::intrusive_ptr< ::foundry::tree::cst::template_name>  _1) throw() : 
+                _1(_1) { }
+        virtual ~type_1(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::template_name>  _1;
 };
 struct type_2 : type
 {
-    type_2(boost::intrusive_ptr< ::foundry::tree::cst::scoped_name>  _1) throw() : 
-        _1(_1) { }
-    virtual ~type_2(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::scoped_name>  _1;
+        type_2(boost::intrusive_ptr< ::foundry::tree::cst::scoped_name>  _1) throw() : 
+                _1(_1) { }
+        virtual ~type_2(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::scoped_name>  _1;
 };
 struct type_3 : type
 {
-    type_3() throw() { }
-    virtual ~type_3(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
+        type_3() throw() { }
+        virtual ~type_3(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
 };
 struct type_4 : type
 {
-    type_4() throw() { }
-    virtual ~type_4(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
+        type_4() throw() { }
+        virtual ~type_4(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
 };
 struct type_5 : type
 {
-    type_5() throw() { }
-    virtual ~type_5(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
+        type_5() throw() { }
+        virtual ~type_5(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
 };
 struct template_argument_list : node {
-    template_argument_list(void) throw() { }
-    virtual ~template_argument_list(void) throw() { }
-    using node::apply;
+        template_argument_list(void) throw() { }
+        virtual ~template_argument_list(void) throw() { }
+        using node::apply;
 };
 struct template_argument_list_1 : template_argument_list
 {
-    template_argument_list_1() throw() { }
-    virtual ~template_argument_list_1(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
+        template_argument_list_1() throw() { }
+        virtual ~template_argument_list_1(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
 };
 struct template_argument_list_2 : template_argument_list
 {
-    template_argument_list_2(boost::intrusive_ptr< ::foundry::tree::cst::template_arguments>  _1) throw() : 
-        _1(_1) { }
-    virtual ~template_argument_list_2(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::template_arguments>  _1;
+        template_argument_list_2(boost::intrusive_ptr< ::foundry::tree::cst::template_arguments>  _1) throw() : 
+                _1(_1) { }
+        virtual ~template_argument_list_2(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::template_arguments>  _1;
 };
 struct template_arguments : node {
-    template_arguments(void) throw() { }
-    virtual ~template_arguments(void) throw() { }
-    using node::apply;
+        template_arguments(void) throw() { }
+        virtual ~template_arguments(void) throw() { }
+        using node::apply;
 };
 struct template_arguments_1 : template_arguments
 {
-    template_arguments_1(boost::intrusive_ptr< ::foundry::tree::cst::template_argument>  _1) throw() : 
-        _1(_1) { }
-    virtual ~template_arguments_1(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::template_argument>  _1;
+        template_arguments_1(boost::intrusive_ptr< ::foundry::tree::cst::template_argument>  _1) throw() : 
+                _1(_1) { }
+        virtual ~template_arguments_1(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::template_argument>  _1;
 };
 struct template_arguments_2 : template_arguments
 {
-    template_arguments_2(boost::intrusive_ptr< ::foundry::tree::cst::template_arguments>  _1, boost::intrusive_ptr< ::foundry::tree::cst::template_argument>  _2) throw() : 
-        _1(_1), _2(_2) { }
-    virtual ~template_arguments_2(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::template_arguments>  _1;
-    boost::intrusive_ptr< ::foundry::tree::cst::template_argument>  _2;
+        template_arguments_2(boost::intrusive_ptr< ::foundry::tree::cst::template_arguments>  _1, boost::intrusive_ptr< ::foundry::tree::cst::template_argument>  _2) throw() : 
+                _1(_1), _2(_2) { }
+        virtual ~template_arguments_2(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::template_arguments>  _1;
+        boost::intrusive_ptr< ::foundry::tree::cst::template_argument>  _2;
 };
 struct template_argument : node {
-    template_argument(void) throw() { }
-    virtual ~template_argument(void) throw() { }
-    using node::apply;
+        template_argument(void) throw() { }
+        virtual ~template_argument(void) throw() { }
+        using node::apply;
 };
 struct template_argument_1 : template_argument
 {
-    template_argument_1(boost::intrusive_ptr< ::foundry::tree::cst::type>  _1) throw() : 
-        _1(_1) { }
-    virtual ~template_argument_1(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::type>  _1;
+        template_argument_1(boost::intrusive_ptr< ::foundry::tree::cst::type>  _1) throw() : 
+                _1(_1) { }
+        virtual ~template_argument_1(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::type>  _1;
 };
 struct template_argument_2 : template_argument
 {
-    template_argument_2() throw() { }
-    virtual ~template_argument_2(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
+        template_argument_2() throw() { }
+        virtual ~template_argument_2(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
 };
 struct template_argument_3 : template_argument
 {
-    template_argument_3() throw() { }
-    virtual ~template_argument_3(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
+        template_argument_3() throw() { }
+        virtual ~template_argument_3(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
 };
 struct template_argument_4 : template_argument
 {
-    template_argument_4(boost::intrusive_ptr< ::foundry::tree::cst::literal>  _1) throw() : 
-        _1(_1) { }
-    virtual ~template_argument_4(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::literal>  _1;
+        template_argument_4(boost::intrusive_ptr< ::foundry::tree::cst::literal>  _1) throw() : 
+                _1(_1) { }
+        virtual ~template_argument_4(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::literal>  _1;
 };
 struct scope : node {
-    scope(void) throw() { }
-    virtual ~scope(void) throw() { }
-    using node::apply;
+        scope(void) throw() { }
+        virtual ~scope(void) throw() { }
+        using node::apply;
 };
 struct scope_1 : scope
 {
-    scope_1() throw() { }
-    virtual ~scope_1(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
+        scope_1() throw() { }
+        virtual ~scope_1(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
 };
 struct scope_2 : scope
 {
-    scope_2(boost::intrusive_ptr< ::foundry::tree::cst::scope>  _1, std::string _2) throw() : 
-        _1(_1), _2(_2) { }
-    virtual ~scope_2(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::scope>  _1;
-    std::string _2;
+        scope_2(boost::intrusive_ptr< ::foundry::tree::cst::scope>  _1, std::string _2) throw() : 
+                _1(_1), _2(_2) { }
+        virtual ~scope_2(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::scope>  _1;
+        std::string _2;
 };
 struct literal : node {
-    literal(void) throw() { }
-    virtual ~literal(void) throw() { }
-    using node::apply;
+        literal(void) throw() { }
+        virtual ~literal(void) throw() { }
+        using node::apply;
 };
 struct literal_1 : literal
 {
-    literal_1(boost::intrusive_ptr< ::foundry::tree::cst::boolean_literal>  _1) throw() : 
-        _1(_1) { }
-    virtual ~literal_1(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::boolean_literal>  _1;
+        literal_1(boost::intrusive_ptr< ::foundry::tree::cst::boolean_literal>  _1) throw() : 
+                _1(_1) { }
+        virtual ~literal_1(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::boolean_literal>  _1;
 };
 struct literal_2 : literal
 {
-    literal_2(boost::intrusive_ptr< ::foundry::tree::cst::integer_literal>  _1) throw() : 
-        _1(_1) { }
-    virtual ~literal_2(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::integer_literal>  _1;
+        literal_2(boost::intrusive_ptr< ::foundry::tree::cst::integer_literal>  _1) throw() : 
+                _1(_1) { }
+        virtual ~literal_2(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::integer_literal>  _1;
 };
 struct boolean_literal : node {
-    boolean_literal(void) throw() { }
-    virtual ~boolean_literal(void) throw() { }
-    using node::apply;
+        boolean_literal(void) throw() { }
+        virtual ~boolean_literal(void) throw() { }
+        using node::apply;
 };
 struct boolean_literal_1 : boolean_literal
 {
-    boolean_literal_1() throw() { }
-    virtual ~boolean_literal_1(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
+        boolean_literal_1() throw() { }
+        virtual ~boolean_literal_1(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
 };
 struct boolean_literal_2 : boolean_literal
 {
-    boolean_literal_2() throw() { }
-    virtual ~boolean_literal_2(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
+        boolean_literal_2() throw() { }
+        virtual ~boolean_literal_2(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
 };
 struct start : node
 {
-    start(boost::intrusive_ptr< ::foundry::tree::cst::declarations>  _1) throw() : 
-        _1(_1) { }
-    virtual ~start(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::declarations>  _1;
+        start(boost::intrusive_ptr< ::foundry::tree::cst::declarations>  _1) throw() : 
+                _1(_1) { }
+        virtual ~start(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::declarations>  _1;
 };
 struct namespace_declaration : node
 {
-    namespace_declaration(std::string _1, boost::intrusive_ptr< ::foundry::tree::cst::declarations>  _2) throw() : 
-        _1(_1), _2(_2) { }
-    virtual ~namespace_declaration(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    std::string _1;
-    boost::intrusive_ptr< ::foundry::tree::cst::declarations>  _2;
+        namespace_declaration(std::string _1, boost::intrusive_ptr< ::foundry::tree::cst::declarations>  _2) throw() : 
+                _1(_1), _2(_2) { }
+        virtual ~namespace_declaration(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        std::string _1;
+        boost::intrusive_ptr< ::foundry::tree::cst::declarations>  _2;
 };
 struct group_declaration : node
 {
-    group_declaration(std::string _1, boost::intrusive_ptr< ::foundry::tree::cst::group_member_declarations>  _2) throw() : 
-        _1(_1), _2(_2) { }
-    virtual ~group_declaration(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    std::string _1;
-    boost::intrusive_ptr< ::foundry::tree::cst::group_member_declarations>  _2;
+        group_declaration(std::string _1, boost::intrusive_ptr< ::foundry::tree::cst::group_member_declarations>  _2) throw() : 
+                _1(_1), _2(_2) { }
+        virtual ~group_declaration(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        std::string _1;
+        boost::intrusive_ptr< ::foundry::tree::cst::group_member_declarations>  _2;
 };
 struct data_member_declaration : node
 {
-    data_member_declaration(boost::intrusive_ptr< ::foundry::tree::cst::type>  _1, boost::intrusive_ptr< ::foundry::tree::cst::type_qualifiers>  _2, boost::intrusive_ptr< ::foundry::tree::cst::declarator>  _3) throw() : 
-        _1(_1), _2(_2), _3(_3) { }
-    virtual ~data_member_declaration(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::type>  _1;
-    boost::intrusive_ptr< ::foundry::tree::cst::type_qualifiers>  _2;
-    boost::intrusive_ptr< ::foundry::tree::cst::declarator>  _3;
+        data_member_declaration(boost::intrusive_ptr< ::foundry::tree::cst::type>  _1, boost::intrusive_ptr< ::foundry::tree::cst::type_qualifiers>  _2, boost::intrusive_ptr< ::foundry::tree::cst::declarator>  _3) throw() : 
+                _1(_1), _2(_2), _3(_3) { }
+        virtual ~data_member_declaration(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::type>  _1;
+        boost::intrusive_ptr< ::foundry::tree::cst::type_qualifiers>  _2;
+        boost::intrusive_ptr< ::foundry::tree::cst::declarator>  _3;
 };
 struct constructor_declaration : node
 {
-    constructor_declaration(boost::intrusive_ptr< ::foundry::tree::cst::scoped_name>  _1, boost::intrusive_ptr< ::foundry::tree::cst::parameter_list>  _2) throw() : 
-        _1(_1), _2(_2) { }
-    virtual ~constructor_declaration(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::scoped_name>  _1;
-    boost::intrusive_ptr< ::foundry::tree::cst::parameter_list>  _2;
+        constructor_declaration(boost::intrusive_ptr< ::foundry::tree::cst::scoped_name>  _1, boost::intrusive_ptr< ::foundry::tree::cst::parameter_list>  _2) throw() : 
+                _1(_1), _2(_2) { }
+        virtual ~constructor_declaration(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::scoped_name>  _1;
+        boost::intrusive_ptr< ::foundry::tree::cst::parameter_list>  _2;
 };
 struct destructor_declaration : node
 {
-    destructor_declaration(std::string _1, boost::intrusive_ptr< ::foundry::tree::cst::void_or_nothing>  _2) throw() : 
-        _1(_1), _2(_2) { }
-    virtual ~destructor_declaration(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    std::string _1;
-    boost::intrusive_ptr< ::foundry::tree::cst::void_or_nothing>  _2;
+        destructor_declaration(std::string _1, boost::intrusive_ptr< ::foundry::tree::cst::void_or_nothing>  _2) throw() : 
+                _1(_1), _2(_2) { }
+        virtual ~destructor_declaration(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        std::string _1;
+        boost::intrusive_ptr< ::foundry::tree::cst::void_or_nothing>  _2;
 };
 struct bounded_array : node
 {
-    bounded_array(boost::intrusive_ptr< ::foundry::tree::cst::integer_literal>  _1) throw() : 
-        _1(_1) { }
-    virtual ~bounded_array(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::integer_literal>  _1;
+        bounded_array(boost::intrusive_ptr< ::foundry::tree::cst::integer_literal>  _1) throw() : 
+                _1(_1) { }
+        virtual ~bounded_array(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::integer_literal>  _1;
 };
 struct unbounded_array : node
 {
-    unbounded_array() throw() { }
-    virtual ~unbounded_array(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
+        unbounded_array() throw() { }
+        virtual ~unbounded_array(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
 };
 struct template_name : node
 {
-    template_name(boost::intrusive_ptr< ::foundry::tree::cst::scoped_name>  _1, boost::intrusive_ptr< ::foundry::tree::cst::template_argument_list>  _2) throw() : 
-        _1(_1), _2(_2) { }
-    virtual ~template_name(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::scoped_name>  _1;
-    boost::intrusive_ptr< ::foundry::tree::cst::template_argument_list>  _2;
+        template_name(boost::intrusive_ptr< ::foundry::tree::cst::scoped_name>  _1, boost::intrusive_ptr< ::foundry::tree::cst::template_argument_list>  _2) throw() : 
+                _1(_1), _2(_2) { }
+        virtual ~template_name(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::scoped_name>  _1;
+        boost::intrusive_ptr< ::foundry::tree::cst::template_argument_list>  _2;
 };
 struct scoped_name : node
 {
-    scoped_name(boost::intrusive_ptr< ::foundry::tree::cst::scope>  _1, std::string _2) throw() : 
-        _1(_1), _2(_2) { }
-    virtual ~scoped_name(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    boost::intrusive_ptr< ::foundry::tree::cst::scope>  _1;
-    std::string _2;
+        scoped_name(boost::intrusive_ptr< ::foundry::tree::cst::scope>  _1, std::string _2) throw() : 
+                _1(_1), _2(_2) { }
+        virtual ~scoped_name(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::foundry::tree::cst::scope>  _1;
+        std::string _2;
 };
 struct integer_literal : node
 {
-    integer_literal(std::string _1) throw() : 
-        _1(_1) { }
-    virtual ~integer_literal(void) throw() { }
-    virtual void apply(node_const_visitor &) const;
-    std::string _1;
+        integer_literal(std::string _1) throw() : 
+                _1(_1) { }
+        virtual ~integer_literal(void) throw() { }
+        virtual void apply(node_const_visitor &) const;
+        std::string _1;
 };
 }
 }

@@ -8,7 +8,7 @@
 
 struct context
 {
-    unsigned int bracecount;
+        unsigned int bracecount;
 };
 
 #endif
