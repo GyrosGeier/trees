@@ -20,11 +20,10 @@
 #include "tree_cst_parse.hpp"
 #include "tree_cst_lex.hpp"
 
-#include <iostream>
 #include <exception>
-
-#include <list>
+#include <iostream>
 #include <fstream>
+#include <list>
 
 extern int tree_bison_parse(void *scanner, foundry::tree::bison::start *&ret);
 extern int tree_cst_parse(void *scanner, foundry::tree::cst::start *&ret);

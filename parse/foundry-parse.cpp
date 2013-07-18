@@ -1,8 +1,3 @@
-#include <string>
-#include <list>
-#include <iostream>
-#include <fstream>
-
 #include "cst_to_ast_visitor.h"
 
 #include "resolve_symbols_visitor.h"
@@ -19,6 +14,11 @@
 #include "parse_lex.hpp"
 
 #include "errors.h"
+
+#include <iostream>
+#include <fstream>
+#include <list>
+#include <string>
 
 extern int parse_parse(yyscan_t scanner, ::foundry::parse::cst::start *&ret);
 
