@@ -1,6 +1,7 @@
 CXX ?= g++
 LEX ?= flex
 YACC ?= bison
+INSTALL ?= install
 
 CPPFLAGS ?=
 CXXFLAGS ?= -W -Wall -Werror -g
@@ -35,7 +36,15 @@ DEPFILES = $(addprefix stage1/,$(OBJECTS:%.o=.%.d)) $(addprefix stage2/,$(OBJECT
 PARSEOBJECTS = $(filter-out foundry-tree.o, $(OBJECTS))
 TREEOBJECTS = $(filter-out foundry-parse.o, $(OBJECTS))
 
+.PHONY: all
+
 all: foundry-tree foundry-parse
+
+.PHONY: install
+
+install: foundry-tree foundry-parse
+	$(INSTALL) -d $(DESTDIR)/usr/bin
+	$(INSTALL) $^ $(DESTDIR)/usr/bin/
 
 .PHONY: update
 
