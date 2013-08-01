@@ -7,8 +7,8 @@
 
 #include <cstdlib>
 
-#include "tree_bison_cst.hpp"
-#include "tree_bison_parse.hpp"
+#include <tree_bison_cst.hpp>
+#include <tree_bison_parse.hpp>
 
 int tree_bison_error(YYLTYPE *loc, void *, foundry::tree::bison::start *&, char const *msg)
 {

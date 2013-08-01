@@ -7,8 +7,8 @@
 
 #include <stdexcept>
 
-#include "tree_cst_cst.hpp"
-#include "tree_cst_parse.hpp"
+#include <tree_cst_cst.hpp>
+#include <tree_cst_parse.hpp>
 
 class parse_error :
         public std::logic_error

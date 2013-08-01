@@ -10,8 +10,8 @@
 #include "bison_output_visitor.h"
 #include "lex_output_visitor.h"
 
-#include "parse_cst_parse.hpp"
-#include "parse_cst_lex.hpp"
+#include <parse_cst_parse.hpp>
+#include <parse_cst_lex.hpp>
 
 #include "errors.h"
 

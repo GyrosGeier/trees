@@ -1,7 +1,7 @@
 #ifndef foundry_parse_resolve_symbols_visitor_hpp_
 #define foundry_parse_resolve_symbols_visitor_hpp_ 1
 
-#include "parse_tree.hpp"
+#include <parse_tree.hpp>
 
 #include <map>
 #include <list>
