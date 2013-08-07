@@ -25,6 +25,7 @@ public:
 
 private:
         bool verbose;
+        rule_ptr start;
         rule_ptr *current_rule_context;
         component_ptr *current_component_context;
 

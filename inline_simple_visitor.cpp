@@ -32,6 +32,11 @@ void inline_simple_visitor::visit(foundry::parse::group &)
 
 void inline_simple_visitor::visit(foundry::parse::root &r)
 {
+        if(r.rules.empty())
+                return;
+
+        start = r.rules.front();
+
         for(auto &i : r.rules)
         {
                 current_rule_context = &i;
@@ -52,6 +57,9 @@ void inline_simple_visitor::visit(foundry::parse::alternative &a)
 
 bool inline_simple_visitor::is_simple_rule(rule_ptr &r)
 {
+        if(r == start)
+                return false;
+
         if(r->alternatives.size() == 1 &&
                 r->alternatives.front()->group->rep == repeat_none &&
                 r->alternatives.front()->group->components.size() == 1)
