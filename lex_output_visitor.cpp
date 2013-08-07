@@ -9,7 +9,8 @@
 namespace foundry {
 namespace parse {
 
-lex_output_visitor::lex_output_visitor(std::ostream &out) :
+lex_output_visitor::lex_output_visitor(std::string const &basename, std::ostream &out) :
+        basename(basename),
         out(out)
 {
         return;
@@ -18,8 +19,8 @@ lex_output_visitor::lex_output_visitor(std::ostream &out) :
 void lex_output_visitor::visit(root const &r)
 {
         out << "%{" << std::endl;
-        out << "#include \"parse_cst_cst.hpp\"" << std::endl;
-        out << "#include \"parse_cst_parse.hpp\"" << std::endl;
+        out << "#include \"" << basename << "_cst.hpp\"" << std::endl;
+        out << "#include \"" << basename << "_parse.hpp\"" << std::endl;
         out << "#define YY_USER_ACTION yylloc->first_line = yylloc->last_line = yylineno;" << std::endl;
         out << "%}" << std::endl;
         out << "" << std::endl;
@@ -31,7 +32,7 @@ void lex_output_visitor::visit(root const &r)
         out << "%option bison-bridge" << std::endl;
         out << "%option bison-locations" << std::endl;
         out << "%option yylineno" << std::endl;
-        out << "%option prefix=\"parse_cst_\"" << std::endl;
+        out << "%option prefix=\"" << basename << "_\"" << std::endl;
         out << "IDENT           [[:alpha:]_][[:alnum:]_]*" << std::endl;
         out << "" << std::endl;
         out << "%x COMMENT" << std::endl;

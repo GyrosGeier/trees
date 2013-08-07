@@ -104,6 +104,14 @@ int go(int argc, char **argv)
                 return 1;
         }
 
+        if(inputs.empty())
+        {
+                std::cerr << "E: No input file given" << std::endl;
+                return 1;
+        }
+
+        std::string const basename = inputs.front().substr(0, inputs.front().find('.'));
+
         if(output.empty())
         {
                 std::cerr << "E: No output file given" << std::endl;
@@ -156,13 +164,13 @@ int go(int argc, char **argv)
         {
         case yacc:
                 {
-                        bison_output_visitor yaccout(out);
+                        bison_output_visitor yaccout(basename, out);
                         r->apply(yaccout);
                 }
                 break;
         case lex:
                 {
-                        lex_output_visitor lexout(out);
+                        lex_output_visitor lexout(basename, out);
                         r->apply(lexout);
                 }
                 break;

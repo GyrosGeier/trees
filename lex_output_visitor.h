@@ -10,7 +10,7 @@ class lex_output_visitor :
         public node_const_visitor
 {
 public:
-        lex_output_visitor(std::ostream &out);
+        lex_output_visitor(std::string const &basename, std::ostream &out);
 
         virtual void visit(root const &);
         virtual void visit(rule const &);
@@ -23,6 +23,7 @@ public:
         virtual void visit(group const &);
 
 private:
+        std::string const &basename;
         std::ostream &out;
 };
 

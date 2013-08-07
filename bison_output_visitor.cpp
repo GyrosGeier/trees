@@ -9,7 +9,8 @@
 namespace foundry {
 namespace parse {
 
-bison_output_visitor::bison_output_visitor(std::ostream &out) :
+bison_output_visitor::bison_output_visitor(std::string const &basename, std::ostream &out) :
+        basename(basename),
         out(out)
 {
         return;
@@ -28,9 +29,9 @@ void bison_output_visitor::visit(root const &r)
         start = r.rules.front().get();
 
         out << "%{" << std::endl;
-        out << "#include \"parse_cst_cst.hpp\"" << std::endl;
-        out << "#include \"parse_cst_parse.hpp\"" << std::endl;
-        out << "#include \"parse_cst_lex.hpp\"" << std::endl;
+        out << "#include \"" << basename << "_cst.hpp\"" << std::endl;
+        out << "#include \"" << basename << "_parse.hpp\"" << std::endl;
+        out << "#include \"" << basename << "_lex.hpp\"" << std::endl;
         out << "%}" << std::endl;
         out << "" << std::endl;
         out << "%debug" << std::endl;
@@ -45,10 +46,10 @@ void bison_output_visitor::visit(root const &r)
         out << "%parse-param {" << ns << start->name << " *&ret}" << std::endl;
         out << "%lex-param {void *scanner}" << std::endl;
         out << "" << std::endl;
-        out << "%name-prefix=\"parse_cst_\"" << std::endl;
+        out << "%name-prefix=\"" << basename << "_\"" << std::endl;
         out << "" << std::endl;
         out << "%{" << std::endl;
-        out << "void parse_cst_error(YYLTYPE *loc, void *, " << ns << start->name << " *&, char const *msg)" << std::endl;
+        out << "void " << basename << "_error(YYLTYPE *loc, void *, " << ns << start->name << " *&, char const *msg)" << std::endl;
         out << "{" << std::endl;
         out << "        std::cerr << loc->first_line << \":\" << msg << std::endl;" << std::endl;
         out << "}" << std::endl;

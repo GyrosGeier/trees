@@ -10,7 +10,7 @@ class bison_output_visitor :
         public node_const_visitor
 {
 public:
-        bison_output_visitor(std::ostream &out);
+        bison_output_visitor(std::string const &basename, std::ostream &out);
         ~bison_output_visitor() throw() { }
 
         virtual void visit(root const &);
@@ -24,6 +24,7 @@ public:
         virtual void visit(group const &);
 
 private:
+        std::string const &basename;
         std::ostream &out;
         std::string ns;
         rule const *start;
