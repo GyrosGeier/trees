@@ -44,8 +44,8 @@ void lex_output_visitor::visit(root const &r)
         out << "" << std::endl;
         out << "\\               /* ignore */" << std::endl;
         out << "\\n              /* ignore */" << std::endl;
-        descend(r.regexes);
         descend(r.literals);
+        descend(r.regexes);
 }
 
 void lex_output_visitor::visit(rule const &)

@@ -25,10 +25,6 @@ IDENT           [[:alpha:]_][[:alnum:]_]*
 
 \               /* ignore */
 \n              /* ignore */
-[a-zA-Z_][a-zA-Z0-9_]*	yylval->string = strdup(yytext); return REGEX_1;
-\/(\/|(\\.|[^*])(\\.|[^\/])*)\/	yylval->string = strdup(yytext); return REGEX_2;
-%[^\n]*	yylval->string = strdup(yytext); return REGEX_3;
-\"(\\.|[^\"])*\"	yylval->string = strdup(yytext); return REGEX_4;
 :	return LITERAL_1;
 \;	return LITERAL_2;
 \|	return LITERAL_3;
@@ -38,3 +34,7 @@ IDENT           [[:alpha:]_][[:alnum:]_]*
 \*	return LITERAL_7;
 \(	return LITERAL_8;
 \)	return LITERAL_9;
+[a-zA-Z_][a-zA-Z0-9_]*	yylval->string = strdup(yytext); return REGEX_1;
+\/(\/|(\\.|[^*])(\\.|[^\/])*)\/	yylval->string = strdup(yytext); return REGEX_2;
+%[^\n]*	yylval->string = strdup(yytext); return REGEX_3;
+\"(\\.|[^\"])*\"	yylval->string = strdup(yytext); return REGEX_4;
