@@ -48,12 +48,16 @@ void resolve_symbols_visitor::visit(root &r)
 
         if(verbose)
         {
-                std::cerr << unresolved_references.size() << " unresolved symbols remaining." << std::endl;
-                for(auto i : unresolved_references)
+                auto n = unresolved_references.size();
+                if(n)
                 {
-                        std::cerr << "Symbol " << i.first << ": " << i.second.size() << " references" << std::endl;
+                        std::cerr << n << " unresolved symbols remaining." << std::endl;
+                        for(auto i : unresolved_references)
+                        {
+                                std::cerr << "Symbol " << i.first << ": " << i.second.size() << " references" << std::endl;
+                        }
+                        throw unknown_production();
                 }
-                throw unknown_production();
         }
 }
 
