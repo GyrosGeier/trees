@@ -31,7 +31,7 @@ void lex_output_visitor::visit(root const &r)
         out << "%option bison-bridge" << std::endl;
         out << "%option bison-locations" << std::endl;
         out << "%option yylineno" << std::endl;
-        out << "%option prefix=\"parse_\"" << std::endl;
+        out << "%option prefix=\"parse_cst_\"" << std::endl;
         out << "IDENT           [[:alpha:]_][[:alnum:]_]*" << std::endl;
         out << "" << std::endl;
         out << "%x COMMENT" << std::endl;

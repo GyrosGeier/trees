@@ -16,10 +16,10 @@
 %parse-param {::foundry::parse::cst::start *&ret}
 %lex-param {void *scanner}
 
-%name-prefix="parse_"
+%name-prefix="parse_cst_"
 
 %{
-void parse_error(YYLTYPE *loc, void *, ::foundry::parse::cst::start *&, char const *msg)
+void parse_cst_error(YYLTYPE *loc, void *, ::foundry::parse::cst::start *&, char const *msg)
 {
         std::cerr << loc->first_line << ":" << msg << std::endl;
 }

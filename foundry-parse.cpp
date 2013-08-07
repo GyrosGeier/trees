@@ -20,7 +20,7 @@
 #include <list>
 #include <string>
 
-extern int parse_parse(yyscan_t scanner, ::foundry::parse::cst::start *&ret);
+extern int parse_cst_parse(yyscan_t scanner, ::foundry::parse::cst::start *&ret);
 
 int go(int argc, char **argv);
 
@@ -112,7 +112,7 @@ int go(int argc, char **argv)
 
         yyscan_t scanner;
 
-        parse_lex_init(&scanner);
+        parse_cst_lex_init(&scanner);
 
         cst_to_ast_visitor v;
 
@@ -122,16 +122,16 @@ int go(int argc, char **argv)
                 if(!f)
                         continue;
 
-                parse_restart(f, scanner);
+                parse_cst_restart(f, scanner);
 
                 cst::start *start;
-                parse_parse(scanner, start);
+                parse_cst_parse(scanner, start);
 
                 start->apply(v);
 
         }
 
-        parse_lex_destroy(scanner);
+        parse_cst_lex_destroy(scanner);
 
         root_ptr r = v.get_root();
 

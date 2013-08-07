@@ -45,10 +45,10 @@ void bison_output_visitor::visit(root const &r)
         out << "%parse-param {" << ns << start->name << " *&ret}" << std::endl;
         out << "%lex-param {void *scanner}" << std::endl;
         out << "" << std::endl;
-        out << "%name-prefix=\"parse_\"" << std::endl;
+        out << "%name-prefix=\"parse_cst_\"" << std::endl;
         out << "" << std::endl;
         out << "%{" << std::endl;
-        out << "void parse_error(YYLTYPE *loc, void *, " << ns << start->name << " *&, char const *msg)" << std::endl;
+        out << "void parse_cst_error(YYLTYPE *loc, void *, " << ns << start->name << " *&, char const *msg)" << std::endl;
         out << "{" << std::endl;
         out << "        std::cerr << loc->first_line << \":\" << msg << std::endl;" << std::endl;
         out << "}" << std::endl;

@@ -12,7 +12,7 @@
 %option bison-bridge
 %option bison-locations
 %option yylineno
-%option prefix="parse_"
+%option prefix="parse_cst_"
 IDENT           [[:alpha:]_][[:alnum:]_]*
 
 %x COMMENT
