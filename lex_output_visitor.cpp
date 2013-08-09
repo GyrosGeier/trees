@@ -97,6 +97,7 @@ void lex_output_visitor::visit(string_literal const &l)
                 case '(': case ')':
                 case '<': case '>':
                 case '[': case ']':
+                case '{': case '}':
                         out << '\\' << i;
                         break;
                 default:
