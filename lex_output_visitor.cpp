@@ -44,6 +44,7 @@ void lex_output_visitor::visit(root const &r)
         out << "<COMMENT>.      /* ignore */" << std::endl;
         out << "" << std::endl;
         out << "\\               /* ignore */" << std::endl;
+        out << "\\t              /* ignore */" << std::endl;
         out << "\\n              /* ignore */" << std::endl;
         descend(r.literals);
         descend(r.regexes);

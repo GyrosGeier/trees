@@ -24,6 +24,7 @@ IDENT           [[:alpha:]_][[:alnum:]_]*
 <COMMENT>.      /* ignore */
 
 \               /* ignore */
+\t              /* ignore */
 \n              /* ignore */
 :	return LITERAL_1;
 \;	return LITERAL_2;
