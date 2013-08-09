@@ -143,7 +143,22 @@ void cst_to_ast_visitor::visit(cst::components_elem const &c)
 {
         // Resolve repetition first
         descend(c._2);
-        descend(c._1);
+        if(current_repeat != repeat_none)
+        {
+                group_ptr ng = new group;
+                ng->rep = current_repeat;
+                current_repeat = repeat_none;
+                current_group->components.push_back(ng);
+
+                group_ptr stack = current_group;
+                current_group = ng;
+                descend(c._1);
+                current_group = stack;
+        }
+        else
+        {
+                descend(c._1);
+        }
 }
 
 void cst_to_ast_visitor::visit(cst::no_repetition const &)
@@ -170,7 +185,6 @@ void cst_to_ast_visitor::visit(cst::symbol const &c)
 {
         unresolved_symbol_ptr u = new unresolved_symbol;
         u->name = c._1;
-        u->rep = current_repeat;
         current_group->components.push_back(u);
 }
 
@@ -178,7 +192,6 @@ void cst_to_ast_visitor::visit(cst::literal const &c)
 {
         string_literal_ptr sl = new string_literal;
         sl->text = c._1;
-        sl->rep = current_repeat;
         current_group->components.push_back(sl);
 }
 
@@ -186,7 +199,6 @@ void cst_to_ast_visitor::visit(cst::regex const &c)
 {
         regex_ptr rx = new regex;
         rx->text = c._1;
-        rx->rep = current_repeat;
         current_group->components.push_back(rx);
 }
 

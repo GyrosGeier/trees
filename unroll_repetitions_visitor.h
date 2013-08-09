@@ -26,8 +26,6 @@ public:
 private:
         bool verbose;
 
-        void unroll_common(component &);
-
         std::list<rule_ptr> generated_rules;
 
         group_weak_ptr current_group;

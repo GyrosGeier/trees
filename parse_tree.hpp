@@ -144,7 +144,6 @@ struct component : node {
         virtual ~component(void) throw() { }
         using node::apply;
         std::string name;
-        repetition rep;
 };
 struct string_literal : component
 {
@@ -191,6 +190,7 @@ struct group : component
         virtual void apply(node_visitor &);
         virtual void apply(node_const_visitor &) const;
         std::list<boost::intrusive_ptr< ::foundry::parse::component> >  components;
+        repetition rep;
 };
 struct root : node
 {
