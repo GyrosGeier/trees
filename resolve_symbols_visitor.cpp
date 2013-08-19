@@ -27,9 +27,9 @@ void resolve_symbols_visitor::visit(unresolved_symbol &s)
         auto ntref = nonterminals.find(s.name);
         if(ntref != nonterminals.end())
         {
-                *current_context = ntref->second;
                 if(verbose)
                         std::cerr << "Immediately resolved nonterminal " << s.name << std::endl;
+                *current_context = ntref->second;
         }
         else
         {
