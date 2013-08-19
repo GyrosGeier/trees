@@ -11,7 +11,8 @@
 namespace foundry {
 namespace parse {
 
-cst_to_ast_visitor::cst_to_ast_visitor()
+cst_to_ast_visitor::cst_to_ast_visitor() :
+        rt(new root)
 {
         return;
 }
@@ -23,8 +24,6 @@ cst_to_ast_visitor::~cst_to_ast_visitor() throw()
 
 void cst_to_ast_visitor::visit(cst::start const &s)
 {
-        if(!rt)
-                rt = new root;
         descend(s._1);
         descend(s._2);
 }
