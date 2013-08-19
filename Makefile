@@ -112,10 +112,10 @@ stage2/%_tree.hpp: %.ftree stage1/foundry-tree
 stage2/%_tree.cpp: %.ftree stage1/foundry-tree
 	stage1/foundry-tree -c -o $@ $<
 
-stage2/%_cst.hpp: %.yy stage1/foundry-tree
+stage2/%_cst.hpp: stage2/%.yy stage1/foundry-tree
 	stage1/foundry-tree -n foundry -n $(subst _, -n ,$*) -o $@ $<
 
-stage2/%_cst.cpp: %.yy stage1/foundry-tree
+stage2/%_cst.cpp: stage2/%.yy stage1/foundry-tree
 	stage1/foundry-tree -n foundry -n $(subst _, -n ,$*) -c -o $@ $<
 
 stage2/%_cst.hpp: stage2/%.yy stage1/foundry-tree
