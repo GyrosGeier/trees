@@ -67,11 +67,11 @@ void regex::apply(node_const_visitor &v) const
 {
         v.visit(*this);
 }
-void components_chain::apply(node_const_visitor &v) const
+void components_1_chain::apply(node_const_visitor &v) const
 {
         v.visit(*this);
 }
-void end_of_components::apply(node_const_visitor &v) const
+void end_of_components_1::apply(node_const_visitor &v) const
 {
         v.visit(*this);
 }
@@ -91,7 +91,7 @@ void components::apply(node_const_visitor &v) const
 {
         v.visit(*this);
 }
-void components_elem::apply(node_const_visitor &v) const
+void components_1_elem::apply(node_const_visitor &v) const
 {
         v.visit(*this);
 }

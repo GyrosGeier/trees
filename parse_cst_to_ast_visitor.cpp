@@ -128,18 +128,18 @@ void cst_to_ast_visitor::visit(cst::components const &c)
         descend(c._1);
 }
 
-void cst_to_ast_visitor::visit(cst::components_chain const &c)
+void cst_to_ast_visitor::visit(cst::components_1_chain const &c)
 {
         descend(c._1);
         descend(c._2);
 }
 
-void cst_to_ast_visitor::visit(cst::end_of_components const &)
+void cst_to_ast_visitor::visit(cst::end_of_components_1 const &)
 {
         return;
 }
 
-void cst_to_ast_visitor::visit(cst::components_elem const &c)
+void cst_to_ast_visitor::visit(cst::components_1_elem const &c)
 {
         // Resolve repetition first
         descend(c._2);

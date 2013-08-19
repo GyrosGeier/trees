@@ -7,6 +7,7 @@
 #include "errors.h"
 
 #include <iostream>
+#include <sstream>
 
 namespace foundry {
 namespace parse {
@@ -32,8 +33,13 @@ void unroll_repetitions_visitor::visit(group &g)
                         throw;
                 group_weak_ptr group_stack = current_group;
                 current_group = &g;
+                unsigned int count = 0;
                 for(auto &i : g.components)
                 {
+                        ++count;
+                        std::ostringstream os;
+                        os << current_alternative->name << "_" << count;
+                        current_name = os.str();
                         current_context = &i;
                         descend(i);
                 }
@@ -41,8 +47,7 @@ void unroll_repetitions_visitor::visit(group &g)
                 return;
         }
 
-        // TODO: support more than one repeat mark per alternative
-        std::string generated_rule = current_alternative->name;
+        std::string generated_rule = current_name;
 
         switch(g.rep)
         {

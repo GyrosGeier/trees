@@ -29,6 +29,7 @@ private:
         std::list<rule_ptr> generated_rules;
 
         group_weak_ptr current_group;
+        std::string current_name;
         alternative_weak_ptr current_alternative;
         component_ptr *current_context;
 };

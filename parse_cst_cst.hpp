@@ -94,15 +94,15 @@ typedef group *group_weak_ptr;
 struct regex;
 typedef boost::intrusive_ptr<regex> regex_ptr;
 typedef regex *regex_weak_ptr;
-struct components_list;
-typedef boost::intrusive_ptr<components_list> components_list_ptr;
-typedef components_list *components_list_weak_ptr;
-struct components_chain;
-typedef boost::intrusive_ptr<components_chain> components_chain_ptr;
-typedef components_chain *components_chain_weak_ptr;
-struct end_of_components;
-typedef boost::intrusive_ptr<end_of_components> end_of_components_ptr;
-typedef end_of_components *end_of_components_weak_ptr;
+struct components_1_list;
+typedef boost::intrusive_ptr<components_1_list> components_1_list_ptr;
+typedef components_1_list *components_1_list_weak_ptr;
+struct components_1_chain;
+typedef boost::intrusive_ptr<components_1_chain> components_1_chain_ptr;
+typedef components_1_chain *components_1_chain_weak_ptr;
+struct end_of_components_1;
+typedef boost::intrusive_ptr<end_of_components_1> end_of_components_1_ptr;
+typedef end_of_components_1 *end_of_components_1_weak_ptr;
 struct start;
 typedef boost::intrusive_ptr<start> start_ptr;
 typedef start *start_weak_ptr;
@@ -115,9 +115,9 @@ typedef alternatives *alternatives_weak_ptr;
 struct components;
 typedef boost::intrusive_ptr<components> components_ptr;
 typedef components *components_weak_ptr;
-struct components_elem;
-typedef boost::intrusive_ptr<components_elem> components_elem_ptr;
-typedef components_elem *components_elem_weak_ptr;
+struct components_1_elem;
+typedef boost::intrusive_ptr<components_1_elem> components_1_elem_ptr;
+typedef components_1_elem *components_1_elem_weak_ptr;
 }
 }
 }
@@ -187,12 +187,12 @@ public:
         virtual void visit(regex const &) = 0;
         inline void descend(regex const &n) { visit(n); }
         inline void descend(boost::intrusive_ptr<regex> const &p) { if(p) descend(*p); }
-        virtual void visit(components_chain const &) = 0;
-        inline void descend(components_chain const &n) { visit(n); }
-        inline void descend(boost::intrusive_ptr<components_chain> const &p) { if(p) descend(*p); }
-        virtual void visit(end_of_components const &) = 0;
-        inline void descend(end_of_components const &n) { visit(n); }
-        inline void descend(boost::intrusive_ptr<end_of_components> const &p) { if(p) descend(*p); }
+        virtual void visit(components_1_chain const &) = 0;
+        inline void descend(components_1_chain const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<components_1_chain> const &p) { if(p) descend(*p); }
+        virtual void visit(end_of_components_1 const &) = 0;
+        inline void descend(end_of_components_1 const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<end_of_components_1> const &p) { if(p) descend(*p); }
         virtual void visit(start const &) = 0;
         inline void descend(start const &n) { visit(n); }
         inline void descend(boost::intrusive_ptr<start> const &p) { if(p) descend(*p); }
@@ -205,9 +205,9 @@ public:
         virtual void visit(components const &) = 0;
         inline void descend(components const &n) { visit(n); }
         inline void descend(boost::intrusive_ptr<components> const &p) { if(p) descend(*p); }
-        virtual void visit(components_elem const &) = 0;
-        inline void descend(components_elem const &n) { visit(n); }
-        inline void descend(boost::intrusive_ptr<components_elem> const &p) { if(p) descend(*p); }
+        virtual void visit(components_1_elem const &) = 0;
+        inline void descend(components_1_elem const &n) { visit(n); }
+        inline void descend(boost::intrusive_ptr<components_1_elem> const &p) { if(p) descend(*p); }
 };
 struct directives : node {
         directives(void) throw() { }
@@ -356,24 +356,24 @@ struct regex : component
         virtual void apply(node_const_visitor &) const;
         std::string _1;
 };
-struct components_list : node {
-        components_list(void) throw() { }
-        virtual ~components_list(void) throw() { }
+struct components_1_list : node {
+        components_1_list(void) throw() { }
+        virtual ~components_1_list(void) throw() { }
         using node::apply;
 };
-struct components_chain : components_list
+struct components_1_chain : components_1_list
 {
-        components_chain(boost::intrusive_ptr< ::foundry::parse::cst::components_elem>  _1, boost::intrusive_ptr< ::foundry::parse::cst::components_list>  _2) throw() : 
+        components_1_chain(boost::intrusive_ptr< ::foundry::parse::cst::components_1_elem>  _1, boost::intrusive_ptr< ::foundry::parse::cst::components_1_list>  _2) throw() : 
                 _1(_1), _2(_2) { }
-        virtual ~components_chain(void) throw() { }
+        virtual ~components_1_chain(void) throw() { }
         virtual void apply(node_const_visitor &) const;
-        boost::intrusive_ptr< ::foundry::parse::cst::components_elem>  _1;
-        boost::intrusive_ptr< ::foundry::parse::cst::components_list>  _2;
+        boost::intrusive_ptr< ::foundry::parse::cst::components_1_elem>  _1;
+        boost::intrusive_ptr< ::foundry::parse::cst::components_1_list>  _2;
 };
-struct end_of_components : components_list
+struct end_of_components_1 : components_1_list
 {
-        end_of_components() throw() { }
-        virtual ~end_of_components(void) throw() { }
+        end_of_components_1() throw() { }
+        virtual ~end_of_components_1(void) throw() { }
         virtual void apply(node_const_visitor &) const;
 };
 struct start : node
@@ -405,17 +405,17 @@ struct alternatives : node
 };
 struct components : node
 {
-        components(boost::intrusive_ptr< ::foundry::parse::cst::components_list>  _1) throw() : 
+        components(boost::intrusive_ptr< ::foundry::parse::cst::components_1_list>  _1) throw() : 
                 _1(_1) { }
         virtual ~components(void) throw() { }
         virtual void apply(node_const_visitor &) const;
-        boost::intrusive_ptr< ::foundry::parse::cst::components_list>  _1;
+        boost::intrusive_ptr< ::foundry::parse::cst::components_1_list>  _1;
 };
-struct components_elem : node
+struct components_1_elem : node
 {
-        components_elem(boost::intrusive_ptr< ::foundry::parse::cst::component>  _1, boost::intrusive_ptr< ::foundry::parse::cst::repetition_qualifier>  _2) throw() : 
+        components_1_elem(boost::intrusive_ptr< ::foundry::parse::cst::component>  _1, boost::intrusive_ptr< ::foundry::parse::cst::repetition_qualifier>  _2) throw() : 
                 _1(_1), _2(_2) { }
-        virtual ~components_elem(void) throw() { }
+        virtual ~components_1_elem(void) throw() { }
         virtual void apply(node_const_visitor &) const;
         boost::intrusive_ptr< ::foundry::parse::cst::component>  _1;
         boost::intrusive_ptr< ::foundry::parse::cst::repetition_qualifier>  _2;

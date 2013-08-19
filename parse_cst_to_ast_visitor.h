@@ -24,9 +24,9 @@ public:
         virtual void visit(cst::unnamed_alternative const &);
         virtual void visit(cst::named_alternative const &);
         virtual void visit(cst::components const &);
-        virtual void visit(cst::components_chain const &);
-        virtual void visit(cst::end_of_components const &);
-        virtual void visit(cst::components_elem const &);
+        virtual void visit(cst::components_1_chain const &);
+        virtual void visit(cst::end_of_components_1 const &);
+        virtual void visit(cst::components_1_elem const &);
         virtual void visit(cst::no_repetition const &);
         virtual void visit(cst::zero_or_one const &);
         virtual void visit(cst::one_or_more const &);
