@@ -5,11 +5,22 @@
 
 #include "tree_cst_to_ast_visitor.hpp"
 #include "bison_to_ast_visitor.hpp"
+#include "parse_cst_to_ast_visitor.h"
 
 #include "mark_nodes_visitor.hpp"
 #include "smartpointer_visitor.hpp"
+
+#include "resolve_symbols_visitor.h"
+#include "resolve_literals_visitor.h"
+#include "resolve_regexes_visitor.h"
+#include "inline_simple_visitor.h"
+
+#include "unroll_repetitions_visitor.h"
+
 #include "header_output_visitor.hpp"
 #include "impl_output_visitor.hpp"
+#include "bison_output_visitor.h"
+#include "lex_output_visitor.h"
 
 #include <tree_bison_context.hpp>
 #include <tree_bison_cst.hpp>
@@ -20,13 +31,21 @@
 #include <tree_cst_parse.hpp>
 #include <tree_cst_lex.hpp>
 
+#include <parse_cst_parse.hpp>
+#include <parse_cst_lex.hpp>
+
+#include "errors.h"
+
 #include <exception>
+
 #include <iostream>
 #include <fstream>
 #include <list>
+#include <string>
 
 extern int tree_bison_parse(void *scanner, foundry::tree::bison::start *&ret);
 extern int tree_cst_parse(void *scanner, foundry::tree::cst::start *&ret);
+extern int parse_cst_parse(yyscan_t scanner, ::foundry::parse::cst::start *&ret);
 
 std::string extension(std::string const &s)
 {
@@ -40,20 +59,32 @@ int go(int argc, char **argv);
 
 int main(int argc, char **argv)
 {
+        using namespace foundry::parse;
+
         try
         {
                 return go(argc, argv);
         }
-        catch(std::exception &e)
+        catch(internal_error &e)
         {
                 std::cerr << "E: " << e.what() << std::endl;
                 return 1;
+        }
+        catch(input_error &e)
+        {
+                std::cerr << "E: " << e.what() << std::endl;
+                return 1;
+        }
+        catch(std::exception &e)
+        {
+                std::cerr << "E: " << e.what() << std::endl;
+                return 2;
         }
 }
 
 int go(int argc, char **argv)
 {
-        using namespace foundry::tree;
+        using namespace foundry;
 
         typedef char const *const *arg_iterator;
 
@@ -63,7 +94,9 @@ int go(int argc, char **argv)
         enum
         {
                 header,
-                source
+                source,
+                yacc,
+                lex
         } output_format = header;
 
         std::list<std::string> outns;
@@ -81,6 +114,8 @@ int go(int argc, char **argv)
         file_list inputs;
         file output;
 
+        bool verbose = false;
+
         for(arg_iterator i = args_begin; i != args_end; ++i)
         {
                 std::string const arg(*i);
@@ -88,7 +123,13 @@ int go(int argc, char **argv)
                 switch(state)
                 {
                 case initial:
-                        if(arg == "-o")
+                        if(arg == "-v")
+                                verbose = true;
+                        else if(arg == "-y")
+                                output_format = yacc;
+                        else if(arg == "-l")
+                                output_format = lex;
+                        else if(arg == "-o")
                                 state = expect_output;
                         else if(arg == "-n")
                                 state = expect_ns;
@@ -122,6 +163,14 @@ int go(int argc, char **argv)
                 return 1;
         }
 
+        if(inputs.empty())
+        {
+                std::cerr << "E: No input file given" << std::endl;
+                return 1;
+        }
+
+        std::string const basename = inputs.front().substr(0, inputs.front().find('.'));
+
         if(output.empty())
         {
                 std::cerr << "E: No output file given" << std::endl;
@@ -130,13 +179,17 @@ int go(int argc, char **argv)
 
         yyscan_t bison_scanner;
         yyscan_t cst_scanner;
+        yyscan_t scanner;
+        parse_cst_lex_init(&scanner);
 
         context bison_context;
         tree_bison_lex_init_extra(&bison_context, &bison_scanner);
         tree_cst_lex_init(&cst_scanner);
 
-        cst_to_ast_visitor cst_to_ast;
-        bison_to_ast_visitor bison_to_ast;
+        tree::cst_to_ast_visitor cst_to_ast;
+        tree::bison_to_ast_visitor bison_to_ast;
+        parse::cst_to_ast_visitor v;
+
         for(std::list<std::string>::const_iterator i = outns.begin();
                         i != outns.end(); ++i)
                 bison_to_ast.push_initial_namespace(*i);
@@ -153,31 +206,59 @@ int go(int argc, char **argv)
                 if(extension(*i) == ".yy")
                 {
                         tree_bison_restart(f, bison_scanner);
-                        bison::start *tree = 0;
+                        tree::bison::start *tree = 0;
                         if(tree_bison_parse(bison_scanner, tree) == 0)
                         {
                                 tree->apply(bison_to_ast);
                         }
                         delete tree;
                 }
-                else
+                else if(extension(*i) == ".ftree")
                 {
                         tree_cst_restart(f, cst_scanner);
-                        cst::start *tree = 0;
+                        tree::cst::start *tree = 0;
                         if(tree_cst_parse(cst_scanner, tree) == 0)
                         {
                                 tree->apply(cst_to_ast);
                         }
                         delete tree;
                 }
+                else if(extension(*i) == ".fparse")
+                {
+                        parse_cst_restart(f, scanner);
+
+                        parse::cst::start *start;
+                        parse_cst_parse(scanner, start);
+
+                        start->apply(v);
+                        delete start;
+                }
 
                 fclose(f);
         }
 
+        parse_cst_lex_destroy(scanner);
         tree_cst_lex_destroy(cst_scanner);
         tree_bison_lex_destroy(bison_scanner);
 
-        boost::intrusive_ptr<root> ast, ast2;
+        parse::root_ptr r = v.get_root();
+
+        parse::resolve_symbols_visitor resolve_symbols(verbose);
+        r->apply(resolve_symbols);
+
+        parse::resolve_literals_visitor resolve_literals(verbose);
+        r->apply(resolve_literals);
+
+        parse::resolve_regexes_visitor resolve_regexes(verbose);
+        r->apply(resolve_regexes);
+
+        parse::inline_simple_visitor inline_simple(verbose);
+        r->apply(inline_simple);
+
+        parse::unroll_repetitions_visitor unroll_repetitions(verbose);
+        r->apply(unroll_repetitions);
+
+        tree::root_ptr ast, ast2;
 
         ast = cst_to_ast.get_ast();
         ast2 = bison_to_ast.get_ast();
@@ -197,10 +278,10 @@ int go(int argc, char **argv)
                         ast->global_namespace->group = ast2->global_namespace->group;
         }
 
-        mark_nodes_visitor mark_nodes;
+        tree::mark_nodes_visitor mark_nodes;
         ast->apply(mark_nodes);
 
-        smartpointer_visitor smartptr;
+        tree::smartpointer_visitor smartptr;
         ast->apply(smartptr);
 
         std::ofstream out(output.c_str());
@@ -225,7 +306,7 @@ int go(int argc, char **argv)
                         out << "#ifndef " << cppsymbol << "_" << std::endl
                                 << "#define " << cppsymbol << "_ 1" << std::endl
                                 << std::endl;
-                        header_output_visitor write_header(out);
+                        tree::header_output_visitor write_header(out);
                         ast->apply(write_header);
                         out << "#endif" << std::endl;
                 }
@@ -250,8 +331,20 @@ int go(int argc, char **argv)
                         std::string basename = output.substr(slash, dot - slash);
                         out << "#include <" << basename << ext << ">" << std::endl
                                 << std::endl;
-                        impl_output_visitor write_impl(out);
+                        tree::impl_output_visitor write_impl(out);
                         ast->apply(write_impl);
+                }
+                break;
+        case yacc:
+                {
+                        parse::bison_output_visitor yaccout(basename, out);
+                        r->apply(yaccout);
+                }
+                break;
+        case lex:
+                {
+                        parse::lex_output_visitor lexout(basename, out);
+                        r->apply(lexout);
                 }
                 break;
         }

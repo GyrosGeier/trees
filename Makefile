@@ -33,16 +33,13 @@ STAGE2_BUILT_HEADERS = $(addprefix stage2/,$(BUILT_HEADERS))
 OBJECTS = $(sort $(CXXSOURCES:%.cpp=%.o) $(BUILT_SOURCES:%.cpp=%.o))
 DEPFILES = $(addprefix stage1/,$(OBJECTS:%.o=.%.d)) $(addprefix stage2/,$(OBJECTS:%.o=.%.d))
 
-PARSEOBJECTS = $(filter-out foundry-tree.o, $(OBJECTS))
-TREEOBJECTS = $(filter-out foundry-parse.o, $(OBJECTS))
-
 .PHONY: all
 
-all: foundry-tree foundry-parse
+all: foundry-lang
 
 .PHONY: install
 
-install: foundry-tree foundry-parse
+install: foundry-lang
 	$(INSTALL) -d $(DESTDIR)/usr/bin
 	$(INSTALL) $^ $(DESTDIR)/usr/bin/
 
@@ -65,64 +62,61 @@ check test: $(addprefix update/,$(BOOTSTRAP))
 .PHONY: clean
 
 clean:
-	$(RM) foundry-parse foundry-tree
+	$(RM) foundry-lang
 	$(RM) -r stage1
 	$(RM) -r stage2
 	$(RM) -r update
 
-foundry-parse: $(addprefix stage2/,$(PARSEOBJECTS))
+foundry-lang: $(addprefix stage2/,$(OBJECTS))
 	$(CXX) $(LDFLAGS) -o $@ $^
 
-foundry-tree: $(addprefix stage2/,$(TREEOBJECTS))
-	$(CXX) $(LDFLAGS) -o $@ $^
-
-update/parse_cst.ll: parse_cst.fparse foundry-parse stage2/parse_cst.ll
+update/parse_cst.ll: parse_cst.fparse foundry-lang stage2/parse_cst.ll
 	@mkdir -p update
-	./foundry-parse -l $< -o $@
+	./foundry-lang -l $< -o $@
 	cmp -s $@ stage2/$(notdir $@)
 
-update/parse_cst.yy: parse_cst.fparse foundry-parse stage2/parse_cst.yy
+update/parse_cst.yy: parse_cst.fparse foundry-lang stage2/parse_cst.yy
 	@mkdir -p update
-	./foundry-parse -y $< -o $@
+	./foundry-lang -y $< -o $@
 	cmp -s $@ stage2/$(notdir $@)
 
-update/%_tree.hpp: %.ftree foundry-tree stage2/%_tree.hpp
+update/%_tree.hpp: %.ftree foundry-lang stage2/%_tree.hpp
 	@mkdir -p update
-	./foundry-tree -o $@ $<
+	./foundry-lang -o $@ $<
 	cmp -s $@ stage2/$(notdir $@)
 
-update/%_tree.cpp: %.ftree foundry-tree stage2/%_tree.cpp
+update/%_tree.cpp: %.ftree foundry-lang stage2/%_tree.cpp
 	@mkdir -p update
-	./foundry-tree -c -o $@ $<
+	./foundry-lang -c -o $@ $<
 	cmp -s $@ stage2/$(notdir $@)
 
-update/%_cst.hpp: %.yy foundry-tree stage2/%_cst.hpp
+update/%_cst.hpp: %.yy foundry-lang stage2/%_cst.hpp
 	@mkdir -p update
-	./foundry-tree -n foundry -n $(subst _, -n ,$*) -o $@ $<
+	./foundry-lang -n foundry -n $(subst _, -n ,$*) -o $@ $<
 	cmp -s $@ stage2/$(notdir $@)
 
-update/%_cst.cpp: %.yy foundry-tree stage2/%_cst.cpp
+update/%_cst.cpp: %.yy foundry-lang stage2/%_cst.cpp
 	@mkdir -p update
-	./foundry-tree -n foundry -n $(subst _, -n ,$*) -c -o $@ $<
+	./foundry-lang -n foundry -n $(subst _, -n ,$*) -c -o $@ $<
 	cmp -s $@ stage2/$(notdir $@)
 
-stage2/%_tree.hpp: %.ftree stage1/foundry-tree
-	stage1/foundry-tree -o $@ $<
+stage2/%_tree.hpp: %.ftree stage1/foundry-lang
+	stage1/foundry-lang -o $@ $<
 
-stage2/%_tree.cpp: %.ftree stage1/foundry-tree
-	stage1/foundry-tree -c -o $@ $<
+stage2/%_tree.cpp: %.ftree stage1/foundry-lang
+	stage1/foundry-lang -c -o $@ $<
 
-stage2/%_cst.hpp: stage2/%.yy stage1/foundry-tree
-	stage1/foundry-tree -n foundry -n $(subst _, -n ,$*) -o $@ $<
+stage2/%_cst.hpp: stage2/%.yy stage1/foundry-lang
+	stage1/foundry-lang -n foundry -n $(subst _, -n ,$*) -o $@ $<
 
-stage2/%_cst.cpp: stage2/%.yy stage1/foundry-tree
-	stage1/foundry-tree -n foundry -n $(subst _, -n ,$*) -c -o $@ $<
+stage2/%_cst.cpp: stage2/%.yy stage1/foundry-lang
+	stage1/foundry-lang -n foundry -n $(subst _, -n ,$*) -c -o $@ $<
 
-stage2/%_cst.hpp: stage2/%.yy stage1/foundry-tree
-	stage1/foundry-tree -n foundry -n $(subst _, -n ,$*) -o $@ $<
+stage2/%_cst.hpp: stage2/%.yy stage1/foundry-lang
+	stage1/foundry-lang -n foundry -n $(subst _, -n ,$*) -o $@ $<
 
-stage2/%_cst.cpp: stage2/%.yy stage1/foundry-tree
-	stage1/foundry-tree -n foundry -n $(subst _, -n ,$*) -c -o $@ $<
+stage2/%_cst.cpp: stage2/%.yy stage1/foundry-lang
+	stage1/foundry-lang -n foundry -n $(subst _, -n ,$*) -c -o $@ $<
 
 stage2/%_lex.hpp: stage2/%_lex.cpp
 	test -f $@ || ($(RM) $< && $(MAKE) $<)
@@ -138,11 +132,11 @@ stage2/%_parse.hpp: stage2/%_parse.cpp
 stage2/%_parse.cpp: stage2/%.yy
 	bison -d $< -o $@
 
-stage2/%.ll: %.fparse stage1/foundry-parse
-	stage1/foundry-parse -o $@ -l $<
+stage2/%.ll: %.fparse stage1/foundry-lang
+	stage1/foundry-lang -o $@ -l $<
 
-stage2/%.yy: %.fparse stage1/foundry-parse
-	stage1/foundry-parse -o $@ -y $<
+stage2/%.yy: %.fparse stage1/foundry-lang
+	stage1/foundry-lang -o $@ -y $<
 
 stage2/tree_%.ll: tree_%.ll
 	cp $< $@
@@ -159,10 +153,7 @@ stage2/%.o: stage2/%.cpp
 
 stage2/parse_cst.o: stage2/parse_cst.cpp
 
-stage1/foundry-tree: $(addprefix stage1/,$(TREEOBJECTS))
-	$(CXX) $(LDFLAGS) -o $@ $^
-
-stage1/foundry-parse: $(addprefix stage1/,$(PARSEOBJECTS))
+stage1/foundry-lang: $(addprefix stage1/,$(OBJECTS))
 	$(CXX) $(LDFLAGS) -o $@ $^
 
 stage1/%_lex.hpp: stage1/%_lex.cpp
