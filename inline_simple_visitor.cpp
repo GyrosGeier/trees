@@ -29,9 +29,14 @@ void inline_simple_visitor::visit(foundry::parse::nonterminal &nt)
 }
 
 void inline_simple_visitor::visit(foundry::parse::regex&) { }
-void inline_simple_visitor::visit(foundry::parse::group &)
+void inline_simple_visitor::visit(foundry::parse::group &g)
 {
         is_simple = false;
+        for(auto &i : g.components)
+        {
+                current_component_context = &i;
+                descend(i);
+        }
 }
 
 void inline_simple_visitor::visit(foundry::parse::root &r)
