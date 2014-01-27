@@ -16,7 +16,7 @@
 %parse-param {::foundry::parse::cst::start *&ret}
 %lex-param {void *scanner}
 
-%name-prefix="parse_cst_"
+%name-prefix "parse_cst_"
 
 %{
 void parse_cst_error(YYLTYPE *loc, void *, ::foundry::parse::cst::start *&, char const *msg)
