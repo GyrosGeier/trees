@@ -57,11 +57,7 @@ void inline_simple_visitor::visit(foundry::parse::root &r)
 void inline_simple_visitor::visit(foundry::parse::rule &r) { descend(r.alternatives); }
 void inline_simple_visitor::visit(foundry::parse::alternative &a)
 {
-        for(auto &i : a.group->components)
-        {
-                current_component_context = &i;
-                descend(i);
-        }
+        descend(a.group);
 }
 
 bool inline_simple_visitor::is_simple_rule(rule_ptr &r)
