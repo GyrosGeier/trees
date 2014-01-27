@@ -183,8 +183,8 @@ stage1/%.o: stage1/%.cpp
 %_parse.cpp: %.yy
 	$(YACC) -o $@ $<
 
-stage1/%_lex.o: CXXFLAGS+=-Wno-unused
-stage2/%_lex.o: CXXFLAGS+=-Wno-unused
+stage1/%_lex.o: CXXFLAGS+=-Wno-unused-parameter
+stage2/%_lex.o: CXXFLAGS+=-Wno-unused-parameter
 
 stage1/.%.d:
 	@mkdir -p $(@D)
