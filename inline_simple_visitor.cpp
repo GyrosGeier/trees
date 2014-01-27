@@ -21,7 +21,11 @@ void inline_simple_visitor::visit(foundry::parse::terminal&) { }
 void inline_simple_visitor::visit(foundry::parse::nonterminal &nt)
 {
         if(is_simple_rule(nt.rule))
+        {
+                if(verbose)
+                        std::cerr << "Inlining " << nt.rule->name << std::endl;
                 *current_component_context = nt.rule->alternatives.front()->group->components.front();
+        }
 }
 
 void inline_simple_visitor::visit(foundry::parse::regex&) { }
