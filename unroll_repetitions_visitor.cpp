@@ -52,8 +52,22 @@ void unroll_repetitions_visitor::visit(group &g)
         switch(g.rep)
         {
         case repeat_none:
-                // simple grouping, do nothing
-                descend(g.components);
+                {
+                        // simple grouping, do nothing
+                        group_weak_ptr group_stack = current_group;
+                        current_group = &g;
+                        unsigned int count = 0;
+                        for(auto &i : g.components)
+                        {
+                                ++count;
+                                std::ostringstream os;
+                                os << current_alternative->name << "__" << count;
+                                current_name = os.str();
+                                current_context = &i;
+                                descend(i);
+                        }
+                        current_group = group_stack;
+                }
                 break;
 
         case repeat_zero_or_one:
