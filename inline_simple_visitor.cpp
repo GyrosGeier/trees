@@ -25,6 +25,7 @@ void inline_simple_visitor::visit(foundry::parse::nonterminal &nt)
                 if(verbose)
                         std::cerr << "Inlining " << nt.rule->name << std::endl;
                 *current_component_context = nt.rule->alternatives.front()->group->components.front();
+                descend(*current_component_context);
         }
 }
 
