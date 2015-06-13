@@ -65,7 +65,7 @@ using namespace foundry::tree::cst;
 %parse-param {foundry::tree::cst::start *&ret}
 %lex-param {void *scanner}
 
-%name-prefix="tree_cst_"
+%name-prefix "tree_cst_"
 
 %{
 int tree_cst_lex(YYSTYPE *, YYLTYPE *, void *);

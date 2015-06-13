@@ -32,7 +32,7 @@ using namespace foundry::tree::bison;
 %parse-param {foundry::tree::bison::start *&ret}
 %lex-param {void *scanner}
 
-%name-prefix="tree_bison_"
+%name-prefix "tree_bison_"
 
 %{
 int tree_bison_lex(YYSTYPE *, YYLTYPE *, void *);
