@@ -75,7 +75,8 @@ void tree_cst_error(YYLTYPE *, void *, foundry::tree::cst::start *&, char const 
 %token <string> IDENTIFIER
 %token <string> INTEGER
 %token <string> QUOTED_NAME
-%token <string> HEADER_NAME
+%token <string> SMARTPOINTER
+%token <string> INCLUDE
 
 %token LPAREN "("
 %token RPAREN ")"
@@ -107,14 +108,10 @@ void tree_cst_error(YYLTYPE *, void *, foundry::tree::cst::start *&, char const 
 %token CONST "const"
 %token VOLATILE "volatile"
 
-%token PERCENT "%"
-
-%token MULTIPARENT "multiparent"
-%token SCOPED_PTR "scoped_ptr"
-%token SHARED_PTR "shared_ptr"
-%token INTRUSIVE_PTR "intrusive_ptr"
-%token SMARTPOINTER "smartpointer"
-%token INCLUDE "include"
+%token MULTIPARENT "%multiparent"
+%token SCOPED_PTR "%scoped_ptr"
+%token SHARED_PTR "%shared_ptr"
+%token INTRUSIVE_PTR "%intrusive_ptr"
 
 %type <start> start
 %type <declarations> declarations
@@ -194,19 +191,18 @@ visitor_declaration: "visitor" IDENTIFIER "{" member_declarations "}" { $$ = new
 
 member_declarations: /* empty */ { $$ = new member_declarations_1; } |
     member_declarations member_declaration ";" { $$ = new member_declarations_2($1, $2); } |
-    member_declarations "%" member_directive "%" { $$ = new member_declarations_3($1, $3); }
+    member_declarations member_directive { $$ = new member_declarations_3($1, $2); }
 
 member_declaration: data_member_declaration { $$ = new member_declaration_1($1); } |
     constructor_declaration { $$ = new member_declaration_2($1); } |
     destructor_declaration { $$ = new member_declaration_3($1); }
 
-member_directive: "multiparent" { $$ = new member_directive_1; } |
-    "scoped_ptr" { $$ = new member_directive_2; } |
-    "shared_ptr" { $$ = new member_directive_3; } |
-    "intrusive_ptr" { $$ = new member_directive_4; } |
-    "smartpointer" type reference { $$ = new member_directive_5($2, $3); } |
-    "include" QUOTED_NAME { $$ = new member_directive_6(std::string($2.data, $2.length)); } |
-    "include" HEADER_NAME { $$ = new member_directive_7(std::string($2.data, $2.length)); }
+member_directive: "%multiparent" { $$ = new member_directive_1; } |
+    "%scoped_ptr" { $$ = new member_directive_2; } |
+    "%shared_ptr" { $$ = new member_directive_3; } |
+    "%intrusive_ptr" { $$ = new member_directive_4; } |
+    "%smartpointer" type reference { $$ = new member_directive_5($2, $3); } |
+    INCLUDE { $$ = new member_directive_6(std::string($1.data, $1.length)); }
 
 data_member_declaration: type type_qualifiers declarator { $$ = new data_member_declaration($1, $2, $3); }
 

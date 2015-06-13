@@ -217,9 +217,6 @@ typedef member_directive_5 *member_directive_5_weak_ptr;
 struct member_directive_6;
 typedef boost::intrusive_ptr<member_directive_6> member_directive_6_ptr;
 typedef member_directive_6 *member_directive_6_weak_ptr;
-struct member_directive_7;
-typedef boost::intrusive_ptr<member_directive_7> member_directive_7_ptr;
-typedef member_directive_7 *member_directive_7_weak_ptr;
 struct parameter_list;
 typedef boost::intrusive_ptr<parameter_list> parameter_list_ptr;
 typedef parameter_list *parameter_list_weak_ptr;
@@ -559,9 +556,6 @@ public:
         virtual void visit(member_directive_6 const &) = 0;
         inline void descend(member_directive_6 const &n) { visit(n); }
         inline void descend(boost::intrusive_ptr<member_directive_6> const &p) { if(p) descend(*p); }
-        virtual void visit(member_directive_7 const &) = 0;
-        inline void descend(member_directive_7 const &n) { visit(n); }
-        inline void descend(boost::intrusive_ptr<member_directive_7> const &p) { if(p) descend(*p); }
         virtual void visit(parameter_list_1 const &) = 0;
         inline void descend(parameter_list_1 const &n) { visit(n); }
         inline void descend(boost::intrusive_ptr<parameter_list_1> const &p) { if(p) descend(*p); }
@@ -1029,14 +1023,6 @@ struct member_directive_6 : member_directive
         member_directive_6(std::string _1) throw() : 
                 _1(_1) { }
         virtual ~member_directive_6(void) throw() { }
-        virtual void apply(node_const_visitor &) const;
-        std::string _1;
-};
-struct member_directive_7 : member_directive
-{
-        member_directive_7(std::string _1) throw() : 
-                _1(_1) { }
-        virtual ~member_directive_7(void) throw() { }
         virtual void apply(node_const_visitor &) const;
         std::string _1;
 };

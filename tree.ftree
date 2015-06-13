@@ -14,7 +14,6 @@ node root {
 node include_node {
     %include <string>
     std::string name;
-    bool is_local;
 };
 
 node namespace_node {

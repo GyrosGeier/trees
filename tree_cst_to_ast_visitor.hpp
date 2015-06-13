@@ -59,7 +59,6 @@ public:
         virtual void visit(cst::member_directive_4 const &);
         virtual void visit(cst::member_directive_5 const &);
         virtual void visit(cst::member_directive_6 const &);
-        virtual void visit(cst::member_directive_7 const &);
         virtual void visit(cst::data_member_declaration const &);
         virtual void visit(cst::constructor_declaration const &);
         virtual void visit(cst::parameter_list_1 const &);

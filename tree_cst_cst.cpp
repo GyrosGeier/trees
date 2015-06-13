@@ -135,10 +135,6 @@ void member_directive_6::apply(node_const_visitor &v) const
 {
         v.visit(*this);
 }
-void member_directive_7::apply(node_const_visitor &v) const
-{
-        v.visit(*this);
-}
 void parameter_list_1::apply(node_const_visitor &v) const
 {
         v.visit(*this);
