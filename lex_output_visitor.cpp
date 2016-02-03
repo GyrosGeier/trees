@@ -86,6 +86,7 @@ void lex_output_visitor::visit(string_literal const &l)
         {
                 switch(i)
                 {
+                case '.':
                 case ';':
                 case '|':
                 case '?':
