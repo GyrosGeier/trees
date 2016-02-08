@@ -1,4 +1,4 @@
-%namespace foundry::parse::cst
+%namespace trees::parse::cst
 
 start:          directives rules
 ;

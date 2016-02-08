@@ -1,6 +1,6 @@
 #include <tree_tree.hpp>
 
-namespace foundry {
+namespace trees {
 namespace tree {
 void group_node::apply(node_visitor &v)
 {

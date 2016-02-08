@@ -1,6 +1,6 @@
 #include <tree_cst_cst.hpp>
 
-namespace foundry {
+namespace trees {
 namespace tree {
 namespace cst {
 void declarations_1::apply(node_const_visitor &v) const

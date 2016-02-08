@@ -9,7 +9,7 @@
 #include <iostream>
 #include <sstream>
 
-namespace foundry {
+namespace trees {
 namespace parse {
 
 void unroll_repetitions_visitor::visit(regex &) { }

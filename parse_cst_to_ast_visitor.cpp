@@ -8,7 +8,7 @@
 
 #include <sstream>
 
-namespace foundry {
+namespace trees {
 namespace parse {
 
 cst_to_ast_visitor::cst_to_ast_visitor() :

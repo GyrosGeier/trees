@@ -1,9 +1,9 @@
-#ifndef foundry_parse_errors_h_
-#define foundry_parse_errors_h_ 1
+#ifndef trees_parse_errors_h_
+#define trees_parse_errors_h_ 1
 
 #include <stdexcept>
 
-namespace foundry {
+namespace trees {
 namespace parse {
 
 class internal_error :

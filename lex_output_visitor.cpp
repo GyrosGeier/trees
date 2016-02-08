@@ -6,7 +6,7 @@
 
 #include "errors.h"
 
-namespace foundry {
+namespace trees {
 namespace parse {
 
 lex_output_visitor::lex_output_visitor(std::string const &basename, std::ostream &out) :

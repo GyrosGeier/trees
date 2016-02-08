@@ -1,6 +1,6 @@
 #include <parse_cst_cst.hpp>
 
-namespace foundry {
+namespace trees {
 namespace parse {
 namespace cst {
 void directives_chain::apply(node_const_visitor &v) const

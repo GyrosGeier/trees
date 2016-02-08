@@ -1,6 +1,6 @@
 #include <parse_tree.hpp>
 
-namespace foundry {
+namespace trees {
 namespace parse {
 void string_literal::apply(node_visitor &v)
 {

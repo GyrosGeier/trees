@@ -1,9 +1,9 @@
-#ifndef foundry_parse_lex_output_visitor_hpp_
-#define foundry_parse_lex_output_visitor_hpp_ 1
+#ifndef trees_parse_lex_output_visitor_hpp_
+#define trees_parse_lex_output_visitor_hpp_ 1
 
 #include <parse_tree.hpp>
 
-namespace foundry {
+namespace trees {
 namespace parse {
 
 class lex_output_visitor :

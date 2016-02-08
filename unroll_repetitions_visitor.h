@@ -1,9 +1,9 @@
-#ifndef foundry_parse_unroll_repetitions_visitor_h_
-#define foundry_parse_unroll_repetitions_visitor_h_ 1
+#ifndef trees_parse_unroll_repetitions_visitor_h_
+#define trees_parse_unroll_repetitions_visitor_h_ 1
 
 #include <parse_tree.hpp>
 
-namespace foundry {
+namespace trees {
 namespace parse {
 
 class unroll_repetitions_visitor :

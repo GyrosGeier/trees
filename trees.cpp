@@ -43,9 +43,9 @@
 #include <list>
 #include <string>
 
-extern int tree_bison_parse(void *scanner, foundry::tree::bison::start *&ret);
-extern int tree_cst_parse(void *scanner, foundry::tree::cst::start *&ret);
-extern int parse_cst_parse(yyscan_t scanner, ::foundry::parse::cst::start *&ret);
+extern int tree_bison_parse(void *scanner, trees::tree::bison::start *&ret);
+extern int tree_cst_parse(void *scanner, trees::tree::cst::start *&ret);
+extern int parse_cst_parse(yyscan_t scanner, ::trees::parse::cst::start *&ret);
 
 std::string extension(std::string const &s)
 {
@@ -59,7 +59,7 @@ int go(int argc, char **argv);
 
 int main(int argc, char **argv)
 {
-        using namespace foundry::parse;
+        using namespace trees::parse;
 
         try
         {
@@ -84,7 +84,7 @@ int main(int argc, char **argv)
 
 int go(int argc, char **argv)
 {
-        using namespace foundry;
+        using namespace trees;
 
         typedef char const *const *arg_iterator;
 

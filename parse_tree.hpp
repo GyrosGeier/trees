@@ -7,7 +7,7 @@
 #include <boost/intrusive_ptr.hpp>
 #include <boost/intrusive_ptr.hpp>
 #include <list>
-namespace foundry {
+namespace trees {
 namespace parse {
 struct node;
 typedef boost::intrusive_ptr<node> node_ptr;
@@ -46,7 +46,7 @@ typedef boost::intrusive_ptr<alternative> alternative_ptr;
 typedef alternative *alternative_weak_ptr;
 }
 }
-namespace foundry {
+namespace trees {
 namespace parse {
 struct node {
         node(void) throw() : refcount(0) { }
@@ -173,7 +173,7 @@ struct nonterminal : component
         virtual ~nonterminal(void) throw() { }
         virtual void apply(node_visitor &);
         virtual void apply(node_const_visitor &) const;
-        boost::intrusive_ptr< ::foundry::parse::rule>  rule;
+        boost::intrusive_ptr< ::trees::parse::rule>  rule;
 };
 struct regex : component
 {
@@ -189,7 +189,7 @@ struct group : component
         virtual ~group(void) throw() { }
         virtual void apply(node_visitor &);
         virtual void apply(node_const_visitor &) const;
-        std::list<boost::intrusive_ptr< ::foundry::parse::component> >  components;
+        std::list<boost::intrusive_ptr< ::trees::parse::component> >  components;
         repetition rep;
 };
 struct root : node
@@ -199,9 +199,9 @@ struct root : node
         virtual void apply(node_visitor &);
         virtual void apply(node_const_visitor &) const;
         std::string ns;
-        std::list<boost::intrusive_ptr< ::foundry::parse::rule> >  rules;
-        std::list<boost::intrusive_ptr< ::foundry::parse::string_literal> >  literals;
-        std::list<boost::intrusive_ptr< ::foundry::parse::regex> >  regexes;
+        std::list<boost::intrusive_ptr< ::trees::parse::rule> >  rules;
+        std::list<boost::intrusive_ptr< ::trees::parse::string_literal> >  literals;
+        std::list<boost::intrusive_ptr< ::trees::parse::regex> >  regexes;
 };
 struct rule : node
 {
@@ -210,7 +210,7 @@ struct rule : node
         virtual void apply(node_visitor &);
         virtual void apply(node_const_visitor &) const;
         std::string name;
-        std::list<boost::intrusive_ptr< ::foundry::parse::alternative> >  alternatives;
+        std::list<boost::intrusive_ptr< ::trees::parse::alternative> >  alternatives;
 };
 struct alternative : node
 {
@@ -219,7 +219,7 @@ struct alternative : node
         virtual void apply(node_visitor &);
         virtual void apply(node_const_visitor &) const;
         std::string name;
-        boost::intrusive_ptr< ::foundry::parse::group>  group;
+        boost::intrusive_ptr< ::trees::parse::group>  group;
 };
 }
 }

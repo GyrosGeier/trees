@@ -3,15 +3,15 @@
  * Released under the GNU General Public Licence version 3.
  */
 
-#ifndef foundry_tree_cst_to_ast_visitor_hpp_
-#define foundry_tree_cst_to_ast_visitor_hpp_
+#ifndef trees_tree_cst_to_ast_visitor_hpp_
+#define trees_tree_cst_to_ast_visitor_hpp_
 
 #include <tree_cst_cst.hpp>
 #include <tree_tree.hpp>
 
 #include <boost/intrusive_ptr.hpp>
 
-namespace foundry {
+namespace trees {
 namespace tree {
 
 class cst_to_ast_visitor :

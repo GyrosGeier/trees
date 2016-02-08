@@ -21,7 +21,7 @@
 #include <boost/intrusive_ptr.hpp>
 #include <boost/intrusive_ptr.hpp>
 #include <list>
-namespace foundry {
+namespace trees {
 namespace parse {
 namespace cst {
 struct node;
@@ -121,7 +121,7 @@ typedef components_1_elem *components_1_elem_weak_ptr;
 }
 }
 }
-namespace foundry {
+namespace trees {
 namespace parse {
 namespace cst {
 struct node {
@@ -216,12 +216,12 @@ struct directives : node {
 };
 struct directives_chain : directives
 {
-        directives_chain(std::string _1, boost::intrusive_ptr< ::foundry::parse::cst::directives>  _2) throw() : 
+        directives_chain(std::string _1, boost::intrusive_ptr< ::trees::parse::cst::directives>  _2) throw() : 
                 _1(_1), _2(_2) { }
         virtual ~directives_chain(void) throw() { }
         virtual void apply(node_const_visitor &) const;
         std::string _1;
-        boost::intrusive_ptr< ::foundry::parse::cst::directives>  _2;
+        boost::intrusive_ptr< ::trees::parse::cst::directives>  _2;
 };
 struct end_of_directives : directives
 {
@@ -236,12 +236,12 @@ struct rules : node {
 };
 struct rules_chain : rules
 {
-        rules_chain(boost::intrusive_ptr< ::foundry::parse::cst::rule>  _1, boost::intrusive_ptr< ::foundry::parse::cst::rules>  _2) throw() : 
+        rules_chain(boost::intrusive_ptr< ::trees::parse::cst::rule>  _1, boost::intrusive_ptr< ::trees::parse::cst::rules>  _2) throw() : 
                 _1(_1), _2(_2) { }
         virtual ~rules_chain(void) throw() { }
         virtual void apply(node_const_visitor &) const;
-        boost::intrusive_ptr< ::foundry::parse::cst::rule>  _1;
-        boost::intrusive_ptr< ::foundry::parse::cst::rules>  _2;
+        boost::intrusive_ptr< ::trees::parse::cst::rule>  _1;
+        boost::intrusive_ptr< ::trees::parse::cst::rules>  _2;
 };
 struct end_of_rules : rules
 {
@@ -256,11 +256,11 @@ struct alternatives_tail : node {
 };
 struct more_alternatives : alternatives_tail
 {
-        more_alternatives(boost::intrusive_ptr< ::foundry::parse::cst::alternatives>  _1) throw() : 
+        more_alternatives(boost::intrusive_ptr< ::trees::parse::cst::alternatives>  _1) throw() : 
                 _1(_1) { }
         virtual ~more_alternatives(void) throw() { }
         virtual void apply(node_const_visitor &) const;
-        boost::intrusive_ptr< ::foundry::parse::cst::alternatives>  _1;
+        boost::intrusive_ptr< ::trees::parse::cst::alternatives>  _1;
 };
 struct end_of_alternatives : alternatives_tail
 {
@@ -275,20 +275,20 @@ struct alternative : node {
 };
 struct unnamed_alternative : alternative
 {
-        unnamed_alternative(boost::intrusive_ptr< ::foundry::parse::cst::components>  _1) throw() : 
+        unnamed_alternative(boost::intrusive_ptr< ::trees::parse::cst::components>  _1) throw() : 
                 _1(_1) { }
         virtual ~unnamed_alternative(void) throw() { }
         virtual void apply(node_const_visitor &) const;
-        boost::intrusive_ptr< ::foundry::parse::cst::components>  _1;
+        boost::intrusive_ptr< ::trees::parse::cst::components>  _1;
 };
 struct named_alternative : alternative
 {
-        named_alternative(std::string _1, boost::intrusive_ptr< ::foundry::parse::cst::components>  _2) throw() : 
+        named_alternative(std::string _1, boost::intrusive_ptr< ::trees::parse::cst::components>  _2) throw() : 
                 _1(_1), _2(_2) { }
         virtual ~named_alternative(void) throw() { }
         virtual void apply(node_const_visitor &) const;
         std::string _1;
-        boost::intrusive_ptr< ::foundry::parse::cst::components>  _2;
+        boost::intrusive_ptr< ::trees::parse::cst::components>  _2;
 };
 struct repetition_qualifier : node {
         repetition_qualifier(void) throw() { }
@@ -342,11 +342,11 @@ struct literal : component
 };
 struct group : component
 {
-        group(boost::intrusive_ptr< ::foundry::parse::cst::components>  _1) throw() : 
+        group(boost::intrusive_ptr< ::trees::parse::cst::components>  _1) throw() : 
                 _1(_1) { }
         virtual ~group(void) throw() { }
         virtual void apply(node_const_visitor &) const;
-        boost::intrusive_ptr< ::foundry::parse::cst::components>  _1;
+        boost::intrusive_ptr< ::trees::parse::cst::components>  _1;
 };
 struct regex : component
 {
@@ -363,12 +363,12 @@ struct components_1_list : node {
 };
 struct components_1_chain : components_1_list
 {
-        components_1_chain(boost::intrusive_ptr< ::foundry::parse::cst::components_1_elem>  _1, boost::intrusive_ptr< ::foundry::parse::cst::components_1_list>  _2) throw() : 
+        components_1_chain(boost::intrusive_ptr< ::trees::parse::cst::components_1_elem>  _1, boost::intrusive_ptr< ::trees::parse::cst::components_1_list>  _2) throw() : 
                 _1(_1), _2(_2) { }
         virtual ~components_1_chain(void) throw() { }
         virtual void apply(node_const_visitor &) const;
-        boost::intrusive_ptr< ::foundry::parse::cst::components_1_elem>  _1;
-        boost::intrusive_ptr< ::foundry::parse::cst::components_1_list>  _2;
+        boost::intrusive_ptr< ::trees::parse::cst::components_1_elem>  _1;
+        boost::intrusive_ptr< ::trees::parse::cst::components_1_list>  _2;
 };
 struct end_of_components_1 : components_1_list
 {
@@ -378,47 +378,47 @@ struct end_of_components_1 : components_1_list
 };
 struct start : node
 {
-        start(boost::intrusive_ptr< ::foundry::parse::cst::directives>  _1, boost::intrusive_ptr< ::foundry::parse::cst::rules>  _2) throw() : 
+        start(boost::intrusive_ptr< ::trees::parse::cst::directives>  _1, boost::intrusive_ptr< ::trees::parse::cst::rules>  _2) throw() : 
                 _1(_1), _2(_2) { }
         virtual ~start(void) throw() { }
         virtual void apply(node_const_visitor &) const;
-        boost::intrusive_ptr< ::foundry::parse::cst::directives>  _1;
-        boost::intrusive_ptr< ::foundry::parse::cst::rules>  _2;
+        boost::intrusive_ptr< ::trees::parse::cst::directives>  _1;
+        boost::intrusive_ptr< ::trees::parse::cst::rules>  _2;
 };
 struct rule : node
 {
-        rule(std::string _1, boost::intrusive_ptr< ::foundry::parse::cst::alternatives>  _2) throw() : 
+        rule(std::string _1, boost::intrusive_ptr< ::trees::parse::cst::alternatives>  _2) throw() : 
                 _1(_1), _2(_2) { }
         virtual ~rule(void) throw() { }
         virtual void apply(node_const_visitor &) const;
         std::string _1;
-        boost::intrusive_ptr< ::foundry::parse::cst::alternatives>  _2;
+        boost::intrusive_ptr< ::trees::parse::cst::alternatives>  _2;
 };
 struct alternatives : node
 {
-        alternatives(boost::intrusive_ptr< ::foundry::parse::cst::alternative>  _1, boost::intrusive_ptr< ::foundry::parse::cst::alternatives_tail>  _2) throw() : 
+        alternatives(boost::intrusive_ptr< ::trees::parse::cst::alternative>  _1, boost::intrusive_ptr< ::trees::parse::cst::alternatives_tail>  _2) throw() : 
                 _1(_1), _2(_2) { }
         virtual ~alternatives(void) throw() { }
         virtual void apply(node_const_visitor &) const;
-        boost::intrusive_ptr< ::foundry::parse::cst::alternative>  _1;
-        boost::intrusive_ptr< ::foundry::parse::cst::alternatives_tail>  _2;
+        boost::intrusive_ptr< ::trees::parse::cst::alternative>  _1;
+        boost::intrusive_ptr< ::trees::parse::cst::alternatives_tail>  _2;
 };
 struct components : node
 {
-        components(boost::intrusive_ptr< ::foundry::parse::cst::components_1_list>  _1) throw() : 
+        components(boost::intrusive_ptr< ::trees::parse::cst::components_1_list>  _1) throw() : 
                 _1(_1) { }
         virtual ~components(void) throw() { }
         virtual void apply(node_const_visitor &) const;
-        boost::intrusive_ptr< ::foundry::parse::cst::components_1_list>  _1;
+        boost::intrusive_ptr< ::trees::parse::cst::components_1_list>  _1;
 };
 struct components_1_elem : node
 {
-        components_1_elem(boost::intrusive_ptr< ::foundry::parse::cst::component>  _1, boost::intrusive_ptr< ::foundry::parse::cst::repetition_qualifier>  _2) throw() : 
+        components_1_elem(boost::intrusive_ptr< ::trees::parse::cst::component>  _1, boost::intrusive_ptr< ::trees::parse::cst::repetition_qualifier>  _2) throw() : 
                 _1(_1), _2(_2) { }
         virtual ~components_1_elem(void) throw() { }
         virtual void apply(node_const_visitor &) const;
-        boost::intrusive_ptr< ::foundry::parse::cst::component>  _1;
-        boost::intrusive_ptr< ::foundry::parse::cst::repetition_qualifier>  _2;
+        boost::intrusive_ptr< ::trees::parse::cst::component>  _1;
+        boost::intrusive_ptr< ::trees::parse::cst::repetition_qualifier>  _2;
 };
 }
 }

@@ -1,7 +1,7 @@
-#ifndef foundry_parse_parse_h_
-#define foundry_parse_parse_h_ 1
+#ifndef trees_parse_parse_h_
+#define trees_parse_parse_h_ 1
 
-namespace foundry {
+namespace trees {
 namespace parse {
 
 enum repetition

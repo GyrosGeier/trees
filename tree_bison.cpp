@@ -10,7 +10,7 @@
 #include <tree_bison_cst.hpp>
 #include <tree_bison_parse.hpp>
 
-int tree_bison_error(YYLTYPE *loc, void *, foundry::tree::bison::start *&, char const *msg)
+int tree_bison_error(YYLTYPE *loc, void *, trees::tree::bison::start *&, char const *msg)
 {
         std::cerr << loc->first_line << ":" << loc->first_column << ":" << msg << std::endl;
         exit(1);

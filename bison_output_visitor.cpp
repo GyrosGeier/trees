@@ -6,7 +6,7 @@
 
 #include "errors.h"
 
-namespace foundry {
+namespace trees {
 namespace parse {
 
 bison_output_visitor::bison_output_visitor(std::string const &basename, std::ostream &out) :

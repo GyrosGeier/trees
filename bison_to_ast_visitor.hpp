@@ -3,8 +3,8 @@
  * Released under the GNU General Public Licence version 3.
  */
 
-#ifndef foundry_tree_bison_to_ast_visitor_hpp_
-#define foundry_tree_bison_to_ast_visitor_hpp_ 1
+#ifndef trees_tree_bison_to_ast_visitor_hpp_
+#define trees_tree_bison_to_ast_visitor_hpp_ 1
 
 #include <tree_bison_cst.hpp>
 #include <tree_tree.hpp>
@@ -13,7 +13,7 @@
 #include <list>
 #include <string>
 
-namespace foundry {
+namespace trees {
 namespace tree {
 
 class bison_to_ast_visitor :

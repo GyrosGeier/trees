@@ -1,12 +1,12 @@
-#ifndef foundry_parse_resolve_literals_visitor_hpp_
-#define foundry_parse_resolve_literals_visitor_hpp_ 1
+#ifndef trees_parse_resolve_literals_visitor_hpp_
+#define trees_parse_resolve_literals_visitor_hpp_ 1
 
 #include <parse_tree.hpp>
 
 #include <map>
 #include <list>
 
-namespace foundry {
+namespace trees {
 namespace parse {
 
 class resolve_literals_visitor :

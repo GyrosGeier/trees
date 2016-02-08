@@ -8,7 +8,7 @@
 
 #include <iostream>
 
-namespace foundry {
+namespace trees {
 namespace parse {
 
 void resolve_symbols_visitor::visit(group &g)

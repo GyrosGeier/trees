@@ -7,16 +7,16 @@
 using std::cout;
 using std::endl;
 
-using namespace foundry::tree::bison;
+using namespace trees::tree::bison;
 %}
 
 %union {
-    foundry::tree::bison::rules *rules;
-    foundry::tree::bison::rule *rule;
-    foundry::tree::bison::alternative *alternative;
-    foundry::tree::bison::alternatives *alternatives;
-    foundry::tree::bison::components *components;
-    foundry::tree::bison::component *component;
+    trees::tree::bison::rules *rules;
+    trees::tree::bison::rule *rule;
+    trees::tree::bison::alternative *alternative;
+    trees::tree::bison::alternatives *alternatives;
+    trees::tree::bison::components *components;
+    trees::tree::bison::component *component;
     char *string;
 }
 
@@ -29,14 +29,14 @@ using namespace foundry::tree::bison;
 %expect 0
 
 %parse-param {void *scanner}
-%parse-param {foundry::tree::bison::start *&ret}
+%parse-param {trees::tree::bison::start *&ret}
 %lex-param {void *scanner}
 
 %name-prefix "tree_bison_"
 
 %{
 int tree_bison_lex(YYSTYPE *, YYLTYPE *, void *);
-void tree_bison_error(YYLTYPE *, void *, foundry::tree::bison::start *&, char const *msg);
+void tree_bison_error(YYLTYPE *, void *, trees::tree::bison::start *&, char const *msg);
 %}
 
 %token <string> IDENTIFIER

@@ -1,4 +1,4 @@
-namespace foundry {
+namespace trees {
 namespace parse {
 
 node root {

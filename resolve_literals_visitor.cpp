@@ -6,7 +6,7 @@
 
 #include <sstream>
 
-namespace foundry {
+namespace trees {
 namespace parse {
 
 void resolve_literals_visitor::visit(group &g)

@@ -7,7 +7,7 @@
 
 #include <sstream>
 
-namespace foundry {
+namespace trees {
 namespace tree {
 
 bison_to_ast_visitor::bison_to_ast_visitor(void)

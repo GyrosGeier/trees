@@ -5,7 +5,7 @@
 
 #include "tree_cst_to_ast_visitor.hpp"
 
-namespace foundry {
+namespace trees {
 namespace tree {
 
 cst_to_ast_visitor::cst_to_ast_visitor(void)

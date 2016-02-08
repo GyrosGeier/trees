@@ -1,9 +1,9 @@
-#ifndef foundry_parse_inline_simple_visitor_h_
-#define foundry_parse_inline_simple_visitor_h_ 1
+#ifndef trees_parse_inline_simple_visitor_h_
+#define trees_parse_inline_simple_visitor_h_ 1
 
 #include <parse_tree.hpp>
 
-namespace foundry {
+namespace trees {
 namespace parse {
 
 class inline_simple_visitor :
@@ -13,15 +13,15 @@ public:
         inline_simple_visitor(bool verbose) : verbose(verbose) { }
         virtual ~inline_simple_visitor() throw() { }
 
-        virtual void visit(foundry::parse::string_literal&);
-        virtual void visit(foundry::parse::unresolved_symbol&);
-        virtual void visit(foundry::parse::terminal&);
-        virtual void visit(foundry::parse::nonterminal&);
-        virtual void visit(foundry::parse::regex&);
-        virtual void visit(foundry::parse::group&);
-        virtual void visit(foundry::parse::root&);
-        virtual void visit(foundry::parse::rule&);
-        virtual void visit(foundry::parse::alternative&);
+        virtual void visit(trees::parse::string_literal&);
+        virtual void visit(trees::parse::unresolved_symbol&);
+        virtual void visit(trees::parse::terminal&);
+        virtual void visit(trees::parse::nonterminal&);
+        virtual void visit(trees::parse::regex&);
+        virtual void visit(trees::parse::group&);
+        virtual void visit(trees::parse::root&);
+        virtual void visit(trees::parse::rule&);
+        virtual void visit(trees::parse::alternative&);
 
 private:
         bool verbose;

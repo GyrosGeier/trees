@@ -5,7 +5,7 @@
 
 #include "smartpointer_visitor.hpp"
 
-namespace foundry {
+namespace trees {
 namespace tree {
 
 void smartpointer_visitor::visit(root &r)

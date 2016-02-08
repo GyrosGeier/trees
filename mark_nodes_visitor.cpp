@@ -1,6 +1,6 @@
 #include "mark_nodes_visitor.hpp"
 
-namespace foundry {
+namespace trees {
 namespace tree {
 
 void mark_nodes_visitor::visit(basic_type_node &n)

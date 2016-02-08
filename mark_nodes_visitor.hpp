@@ -1,9 +1,9 @@
-#ifndef foundry_tree_mark_nodes_visitor_hpp_
-#define foundry_tree_mark_nodes_visitor_hpp_ 1
+#ifndef trees_tree_mark_nodes_visitor_hpp_
+#define trees_tree_mark_nodes_visitor_hpp_ 1
 
 #include <tree_tree.hpp>
 
-namespace foundry {
+namespace trees {
 namespace tree {
 
 class mark_nodes_visitor :

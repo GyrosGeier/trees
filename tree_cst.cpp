@@ -23,7 +23,7 @@ parse_error::parse_error(std::string const &msg) :
         return;
 }
 
-int tree_cst_error(YYLTYPE *loc, void *, foundry::tree::cst::start *&, char const *msg)
+int tree_cst_error(YYLTYPE *loc, void *, trees::tree::cst::start *&, char const *msg)
 {
         std::ostringstream msgstr;
 

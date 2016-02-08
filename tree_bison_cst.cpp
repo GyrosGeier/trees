@@ -1,6 +1,6 @@
 #include <tree_bison_cst.hpp>
 
-namespace foundry {
+namespace trees {
 namespace tree {
 namespace bison {
 void empty_rules::apply(node_const_visitor &v) const

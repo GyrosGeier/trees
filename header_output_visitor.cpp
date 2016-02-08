@@ -5,7 +5,7 @@
 
 #include "header_output_visitor.hpp"
 
-namespace foundry {
+namespace trees {
 namespace tree {
 
 header_output_visitor::header_output_visitor(std::ostream &out) :

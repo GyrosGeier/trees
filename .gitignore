@@ -2,7 +2,7 @@
 *_lex.hpp
 *_parse.cpp
 *_parse.hpp
-foundry-lang
 stage1/
 stage2/
+trees
 update
