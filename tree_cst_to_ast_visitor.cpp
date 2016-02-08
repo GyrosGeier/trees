@@ -67,17 +67,17 @@ void cst_to_ast_visitor::visit(cst::namespace_member_declaration_3 const &md)
 void cst_to_ast_visitor::visit(cst::namespace_declaration const &n)
 {
         /* "namespace" IDENTIFIER "{" declarations "}" */
-        namespace_node_weak_ptr tmp = current_namespace;
+        namespace_node_ptr tmp = current_namespace;
         namespace_node_ptr nn = new namespace_node;
         nn->name = n._1;
-        nn->parent = current_namespace;
+        nn->parent = current_namespace.get();
         current_namespace->namespaces.push_back(nn);
         current_namespace = nn.get();
         current_namespace->group = new group_node;
         current_namespace->uses_lists = false;
         current_group = current_namespace->group.get();
         current_group->name = "node";
-        current_group->ns = current_namespace;
+        current_group->ns = current_namespace.get();
         current_group->parent = 0;
         current_group->has_const_visitor = false;
         current_group->has_visitor = false;
@@ -88,10 +88,10 @@ void cst_to_ast_visitor::visit(cst::namespace_declaration const &n)
 void cst_to_ast_visitor::visit(cst::group_declaration const &gd)
 {
         /* "group" IDENTIFIER group_member_declarations */
-        group_node_weak_ptr nn = new group_node;
+        group_node_ptr nn = new group_node;
         nn->name = gd._1;
-        nn->ns = current_namespace;
-        nn->parent = current_group;
+        nn->ns = current_namespace.get();
+        nn->parent = current_group.get();
         nn->has_const_visitor = false;
         nn->has_visitor = false;
         current_group->groups.push_back(nn);
@@ -135,8 +135,8 @@ void cst_to_ast_visitor::visit(cst::node_declaration_1 const &n)
         /* "node" IDENTIFIER "{" member_declarations "}" */
         current_node = new node_node;
         current_node->name = n._1;
-        current_node->ns = current_namespace;
-        current_node->group = current_group;
+        current_node->ns = current_namespace.get();
+        current_node->group = current_group.get();
         current_group->nodes.push_back(current_node);
         descend(n._2);
 }
@@ -146,8 +146,8 @@ void cst_to_ast_visitor::visit(cst::node_declaration_2 const &n)
         /* "node" "group" "{" member_declarations "}" */
         current_node = new node_node;
         current_node->name = "group";
-        current_node->ns = current_namespace;
-        current_node->group = current_group;
+        current_node->ns = current_namespace.get();
+        current_node->group = current_group.get();
         current_group->nodes.push_back(current_node);
         descend(n._1);
 }
@@ -401,8 +401,8 @@ void cst_to_ast_visitor::visit(cst::unbounded_array const &)
 void cst_to_ast_visitor::visit(cst::type_1 const &t)
 {
         /* template_name */
-        template_type_node_weak_ptr nt = new template_type_node;
-        nt->ns = current_namespace;
+        template_type_node_ptr nt = new template_type_node;
+        nt->ns = current_namespace.get();
         std::string tmp1 = current_identifier;
         current_identifier.clear();
         std::list<type_node_ptr> *tmp2 = current_template_argument_list;
@@ -417,10 +417,10 @@ void cst_to_ast_visitor::visit(cst::type_1 const &t)
 void cst_to_ast_visitor::visit(cst::type_2 const &t)
 {
         /* scoped_name */
-        basic_type_node_weak_ptr nt = new basic_type_node;
+        basic_type_node_ptr nt = new basic_type_node;
         nt->is_const = false;
         nt->is_volatile = false;
-        nt->ns = current_namespace;
+        nt->ns = current_namespace.get();
         current_type = nt;
         std::string tmp1 = current_identifier;
         current_identifier.clear();
@@ -432,10 +432,10 @@ void cst_to_ast_visitor::visit(cst::type_2 const &t)
 void cst_to_ast_visitor::visit(cst::type_3 const&)
 {
         /* "node" */
-        basic_type_node_weak_ptr nt = new basic_type_node;
+        basic_type_node_ptr nt = new basic_type_node;
         nt->is_const = false;
         nt->is_volatile = false;
-        nt->ns = current_namespace;
+        nt->ns = current_namespace.get();
         nt->name = "node";
         current_type = nt;
         current_type_needs_init = false;
@@ -444,10 +444,10 @@ void cst_to_ast_visitor::visit(cst::type_3 const&)
 void cst_to_ast_visitor::visit(cst::type_4 const&)
 {
         /* "group" */
-        basic_type_node_weak_ptr nt = new basic_type_node;
+        basic_type_node_ptr nt = new basic_type_node;
         nt->is_const = false;
         nt->is_volatile = false;
-        nt->ns = current_namespace;
+        nt->ns = current_namespace.get();
         nt->name = "group";
         current_type = nt;
         current_type_needs_init = false;
@@ -456,10 +456,10 @@ void cst_to_ast_visitor::visit(cst::type_4 const&)
 void cst_to_ast_visitor::visit(cst::type_5 const&)
 {
         /* "parent" */
-        basic_type_node_weak_ptr nt = new basic_type_node;
+        basic_type_node_ptr nt = new basic_type_node;
         nt->is_const = false;
         nt->is_volatile = false;
-        nt->ns = current_namespace;
+        nt->ns = current_namespace.get();
         nt->name = "node";
         current_type = nt;
         current_type_needs_init = false;

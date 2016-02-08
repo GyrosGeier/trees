@@ -31,7 +31,7 @@ public:
 
 private:
         bool is_node_type;
-        root_weak_ptr ast_root;
+        root_ptr ast_root;
 };
 
 }

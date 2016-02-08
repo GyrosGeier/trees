@@ -187,7 +187,7 @@ void header_output_visitor::visit(node_node const &n)
 
                 out << "        virtual ~" << n.name << "(void) throw() { }" << std::endl;
 
-                for(group_node_weak_ptr i = n.group; i; i = i->parent)
+                for(group_node_ptr i = n.group; i; i = i->parent)
                 {
                         if(i->has_visitor)
                                 out << "        virtual void apply(" << i->name << "_visitor &);" << std::endl;

@@ -31,7 +31,7 @@ void unroll_repetitions_visitor::visit(group &g)
                         std::cerr << "Handling toplevel of alternative " << current_alternative->name << std::endl;
                 if(g.rep != repeat_none)
                         throw;
-                group_weak_ptr group_stack = current_group;
+                group_ptr group_stack = current_group;
                 current_group = &g;
                 unsigned int count = 0;
                 for(auto &i : g.components)
@@ -54,7 +54,7 @@ void unroll_repetitions_visitor::visit(group &g)
         case repeat_none:
                 {
                         // simple grouping, do nothing
-                        group_weak_ptr group_stack = current_group;
+                        group_ptr group_stack = current_group;
                         current_group = &g;
                         unsigned int count = 0;
                         for(auto &i : g.components)

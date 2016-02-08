@@ -26,7 +26,7 @@ void impl_output_visitor::visit(include_node const &)
 
 void impl_output_visitor::visit(node_node const &n)
 {
-        for(group_node_weak_ptr i = n.group; i; i = i->parent)
+        for(group_node_ptr i = n.group; i; i = i->parent)
         {
                 if(i->has_visitor)
                         out << "void " << n.name << "::apply(" << i->name << "_visitor &v)" << std::endl

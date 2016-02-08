@@ -43,13 +43,13 @@ public:
 
 private:
         root_ptr ast;
-        namespace_node_weak_ptr current_namespace;
-        group_node_weak_ptr current_group;
-        node_node_weak_ptr current_node;
+        namespace_node_ptr current_namespace;
+        group_node_ptr current_group;
+        node_node_ptr current_node;
         std::string current_identifier;
         unsigned int current_count;
         std::set<std::string> nonterminals;
-        std::list<basic_type_node_weak_ptr> unresolved;
+        std::list<basic_type_node_ptr> unresolved;
 };
 
 }

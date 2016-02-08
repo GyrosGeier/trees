@@ -114,9 +114,9 @@ public:
 
 private:
         root_ptr ast_root;
-        namespace_node_weak_ptr current_namespace;
-        group_node_weak_ptr current_group;
-        node_node_weak_ptr current_node;
+        namespace_node_ptr current_namespace;
+        group_node_ptr current_group;
+        node_node_ptr current_node;
         type_node_ptr current_type;
         bool current_type_needs_init;
         std::string current_identifier;

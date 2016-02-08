@@ -30,7 +30,7 @@ private:
         bool verbose;
         unsigned int num;
 
-        root_weak_ptr rt;
+        root_ptr rt;
         std::map<std::string, string_literal_ptr> literals;
 
         component_ptr *current_context;

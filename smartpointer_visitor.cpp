@@ -58,7 +58,7 @@ void smartpointer_visitor::visit(basic_type_node &n)
         if(is_node_type)
         {
                 std::string ns;
-                for(namespace_node_weak_ptr i = n.ns; i; i = i->parent)
+                for(namespace_node_ptr i = n.ns; i; i = i->parent)
                         ns = i->name + "::" + ns;
                 n.name = ns + n.name;
         }
