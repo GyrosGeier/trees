@@ -6,6 +6,8 @@
 
 #include "errors.h"
 
+#include <iostream>
+
 namespace trees {
 namespace parse {
 
