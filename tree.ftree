@@ -30,6 +30,7 @@ node namespace_node {
 group type_node {
     node group_node {
         %include <string>
+        %include <tree.h>
         namespace_node_weak_ptr ns;
         group_node_weak_ptr parent;
         std::string name;
@@ -38,14 +39,17 @@ group type_node {
         group_node groups[];
         node_node nodes[];
         data_member_node default_members[];
+        smartpointer_type smartpointer;
     };
     
     node node_node {
         %include <string>
+        %include <tree.h>
         namespace_node_weak_ptr ns;
         group_node_weak_ptr group;
         std::string name;
         data_member_node members[];
+        smartpointer_type smartpointer;
     };
 
     node basic_type_node {

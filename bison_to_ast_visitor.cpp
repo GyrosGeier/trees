@@ -33,6 +33,7 @@ void bison_to_ast_visitor::visit(bison::start const &s)
                 current_group->parent = 0;
                 current_group->has_const_visitor = true;
                 current_group->has_visitor = false;
+                current_group->smartpointer = intrusive;
                 current_namespace->group = current_group;
         }
         descend(s._1);
@@ -86,6 +87,7 @@ void bison_to_ast_visitor::visit(bison::unnamed_alternative const &a)
                 str << "_" << current_count++;
                 current_node->name = str.str();
         }
+        current_node->smartpointer = intrusive;
         current_group->nodes.push_back(current_node);
         descend(a._1);
 }
@@ -97,6 +99,7 @@ void bison_to_ast_visitor::visit(bison::named_alternative const &a)
         current_node->ns = current_namespace.get();
         current_node->group = current_group.get();
         current_node->name = a._1;
+        current_node->smartpointer = intrusive;
         current_group->nodes.push_back(current_node);
         descend(a._2);
 }
@@ -119,6 +122,7 @@ void bison_to_ast_visitor::visit(bison::chained_alternatives const &a)
                 current_group->parent = current_namespace->group.get();
                 current_group->has_const_visitor = false;
                 current_group->has_visitor = false;
+                current_group->smartpointer = intrusive;
                 current_namespace->group->groups.push_back(current_group);
         }
         descend(a._1);

@@ -74,6 +74,7 @@ void cst_to_ast_visitor::visit(cst::namespace_declaration const &n)
         current_namespace->namespaces.push_back(nn);
         current_namespace = nn.get();
         current_namespace->group = new group_node;
+        current_namespace->group->smartpointer = intrusive;
         current_namespace->uses_lists = false;
         current_group = current_namespace->group.get();
         current_group->name = "node";
@@ -94,6 +95,7 @@ void cst_to_ast_visitor::visit(cst::group_declaration const &gd)
         nn->parent = current_group.get();
         nn->has_const_visitor = false;
         nn->has_visitor = false;
+        nn->smartpointer = intrusive;
         current_group->groups.push_back(nn);
         current_group = nn;
         descend(gd._2);
@@ -137,6 +139,7 @@ void cst_to_ast_visitor::visit(cst::node_declaration_1 const &n)
         current_node->name = n._1;
         current_node->ns = current_namespace.get();
         current_node->group = current_group.get();
+        current_node->smartpointer = intrusive;
         current_group->nodes.push_back(current_node);
         descend(n._2);
 }
@@ -148,6 +151,7 @@ void cst_to_ast_visitor::visit(cst::node_declaration_2 const &n)
         current_node->name = "group";
         current_node->ns = current_namespace.get();
         current_node->group = current_group.get();
+        current_node->smartpointer = intrusive;
         current_group->nodes.push_back(current_node);
         descend(n._1);
 }
@@ -156,9 +160,11 @@ void cst_to_ast_visitor::visit(cst::node_declaration_3 const &n)
 {
         /* "node" "{" member_declarations "}" */
         node_node_ptr fake_node = new node_node;
+        fake_node->smartpointer = intrusive;
         current_node = fake_node.get();
         descend(n._1);
         current_group->default_members.splice(current_group->default_members.end(), fake_node->members);
+        current_group->smartpointer = fake_node->smartpointer;
 }
 
 void cst_to_ast_visitor::visit(cst::visitor_declaration_1 const &)
@@ -230,9 +236,9 @@ void cst_to_ast_visitor::visit(cst::member_declaration_1 const &md)
 void cst_to_ast_visitor::visit(cst::member_declaration_2 const &){ }
 void cst_to_ast_visitor::visit(cst::member_declaration_3 const&){ }
 void cst_to_ast_visitor::visit(cst::member_directive_1 const&){ }
-void cst_to_ast_visitor::visit(cst::member_directive_2 const&){ }
-void cst_to_ast_visitor::visit(cst::member_directive_3 const&){ }
-void cst_to_ast_visitor::visit(cst::member_directive_4 const&){ }
+void cst_to_ast_visitor::visit(cst::member_directive_2 const&){ current_node->smartpointer = strict_ownership; }
+void cst_to_ast_visitor::visit(cst::member_directive_3 const&){ current_node->smartpointer = shared_ownership; }
+void cst_to_ast_visitor::visit(cst::member_directive_4 const&){ current_node->smartpointer = intrusive; }
 void cst_to_ast_visitor::visit(cst::member_directive_5 const&){ }
 void cst_to_ast_visitor::visit(cst::member_directive_6 const &md)
 {

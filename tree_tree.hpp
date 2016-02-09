@@ -5,7 +5,9 @@
 #include <string>
 #include <set>
 #include <string>
+#include <tree.h>
 #include <string>
+#include <tree.h>
 #include <string>
 #include <string>
 #include <string>
@@ -187,6 +189,7 @@ struct group_node : type_node
         std::list<boost::intrusive_ptr< ::trees::tree::group_node> >  groups;
         std::list<boost::intrusive_ptr< ::trees::tree::node_node> >  nodes;
         std::list<boost::intrusive_ptr< ::trees::tree::data_member_node> >  default_members;
+        smartpointer_type smartpointer;
 };
 struct node_node : type_node
 {
@@ -198,6 +201,7 @@ struct node_node : type_node
         group_node_weak_ptr group;
         std::string name;
         std::list<boost::intrusive_ptr< ::trees::tree::data_member_node> >  members;
+        smartpointer_type smartpointer;
 };
 struct basic_type_node : type_node
 {
