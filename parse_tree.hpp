@@ -72,31 +72,31 @@ public:
         }
         virtual void visit(string_literal &) = 0;
         inline void descend(string_literal &n) { visit(n); }
-        inline void descend(boost::intrusive_ptr<string_literal> &p) { if(p) descend(*p); }
+        inline void descend(boost::intrusive_ptr<string_literal> const &p) { if(p) descend(*p); }
         virtual void visit(unresolved_symbol &) = 0;
         inline void descend(unresolved_symbol &n) { visit(n); }
-        inline void descend(boost::intrusive_ptr<unresolved_symbol> &p) { if(p) descend(*p); }
+        inline void descend(boost::intrusive_ptr<unresolved_symbol> const &p) { if(p) descend(*p); }
         virtual void visit(terminal &) = 0;
         inline void descend(terminal &n) { visit(n); }
-        inline void descend(boost::intrusive_ptr<terminal> &p) { if(p) descend(*p); }
+        inline void descend(boost::intrusive_ptr<terminal> const &p) { if(p) descend(*p); }
         virtual void visit(nonterminal &) = 0;
         inline void descend(nonterminal &n) { visit(n); }
-        inline void descend(boost::intrusive_ptr<nonterminal> &p) { if(p) descend(*p); }
+        inline void descend(boost::intrusive_ptr<nonterminal> const &p) { if(p) descend(*p); }
         virtual void visit(regex &) = 0;
         inline void descend(regex &n) { visit(n); }
-        inline void descend(boost::intrusive_ptr<regex> &p) { if(p) descend(*p); }
+        inline void descend(boost::intrusive_ptr<regex> const &p) { if(p) descend(*p); }
         virtual void visit(group &) = 0;
         inline void descend(group &n) { visit(n); }
-        inline void descend(boost::intrusive_ptr<group> &p) { if(p) descend(*p); }
+        inline void descend(boost::intrusive_ptr<group> const &p) { if(p) descend(*p); }
         virtual void visit(root &) = 0;
         inline void descend(root &n) { visit(n); }
-        inline void descend(boost::intrusive_ptr<root> &p) { if(p) descend(*p); }
+        inline void descend(boost::intrusive_ptr<root> const &p) { if(p) descend(*p); }
         virtual void visit(rule &) = 0;
         inline void descend(rule &n) { visit(n); }
-        inline void descend(boost::intrusive_ptr<rule> &p) { if(p) descend(*p); }
+        inline void descend(boost::intrusive_ptr<rule> const &p) { if(p) descend(*p); }
         virtual void visit(alternative &) = 0;
         inline void descend(alternative &n) { visit(n); }
-        inline void descend(boost::intrusive_ptr<alternative> &p) { if(p) descend(*p); }
+        inline void descend(boost::intrusive_ptr<alternative> const &p) { if(p) descend(*p); }
 };
 class node_const_visitor
 {

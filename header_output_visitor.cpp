@@ -253,13 +253,13 @@ void header_output_visitor::visit(node_node const &n)
                 switch(n.smartpointer)
                 {
                 case strict_ownership:
-                        out << "        inline void descend(std::unique_ptr<" << n.name << "> &p) { if(p) descend(*p); }" << std::endl;
+                        out << "        inline void descend(std::unique_ptr<" << n.name << "> const &p) { if(p) descend(*p); }" << std::endl;
                         break;
                 case shared_ownership:
-                        out << "        inline void descend(std::shared_ptr<" << n.name << "> &p) { if(p) descend(*p); }" << std::endl;
+                        out << "        inline void descend(std::shared_ptr<" << n.name << "> const &p) { if(p) descend(*p); }" << std::endl;
                         break;
                 case intrusive:
-                        out << "        inline void descend(boost::intrusive_ptr<" << n.name << "> &p) { if(p) descend(*p); }" << std::endl;
+                        out << "        inline void descend(boost::intrusive_ptr<" << n.name << "> const &p) { if(p) descend(*p); }" << std::endl;
                         break;
                 }
                 break;
