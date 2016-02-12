@@ -2,7 +2,11 @@
 *_lex.hpp
 *_parse.cpp
 *_parse.hpp
+CMakeCache.txt
+CMakeFiles/
+Makefile
+cmake_install.cmake
 stage1/
 stage2/
 trees
-update
+trees-stage1
