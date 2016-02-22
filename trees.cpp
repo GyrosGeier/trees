@@ -169,8 +169,6 @@ int go(int argc, char **argv)
                 return 1;
         }
 
-        std::string const basename = inputs.front().substr(0, inputs.front().find('.'));
-
         if(output.empty())
         {
                 std::cerr << "E: No output file given" << std::endl;
@@ -286,16 +284,20 @@ int go(int argc, char **argv)
 
         std::ofstream out(output.c_str());
 
+        std::string::size_type const dot = output.rfind('.');
+
+        std::string::size_type slash = output.rfind('/');
+        if(slash == std::string::npos)
+                slash = 0;
+        else
+                ++slash;
+
+        std::string const basename = output.substr(slash, dot - slash);
+
         switch(output_format)
         {
         case header:
                 {
-                        std::string::size_type slash = output.rfind('/');
-                        if(slash == std::string::npos)
-                                slash = 0;
-                        else
-                                ++slash;
-
                         std::string cppsymbol(output, slash);
                         for(unsigned int i = 0; i < cppsymbol.size(); ++i)
                         {
@@ -313,7 +315,6 @@ int go(int argc, char **argv)
                 break;
         case source:
                 {
-                        std::string::size_type dot = output.rfind('.');
                         if(dot == std::string::npos)
                                 break;
                         std::string ext = output.substr(dot);
@@ -323,12 +324,7 @@ int go(int argc, char **argv)
                                 ext = ".hh";
                         else
                                 break;
-                        std::string::size_type slash = output.rfind('/');
-                        if(slash == std::string::npos)
-                                slash = 0;
-                        else
-                                ++slash;
-                        std::string basename = output.substr(slash, dot - slash);
+
                         out << "#include <" << basename << ext << ">" << std::endl
                                 << std::endl;
                         tree::impl_output_visitor write_impl(out);
