@@ -14,7 +14,6 @@
 %option bison-locations
 %option yylineno
 %option prefix="tree_bison_"
-%option header-file="tree_bison_lex.hpp"
 %option extra-type="context *"
 
 %x ccomment cfragment action rules

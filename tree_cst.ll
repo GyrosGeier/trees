@@ -13,7 +13,6 @@
 %option bison-locations
 %option yylineno
 %option prefix="tree_cst_"
-%option header-file="tree_cst_lex.hpp"
 
 IDENT                       [[:alpha:]_][[:alnum:]_]*
 INTEGER                     [[:digit:]]+
