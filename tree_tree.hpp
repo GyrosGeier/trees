@@ -173,7 +173,6 @@ public:
 struct type_node : node {
         type_node(void) throw() { }
         virtual ~type_node(void) throw() { }
-        using node::apply;
 };
 struct group_node : type_node
 {

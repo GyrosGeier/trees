@@ -141,7 +141,6 @@ public:
 struct rules : node {
         rules(void) throw() { }
         virtual ~rules(void) throw() { }
-        using node::apply;
 };
 struct empty_rules : rules
 {
@@ -161,7 +160,6 @@ struct chained_rules : rules
 struct alternatives : node {
         alternatives(void) throw() { }
         virtual ~alternatives(void) throw() { }
-        using node::apply;
 };
 struct single_alternative : alternatives
 {
@@ -191,7 +189,6 @@ struct terminated_alternatives : alternatives
 struct alternative : node {
         alternative(void) throw() { }
         virtual ~alternative(void) throw() { }
-        using node::apply;
 };
 struct unnamed_alternative : alternative
 {
@@ -213,7 +210,6 @@ struct named_alternative : alternative
 struct components : node {
         components(void) throw() { }
         virtual ~components(void) throw() { }
-        using node::apply;
 };
 struct empty_components : components
 {
@@ -233,7 +229,6 @@ struct chained_components : components
 struct component : node {
         component(void) throw() { }
         virtual ~component(void) throw() { }
-        using node::apply;
 };
 struct symbol : component
 {

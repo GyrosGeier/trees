@@ -212,7 +212,6 @@ public:
 struct directives : node {
         directives(void) throw() { }
         virtual ~directives(void) throw() { }
-        using node::apply;
 };
 struct directives_chain : directives
 {
@@ -232,7 +231,6 @@ struct end_of_directives : directives
 struct rules : node {
         rules(void) throw() { }
         virtual ~rules(void) throw() { }
-        using node::apply;
 };
 struct rules_chain : rules
 {
@@ -252,7 +250,6 @@ struct end_of_rules : rules
 struct alternatives_tail : node {
         alternatives_tail(void) throw() { }
         virtual ~alternatives_tail(void) throw() { }
-        using node::apply;
 };
 struct more_alternatives : alternatives_tail
 {
@@ -271,7 +268,6 @@ struct end_of_alternatives : alternatives_tail
 struct alternative : node {
         alternative(void) throw() { }
         virtual ~alternative(void) throw() { }
-        using node::apply;
 };
 struct unnamed_alternative : alternative
 {
@@ -293,7 +289,6 @@ struct named_alternative : alternative
 struct repetition_qualifier : node {
         repetition_qualifier(void) throw() { }
         virtual ~repetition_qualifier(void) throw() { }
-        using node::apply;
 };
 struct no_repetition : repetition_qualifier
 {
@@ -322,7 +317,6 @@ struct zero_or_more : repetition_qualifier
 struct component : node {
         component(void) throw() { }
         virtual ~component(void) throw() { }
-        using node::apply;
 };
 struct symbol : component
 {
@@ -359,7 +353,6 @@ struct regex : component
 struct components_1_list : node {
         components_1_list(void) throw() { }
         virtual ~components_1_list(void) throw() { }
-        using node::apply;
 };
 struct components_1_chain : components_1_list
 {
