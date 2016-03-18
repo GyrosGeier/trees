@@ -98,7 +98,8 @@ function(gen_flex _stage _file)
 		OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${_stage}/${_tmp}.ll
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/${_stage}/
 		COMMAND trees-stage1 -l -o ${CMAKE_CURRENT_BINARY_DIR}/${_stage}/${_tmp}.ll ${CMAKE_CURRENT_BINARY_DIR}/${_stage}/${_file}
-		MAIN_DEPENDENCY ${CMAKE_CURRENT_BINARY_DIR}/${_stage}/${_file})
+		MAIN_DEPENDENCY ${CMAKE_CURRENT_BINARY_DIR}/${_stage}/${_file}
+		DEPENDS trees-stage1)
 endfunction()
 
 function(gen_bison _stage _file)
@@ -107,7 +108,8 @@ function(gen_bison _stage _file)
 		OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${_stage}/${_tmp}.yy
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/${_stage}/
 		COMMAND trees-stage1 -y -o ${CMAKE_CURRENT_BINARY_DIR}/${_stage}/${_tmp}.yy ${CMAKE_CURRENT_BINARY_DIR}/${_stage}/${_file}
-		MAIN_DEPENDENCY ${CMAKE_CURRENT_BINARY_DIR}/${_stage}/${_file})
+		MAIN_DEPENDENCY ${CMAKE_CURRENT_BINARY_DIR}/${_stage}/${_file}
+		DEPENDS trees-stage1)
 endfunction()
 
 function(gen_cst _stage _file)
@@ -121,7 +123,8 @@ function(gen_cst _stage _file)
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/${_stage}/
 		COMMAND trees-stage1 ${_namespace} -c -o ${CMAKE_CURRENT_BINARY_DIR}/${_stage}/${_tmp}_cst.cpp ${CMAKE_CURRENT_BINARY_DIR}/${_stage}/${_file}
 		COMMAND trees-stage1 ${_namespace} -o ${CMAKE_CURRENT_BINARY_DIR}/${_stage}/${_tmp}_cst.hpp ${CMAKE_CURRENT_BINARY_DIR}/${_stage}/${_file}
-		MAIN_DEPENDENCY ${CMAKE_CURRENT_BINARY_DIR}/${_stage}/${_file})
+		MAIN_DEPENDENCY ${CMAKE_CURRENT_BINARY_DIR}/${_stage}/${_file}
+		DEPENDS trees-stage1)
 endfunction()
 
 function(gen_tree _stage _file)
@@ -131,7 +134,8 @@ function(gen_tree _stage _file)
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/${_stage}/
 		COMMAND trees-stage1 ${_namespace} -c -o ${CMAKE_CURRENT_BINARY_DIR}/${_stage}/${_tmp}_tree.cpp ${CMAKE_CURRENT_BINARY_DIR}/${_stage}/${_file}
 		COMMAND trees-stage1 ${_namespace} -o ${CMAKE_CURRENT_BINARY_DIR}/${_stage}/${_tmp}_tree.hpp ${CMAKE_CURRENT_BINARY_DIR}/${_stage}/${_file}
-		MAIN_DEPENDENCY ${CMAKE_CURRENT_BINARY_DIR}/${_stage}/${_file})
+		MAIN_DEPENDENCY ${CMAKE_CURRENT_BINARY_DIR}/${_stage}/${_file}
+		DEPENDS trees-stage1)
 endfunction()
 
 shipped(stage1 parse_cst.ll)
