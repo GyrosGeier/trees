@@ -196,8 +196,11 @@ void header_output_visitor::visit(node_node const &n)
                 }
                 break;
         case decl:
-                out << "struct " << n.name << " : " << n.group->name << std::endl
-                        << "{" << std::endl
+                out << "struct " << n.name << " : " << n.group->name << std::endl;
+                if(n.smartpointer == shared_ownership)
+                        out << ", "
+                                << "std::enable_shared_from_this<" << n.name << ">";
+                out << "{" << std::endl
                         << "        " << n.name << "(";
 
                 first = true;

@@ -142,7 +142,6 @@ public:
 struct component : node {
         component(void) throw() { }
         virtual ~component(void) throw() { }
-        using node::apply;
         std::string name;
 };
 struct string_literal : component
