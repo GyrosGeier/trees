@@ -3,31 +3,6 @@
 namespace trees {
 namespace tree {
 
-void mark_nodes_visitor::visit(basic_type_node &n)
-{
-        n.is_node = (n.ns->node_types.find(n.name) != n.ns->node_types.end());
-}
-
-void mark_nodes_visitor::visit(reference_type_node &n)
-{
-        descend(n.type);
-}
-
-void mark_nodes_visitor::visit(pointer_type_node &n)
-{
-        descend(n.type);
-}
-
-void mark_nodes_visitor::visit(template_type_node &n)
-{
-        descend(n.template_args);
-}
-
-void mark_nodes_visitor::visit(list_type_node &n)
-{
-        descend(n.type);
-}
-
 void mark_nodes_visitor::visit(root &r)
 {
         collecting = true;
@@ -62,6 +37,31 @@ void mark_nodes_visitor::visit(node_node &n)
 }
 
 void mark_nodes_visitor::visit(data_member_node &n)
+{
+        descend(n.type);
+}
+
+void mark_nodes_visitor::visit(basic_type_node &n)
+{
+        n.is_node = (n.ns->node_types.find(n.name) != n.ns->node_types.end());
+}
+
+void mark_nodes_visitor::visit(reference_type_node &n)
+{
+        descend(n.type);
+}
+
+void mark_nodes_visitor::visit(pointer_type_node &n)
+{
+        descend(n.type);
+}
+
+void mark_nodes_visitor::visit(template_type_node &n)
+{
+        descend(n.template_args);
+}
+
+void mark_nodes_visitor::visit(list_type_node &n)
 {
         descend(n.type);
 }
