@@ -95,7 +95,7 @@ void cst_to_ast_visitor::visit(cst::group_declaration const &gd)
         nn->parent = current_group.get();
         nn->has_const_visitor = false;
         nn->has_visitor = false;
-        nn->smartpointer = intrusive;
+        nn->smartpointer = current_group->smartpointer;
         current_group->groups.push_back(nn);
         current_group = nn;
         descend(gd._2);
@@ -139,7 +139,7 @@ void cst_to_ast_visitor::visit(cst::node_declaration_1 const &n)
         current_node->name = n._1;
         current_node->ns = current_namespace.get();
         current_node->group = current_group.get();
-        current_node->smartpointer = intrusive;
+        current_node->smartpointer = current_group->smartpointer;
         current_group->nodes.push_back(current_node);
         descend(n._2);
 }
@@ -151,7 +151,7 @@ void cst_to_ast_visitor::visit(cst::node_declaration_2 const &n)
         current_node->name = "group";
         current_node->ns = current_namespace.get();
         current_node->group = current_group.get();
-        current_node->smartpointer = intrusive;
+        current_node->smartpointer = current_group->smartpointer;
         current_group->nodes.push_back(current_node);
         descend(n._1);
 }
@@ -160,7 +160,7 @@ void cst_to_ast_visitor::visit(cst::node_declaration_3 const &n)
 {
         /* "node" "{" member_declarations "}" */
         node_node_ptr fake_node = new node_node;
-        fake_node->smartpointer = intrusive;
+        fake_node->smartpointer = current_group->smartpointer;
         current_node = fake_node.get();
         descend(n._1);
         current_group->default_members.splice(current_group->default_members.end(), fake_node->members);
