@@ -100,18 +100,17 @@ void header_output_visitor::visit(group_node const &n)
                                 << "{" << std::endl
                                 << "public:" << std::endl
                                 << "        virtual ~" << n.name << "_visitor(void) throw() { }" << std::endl
-                                << "        inline void descend(" << n.name << " &n) { n.apply(*this); }" << std::endl
                                 << "        template<typename T>" << std::endl;
                         switch(n.smartpointer)
                         {
                         case strict_ownership:
-                                out << "        inline void descend(std::unique_ptr<T> const &p) { if(p) descend(*p); }" << std::endl;
+                                out << "        inline void descend(std::unique_ptr<T> const &p) { if(p) p->apply(*this); }" << std::endl;
                                 break;
                         case shared_ownership:
-                                out << "        inline void descend(std::shared_ptr<T> const &p) { if(p) descend(*p); }" << std::endl;
+                                out << "        inline void descend(std::shared_ptr<T> const &p) { if(p) p->apply(*this); }" << std::endl;
                                 break;
                         case intrusive:
-                                out << "        inline void descend(boost::intrusive_ptr<T> const &p) { if(p) descend(*p); }" << std::endl;
+                                out << "        inline void descend(boost::intrusive_ptr<T> const &p) { if(p) p->apply(*this); }" << std::endl;
                                 break;
                         }
                         if(n.ns->uses_lists)
@@ -134,18 +133,17 @@ void header_output_visitor::visit(group_node const &n)
                                 << "{" << std::endl
                                 << "public:" << std::endl
                                 << "        virtual ~" << n.name << "_const_visitor(void) throw() { }" << std::endl
-                                << "        inline void descend(" << n.name << " const &n) { n.apply(*this); }" << std::endl
                                 << "        template<typename T>" << std::endl;
                         switch(n.smartpointer)
                         {
                         case strict_ownership:
-                                out << "        inline void descend(std::unique_ptr<T> const &p) { if(p) descend(*p); }" << std::endl;
+                                out << "        inline void descend(std::unique_ptr<T> const &p) { if(p) p->apply(*this); }" << std::endl;
                                 break;
                         case shared_ownership:
-                                out << "        inline void descend(std::shared_ptr<T> const &p) { if(p) descend(*p); }" << std::endl;
+                                out << "        inline void descend(std::shared_ptr<T> const &p) { if(p) p->apply(*this); }" << std::endl;
                                 break;
                         case intrusive:
-                                out << "        inline void descend(boost::intrusive_ptr<T> const &p) { if(p) descend(*p); }" << std::endl;
+                                out << "        inline void descend(boost::intrusive_ptr<T> const &p) { if(p) p->apply(*this); }" << std::endl;
                                 break;
                         }
                         if(n.ns->uses_lists)
@@ -251,34 +249,32 @@ void header_output_visitor::visit(node_node const &n)
                 out << "};" << std::endl;
                 break;
         case visit_decl:
-                out << "        virtual void visit(" << n.name << " &) = 0;" << std::endl
-                        << "        inline void descend(" << n.name << " &n) { visit(n); }" << std::endl;
+                out << "        virtual void visit(" << n.name << " &) = 0;" << std::endl;
                 switch(n.smartpointer)
                 {
                 case strict_ownership:
-                        out << "        inline void descend(std::unique_ptr<" << n.name << "> const &p) { if(p) descend(*p); }" << std::endl;
+                        out << "        inline void descend(std::unique_ptr<" << n.name << "> const &p) { if(p) visit(*p); }" << std::endl;
                         break;
                 case shared_ownership:
-                        out << "        inline void descend(std::shared_ptr<" << n.name << "> const &p) { if(p) descend(*p); }" << std::endl;
+                        out << "        inline void descend(std::shared_ptr<" << n.name << "> const &p) { if(p) visit(*p); }" << std::endl;
                         break;
                 case intrusive:
-                        out << "        inline void descend(boost::intrusive_ptr<" << n.name << "> const &p) { if(p) descend(*p); }" << std::endl;
+                        out << "        inline void descend(boost::intrusive_ptr<" << n.name << "> const &p) { if(p) visit(*p); }" << std::endl;
                         break;
                 }
                 break;
         case const_visit_decl:
-                out << "        virtual void visit(" << n.name << " const &) = 0;" << std::endl
-                        << "        inline void descend(" << n.name << " const &n) { visit(n); }" << std::endl;
+                out << "        virtual void visit(" << n.name << " const &) = 0;" << std::endl;
                 switch(n.smartpointer)
                 {
                 case strict_ownership:
-                        out << "        inline void descend(std::unique_ptr<" << n.name << "> const &p) { if(p) descend(*p); }" << std::endl;
+                        out << "        inline void descend(std::unique_ptr<" << n.name << "> const &p) { if(p) visit(*p); }" << std::endl;
                         break;
                 case shared_ownership:
-                        out << "        inline void descend(std::shared_ptr<" << n.name << "> const &p) { if(p) descend(*p); }" << std::endl;
+                        out << "        inline void descend(std::shared_ptr<" << n.name << "> const &p) { if(p) visit(*p); }" << std::endl;
                         break;
                 case intrusive:
-                        out << "        inline void descend(boost::intrusive_ptr<" << n.name << "> const &p) { if(p) descend(*p); }" << std::endl;
+                        out << "        inline void descend(boost::intrusive_ptr<" << n.name << "> const &p) { if(p) visit(*p); }" << std::endl;
                         break;
                 }
         }
