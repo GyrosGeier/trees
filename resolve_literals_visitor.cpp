@@ -9,17 +9,19 @@
 namespace trees {
 namespace parse {
 
-void resolve_literals_visitor::visit(group &g)
+component_ptr resolve_literals_visitor::visit(group &g)
 {
         for(auto &i : g.components)
         {
                 current_context = &i;
                 descend(i);
         }
+        return &g;
 }
 
-void resolve_literals_visitor::visit(regex &) { }
-void resolve_literals_visitor::visit(string_literal &l)
+component_ptr resolve_literals_visitor::visit(regex &r) { return &r; }
+
+component_ptr resolve_literals_visitor::visit(string_literal &l)
 {
         auto litref = literals.find(l.text);
         if(litref != literals.end())
@@ -34,13 +36,16 @@ void resolve_literals_visitor::visit(string_literal &l)
                 literals[l.text] = &l;
                 rt->literals.push_back(&l);
         }
+        return *current_context;
 }
-void resolve_literals_visitor::visit(unresolved_symbol &) { }
-void resolve_literals_visitor::visit(terminal &) { }
-void resolve_literals_visitor::visit(nonterminal &) { }
-void resolve_literals_visitor::visit(root &r) { rt = &r; descend(r.rules); }
-void resolve_literals_visitor::visit(rule &r) { descend(r.alternatives);  }
-void resolve_literals_visitor::visit(alternative &a) { descend(a.group); }
+
+component_ptr resolve_literals_visitor::visit(unresolved_symbol &u) { return &u; }
+
+component_ptr resolve_literals_visitor::visit(terminal &t) { return &t; }
+component_ptr resolve_literals_visitor::visit(nonterminal &n) { return &n; }
+node_ptr resolve_literals_visitor::visit(root &r) { rt = &r; descend(r.rules); return &r; }
+node_ptr resolve_literals_visitor::visit(rule &r) { descend(r.alternatives); return &r; }
+node_ptr resolve_literals_visitor::visit(alternative &a) { descend(a.group); return &a; }
 
 }
 }

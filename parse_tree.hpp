@@ -51,7 +51,7 @@ namespace parse {
 struct node {
         node(void) throw() : refcount(0) { }
         virtual ~node(void) throw() { }
-        virtual void apply(node_visitor &) = 0;
+        virtual node_ptr apply(node_visitor &) = 0;
         virtual void apply(node_const_visitor &) const = 0;
         unsigned int refcount;
 };
@@ -69,23 +69,23 @@ public:
                 for(typename std::list<T, Alloc>::iterator i = l.begin(); i != l.end(); ++i)
                         descend(*i);
         }
-        virtual void visit(string_literal &) = 0;
+        virtual component_ptr visit(string_literal &) = 0;
         inline void descend(boost::intrusive_ptr<string_literal> const &p) { if(p) visit(*p); }
-        virtual void visit(unresolved_symbol &) = 0;
+        virtual component_ptr visit(unresolved_symbol &) = 0;
         inline void descend(boost::intrusive_ptr<unresolved_symbol> const &p) { if(p) visit(*p); }
-        virtual void visit(terminal &) = 0;
+        virtual component_ptr visit(terminal &) = 0;
         inline void descend(boost::intrusive_ptr<terminal> const &p) { if(p) visit(*p); }
-        virtual void visit(nonterminal &) = 0;
+        virtual component_ptr visit(nonterminal &) = 0;
         inline void descend(boost::intrusive_ptr<nonterminal> const &p) { if(p) visit(*p); }
-        virtual void visit(regex &) = 0;
+        virtual component_ptr visit(regex &) = 0;
         inline void descend(boost::intrusive_ptr<regex> const &p) { if(p) visit(*p); }
-        virtual void visit(group &) = 0;
+        virtual component_ptr visit(group &) = 0;
         inline void descend(boost::intrusive_ptr<group> const &p) { if(p) visit(*p); }
-        virtual void visit(root &) = 0;
+        virtual node_ptr visit(root &) = 0;
         inline void descend(boost::intrusive_ptr<root> const &p) { if(p) visit(*p); }
-        virtual void visit(rule &) = 0;
+        virtual node_ptr visit(rule &) = 0;
         inline void descend(boost::intrusive_ptr<rule> const &p) { if(p) visit(*p); }
-        virtual void visit(alternative &) = 0;
+        virtual node_ptr visit(alternative &) = 0;
         inline void descend(boost::intrusive_ptr<alternative> const &p) { if(p) visit(*p); }
 };
 class node_const_visitor
@@ -128,7 +128,7 @@ struct string_literal : component
 {
         string_literal() throw() { }
         virtual ~string_literal(void) throw() { }
-        virtual void apply(node_visitor &);
+        virtual node_ptr apply(node_visitor &);
         virtual void apply(node_const_visitor &) const;
         std::string text;
 };
@@ -136,21 +136,21 @@ struct unresolved_symbol : component
 {
         unresolved_symbol() throw() { }
         virtual ~unresolved_symbol(void) throw() { }
-        virtual void apply(node_visitor &);
+        virtual node_ptr apply(node_visitor &);
         virtual void apply(node_const_visitor &) const;
 };
 struct terminal : component
 {
         terminal() throw() { }
         virtual ~terminal(void) throw() { }
-        virtual void apply(node_visitor &);
+        virtual node_ptr apply(node_visitor &);
         virtual void apply(node_const_visitor &) const;
 };
 struct nonterminal : component
 {
         nonterminal() throw() { }
         virtual ~nonterminal(void) throw() { }
-        virtual void apply(node_visitor &);
+        virtual node_ptr apply(node_visitor &);
         virtual void apply(node_const_visitor &) const;
         boost::intrusive_ptr< ::trees::parse::rule>  rule;
 };
@@ -158,7 +158,7 @@ struct regex : component
 {
         regex() throw() { }
         virtual ~regex(void) throw() { }
-        virtual void apply(node_visitor &);
+        virtual node_ptr apply(node_visitor &);
         virtual void apply(node_const_visitor &) const;
         std::string text;
 };
@@ -166,7 +166,7 @@ struct group : component
 {
         group() throw() { }
         virtual ~group(void) throw() { }
-        virtual void apply(node_visitor &);
+        virtual node_ptr apply(node_visitor &);
         virtual void apply(node_const_visitor &) const;
         std::list<boost::intrusive_ptr< ::trees::parse::component> >  components;
         repetition rep;
@@ -175,7 +175,7 @@ struct root : node
 {
         root() throw() { }
         virtual ~root(void) throw() { }
-        virtual void apply(node_visitor &);
+        virtual node_ptr apply(node_visitor &);
         virtual void apply(node_const_visitor &) const;
         std::string ns;
         std::list<boost::intrusive_ptr< ::trees::parse::rule> >  rules;
@@ -186,7 +186,7 @@ struct rule : node
 {
         rule() throw() { }
         virtual ~rule(void) throw() { }
-        virtual void apply(node_visitor &);
+        virtual node_ptr apply(node_visitor &);
         virtual void apply(node_const_visitor &) const;
         std::string name;
         std::list<boost::intrusive_ptr< ::trees::parse::alternative> >  alternatives;
@@ -195,7 +195,7 @@ struct alternative : node
 {
         alternative() throw() { }
         virtual ~alternative(void) throw() { }
-        virtual void apply(node_visitor &);
+        virtual node_ptr apply(node_visitor &);
         virtual void apply(node_const_visitor &) const;
         std::string name;
         boost::intrusive_ptr< ::trees::parse::group>  group;

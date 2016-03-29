@@ -82,7 +82,7 @@ void header_output_visitor::visit(group_node const &n)
                 out << " { }" << std::endl
                         << "        virtual ~" << n.name << "(void) throw() { }" << std::endl;
                 if(n.has_visitor)
-                        out << "        virtual void apply(" << n.name << "_visitor &) = 0;" << std::endl;
+                        out << "        virtual " << n.name << "_ptr apply(" << n.name << "_visitor &) = 0;" << std::endl;
                 if(n.has_const_visitor)
                         out << "        virtual void apply(" << n.name << "_const_visitor &) const = 0;" << std::endl;
                 if(n.parent && (n.has_visitor || n.has_const_visitor))
@@ -239,7 +239,7 @@ void header_output_visitor::visit(node_node const &n)
                 for(group_node_ptr i = n.group; i; i = i->parent)
                 {
                         if(i->has_visitor)
-                                out << "        virtual void apply(" << i->name << "_visitor &);" << std::endl;
+                                out << "        virtual " << i->name << "_ptr apply(" << i->name << "_visitor &);" << std::endl;
                         if(i->has_const_visitor)
                                 out << "        virtual void apply(" << i->name << "_const_visitor &) const;" << std::endl;
                 }
@@ -249,7 +249,7 @@ void header_output_visitor::visit(node_node const &n)
                 out << "};" << std::endl;
                 break;
         case visit_decl:
-                out << "        virtual void visit(" << n.name << " &) = 0;" << std::endl;
+                out << "        virtual " << n.group->name << "_ptr visit(" << n.name << " &) = 0;" << std::endl;
                 switch(n.smartpointer)
                 {
                 case strict_ownership:

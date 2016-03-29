@@ -9,16 +9,16 @@
 namespace trees {
 namespace parse {
 
-void inline_simple_visitor::visit(trees::parse::string_literal&) { }
+component_ptr inline_simple_visitor::visit(trees::parse::string_literal &l) { return &l; }
 
-void inline_simple_visitor::visit(trees::parse::unresolved_symbol &)
+component_ptr inline_simple_visitor::visit(trees::parse::unresolved_symbol &)
 {
         throw internal_error("Unresolved symbol found during inlining");
 }
 
-void inline_simple_visitor::visit(trees::parse::terminal&) { }
+component_ptr inline_simple_visitor::visit(trees::parse::terminal &t) { return &t; }
 
-void inline_simple_visitor::visit(trees::parse::nonterminal &nt)
+component_ptr inline_simple_visitor::visit(trees::parse::nonterminal &nt)
 {
         if(is_simple_rule(nt.rule))
         {
@@ -27,10 +27,12 @@ void inline_simple_visitor::visit(trees::parse::nonterminal &nt)
                 *current_component_context = nt.rule->alternatives.front()->group->components.front();
                 descend(*current_component_context);
         }
+        return *current_component_context;
 }
 
-void inline_simple_visitor::visit(trees::parse::regex&) { }
-void inline_simple_visitor::visit(trees::parse::group &g)
+component_ptr inline_simple_visitor::visit(trees::parse::regex &r) { return &r; }
+
+component_ptr inline_simple_visitor::visit(trees::parse::group &g)
 {
         is_simple = false;
         for(auto &i : g.components)
@@ -38,12 +40,13 @@ void inline_simple_visitor::visit(trees::parse::group &g)
                 current_component_context = &i;
                 descend(i);
         }
+        return &g;
 }
 
-void inline_simple_visitor::visit(trees::parse::root &r)
+node_ptr inline_simple_visitor::visit(trees::parse::root &r)
 {
         if(r.rules.empty())
-                return;
+                return &r;
 
         start = r.rules.front();
 
@@ -53,12 +56,14 @@ void inline_simple_visitor::visit(trees::parse::root &r)
                 descend(i);
         }
         r.rules.remove_if(std::bind(std::mem_fun(&inline_simple_visitor::is_simple_rule), this, std::placeholders::_1));
+        return &r;
 }
 
-void inline_simple_visitor::visit(trees::parse::rule &r) { descend(r.alternatives); }
-void inline_simple_visitor::visit(trees::parse::alternative &a)
+node_ptr inline_simple_visitor::visit(trees::parse::rule &r) { descend(r.alternatives); return &r; }
+node_ptr inline_simple_visitor::visit(trees::parse::alternative &a)
 {
         descend(a.group);
+        return &a;
 }
 
 bool inline_simple_visitor::is_simple_rule(rule_ptr &r)

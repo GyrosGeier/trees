@@ -16,15 +16,15 @@ public:
         resolve_symbols_visitor(bool verbose) : verbose(verbose) { }
         virtual ~resolve_symbols_visitor() throw() { }
 
-        virtual void visit(group &);
-        virtual void visit(regex &);
-        virtual void visit(string_literal &);
-        virtual void visit(unresolved_symbol &);
-        virtual void visit(terminal &);
-        virtual void visit(nonterminal &);
-        virtual void visit(root &);
-        virtual void visit(rule &);
-        virtual void visit(alternative &);
+        virtual component_ptr visit(group &);
+        virtual component_ptr visit(regex &);
+        virtual component_ptr visit(string_literal &);
+        virtual component_ptr visit(unresolved_symbol &);
+        virtual component_ptr visit(terminal &);
+        virtual component_ptr visit(nonterminal &);
+        virtual node_ptr visit(root &);
+        virtual node_ptr visit(rule &);
+        virtual node_ptr visit(alternative &);
 
 private:
         bool verbose;

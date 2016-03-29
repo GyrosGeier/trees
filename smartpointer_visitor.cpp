@@ -8,36 +8,40 @@
 namespace trees {
 namespace tree {
 
-void smartpointer_visitor::visit(root &r)
+node_ptr smartpointer_visitor::visit(root &r)
 {
         ast_root = &r;
         descend(r.global_namespace);
+        return &r;
 }
 
-void smartpointer_visitor::visit(include_node &)
+node_ptr smartpointer_visitor::visit(include_node &i)
 {
-        return;
+        return &i;
 }
 
-void smartpointer_visitor::visit(namespace_node &n)
+node_ptr smartpointer_visitor::visit(namespace_node &n)
 {
         descend(n.namespaces);
         descend(n.group);
+        return &n;
 }
 
-void smartpointer_visitor::visit(group_node &n)
+type_node_ptr smartpointer_visitor::visit(group_node &n)
 {
         descend(n.groups);
         descend(n.default_members);
         descend(n.nodes);
+        return &n;
 }
 
-void smartpointer_visitor::visit(node_node &n)
+type_node_ptr smartpointer_visitor::visit(node_node &n)
 {
         descend(n.members);
+        return &n;
 }
 
-void smartpointer_visitor::visit(data_member_node &n)
+node_ptr smartpointer_visitor::visit(data_member_node &n)
 {
         descend(n.type);
         if(is_node_type)
@@ -50,9 +54,10 @@ void smartpointer_visitor::visit(data_member_node &n)
                 ni->name = "<boost/intrusive_ptr.hpp>";
                 ast_root->includes.push_back(ni);
         }
+        return &n;
 }
 
-void smartpointer_visitor::visit(basic_type_node &n)
+type_node_ptr smartpointer_visitor::visit(basic_type_node &n)
 {
         is_node_type = n.is_node;
         if(is_node_type)
@@ -62,24 +67,28 @@ void smartpointer_visitor::visit(basic_type_node &n)
                         ns = i->name + "::" + ns;
                 n.name = ns + n.name;
         }
+        return &n;
 }
 
-void smartpointer_visitor::visit(reference_type_node &)
+type_node_ptr smartpointer_visitor::visit(reference_type_node &n)
 {
         is_node_type = false;
+        return &n;
 }
 
-void smartpointer_visitor::visit(pointer_type_node &)
+type_node_ptr smartpointer_visitor::visit(pointer_type_node &n)
 {
         is_node_type = false;
+        return &n;
 }
 
-void smartpointer_visitor::visit(template_type_node &)
+type_node_ptr smartpointer_visitor::visit(template_type_node &n)
 {
         is_node_type = false;
+        return &n;
 }
 
-void smartpointer_visitor::visit(list_type_node &n)
+type_node_ptr smartpointer_visitor::visit(list_type_node &n)
 {
         descend(n.type);
         if(is_node_type)
@@ -90,6 +99,7 @@ void smartpointer_visitor::visit(list_type_node &n)
                 n.type = nn;
         }
         is_node_type = false;
+        return &n;
 }
 
 }

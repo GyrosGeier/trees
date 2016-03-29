@@ -29,9 +29,9 @@ void impl_output_visitor::visit(node_node const &n)
         for(group_node_ptr i = n.group; i; i = i->parent)
         {
                 if(i->has_visitor)
-                        out << "void " << n.name << "::apply(" << i->name << "_visitor &v)" << std::endl
+                        out << i->name << "_ptr " << n.name << "::apply(" << i->name << "_visitor &v)" << std::endl
                                 << "{" << std::endl
-                                << "        v.visit(*this);" << std::endl
+                                << "        return v.visit(*this);" << std::endl
                                 << "}" << std::endl;
                 if(i->has_const_visitor)
                         out << "void " << n.name << "::apply(" << i->name << "_const_visitor &v) const" << std::endl

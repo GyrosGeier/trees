@@ -11,18 +11,19 @@
 namespace trees {
 namespace parse {
 
-void resolve_symbols_visitor::visit(group &g)
+component_ptr resolve_symbols_visitor::visit(group &g)
 {
         for(auto &i : g.components)
         {
                 current_context = &i;
                 descend(i);
         }
+        return &g;
 }
 
-void resolve_symbols_visitor::visit(regex &) { }
-void resolve_symbols_visitor::visit(string_literal &) { }
-void resolve_symbols_visitor::visit(unresolved_symbol &s)
+component_ptr resolve_symbols_visitor::visit(regex &r) { return &r; }
+component_ptr resolve_symbols_visitor::visit(string_literal &s) { return &s; }
+component_ptr resolve_symbols_visitor::visit(unresolved_symbol &s)
 {
         auto ntref = nonterminals.find(s.name);
         if(ntref != nonterminals.end())
@@ -37,12 +38,13 @@ void resolve_symbols_visitor::visit(unresolved_symbol &s)
                 if(verbose)
                         std::cerr << "Queuing unresolved symbol " << s.name << std::endl;
         }
+        return *current_context;
 }
 
-void resolve_symbols_visitor::visit(terminal &) { }
-void resolve_symbols_visitor::visit(nonterminal &) { }
+component_ptr resolve_symbols_visitor::visit(terminal &t) { return &t; }
+component_ptr resolve_symbols_visitor::visit(nonterminal &n) { return &n; }
 
-void resolve_symbols_visitor::visit(root &r)
+node_ptr resolve_symbols_visitor::visit(root &r)
 {
         descend(r.rules);
 
@@ -59,9 +61,10 @@ void resolve_symbols_visitor::visit(root &r)
                         throw unknown_production();
                 }
         }
+        return &r;
 }
 
-void resolve_symbols_visitor::visit(rule &r)
+node_ptr resolve_symbols_visitor::visit(rule &r)
 {
         nonterminal_ptr nt = new nonterminal;
         nt->name = r.name;
@@ -87,11 +90,13 @@ void resolve_symbols_visitor::visit(rule &r)
         }
 
         descend(r.alternatives);
+        return &r;
 }
 
-void resolve_symbols_visitor::visit(alternative &a)
+node_ptr resolve_symbols_visitor::visit(alternative &a)
 {
         descend(a.group);
+        return &a;
 }
 
 }

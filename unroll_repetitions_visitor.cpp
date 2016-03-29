@@ -12,17 +12,17 @@
 namespace trees {
 namespace parse {
 
-void unroll_repetitions_visitor::visit(regex &) { }
-void unroll_repetitions_visitor::visit(string_literal &) { }
+component_ptr unroll_repetitions_visitor::visit(regex &r) { return &r; }
+component_ptr unroll_repetitions_visitor::visit(string_literal &s) { return &s; }
 
-void unroll_repetitions_visitor::visit(unresolved_symbol &)
+component_ptr unroll_repetitions_visitor::visit(unresolved_symbol &)
 {
         throw internal_error("Unresolved symbol found during unrolling");
 }
 
-void unroll_repetitions_visitor::visit(terminal &) { }
-void unroll_repetitions_visitor::visit(nonterminal &) { }
-void unroll_repetitions_visitor::visit(group &g)
+component_ptr unroll_repetitions_visitor::visit(terminal &t) { return &t; }
+component_ptr unroll_repetitions_visitor::visit(nonterminal &n) { return &n; }
+component_ptr unroll_repetitions_visitor::visit(group &g)
 {
         if(!current_group)
         {
@@ -44,7 +44,7 @@ void unroll_repetitions_visitor::visit(group &g)
                         descend(i);
                 }
                 current_group = group_stack;
-                return;
+                return &g;
         }
 
         std::string generated_rule = current_name;
@@ -141,9 +141,10 @@ void unroll_repetitions_visitor::visit(group &g)
                 }
                 break;
         }
+        return &g;
 }
 
-void unroll_repetitions_visitor::visit(root &r)
+node_ptr unroll_repetitions_visitor::visit(root &r)
 {
         do
         {
@@ -151,18 +152,21 @@ void unroll_repetitions_visitor::visit(root &r)
                 descend(r.rules);
         }
         while(generated_rules.size());
+        return &r;
 }
 
-void unroll_repetitions_visitor::visit(rule &r)
+node_ptr unroll_repetitions_visitor::visit(rule &r)
 {
         descend(r.alternatives);
+        return &r;
 }
 
-void unroll_repetitions_visitor::visit(alternative &a)
+node_ptr unroll_repetitions_visitor::visit(alternative &a)
 {
         current_alternative = &a;
         current_group = 0;
         descend(a.group);
+        return &a;
 }
 
 }

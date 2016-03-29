@@ -13,15 +13,15 @@ public:
         inline_simple_visitor(bool verbose) : verbose(verbose) { }
         virtual ~inline_simple_visitor() throw() { }
 
-        virtual void visit(trees::parse::string_literal&);
-        virtual void visit(trees::parse::unresolved_symbol&);
-        virtual void visit(trees::parse::terminal&);
-        virtual void visit(trees::parse::nonterminal&);
-        virtual void visit(trees::parse::regex&);
-        virtual void visit(trees::parse::group&);
-        virtual void visit(trees::parse::root&);
-        virtual void visit(trees::parse::rule&);
-        virtual void visit(trees::parse::alternative&);
+        virtual component_ptr visit(trees::parse::string_literal&);
+        virtual component_ptr visit(trees::parse::unresolved_symbol&);
+        virtual component_ptr visit(trees::parse::terminal&);
+        virtual component_ptr visit(trees::parse::nonterminal&);
+        virtual component_ptr visit(trees::parse::regex&);
+        virtual component_ptr visit(trees::parse::group&);
+        virtual node_ptr visit(trees::parse::root&);
+        virtual node_ptr visit(trees::parse::rule&);
+        virtual node_ptr visit(trees::parse::alternative&);
 
 private:
         bool verbose;

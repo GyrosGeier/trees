@@ -9,12 +9,12 @@
 namespace trees {
 namespace parse {
 
-void resolve_regexes_visitor::visit(string_literal&) { }
-void resolve_regexes_visitor::visit(unresolved_symbol&) { }
-void resolve_regexes_visitor::visit(terminal&) { }
-void resolve_regexes_visitor::visit(nonterminal&) { }
+component_ptr resolve_regexes_visitor::visit(string_literal &s) { return &s; }
+component_ptr resolve_regexes_visitor::visit(unresolved_symbol &u) { return &u; }
+component_ptr resolve_regexes_visitor::visit(terminal &t) { return &t; }
+component_ptr resolve_regexes_visitor::visit(nonterminal &n) { return &n; }
 
-void resolve_regexes_visitor::visit(regex &rx)
+component_ptr resolve_regexes_visitor::visit(regex &rx)
 {
         std::ostringstream ss;
         ss << "REGEX_" << ++num;
@@ -25,31 +25,36 @@ void resolve_regexes_visitor::visit(regex &rx)
         terminal_ptr t = new terminal;
         t->name = rx.name;
         *current_context = t;
+        return &rx;
 }
 
-void resolve_regexes_visitor::visit(group &g)
+component_ptr resolve_regexes_visitor::visit(group &g)
 {
         for(auto &i : g.components)
         {
                 current_context = &i;
                 descend(i);
         }
+        return &g;
 }
 
-void resolve_regexes_visitor::visit(root &r)
+node_ptr resolve_regexes_visitor::visit(root &r)
 {
         rt = &r;
         descend(r.rules);
+        return &r;
 }
 
-void resolve_regexes_visitor::visit(rule &r)
+node_ptr resolve_regexes_visitor::visit(rule &r)
 {
         descend(r.alternatives);
+        return &r;
 }
 
-void resolve_regexes_visitor::visit(alternative &a)
+node_ptr resolve_regexes_visitor::visit(alternative &a)
 {
         descend(a.group);
+        return &a;
 }
 
 }
