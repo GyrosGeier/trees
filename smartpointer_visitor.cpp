@@ -46,7 +46,8 @@ void smartpointer_visitor::handle(group_node_ptr const &n)
 {
         for(auto const &i : n->groups)
                 handle(i);
-        descend(n->default_members);
+        for(auto const &i : n->default_members)
+                handle(i);
         for(auto const &i : n->nodes)
                 handle(i);
 }
@@ -58,23 +59,28 @@ type_node_ptr smartpointer_visitor::visit(node_node &n)
 
 void smartpointer_visitor::handle(node_node_ptr const &n)
 {
-        descend(n->members);
+        for(auto const &i : n->members)
+                handle(i);
 }
 
 node_ptr smartpointer_visitor::visit(data_member_node &n)
 {
-        descend(n.type);
+        throw;
+}
+
+void smartpointer_visitor::handle(data_member_node_ptr const &n)
+{
+        descend(n->type);
         if(is_node_type)
         {
                 template_type_node_ptr nn = new template_type_node;
                 nn->name = "boost::intrusive_ptr";
-                nn->template_args.push_back(n.type);
-                n.type = nn;
+                nn->template_args.push_back(n->type);
+                n->type = nn;
                 include_node_ptr ni = new include_node;
                 ni->name = "<boost/intrusive_ptr.hpp>";
                 ast_root->includes.push_back(ni);
         }
-        return &n;
 }
 
 type_node_ptr smartpointer_visitor::visit(basic_type_node &n)

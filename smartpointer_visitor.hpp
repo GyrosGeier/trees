@@ -38,6 +38,7 @@ private:
         void handle(namespace_node_ptr const &);
         void handle(group_node_ptr const &);
         void handle(node_node_ptr const &);
+        void handle(data_member_node_ptr const &);
 };
 
 }
