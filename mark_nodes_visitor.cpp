@@ -11,9 +11,9 @@ node_ptr mark_nodes_visitor::visit(root &r)
 void mark_nodes_visitor::operator()(root_ptr const &r)
 {
         collecting = true;
-        descend(r->global_namespace);
+        traverse(r->global_namespace);
         collecting = false;
-        descend(r->global_namespace);
+        traverse(r->global_namespace);
 }
 
 node_ptr mark_nodes_visitor::visit(include_node &i)
@@ -23,9 +23,14 @@ node_ptr mark_nodes_visitor::visit(include_node &i)
 
 node_ptr mark_nodes_visitor::visit(namespace_node &n)
 {
-        descend(n.namespaces);
-        descend(n.group);
-        return &n;
+        throw;
+}
+
+void mark_nodes_visitor::traverse(namespace_node_ptr const &n)
+{
+        for(auto const &i : n->namespaces)
+                traverse(i);
+        descend(n->group);
 }
 
 type_node_ptr mark_nodes_visitor::visit(group_node &n)

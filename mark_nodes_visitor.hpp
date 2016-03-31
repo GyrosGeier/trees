@@ -28,6 +28,8 @@ public:
 
 private:
         bool collecting;
+
+        void traverse(namespace_node_ptr const &);
 };
 
 }
