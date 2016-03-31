@@ -250,18 +250,6 @@ void header_output_visitor::visit(node_node const &n)
                 break;
         case visit_decl:
                 out << "        virtual " << n.group->name << "_ptr visit(" << n.name << " &) = 0;" << std::endl;
-                switch(n.smartpointer)
-                {
-                case strict_ownership:
-                        out << "        inline void descend(std::unique_ptr<" << n.name << "> const &p) { if(p) visit(*p); }" << std::endl;
-                        break;
-                case shared_ownership:
-                        out << "        inline void descend(std::shared_ptr<" << n.name << "> const &p) { if(p) visit(*p); }" << std::endl;
-                        break;
-                case intrusive:
-                        out << "        inline void descend(boost::intrusive_ptr<" << n.name << "> const &p) { if(p) visit(*p); }" << std::endl;
-                        break;
-                }
                 break;
         case const_visit_decl:
                 out << "        virtual void visit(" << n.name << " const &) = 0;" << std::endl;

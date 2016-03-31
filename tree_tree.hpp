@@ -89,27 +89,16 @@ public:
                         descend(*i);
         }
         virtual type_node_ptr visit(group_node &) = 0;
-        inline void descend(boost::intrusive_ptr<group_node> const &p) { if(p) visit(*p); }
         virtual type_node_ptr visit(node_node &) = 0;
-        inline void descend(boost::intrusive_ptr<node_node> const &p) { if(p) visit(*p); }
         virtual type_node_ptr visit(basic_type_node &) = 0;
-        inline void descend(boost::intrusive_ptr<basic_type_node> const &p) { if(p) visit(*p); }
         virtual type_node_ptr visit(reference_type_node &) = 0;
-        inline void descend(boost::intrusive_ptr<reference_type_node> const &p) { if(p) visit(*p); }
         virtual type_node_ptr visit(pointer_type_node &) = 0;
-        inline void descend(boost::intrusive_ptr<pointer_type_node> const &p) { if(p) visit(*p); }
         virtual type_node_ptr visit(template_type_node &) = 0;
-        inline void descend(boost::intrusive_ptr<template_type_node> const &p) { if(p) visit(*p); }
         virtual type_node_ptr visit(list_type_node &) = 0;
-        inline void descend(boost::intrusive_ptr<list_type_node> const &p) { if(p) visit(*p); }
         virtual node_ptr visit(root &) = 0;
-        inline void descend(boost::intrusive_ptr<root> const &p) { if(p) visit(*p); }
         virtual node_ptr visit(include_node &) = 0;
-        inline void descend(boost::intrusive_ptr<include_node> const &p) { if(p) visit(*p); }
         virtual node_ptr visit(namespace_node &) = 0;
-        inline void descend(boost::intrusive_ptr<namespace_node> const &p) { if(p) visit(*p); }
         virtual node_ptr visit(data_member_node &) = 0;
-        inline void descend(boost::intrusive_ptr<data_member_node> const &p) { if(p) visit(*p); }
 };
 class node_const_visitor
 {
@@ -165,19 +154,12 @@ public:
                         descend(*i);
         }
         virtual type_node_ptr visit(group_node &) = 0;
-        inline void descend(boost::intrusive_ptr<group_node> const &p) { if(p) visit(*p); }
         virtual type_node_ptr visit(node_node &) = 0;
-        inline void descend(boost::intrusive_ptr<node_node> const &p) { if(p) visit(*p); }
         virtual type_node_ptr visit(basic_type_node &) = 0;
-        inline void descend(boost::intrusive_ptr<basic_type_node> const &p) { if(p) visit(*p); }
         virtual type_node_ptr visit(reference_type_node &) = 0;
-        inline void descend(boost::intrusive_ptr<reference_type_node> const &p) { if(p) visit(*p); }
         virtual type_node_ptr visit(pointer_type_node &) = 0;
-        inline void descend(boost::intrusive_ptr<pointer_type_node> const &p) { if(p) visit(*p); }
         virtual type_node_ptr visit(template_type_node &) = 0;
-        inline void descend(boost::intrusive_ptr<template_type_node> const &p) { if(p) visit(*p); }
         virtual type_node_ptr visit(list_type_node &) = 0;
-        inline void descend(boost::intrusive_ptr<list_type_node> const &p) { if(p) visit(*p); }
 };
 struct group_node : type_node
 {

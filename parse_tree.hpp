@@ -70,23 +70,14 @@ public:
                         descend(*i);
         }
         virtual component_ptr visit(string_literal &) = 0;
-        inline void descend(boost::intrusive_ptr<string_literal> const &p) { if(p) visit(*p); }
         virtual component_ptr visit(unresolved_symbol &) = 0;
-        inline void descend(boost::intrusive_ptr<unresolved_symbol> const &p) { if(p) visit(*p); }
         virtual component_ptr visit(terminal &) = 0;
-        inline void descend(boost::intrusive_ptr<terminal> const &p) { if(p) visit(*p); }
         virtual component_ptr visit(nonterminal &) = 0;
-        inline void descend(boost::intrusive_ptr<nonterminal> const &p) { if(p) visit(*p); }
         virtual component_ptr visit(regex &) = 0;
-        inline void descend(boost::intrusive_ptr<regex> const &p) { if(p) visit(*p); }
         virtual component_ptr visit(group &) = 0;
-        inline void descend(boost::intrusive_ptr<group> const &p) { if(p) visit(*p); }
         virtual node_ptr visit(root &) = 0;
-        inline void descend(boost::intrusive_ptr<root> const &p) { if(p) visit(*p); }
         virtual node_ptr visit(rule &) = 0;
-        inline void descend(boost::intrusive_ptr<rule> const &p) { if(p) visit(*p); }
         virtual node_ptr visit(alternative &) = 0;
-        inline void descend(boost::intrusive_ptr<alternative> const &p) { if(p) visit(*p); }
 };
 class node_const_visitor
 {
