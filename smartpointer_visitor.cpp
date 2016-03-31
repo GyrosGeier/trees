@@ -8,25 +8,10 @@
 namespace trees {
 namespace tree {
 
-node_ptr smartpointer_visitor::visit(root &r)
-{
-        throw;
-}
-
 void smartpointer_visitor::operator()(root_ptr const &r)
 {
         ast_root = r;
         handle(r->global_namespace);
-}
-
-node_ptr smartpointer_visitor::visit(include_node &i)
-{
-        return &i;
-}
-
-node_ptr smartpointer_visitor::visit(namespace_node &n)
-{
-        throw;
 }
 
 void smartpointer_visitor::handle(namespace_node_ptr const &n)
@@ -35,11 +20,6 @@ void smartpointer_visitor::handle(namespace_node_ptr const &n)
                 handle(i);
         if(n->group)
                 handle(n->group);
-}
-
-node_ptr smartpointer_visitor::visit(group_node &n)
-{
-        throw;
 }
 
 void smartpointer_visitor::handle(group_node_ptr const &n)
@@ -52,20 +32,10 @@ void smartpointer_visitor::handle(group_node_ptr const &n)
                 handle(i);
 }
 
-node_ptr smartpointer_visitor::visit(node_node &n)
-{
-        throw;
-}
-
 void smartpointer_visitor::handle(node_node_ptr const &n)
 {
         for(auto const &i : n->members)
                 handle(i);
-}
-
-node_ptr smartpointer_visitor::visit(data_member_node &n)
-{
-        throw;
 }
 
 void smartpointer_visitor::handle(data_member_node_ptr const &n)
