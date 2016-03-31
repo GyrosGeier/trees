@@ -45,12 +45,12 @@ void smartpointer_visitor::handle(data_member_node_ptr const &n)
 
 type_node_ptr smartpointer_visitor::visit(group_type_node &n)
 {
-        return make_smartpointer(&n);
+        return make_smartpointer(&n, n.node->smartpointer);
 }
 
 type_node_ptr smartpointer_visitor::visit(node_type_node &n)
 {
-        return make_smartpointer(&n);
+        return make_smartpointer(&n, n.node->smartpointer);
 }
 
 type_node_ptr smartpointer_visitor::visit(basic_type_node &n)
@@ -79,13 +79,28 @@ type_node_ptr smartpointer_visitor::visit(list_type_node &n)
         return &n;
 }
 
-type_node_ptr smartpointer_visitor::make_smartpointer(type_node_ptr const &n)
+type_node_ptr smartpointer_visitor::make_smartpointer(
+        type_node_ptr const &n,
+        smartpointer_type t)
 {
         template_type_node_ptr nn = new template_type_node;
-        nn->name = "boost::intrusive_ptr";
-        nn->template_args.push_back(n);
         include_node_ptr ni = new include_node;
-        ni->name = "<boost/intrusive_ptr.hpp>";
+        switch(t)
+        {
+        case strict_ownership:
+                nn->name = "std::unique_ptr";
+                ni->name = "<memory>";
+                break;
+        case shared_ownership:
+                nn->name = "std::shared_ptr";
+                ni->name = "<memory>";
+                break;
+        case intrusive:
+                nn->name = "boost::intrusive_ptr";
+                ni->name = "<boost/intrusive_ptr.hpp>";
+                break;
+        }
+        nn->template_args.push_back(n);
         ast_root->includes.push_back(ni);
         return nn;
 }

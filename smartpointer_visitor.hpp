@@ -37,7 +37,7 @@ private:
         void handle(node_node_ptr const &);
         void handle(data_member_node_ptr const &);
 
-        type_node_ptr make_smartpointer(type_node_ptr const &);
+        type_node_ptr make_smartpointer(type_node_ptr const &, smartpointer_type);
 };
 
 }
