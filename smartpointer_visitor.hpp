@@ -12,10 +12,12 @@ namespace trees {
 namespace tree {
 
 class smartpointer_visitor :
-        public node_visitor
+        public node_visitor, public type_node_visitor
 {
 public:
         virtual ~smartpointer_visitor(void) throw() { }
+
+        using type_node_visitor::descend;
 
         void operator()(root_ptr const &);
 
