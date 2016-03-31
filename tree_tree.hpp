@@ -29,6 +29,7 @@ struct node_visitor;
 struct type_node;
 typedef boost::intrusive_ptr<type_node> type_node_ptr;
 typedef type_node *type_node_weak_ptr;
+struct type_node_visitor;
 struct group_node;
 typedef boost::intrusive_ptr<group_node> group_node_ptr;
 typedef group_node *group_node_weak_ptr;
@@ -148,11 +149,41 @@ public:
 struct type_node : node {
         type_node(void) throw() { }
         virtual ~type_node(void) throw() { }
+        virtual type_node_ptr apply(type_node_visitor &) = 0;
+        using node::apply;
+};
+class type_node_visitor
+{
+public:
+        virtual ~type_node_visitor(void) throw() { }
+        template<typename T>
+        inline void descend(boost::intrusive_ptr<T> const &p) { if(p) p->apply(*this); }
+        template<typename T, typename Alloc>
+        inline void descend(std::list<T, Alloc> &l)
+        {
+                for(typename std::list<T, Alloc>::iterator i = l.begin(); i != l.end(); ++i)
+                        descend(*i);
+        }
+        virtual type_node_ptr visit(group_node &) = 0;
+        inline void descend(boost::intrusive_ptr<group_node> const &p) { if(p) visit(*p); }
+        virtual type_node_ptr visit(node_node &) = 0;
+        inline void descend(boost::intrusive_ptr<node_node> const &p) { if(p) visit(*p); }
+        virtual type_node_ptr visit(basic_type_node &) = 0;
+        inline void descend(boost::intrusive_ptr<basic_type_node> const &p) { if(p) visit(*p); }
+        virtual type_node_ptr visit(reference_type_node &) = 0;
+        inline void descend(boost::intrusive_ptr<reference_type_node> const &p) { if(p) visit(*p); }
+        virtual type_node_ptr visit(pointer_type_node &) = 0;
+        inline void descend(boost::intrusive_ptr<pointer_type_node> const &p) { if(p) visit(*p); }
+        virtual type_node_ptr visit(template_type_node &) = 0;
+        inline void descend(boost::intrusive_ptr<template_type_node> const &p) { if(p) visit(*p); }
+        virtual type_node_ptr visit(list_type_node &) = 0;
+        inline void descend(boost::intrusive_ptr<list_type_node> const &p) { if(p) visit(*p); }
 };
 struct group_node : type_node
 {
         group_node() throw() { }
         virtual ~group_node(void) throw() { }
+        virtual type_node_ptr apply(type_node_visitor &);
         virtual node_ptr apply(node_visitor &);
         virtual void apply(node_const_visitor &) const;
         namespace_node_weak_ptr ns;
@@ -169,6 +200,7 @@ struct node_node : type_node
 {
         node_node() throw() { }
         virtual ~node_node(void) throw() { }
+        virtual type_node_ptr apply(type_node_visitor &);
         virtual node_ptr apply(node_visitor &);
         virtual void apply(node_const_visitor &) const;
         namespace_node_weak_ptr ns;
@@ -181,6 +213,7 @@ struct basic_type_node : type_node
 {
         basic_type_node() throw() { }
         virtual ~basic_type_node(void) throw() { }
+        virtual type_node_ptr apply(type_node_visitor &);
         virtual node_ptr apply(node_visitor &);
         virtual void apply(node_const_visitor &) const;
         namespace_node_weak_ptr ns;
@@ -193,6 +226,7 @@ struct reference_type_node : type_node
 {
         reference_type_node() throw() { }
         virtual ~reference_type_node(void) throw() { }
+        virtual type_node_ptr apply(type_node_visitor &);
         virtual node_ptr apply(node_visitor &);
         virtual void apply(node_const_visitor &) const;
         boost::intrusive_ptr< ::trees::tree::type_node>  type;
@@ -201,6 +235,7 @@ struct pointer_type_node : type_node
 {
         pointer_type_node() throw() { }
         virtual ~pointer_type_node(void) throw() { }
+        virtual type_node_ptr apply(type_node_visitor &);
         virtual node_ptr apply(node_visitor &);
         virtual void apply(node_const_visitor &) const;
         boost::intrusive_ptr< ::trees::tree::type_node>  type;
@@ -211,6 +246,7 @@ struct template_type_node : type_node
 {
         template_type_node() throw() { }
         virtual ~template_type_node(void) throw() { }
+        virtual type_node_ptr apply(type_node_visitor &);
         virtual node_ptr apply(node_visitor &);
         virtual void apply(node_const_visitor &) const;
         namespace_node_weak_ptr ns;
@@ -221,6 +257,7 @@ struct list_type_node : type_node
 {
         list_type_node() throw() { }
         virtual ~list_type_node(void) throw() { }
+        virtual type_node_ptr apply(type_node_visitor &);
         virtual node_ptr apply(node_visitor &);
         virtual void apply(node_const_visitor &) const;
         boost::intrusive_ptr< ::trees::tree::type_node>  type;

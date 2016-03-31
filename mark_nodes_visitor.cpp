@@ -3,27 +3,12 @@
 namespace trees {
 namespace tree {
 
-node_ptr mark_nodes_visitor::visit(root &r)
-{
-        throw;
-}
-
 void mark_nodes_visitor::operator()(root_ptr const &r)
 {
         collecting = true;
         traverse(r->global_namespace);
         collecting = false;
         traverse(r->global_namespace);
-}
-
-node_ptr mark_nodes_visitor::visit(include_node &i)
-{
-        return &i;
-}
-
-node_ptr mark_nodes_visitor::visit(namespace_node &n)
-{
-        throw;
 }
 
 void mark_nodes_visitor::traverse(namespace_node_ptr const &n)
@@ -65,11 +50,6 @@ void mark_nodes_visitor::handle(node_node_ptr const &n)
         else
                 for(auto const &i : n->members)
                         handle(i);
-}
-
-node_ptr mark_nodes_visitor::visit(data_member_node &n)
-{
-        throw;
 }
 
 void mark_nodes_visitor::handle(data_member_node_ptr const &n)
