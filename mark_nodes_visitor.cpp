@@ -5,11 +5,15 @@ namespace tree {
 
 node_ptr mark_nodes_visitor::visit(root &r)
 {
+        throw;
+}
+
+void mark_nodes_visitor::operator()(root_ptr const &r)
+{
         collecting = true;
-        descend(r.global_namespace);
+        descend(r->global_namespace);
         collecting = false;
-        descend(r.global_namespace);
-        return &r;
+        descend(r->global_namespace);
 }
 
 node_ptr mark_nodes_visitor::visit(include_node &i)

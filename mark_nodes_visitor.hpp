@@ -12,6 +12,8 @@ class mark_nodes_visitor :
 public:
         virtual ~mark_nodes_visitor(void) throw() { }
 
+        void operator()(root_ptr const &);
+
         virtual node_ptr visit(root &);
         virtual node_ptr visit(include_node &);
         virtual node_ptr visit(namespace_node &);

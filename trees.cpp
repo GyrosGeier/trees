@@ -277,7 +277,7 @@ int go(int argc, char **argv)
         }
 
         tree::mark_nodes_visitor mark_nodes;
-        ast->apply(mark_nodes);
+        mark_nodes(ast);
 
         tree::smartpointer_visitor smartptr;
         ast->apply(smartptr);
