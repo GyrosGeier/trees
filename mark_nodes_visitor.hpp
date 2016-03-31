@@ -30,6 +30,8 @@ private:
         bool collecting;
 
         void traverse(namespace_node_ptr const &);
+        void handle(group_node_ptr const &);
+        void handle(node_node_ptr const &);
 };
 
 }

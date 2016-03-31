@@ -30,27 +30,38 @@ void mark_nodes_visitor::traverse(namespace_node_ptr const &n)
 {
         for(auto const &i : n->namespaces)
                 traverse(i);
-        descend(n->group);
+        if(n->group)
+                handle(n->group);
 }
 
 type_node_ptr mark_nodes_visitor::visit(group_node &n)
 {
+        throw;
+}
+
+void mark_nodes_visitor::handle(group_node_ptr const &n)
+{
         if(collecting)
-                n.ns->node_types.insert(n.name);
+                n->ns->node_types.insert(n->name);
         else
-                descend(n.default_members);
-        descend(n.groups);
-        descend(n.nodes);
-        return &n;
+                descend(n->default_members);
+        for(auto const &i : n->groups)
+                handle(i);
+        for(auto const &i : n->nodes)
+                handle(i);
 }
 
 type_node_ptr mark_nodes_visitor::visit(node_node &n)
 {
+        throw;
+}
+
+void mark_nodes_visitor::handle(node_node_ptr const &n)
+{
         if(collecting)
-                n.ns->node_types.insert(n.name);
+                n->ns->node_types.insert(n->name);
         else
-                descend(n.members);
-        return &n;
+                descend(n->members);
 }
 
 node_ptr mark_nodes_visitor::visit(data_member_node &n)
