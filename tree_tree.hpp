@@ -81,7 +81,7 @@ class node_visitor
 public:
         virtual ~node_visitor(void) throw() { }
         template<typename T>
-        inline void descend(boost::intrusive_ptr<T> const &p) { if(p) p->apply(*this); }
+        inline void descend(boost::intrusive_ptr<T> &p) { if(p) p = p->apply(*this); }
         template<typename T, typename Alloc>
         inline void descend(std::list<T, Alloc> &l)
         {
@@ -146,7 +146,7 @@ class type_node_visitor
 public:
         virtual ~type_node_visitor(void) throw() { }
         template<typename T>
-        inline void descend(boost::intrusive_ptr<T> const &p) { if(p) p->apply(*this); }
+        inline void descend(boost::intrusive_ptr<T> &p) { if(p) p = p->apply(*this); }
         template<typename T, typename Alloc>
         inline void descend(std::list<T, Alloc> &l)
         {
