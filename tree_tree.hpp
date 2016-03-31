@@ -3,7 +3,6 @@
 
 #include <string>
 #include <string>
-#include <set>
 #include <string>
 #include <tree.h>
 #include <string>
@@ -254,7 +253,6 @@ struct namespace_node : node
         std::list<boost::intrusive_ptr< ::trees::tree::namespace_node> >  namespaces;
         boost::intrusive_ptr< ::trees::tree::group_node>  group;
         bool uses_lists;
-        std::set< std::string>  node_types;
 };
 struct data_member_node : node
 {

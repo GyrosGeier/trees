@@ -42,7 +42,7 @@ type_node_ptr mark_nodes_visitor::visit(group_node &n)
 void mark_nodes_visitor::handle(group_node_ptr const &n)
 {
         if(collecting)
-                n->ns->node_types.insert(n->name);
+                known_types[n->ns][n->name] = n;
         else
                 for(auto const &i : n->default_members)
                         handle(i);
@@ -61,7 +61,7 @@ type_node_ptr mark_nodes_visitor::visit(node_node &n)
 void mark_nodes_visitor::handle(node_node_ptr const &n)
 {
         if(collecting)
-                n->ns->node_types.insert(n->name);
+                known_types[n->ns][n->name] = n;
         else
                 for(auto const &i : n->members)
                         handle(i);
@@ -79,7 +79,19 @@ void mark_nodes_visitor::handle(data_member_node_ptr const &n)
 
 type_node_ptr mark_nodes_visitor::visit(basic_type_node &n)
 {
-        n.is_node = (n.ns->node_types.find(n.name) != n.ns->node_types.end());
+        auto i = known_types.find(n.ns);
+        if(i == known_types.end())
+        {
+                n.is_node = false;
+                return &n;
+        }
+        auto j = i->second.find(n.name);
+        if(j == i->second.end())
+        {
+                n.is_node = false;
+                return &n;
+        }
+        n.is_node = true;
         return &n;
 }
 

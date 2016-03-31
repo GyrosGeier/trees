@@ -18,13 +18,11 @@ node include_node {
 
 node namespace_node {
     %include <string>
-    %include <set>
     namespace_node_weak_ptr parent;
     std::string name;
     namespace_node namespaces[];
     group_node group;
     bool uses_lists;
-    std::set<std::string> node_types;
 };
 
 group type_node {

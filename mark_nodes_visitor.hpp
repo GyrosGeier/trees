@@ -3,6 +3,9 @@
 
 #include <tree_tree.hpp>
 
+#include <map>
+#include <string>
+
 namespace trees {
 namespace tree {
 
@@ -28,6 +31,8 @@ public:
 
 private:
         bool collecting;
+
+        std::map<namespace_node_ptr, std::map<std::string, type_node_ptr> > known_types;
 
         void traverse(namespace_node_ptr const &);
         void handle(group_node_ptr const &);
