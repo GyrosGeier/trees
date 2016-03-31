@@ -10,9 +10,13 @@ namespace tree {
 
 node_ptr smartpointer_visitor::visit(root &r)
 {
-        ast_root = &r;
-        descend(r.global_namespace);
-        return &r;
+        throw;
+}
+
+void smartpointer_visitor::operator()(root_ptr const &r)
+{
+        ast_root = r;
+        descend(r->global_namespace);
 }
 
 node_ptr smartpointer_visitor::visit(include_node &i)

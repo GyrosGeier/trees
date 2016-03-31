@@ -17,6 +17,8 @@ class smartpointer_visitor :
 public:
         virtual ~smartpointer_visitor(void) throw() { }
 
+        void operator()(root_ptr const &);
+
         virtual node_ptr visit(root &);
         virtual node_ptr visit(include_node &);
         virtual node_ptr visit(namespace_node &);

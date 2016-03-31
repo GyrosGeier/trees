@@ -280,7 +280,7 @@ int go(int argc, char **argv)
         mark_nodes(ast);
 
         tree::smartpointer_visitor smartptr;
-        ast->apply(smartptr);
+        smartptr(ast);
 
         std::ofstream out(output.c_str());
 
