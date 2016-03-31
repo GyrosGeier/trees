@@ -16,7 +16,7 @@ node_ptr smartpointer_visitor::visit(root &r)
 void smartpointer_visitor::operator()(root_ptr const &r)
 {
         ast_root = r;
-        descend(r->global_namespace);
+        handle(r->global_namespace);
 }
 
 node_ptr smartpointer_visitor::visit(include_node &i)
@@ -26,9 +26,14 @@ node_ptr smartpointer_visitor::visit(include_node &i)
 
 node_ptr smartpointer_visitor::visit(namespace_node &n)
 {
-        descend(n.namespaces);
-        descend(n.group);
-        return &n;
+        throw;
+}
+
+void smartpointer_visitor::handle(namespace_node_ptr const &n)
+{
+        for(auto const &i : n->namespaces)
+                handle(i);
+        descend(n->group);
 }
 
 type_node_ptr smartpointer_visitor::visit(group_node &n)
