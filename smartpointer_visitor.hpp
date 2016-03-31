@@ -36,13 +36,14 @@ public:
         virtual type_node_ptr visit(list_type_node &);
 
 private:
-        bool is_node_type;
         root_ptr ast_root;
 
         void handle(namespace_node_ptr const &);
         void handle(group_node_ptr const &);
         void handle(node_node_ptr const &);
         void handle(data_member_node_ptr const &);
+
+        type_node_ptr make_smartpointer(type_node_ptr const &);
 };
 
 }

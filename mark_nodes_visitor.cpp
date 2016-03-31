@@ -69,18 +69,11 @@ type_node_ptr mark_nodes_visitor::visit(basic_type_node &n)
 {
         auto i = known_types.find(n.ns);
         if(i == known_types.end())
-        {
-                n.is_node = false;
                 return &n;
-        }
         auto j = i->second.find(n.name);
         if(j == i->second.end())
-        {
-                n.is_node = false;
                 return &n;
-        }
-        n.is_node = true;
-        return &n;
+        return j->second;
 }
 
 type_node_ptr mark_nodes_visitor::visit(reference_type_node &n)

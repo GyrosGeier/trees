@@ -270,12 +270,18 @@ void header_output_visitor::visit(node_node const &n)
 
 void header_output_visitor::visit(group_type_node const &n)
 {
-        out << n.node->name;
+        std::string ns;
+        for(namespace_node_ptr i = n.node->ns; i; i = i->parent)
+                ns = i->name + "::" + ns;
+        out << ns << n.node->name;
 }
 
 void header_output_visitor::visit(node_type_node const &n)
 {
-        out << n.node->name;
+        std::string ns;
+        for(namespace_node_ptr i = n.node->ns; i; i = i->parent)
+                ns = i->name + "::" + ns;
+        out << ns << n.node->name;
 }
 
 void header_output_visitor::visit(basic_type_node const &n)

@@ -20,6 +20,13 @@
 #include <boost/intrusive_ptr.hpp>
 #include <boost/intrusive_ptr.hpp>
 #include <boost/intrusive_ptr.hpp>
+#include <boost/intrusive_ptr.hpp>
+#include <boost/intrusive_ptr.hpp>
+#include <boost/intrusive_ptr.hpp>
+#include <boost/intrusive_ptr.hpp>
+#include <boost/intrusive_ptr.hpp>
+#include <boost/intrusive_ptr.hpp>
+#include <boost/intrusive_ptr.hpp>
 #include <list>
 namespace trees {
 namespace tree {
@@ -202,7 +209,6 @@ struct basic_type_node : type_node
         virtual void apply(node_const_visitor &) const;
         namespace_node_weak_ptr ns;
         std::string name;
-        bool is_node;
         bool is_const;
         bool is_volatile;
 };
