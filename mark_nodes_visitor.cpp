@@ -44,7 +44,9 @@ void mark_nodes_visitor::handle(group_node_ptr const &n)
         if(collecting)
                 n->ns->node_types.insert(n->name);
         else
-                descend(n->default_members);
+                for(auto const &i : n->default_members)
+                        handle(i);
+
         for(auto const &i : n->groups)
                 handle(i);
         for(auto const &i : n->nodes)
@@ -61,13 +63,18 @@ void mark_nodes_visitor::handle(node_node_ptr const &n)
         if(collecting)
                 n->ns->node_types.insert(n->name);
         else
-                descend(n->members);
+                for(auto const &i : n->members)
+                        handle(i);
 }
 
 node_ptr mark_nodes_visitor::visit(data_member_node &n)
 {
-        descend(n.type);
-        return &n;
+        throw;
+}
+
+void mark_nodes_visitor::handle(data_member_node_ptr const &n)
+{
+        descend(n->type);
 }
 
 type_node_ptr mark_nodes_visitor::visit(basic_type_node &n)
