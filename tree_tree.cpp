@@ -2,27 +2,27 @@
 
 namespace trees {
 namespace tree {
-type_node_ptr group_node::apply(type_node_visitor &v)
+type_node_ptr group_type_node::apply(type_node_visitor &v)
 {
         return v.visit(*this);
 }
-node_ptr group_node::apply(node_visitor &v)
+node_ptr group_type_node::apply(node_visitor &v)
 {
         return v.visit(*this);
 }
-void group_node::apply(node_const_visitor &v) const
+void group_type_node::apply(node_const_visitor &v) const
 {
         v.visit(*this);
 }
-type_node_ptr node_node::apply(type_node_visitor &v)
+type_node_ptr node_type_node::apply(type_node_visitor &v)
 {
         return v.visit(*this);
 }
-node_ptr node_node::apply(node_visitor &v)
+node_ptr node_type_node::apply(node_visitor &v)
 {
         return v.visit(*this);
 }
-void node_node::apply(node_const_visitor &v) const
+void node_type_node::apply(node_const_visitor &v) const
 {
         v.visit(*this);
 }
@@ -107,6 +107,22 @@ node_ptr namespace_node::apply(node_visitor &v)
         return v.visit(*this);
 }
 void namespace_node::apply(node_const_visitor &v) const
+{
+        v.visit(*this);
+}
+node_ptr group_node::apply(node_visitor &v)
+{
+        return v.visit(*this);
+}
+void group_node::apply(node_const_visitor &v) const
+{
+        v.visit(*this);
+}
+node_ptr node_node::apply(node_visitor &v)
+{
+        return v.visit(*this);
+}
+void node_node::apply(node_const_visitor &v) const
 {
         v.visit(*this);
 }

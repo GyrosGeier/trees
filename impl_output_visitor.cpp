@@ -59,6 +59,16 @@ void impl_output_visitor::visit(group_node const &n)
         descend(n.nodes);
 }
 
+void impl_output_visitor::visit(group_type_node const &)
+{
+        return;
+}
+
+void impl_output_visitor::visit(node_type_node const &)
+{
+        return;
+}
+
 void impl_output_visitor::visit(basic_type_node const &)
 {
         return;

@@ -19,7 +19,7 @@ void mark_nodes_visitor::traverse(namespace_node_ptr const &n)
                 handle(n->group);
 }
 
-type_node_ptr mark_nodes_visitor::visit(group_node &n)
+type_node_ptr mark_nodes_visitor::visit(group_type_node &n)
 {
         throw;
 }
@@ -27,7 +27,11 @@ type_node_ptr mark_nodes_visitor::visit(group_node &n)
 void mark_nodes_visitor::handle(group_node_ptr const &n)
 {
         if(collecting)
-                known_types[n->ns][n->name] = n;
+        {
+                group_type_node_ptr nn = new group_type_node;
+                nn->node = n;
+                known_types[n->ns][n->name] = nn;
+        }
         else
                 for(auto const &i : n->default_members)
                         handle(i);
@@ -38,7 +42,7 @@ void mark_nodes_visitor::handle(group_node_ptr const &n)
                 handle(i);
 }
 
-type_node_ptr mark_nodes_visitor::visit(node_node &n)
+type_node_ptr mark_nodes_visitor::visit(node_type_node &n)
 {
         throw;
 }
@@ -46,7 +50,11 @@ type_node_ptr mark_nodes_visitor::visit(node_node &n)
 void mark_nodes_visitor::handle(node_node_ptr const &n)
 {
         if(collecting)
-                known_types[n->ns][n->name] = n;
+        {
+                node_type_node_ptr nn = new node_type_node;
+                nn->node = n;
+                known_types[n->ns][n->name] = nn;
+        }
         else
                 for(auto const &i : n->members)
                         handle(i);

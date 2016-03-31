@@ -268,6 +268,16 @@ void header_output_visitor::visit(node_node const &n)
         }
 }
 
+void header_output_visitor::visit(group_type_node const &n)
+{
+        out << n.node->name;
+}
+
+void header_output_visitor::visit(node_type_node const &n)
+{
+        out << n.node->name;
+}
+
 void header_output_visitor::visit(basic_type_node const &n)
 {
         out << n.name;

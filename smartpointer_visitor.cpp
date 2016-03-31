@@ -37,7 +37,7 @@ void smartpointer_visitor::handle(namespace_node_ptr const &n)
                 handle(n->group);
 }
 
-type_node_ptr smartpointer_visitor::visit(group_node &n)
+node_ptr smartpointer_visitor::visit(group_node &n)
 {
         throw;
 }
@@ -52,7 +52,7 @@ void smartpointer_visitor::handle(group_node_ptr const &n)
                 handle(i);
 }
 
-type_node_ptr smartpointer_visitor::visit(node_node &n)
+node_ptr smartpointer_visitor::visit(node_node &n)
 {
         throw;
 }
@@ -81,6 +81,16 @@ void smartpointer_visitor::handle(data_member_node_ptr const &n)
                 ni->name = "<boost/intrusive_ptr.hpp>";
                 ast_root->includes.push_back(ni);
         }
+}
+
+type_node_ptr smartpointer_visitor::visit(group_type_node &n)
+{
+        throw;
+}
+
+type_node_ptr smartpointer_visitor::visit(node_type_node &n)
+{
+        throw;
 }
 
 type_node_ptr smartpointer_visitor::visit(basic_type_node &n)

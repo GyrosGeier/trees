@@ -25,8 +25,10 @@ public:
         virtual node_ptr visit(include_node &);
         virtual node_ptr visit(namespace_node &);
         virtual node_ptr visit(data_member_node &);
-        virtual type_node_ptr visit(group_node &);
-        virtual type_node_ptr visit(node_node &);
+        virtual node_ptr visit(group_node &);
+        virtual node_ptr visit(node_node &);
+        virtual type_node_ptr visit(group_type_node &);
+        virtual type_node_ptr visit(node_type_node &);
         virtual type_node_ptr visit(basic_type_node &);
         virtual type_node_ptr visit(reference_type_node &);
         virtual type_node_ptr visit(pointer_type_node &);

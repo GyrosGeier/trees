@@ -18,6 +18,8 @@
 #include <boost/intrusive_ptr.hpp>
 #include <boost/intrusive_ptr.hpp>
 #include <boost/intrusive_ptr.hpp>
+#include <boost/intrusive_ptr.hpp>
+#include <boost/intrusive_ptr.hpp>
 #include <list>
 namespace trees {
 namespace tree {
@@ -30,12 +32,12 @@ struct type_node;
 typedef boost::intrusive_ptr<type_node> type_node_ptr;
 typedef type_node *type_node_weak_ptr;
 struct type_node_visitor;
-struct group_node;
-typedef boost::intrusive_ptr<group_node> group_node_ptr;
-typedef group_node *group_node_weak_ptr;
-struct node_node;
-typedef boost::intrusive_ptr<node_node> node_node_ptr;
-typedef node_node *node_node_weak_ptr;
+struct group_type_node;
+typedef boost::intrusive_ptr<group_type_node> group_type_node_ptr;
+typedef group_type_node *group_type_node_weak_ptr;
+struct node_type_node;
+typedef boost::intrusive_ptr<node_type_node> node_type_node_ptr;
+typedef node_type_node *node_type_node_weak_ptr;
 struct basic_type_node;
 typedef boost::intrusive_ptr<basic_type_node> basic_type_node_ptr;
 typedef basic_type_node *basic_type_node_weak_ptr;
@@ -60,6 +62,12 @@ typedef include_node *include_node_weak_ptr;
 struct namespace_node;
 typedef boost::intrusive_ptr<namespace_node> namespace_node_ptr;
 typedef namespace_node *namespace_node_weak_ptr;
+struct group_node;
+typedef boost::intrusive_ptr<group_node> group_node_ptr;
+typedef group_node *group_node_weak_ptr;
+struct node_node;
+typedef boost::intrusive_ptr<node_node> node_node_ptr;
+typedef node_node *node_node_weak_ptr;
 struct data_member_node;
 typedef boost::intrusive_ptr<data_member_node> data_member_node_ptr;
 typedef data_member_node *data_member_node_weak_ptr;
@@ -88,8 +96,8 @@ public:
                 for(typename std::list<T, Alloc>::iterator i = l.begin(); i != l.end(); ++i)
                         descend(*i);
         }
-        virtual type_node_ptr visit(group_node &) = 0;
-        virtual type_node_ptr visit(node_node &) = 0;
+        virtual type_node_ptr visit(group_type_node &) = 0;
+        virtual type_node_ptr visit(node_type_node &) = 0;
         virtual type_node_ptr visit(basic_type_node &) = 0;
         virtual type_node_ptr visit(reference_type_node &) = 0;
         virtual type_node_ptr visit(pointer_type_node &) = 0;
@@ -98,6 +106,8 @@ public:
         virtual node_ptr visit(root &) = 0;
         virtual node_ptr visit(include_node &) = 0;
         virtual node_ptr visit(namespace_node &) = 0;
+        virtual node_ptr visit(group_node &) = 0;
+        virtual node_ptr visit(node_node &) = 0;
         virtual node_ptr visit(data_member_node &) = 0;
 };
 class node_const_visitor
@@ -112,10 +122,10 @@ public:
                 for(typename std::list<T, Alloc>::const_iterator i = l.begin(); i != l.end(); ++i)
                         descend(*i);
         }
-        virtual void visit(group_node const &) = 0;
-        inline void descend(boost::intrusive_ptr<group_node> const &p) { if(p) visit(*p); }
-        virtual void visit(node_node const &) = 0;
-        inline void descend(boost::intrusive_ptr<node_node> const &p) { if(p) visit(*p); }
+        virtual void visit(group_type_node const &) = 0;
+        inline void descend(boost::intrusive_ptr<group_type_node> const &p) { if(p) visit(*p); }
+        virtual void visit(node_type_node const &) = 0;
+        inline void descend(boost::intrusive_ptr<node_type_node> const &p) { if(p) visit(*p); }
         virtual void visit(basic_type_node const &) = 0;
         inline void descend(boost::intrusive_ptr<basic_type_node> const &p) { if(p) visit(*p); }
         virtual void visit(reference_type_node const &) = 0;
@@ -132,6 +142,10 @@ public:
         inline void descend(boost::intrusive_ptr<include_node> const &p) { if(p) visit(*p); }
         virtual void visit(namespace_node const &) = 0;
         inline void descend(boost::intrusive_ptr<namespace_node> const &p) { if(p) visit(*p); }
+        virtual void visit(group_node const &) = 0;
+        inline void descend(boost::intrusive_ptr<group_node> const &p) { if(p) visit(*p); }
+        virtual void visit(node_node const &) = 0;
+        inline void descend(boost::intrusive_ptr<node_node> const &p) { if(p) visit(*p); }
         virtual void visit(data_member_node const &) = 0;
         inline void descend(boost::intrusive_ptr<data_member_node> const &p) { if(p) visit(*p); }
 };
@@ -153,43 +167,31 @@ public:
                 for(typename std::list<T, Alloc>::iterator i = l.begin(); i != l.end(); ++i)
                         descend(*i);
         }
-        virtual type_node_ptr visit(group_node &) = 0;
-        virtual type_node_ptr visit(node_node &) = 0;
+        virtual type_node_ptr visit(group_type_node &) = 0;
+        virtual type_node_ptr visit(node_type_node &) = 0;
         virtual type_node_ptr visit(basic_type_node &) = 0;
         virtual type_node_ptr visit(reference_type_node &) = 0;
         virtual type_node_ptr visit(pointer_type_node &) = 0;
         virtual type_node_ptr visit(template_type_node &) = 0;
         virtual type_node_ptr visit(list_type_node &) = 0;
 };
-struct group_node : type_node
+struct group_type_node : type_node
 {
-        group_node() throw() { }
-        virtual ~group_node(void) throw() { }
+        group_type_node() throw() { }
+        virtual ~group_type_node(void) throw() { }
         virtual type_node_ptr apply(type_node_visitor &);
         virtual node_ptr apply(node_visitor &);
         virtual void apply(node_const_visitor &) const;
-        namespace_node_weak_ptr ns;
-        group_node_weak_ptr parent;
-        std::string name;
-        bool has_visitor;
-        bool has_const_visitor;
-        std::list<boost::intrusive_ptr< ::trees::tree::group_node> >  groups;
-        std::list<boost::intrusive_ptr< ::trees::tree::node_node> >  nodes;
-        std::list<boost::intrusive_ptr< ::trees::tree::data_member_node> >  default_members;
-        smartpointer_type smartpointer;
+        boost::intrusive_ptr< ::trees::tree::group_node>  node;
 };
-struct node_node : type_node
+struct node_type_node : type_node
 {
-        node_node() throw() { }
-        virtual ~node_node(void) throw() { }
+        node_type_node() throw() { }
+        virtual ~node_type_node(void) throw() { }
         virtual type_node_ptr apply(type_node_visitor &);
         virtual node_ptr apply(node_visitor &);
         virtual void apply(node_const_visitor &) const;
-        namespace_node_weak_ptr ns;
-        group_node_weak_ptr group;
-        std::string name;
-        std::list<boost::intrusive_ptr< ::trees::tree::data_member_node> >  members;
-        smartpointer_type smartpointer;
+        boost::intrusive_ptr< ::trees::tree::node_node>  node;
 };
 struct basic_type_node : type_node
 {
@@ -272,6 +274,34 @@ struct namespace_node : node
         std::list<boost::intrusive_ptr< ::trees::tree::namespace_node> >  namespaces;
         boost::intrusive_ptr< ::trees::tree::group_node>  group;
         bool uses_lists;
+};
+struct group_node : node
+{
+        group_node() throw() { }
+        virtual ~group_node(void) throw() { }
+        virtual node_ptr apply(node_visitor &);
+        virtual void apply(node_const_visitor &) const;
+        namespace_node_weak_ptr ns;
+        group_node_weak_ptr parent;
+        std::string name;
+        bool has_visitor;
+        bool has_const_visitor;
+        std::list<boost::intrusive_ptr< ::trees::tree::group_node> >  groups;
+        std::list<boost::intrusive_ptr< ::trees::tree::node_node> >  nodes;
+        std::list<boost::intrusive_ptr< ::trees::tree::data_member_node> >  default_members;
+        smartpointer_type smartpointer;
+};
+struct node_node : node
+{
+        node_node() throw() { }
+        virtual ~node_node(void) throw() { }
+        virtual node_ptr apply(node_visitor &);
+        virtual void apply(node_const_visitor &) const;
+        namespace_node_weak_ptr ns;
+        group_node_weak_ptr group;
+        std::string name;
+        std::list<boost::intrusive_ptr< ::trees::tree::data_member_node> >  members;
+        smartpointer_type smartpointer;
 };
 struct data_member_node : node
 {

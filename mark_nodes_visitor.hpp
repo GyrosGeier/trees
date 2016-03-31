@@ -17,8 +17,8 @@ public:
 
         void operator()(root_ptr const &);
 
-        virtual type_node_ptr visit(group_node &);
-        virtual type_node_ptr visit(node_node &);
+        virtual type_node_ptr visit(group_type_node &);
+        virtual type_node_ptr visit(node_type_node &);
         virtual type_node_ptr visit(basic_type_node &);
         virtual type_node_ptr visit(reference_type_node &);
         virtual type_node_ptr visit(pointer_type_node &);
