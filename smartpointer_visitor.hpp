@@ -36,6 +36,8 @@ private:
         root_ptr ast_root;
 
         void handle(namespace_node_ptr const &);
+        void handle(group_node_ptr const &);
+        void handle(node_node_ptr const &);
 };
 
 }

@@ -33,21 +33,32 @@ void smartpointer_visitor::handle(namespace_node_ptr const &n)
 {
         for(auto const &i : n->namespaces)
                 handle(i);
-        descend(n->group);
+        if(n->group)
+                handle(n->group);
 }
 
 type_node_ptr smartpointer_visitor::visit(group_node &n)
 {
-        descend(n.groups);
-        descend(n.default_members);
-        descend(n.nodes);
-        return &n;
+        throw;
+}
+
+void smartpointer_visitor::handle(group_node_ptr const &n)
+{
+        for(auto const &i : n->groups)
+                handle(i);
+        descend(n->default_members);
+        for(auto const &i : n->nodes)
+                handle(i);
 }
 
 type_node_ptr smartpointer_visitor::visit(node_node &n)
 {
-        descend(n.members);
-        return &n;
+        throw;
+}
+
+void smartpointer_visitor::handle(node_node_ptr const &n)
+{
+        descend(n->members);
 }
 
 node_ptr smartpointer_visitor::visit(data_member_node &n)
