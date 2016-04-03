@@ -38,6 +38,18 @@ void basic_type_node::apply(node_const_visitor &v) const
 {
         v.visit(*this);
 }
+type_node_ptr rvalue_reference_type_node::apply(type_node_visitor &v)
+{
+        return v.visit(*this);
+}
+node_ptr rvalue_reference_type_node::apply(node_visitor &v)
+{
+        return v.visit(*this);
+}
+void rvalue_reference_type_node::apply(node_const_visitor &v) const
+{
+        v.visit(*this);
+}
 type_node_ptr reference_type_node::apply(type_node_visitor &v)
 {
         return v.visit(*this);

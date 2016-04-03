@@ -20,6 +20,7 @@ public:
         virtual type_node_ptr visit(group_type_node &);
         virtual type_node_ptr visit(node_type_node &);
         virtual type_node_ptr visit(basic_type_node &);
+        virtual type_node_ptr visit(rvalue_reference_type_node &);
         virtual type_node_ptr visit(reference_type_node &);
         virtual type_node_ptr visit(pointer_type_node &);
         virtual type_node_ptr visit(template_type_node &);

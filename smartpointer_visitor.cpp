@@ -58,6 +58,11 @@ type_node_ptr smartpointer_visitor::visit(basic_type_node &n)
         return &n;
 }
 
+type_node_ptr smartpointer_visitor::visit(rvalue_reference_type_node &n)
+{
+        return &n;
+}
+
 type_node_ptr smartpointer_visitor::visit(reference_type_node &n)
 {
         return &n;

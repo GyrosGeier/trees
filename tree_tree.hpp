@@ -27,6 +27,7 @@
 #include <boost/intrusive_ptr.hpp>
 #include <boost/intrusive_ptr.hpp>
 #include <boost/intrusive_ptr.hpp>
+#include <boost/intrusive_ptr.hpp>
 #include <list>
 namespace trees {
 namespace tree {
@@ -48,6 +49,9 @@ typedef node_type_node *node_type_node_weak_ptr;
 struct basic_type_node;
 typedef boost::intrusive_ptr<basic_type_node> basic_type_node_ptr;
 typedef basic_type_node *basic_type_node_weak_ptr;
+struct rvalue_reference_type_node;
+typedef boost::intrusive_ptr<rvalue_reference_type_node> rvalue_reference_type_node_ptr;
+typedef rvalue_reference_type_node *rvalue_reference_type_node_weak_ptr;
 struct reference_type_node;
 typedef boost::intrusive_ptr<reference_type_node> reference_type_node_ptr;
 typedef reference_type_node *reference_type_node_weak_ptr;
@@ -106,6 +110,7 @@ public:
         virtual type_node_ptr visit(group_type_node &) = 0;
         virtual type_node_ptr visit(node_type_node &) = 0;
         virtual type_node_ptr visit(basic_type_node &) = 0;
+        virtual type_node_ptr visit(rvalue_reference_type_node &) = 0;
         virtual type_node_ptr visit(reference_type_node &) = 0;
         virtual type_node_ptr visit(pointer_type_node &) = 0;
         virtual type_node_ptr visit(template_type_node &) = 0;
@@ -135,6 +140,8 @@ public:
         inline void descend(boost::intrusive_ptr<node_type_node> const &p) { if(p) visit(*p); }
         virtual void visit(basic_type_node const &) = 0;
         inline void descend(boost::intrusive_ptr<basic_type_node> const &p) { if(p) visit(*p); }
+        virtual void visit(rvalue_reference_type_node const &) = 0;
+        inline void descend(boost::intrusive_ptr<rvalue_reference_type_node> const &p) { if(p) visit(*p); }
         virtual void visit(reference_type_node const &) = 0;
         inline void descend(boost::intrusive_ptr<reference_type_node> const &p) { if(p) visit(*p); }
         virtual void visit(pointer_type_node const &) = 0;
@@ -177,6 +184,7 @@ public:
         virtual type_node_ptr visit(group_type_node &) = 0;
         virtual type_node_ptr visit(node_type_node &) = 0;
         virtual type_node_ptr visit(basic_type_node &) = 0;
+        virtual type_node_ptr visit(rvalue_reference_type_node &) = 0;
         virtual type_node_ptr visit(reference_type_node &) = 0;
         virtual type_node_ptr visit(pointer_type_node &) = 0;
         virtual type_node_ptr visit(template_type_node &) = 0;
@@ -211,6 +219,15 @@ struct basic_type_node : type_node
         std::string name;
         bool is_const;
         bool is_volatile;
+};
+struct rvalue_reference_type_node : type_node
+{
+        rvalue_reference_type_node() throw() { }
+        virtual ~rvalue_reference_type_node(void) throw() { }
+        virtual type_node_ptr apply(type_node_visitor &);
+        virtual node_ptr apply(node_visitor &);
+        virtual void apply(node_const_visitor &) const;
+        boost::intrusive_ptr< ::trees::tree::type_node>  type;
 };
 struct reference_type_node : type_node
 {

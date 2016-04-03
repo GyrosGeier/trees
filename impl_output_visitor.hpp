@@ -28,6 +28,7 @@ public:
         virtual void visit(group_type_node const &);
         virtual void visit(node_type_node const &);
         virtual void visit(basic_type_node const &);
+        virtual void visit(rvalue_reference_type_node const &);
         virtual void visit(reference_type_node const &);
         virtual void visit(pointer_type_node const &);
         virtual void visit(template_type_node const &);

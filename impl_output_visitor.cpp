@@ -74,6 +74,11 @@ void impl_output_visitor::visit(basic_type_node const &)
         return;
 }
 
+void impl_output_visitor::visit(rvalue_reference_type_node const &)
+{
+        return;
+}
+
 void impl_output_visitor::visit(reference_type_node const &)
 {
         return;

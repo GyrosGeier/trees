@@ -76,6 +76,12 @@ type_node_ptr mark_nodes_visitor::visit(basic_type_node &n)
         return j->second;
 }
 
+type_node_ptr mark_nodes_visitor::visit(rvalue_reference_type_node &n)
+{
+        descend(n.type);
+        return &n;
+}
+
 type_node_ptr mark_nodes_visitor::visit(reference_type_node &n)
 {
         descend(n.type);

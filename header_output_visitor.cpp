@@ -293,6 +293,12 @@ void header_output_visitor::visit(basic_type_node const &n)
                 out << " volatile";
 }
 
+void header_output_visitor::visit(rvalue_reference_type_node const &n)
+{
+        descend(n.type);
+        out << "&&";
+}
+
 void header_output_visitor::visit(reference_type_node const &n)
 {
         descend(n.type);

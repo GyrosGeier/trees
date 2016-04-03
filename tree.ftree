@@ -66,6 +66,10 @@ group type_node {
         bool is_volatile;
     };
 
+    node rvalue_reference_type_node {
+        type_node type;
+    };
+
     node reference_type_node {
         type_node type;
     };
