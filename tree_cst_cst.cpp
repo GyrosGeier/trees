@@ -351,10 +351,6 @@ void scoped_name::apply(node_const_visitor &v) const
 {
         v.visit(*this);
 }
-void integer_literal::apply(node_const_visitor &v) const
-{
-        v.visit(*this);
-}
 }
 }
 }

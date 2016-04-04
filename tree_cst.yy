@@ -46,7 +46,6 @@ using namespace trees::tree::cst;
     trees::tree::cst::scope *scope;
     trees::tree::cst::literal *literal;
     trees::tree::cst::boolean_literal *boolean_literal;
-    trees::tree::cst::integer_literal *integer_literal;
     struct {
         char const *data;
         unsigned int length;
@@ -151,7 +150,6 @@ void tree_cst_error(YYLTYPE *, void *, trees::tree::cst::start *&, char const *m
 %type <scope> scope
 %type <literal> literal
 %type <boolean_literal> boolean_literal
-%type <integer_literal> integer_literal
 
 %%
 
@@ -246,7 +244,7 @@ arrays: bounded_arrays { $$ = new arrays_1($1); } |
 bounded_arrays: /* empty */ { $$ = new bounded_arrays_1; } |
     bounded_arrays bounded_array { $$ = new bounded_arrays_2($1, $2); }
 
-bounded_array: "[" integer_literal "]" { $$ = new bounded_array($2); }
+bounded_array: "[" INTEGER "]" { $$ = new bounded_array(std::string($2.data, $2.length)); }
 
 unbounded_array: "[" "]" { $$ = new unbounded_array; }
 
@@ -275,9 +273,7 @@ scope: /* empty */ { $$ = new scope_1; } |
     scope IDENTIFIER "::" { $$ = new scope_2($1, std::string($2.data, $2.length)); }
 
 literal: boolean_literal { $$ = new literal_1($1); } |
-    integer_literal { $$ = new literal_2($1); }
+    INTEGER { $$ = new literal_2(std::string($1.data, $1.length)); }
 
 boolean_literal: "true" { $$ = new boolean_literal_1; } |
     "false" { $$ = new boolean_literal_2; }
-
-integer_literal: INTEGER { $$ = new integer_literal(std::string($1.data, $1.length)); }

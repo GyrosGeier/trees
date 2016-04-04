@@ -540,7 +540,6 @@ void cst_to_ast_visitor::visit(cst::literal_1 const&){ }
 void cst_to_ast_visitor::visit(cst::literal_2 const&){ }
 void cst_to_ast_visitor::visit(cst::boolean_literal_1 const&){ }
 void cst_to_ast_visitor::visit(cst::boolean_literal_2 const&){ }
-void cst_to_ast_visitor::visit(cst::integer_literal const&){ }
 
 }
 }

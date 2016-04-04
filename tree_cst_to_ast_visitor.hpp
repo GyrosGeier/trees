@@ -110,7 +110,6 @@ public:
         virtual void visit(cst::literal_2 const &);
         virtual void visit(cst::boolean_literal_1 const &);
         virtual void visit(cst::boolean_literal_2 const &);
-        virtual void visit(cst::integer_literal const &);
 
 private:
         root_ptr ast_root;

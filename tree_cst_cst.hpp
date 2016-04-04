@@ -78,8 +78,6 @@
 #include <boost/intrusive_ptr.hpp>
 #include <boost/intrusive_ptr.hpp>
 #include <boost/intrusive_ptr.hpp>
-#include <boost/intrusive_ptr.hpp>
-#include <boost/intrusive_ptr.hpp>
 #include <list>
 namespace trees {
 namespace tree {
@@ -433,9 +431,6 @@ typedef template_name *template_name_weak_ptr;
 struct scoped_name;
 typedef boost::intrusive_ptr<scoped_name> scoped_name_ptr;
 typedef scoped_name *scoped_name_weak_ptr;
-struct integer_literal;
-typedef boost::intrusive_ptr<integer_literal> integer_literal_ptr;
-typedef integer_literal *integer_literal_weak_ptr;
 }
 }
 }
@@ -630,8 +625,6 @@ public:
         inline void descend(boost::intrusive_ptr<template_name> const &p) { if(p) visit(*p); }
         virtual void visit(scoped_name const &) = 0;
         inline void descend(boost::intrusive_ptr<scoped_name> const &p) { if(p) visit(*p); }
-        virtual void visit(integer_literal const &) = 0;
-        inline void descend(boost::intrusive_ptr<integer_literal> const &p) { if(p) visit(*p); }
 };
 struct declarations : node {
         declarations(void) throw() { }
@@ -1306,11 +1299,11 @@ struct literal_1 : literal
 };
 struct literal_2 : literal
 {
-        literal_2(boost::intrusive_ptr< ::trees::tree::cst::integer_literal>  _1) throw() : 
+        literal_2(std::string _1) throw() : 
                 _1(_1) { }
         virtual ~literal_2(void) throw() { }
         virtual void apply(node_const_visitor &) const;
-        boost::intrusive_ptr< ::trees::tree::cst::integer_literal>  _1;
+        std::string _1;
 };
 struct boolean_literal : node {
         boolean_literal(void) throw() { }
@@ -1384,11 +1377,11 @@ struct destructor_declaration : node
 };
 struct bounded_array : node
 {
-        bounded_array(boost::intrusive_ptr< ::trees::tree::cst::integer_literal>  _1) throw() : 
+        bounded_array(std::string _1) throw() : 
                 _1(_1) { }
         virtual ~bounded_array(void) throw() { }
         virtual void apply(node_const_visitor &) const;
-        boost::intrusive_ptr< ::trees::tree::cst::integer_literal>  _1;
+        std::string _1;
 };
 struct unbounded_array : node
 {
@@ -1413,14 +1406,6 @@ struct scoped_name : node
         virtual void apply(node_const_visitor &) const;
         boost::intrusive_ptr< ::trees::tree::cst::scope>  _1;
         std::string _2;
-};
-struct integer_literal : node
-{
-        integer_literal(std::string _1) throw() : 
-                _1(_1) { }
-        virtual ~integer_literal(void) throw() { }
-        virtual void apply(node_const_visitor &) const;
-        std::string _1;
 };
 }
 }
