@@ -58,22 +58,22 @@ void tree_bison_error(YYLTYPE *, void *, trees::tree::bison::start *&, char cons
 
 %%
 
-start:          rules { ret = new start($1); }
+start:          rules { ret = new start(std::unique_ptr<rules>($1)); }
 
 rules:          /*-empty_rules-*/ { $$ = new empty_rules; } |
-                /*-chained_rules-*/ rules rule { $$ = new chained_rules($1, $2); }
+                /*-chained_rules-*/ rules rule { $$ = new chained_rules(std::unique_ptr<rules>($1), std::unique_ptr<rule>($2)); }
 
-rule:           IDENTIFIER_COLON alternatives { $$ = new rule($1, $2); free($1); }
+rule:           IDENTIFIER_COLON alternatives { $$ = new rule($1, std::unique_ptr<alternatives>($2)); free($1); }
 
-alternatives:   /*-single_alternative-*/ alternative { $$ = new single_alternative($1); } |
-                /*-chained_alternatives-*/ alternatives "|" alternative { $$ = new chained_alternatives($1, $3); } |
-                /*-terminated_alternatives-*/ alternatives ";" { $$ = new terminated_alternatives($1); }
+alternatives:   /*-single_alternative-*/ alternative { $$ = new single_alternative(std::unique_ptr<alternative>($1)); } |
+                /*-chained_alternatives-*/ alternatives "|" alternative { $$ = new chained_alternatives(std::unique_ptr<alternatives>($1), std::unique_ptr<alternative>($3)); } |
+                /*-terminated_alternatives-*/ alternatives ";" { $$ = new terminated_alternatives(std::unique_ptr<alternatives>($1)); }
 
-alternative:    /*-unnamed_alternative-*/ components { $$ = new unnamed_alternative($1); } |
-                /*-named_alternative-*/ NAME_HINT components { $$ = new named_alternative($1, $2); }
+alternative:    /*-unnamed_alternative-*/ components { $$ = new unnamed_alternative(std::unique_ptr<components>($1)); } |
+                /*-named_alternative-*/ NAME_HINT components { $$ = new named_alternative($1, std::unique_ptr<components>($2)); free($1); }
 
 components:     /*-empty_components-*/ { $$ = new empty_components; } |
-                /*-chained_components-*/ components component { $$ = new chained_components($1, $2); }
+                /*-chained_components-*/ components component { $$ = new chained_components(std::unique_ptr<components>($1), std::unique_ptr<component>($2)); }
 
 component:      /*-symbol-*/ IDENTIFIER { $$ = new symbol($1); free($1); } |
                 /*-literal-*/ STRING { $$ = new literal($1); free($1); }

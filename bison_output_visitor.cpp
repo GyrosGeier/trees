@@ -207,7 +207,7 @@ void bison_output_visitor::visit(nonterminal const &c)
                         out << ", ";
                 else
                         first_component = false;
-                out << '$' << current_component;
+                out << "std::unique_ptr< " << ns << c.name << ">($" << current_component << ")";
                 break;
         case write_cleanup:
                 break;

@@ -227,7 +227,7 @@ void header_output_visitor::visit(node_node const &n)
                                 {
                                         if(!first)
                                                 out << ", ";
-                                        out << (**i).name << "(" << (**i).name << ")";
+                                        out << (**i).name << "(std::move(" << (**i).name << "))";
                                         first = false;
                                 }
                         }

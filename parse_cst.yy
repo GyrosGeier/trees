@@ -69,15 +69,15 @@ void parse_cst_error(YYLTYPE *loc, void *, ::trees::parse::cst::start *&, char c
 %type<components_1_elem> components_1_elem;
 %type<components_1_list> components_1_list;
 %%
-start: /*-start-*/ directives rules { ret = new ::trees::parse::cst::start($1, $2); };
-directives: /*-directives_chain-*/ REGEX_3 directives { $$ = new ::trees::parse::cst::directives_chain($1, $2); free($1); } | /*-end_of_directives-*/ { $$ = new ::trees::parse::cst::end_of_directives(); };
-rules: /*-rules_chain-*/ rule rules { $$ = new ::trees::parse::cst::rules_chain($1, $2); } | /*-end_of_rules-*/ { $$ = new ::trees::parse::cst::end_of_rules(); };
-rule: /*-rule-*/ REGEX_1 ":" alternatives ";" { $$ = new ::trees::parse::cst::rule($1, $3); free($1); };
-alternatives: /*-alternatives-*/ alternative alternatives_tail { $$ = new ::trees::parse::cst::alternatives($1, $2); };
-alternatives_tail: /*-more_alternatives-*/ "|" alternatives { $$ = new ::trees::parse::cst::more_alternatives($2); } | /*-end_of_alternatives-*/ { $$ = new ::trees::parse::cst::end_of_alternatives(); };
-alternative: /*-unnamed_alternative-*/ components { $$ = new ::trees::parse::cst::unnamed_alternative($1); } | /*-named_alternative-*/ "-" REGEX_1 "-" components { $$ = new ::trees::parse::cst::named_alternative($2, $4); free($2); };
-components: /*-components-*/ components_1_list { $$ = new ::trees::parse::cst::components($1); };
+start: /*-start-*/ directives rules { ret = new ::trees::parse::cst::start(std::unique_ptr< ::trees::parse::cst::directives>($1), std::unique_ptr< ::trees::parse::cst::rules>($2)); };
+directives: /*-directives_chain-*/ REGEX_3 directives { $$ = new ::trees::parse::cst::directives_chain($1, std::unique_ptr< ::trees::parse::cst::directives>($2)); free($1); } | /*-end_of_directives-*/ { $$ = new ::trees::parse::cst::end_of_directives(); };
+rules: /*-rules_chain-*/ rule rules { $$ = new ::trees::parse::cst::rules_chain(std::unique_ptr< ::trees::parse::cst::rule>($1), std::unique_ptr< ::trees::parse::cst::rules>($2)); } | /*-end_of_rules-*/ { $$ = new ::trees::parse::cst::end_of_rules(); };
+rule: /*-rule-*/ REGEX_1 ":" alternatives ";" { $$ = new ::trees::parse::cst::rule($1, std::unique_ptr< ::trees::parse::cst::alternatives>($3)); free($1); };
+alternatives: /*-alternatives-*/ alternative alternatives_tail { $$ = new ::trees::parse::cst::alternatives(std::unique_ptr< ::trees::parse::cst::alternative>($1), std::unique_ptr< ::trees::parse::cst::alternatives_tail>($2)); };
+alternatives_tail: /*-more_alternatives-*/ "|" alternatives { $$ = new ::trees::parse::cst::more_alternatives(std::unique_ptr< ::trees::parse::cst::alternatives>($2)); } | /*-end_of_alternatives-*/ { $$ = new ::trees::parse::cst::end_of_alternatives(); };
+alternative: /*-unnamed_alternative-*/ components { $$ = new ::trees::parse::cst::unnamed_alternative(std::unique_ptr< ::trees::parse::cst::components>($1)); } | /*-named_alternative-*/ "-" REGEX_1 "-" components { $$ = new ::trees::parse::cst::named_alternative($2, std::unique_ptr< ::trees::parse::cst::components>($4)); free($2); };
+components: /*-components-*/ components_1_list { $$ = new ::trees::parse::cst::components(std::unique_ptr< ::trees::parse::cst::components_1_list>($1)); };
 repetition_qualifier: /*-no_repetition-*/ { $$ = new ::trees::parse::cst::no_repetition(); } | /*-zero_or_one-*/ "?" { $$ = new ::trees::parse::cst::zero_or_one(); } | /*-one_or_more-*/ "+" { $$ = new ::trees::parse::cst::one_or_more(); } | /*-zero_or_more-*/ "*" { $$ = new ::trees::parse::cst::zero_or_more(); };
-component: /*-symbol-*/ REGEX_1 { $$ = new ::trees::parse::cst::symbol($1); free($1); } | /*-literal-*/ REGEX_4 { $$ = new ::trees::parse::cst::literal($1); free($1); } | /*-group-*/ "(" components ")" { $$ = new ::trees::parse::cst::group($2); } | /*-regex-*/ REGEX_2 { $$ = new ::trees::parse::cst::regex($1); free($1); };
-components_1_elem: /*-components_1_elem-*/ component repetition_qualifier { $$ = new ::trees::parse::cst::components_1_elem($1, $2); };
-components_1_list: /*-components_1_chain-*/ components_1_elem components_1_list { $$ = new ::trees::parse::cst::components_1_chain($1, $2); } | /*-end_of_components_1-*/ { $$ = new ::trees::parse::cst::end_of_components_1(); };
+component: /*-symbol-*/ REGEX_1 { $$ = new ::trees::parse::cst::symbol($1); free($1); } | /*-literal-*/ REGEX_4 { $$ = new ::trees::parse::cst::literal($1); free($1); } | /*-group-*/ "(" components ")" { $$ = new ::trees::parse::cst::group(std::unique_ptr< ::trees::parse::cst::components>($2)); } | /*-regex-*/ REGEX_2 { $$ = new ::trees::parse::cst::regex($1); free($1); };
+components_1_elem: /*-components_1_elem-*/ component repetition_qualifier { $$ = new ::trees::parse::cst::components_1_elem(std::unique_ptr< ::trees::parse::cst::component>($1), std::unique_ptr< ::trees::parse::cst::repetition_qualifier>($2)); };
+components_1_list: /*-components_1_chain-*/ components_1_elem components_1_list { $$ = new ::trees::parse::cst::components_1_chain(std::unique_ptr< ::trees::parse::cst::components_1_elem>($1), std::unique_ptr< ::trees::parse::cst::components_1_list>($2)); } | /*-end_of_components_1-*/ { $$ = new ::trees::parse::cst::end_of_components_1(); };
