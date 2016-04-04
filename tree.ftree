@@ -3,7 +3,7 @@ namespace tree {
 
 node {
     %multiparent
-    %intrusive_ptr
+    %shared_ptr
 };
 
 node root {

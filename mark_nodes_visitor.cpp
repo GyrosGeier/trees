@@ -28,9 +28,9 @@ void mark_nodes_visitor::handle(group_node_ptr const &n)
 {
         if(collecting)
         {
-                group_type_node_ptr nn = new group_type_node;
+                group_type_node_ptr nn = std::make_shared<group_type_node>();
                 nn->node = n;
-                known_types[n->ns][n->name] = nn;
+                known_types[n->ns.lock()][n->name] = nn;
         }
         else
                 for(auto const &i : n->default_members)
@@ -51,9 +51,9 @@ void mark_nodes_visitor::handle(node_node_ptr const &n)
 {
         if(collecting)
         {
-                node_type_node_ptr nn = new node_type_node;
+                node_type_node_ptr nn = std::make_shared<node_type_node>();
                 nn->node = n;
-                known_types[n->ns][n->name] = nn;
+                known_types[n->ns.lock()][n->name] = nn;
         }
         else
                 for(auto const &i : n->members)
@@ -67,43 +67,43 @@ void mark_nodes_visitor::handle(data_member_node_ptr const &n)
 
 type_node_ptr mark_nodes_visitor::visit(basic_type_node &n)
 {
-        auto i = known_types.find(n.ns);
+        auto i = known_types.find(n.ns.lock());
         if(i == known_types.end())
-                return &n;
+                return n.shared_from_this();
         auto j = i->second.find(n.name);
         if(j == i->second.end())
-                return &n;
+                return n.shared_from_this();
         return j->second;
 }
 
 type_node_ptr mark_nodes_visitor::visit(rvalue_reference_type_node &n)
 {
         descend(n.type);
-        return &n;
+        return n.shared_from_this();
 }
 
 type_node_ptr mark_nodes_visitor::visit(reference_type_node &n)
 {
         descend(n.type);
-        return &n;
+        return n.shared_from_this();
 }
 
 type_node_ptr mark_nodes_visitor::visit(pointer_type_node &n)
 {
         descend(n.type);
-        return &n;
+        return n.shared_from_this();
 }
 
 type_node_ptr mark_nodes_visitor::visit(template_type_node &n)
 {
         descend(n.template_args);
-        return &n;
+        return n.shared_from_this();
 }
 
 type_node_ptr mark_nodes_visitor::visit(list_type_node &n)
 {
         descend(n.type);
-        return &n;
+        return n.shared_from_this();
 }
 
 }

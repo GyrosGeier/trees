@@ -45,51 +45,51 @@ void smartpointer_visitor::handle(data_member_node_ptr const &n)
 
 type_node_ptr smartpointer_visitor::visit(group_type_node &n)
 {
-        return make_smartpointer(&n, n.node->smartpointer);
+        return make_smartpointer(n.shared_from_this(), n.node->smartpointer);
 }
 
 type_node_ptr smartpointer_visitor::visit(node_type_node &n)
 {
-        return make_smartpointer(&n, n.node->smartpointer);
+        return make_smartpointer(n.shared_from_this(), n.node->smartpointer);
 }
 
 type_node_ptr smartpointer_visitor::visit(basic_type_node &n)
 {
-        return &n;
+        return n.shared_from_this();
 }
 
 type_node_ptr smartpointer_visitor::visit(rvalue_reference_type_node &n)
 {
-        return &n;
+        return n.shared_from_this();
 }
 
 type_node_ptr smartpointer_visitor::visit(reference_type_node &n)
 {
-        return &n;
+        return n.shared_from_this();
 }
 
 type_node_ptr smartpointer_visitor::visit(pointer_type_node &n)
 {
-        return &n;
+        return n.shared_from_this();
 }
 
 type_node_ptr smartpointer_visitor::visit(template_type_node &n)
 {
-        return &n;
+        return n.shared_from_this();
 }
 
 type_node_ptr smartpointer_visitor::visit(list_type_node &n)
 {
         descend(n.type);
-        return &n;
+        return n.shared_from_this();
 }
 
 type_node_ptr smartpointer_visitor::make_smartpointer(
         type_node_ptr const &n,
         smartpointer_type t)
 {
-        template_type_node_ptr nn = new template_type_node;
-        include_node_ptr ni = new include_node;
+        template_type_node_ptr nn = std::make_shared<template_type_node>();
+        include_node_ptr ni = std::make_shared<include_node>();
         switch(t)
         {
         case strict_ownership:

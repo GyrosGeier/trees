@@ -47,6 +47,9 @@ void header_output_visitor::visit(group_node const &n)
         if(n.nodes.empty() && n.groups.empty())
                 return;
 
+        auto parent = n.parent.lock();
+        auto ns = n.ns.lock();
+
         switch(state)
         {
         case fwddecl:
@@ -73,11 +76,11 @@ void header_output_visitor::visit(group_node const &n)
                 break;
         case decl:
                 out << "struct " << n.name;
-                if(n.parent)
-                        out << " : " << n.parent->name;
+                if(parent)
+                        out << " : " << parent->name;
                 out << " {" << std::endl
                         << "        " << n.name << "(void) throw()";
-                if(!n.parent)
+                if(!parent)
                         out << " : refcount(0)";
                 out << " { }" << std::endl
                         << "        virtual ~" << n.name << "(void) throw() { }" << std::endl;
@@ -85,13 +88,13 @@ void header_output_visitor::visit(group_node const &n)
                         out << "        virtual " << n.name << "_ptr apply(" << n.name << "_visitor &) = 0;" << std::endl;
                 if(n.has_const_visitor)
                         out << "        virtual void apply(" << n.name << "_const_visitor &) const = 0;" << std::endl;
-                if(n.parent && (n.has_visitor || n.has_const_visitor))
-                        out << "        using " << n.parent->name << "::apply;" << std::endl;
-                if(!n.parent)
+                if(parent && (n.has_visitor || n.has_const_visitor))
+                        out << "        using " << parent->name << "::apply;" << std::endl;
+                if(!parent)
                         out << "        unsigned int refcount;" << std::endl;
                 descend(n.default_members);
                 out << "};" << std::endl;
-                if(!n.parent && n.smartpointer == intrusive)
+                if(!parent && n.smartpointer == intrusive)
                         out << "inline void intrusive_ptr_add_ref(" << n.name << " *n) { ++n->refcount; }" << std::endl
                                 << "inline void intrusive_ptr_release(" << n.name << " *n) { if(!--n->refcount) delete n; }" << std::endl;
                 if(n.has_visitor)
@@ -113,7 +116,7 @@ void header_output_visitor::visit(group_node const &n)
                                 out << "        inline void descend(boost::intrusive_ptr<T> &p) { if(p) p = p->apply(*this); }" << std::endl;
                                 break;
                         }
-                        if(n.ns->uses_lists)
+                        if(ns->uses_lists)
                                 out << "        template<typename T, typename Alloc>" << std::endl
                                         << "        inline void descend(std::list<T, Alloc> &l)" << std::endl
                                         << "        {" << std::endl
@@ -146,7 +149,7 @@ void header_output_visitor::visit(group_node const &n)
                                 out << "        inline void descend(boost::intrusive_ptr<T> const &p) { if(p) p->apply(*this); }" << std::endl;
                                 break;
                         }
-                        if(n.ns->uses_lists)
+                        if(ns->uses_lists)
                                 out << "        template<typename T, typename Alloc>" << std::endl
                                         << "        inline void descend(std::list<T, Alloc> const &l)" << std::endl
                                         << "        {" << std::endl
@@ -173,6 +176,8 @@ void header_output_visitor::visit(node_node const &n)
 {
         bool first;
 
+        auto group = n.group.lock();
+
         switch(state)
         {
         case fwddecl:
@@ -194,7 +199,7 @@ void header_output_visitor::visit(node_node const &n)
                 }
                 break;
         case decl:
-                out << "struct " << n.name << " : " << n.group->name << std::endl;
+                out << "struct " << n.name << " : " << group->name << std::endl;
                 if(n.smartpointer == shared_ownership)
                         out << ", "
                                 << "std::enable_shared_from_this<" << n.name << ">";
@@ -236,7 +241,7 @@ void header_output_visitor::visit(node_node const &n)
 
                 out << "        virtual ~" << n.name << "(void) throw() { }" << std::endl;
 
-                for(group_node_ptr i = n.group; i; i = i->parent)
+                for(group_node_ptr i = group; i; i = i->parent.lock())
                 {
                         if(i->has_visitor)
                                 out << "        virtual " << i->name << "_ptr apply(" << i->name << "_visitor &);" << std::endl;
@@ -249,7 +254,7 @@ void header_output_visitor::visit(node_node const &n)
                 out << "};" << std::endl;
                 break;
         case visit_decl:
-                out << "        virtual " << n.group->name << "_ptr visit(" << n.name << " &) = 0;" << std::endl;
+                out << "        virtual " << group->name << "_ptr visit(" << n.name << " &) = 0;" << std::endl;
                 break;
         case const_visit_decl:
                 out << "        virtual void visit(" << n.name << " const &) = 0;" << std::endl;
@@ -270,16 +275,20 @@ void header_output_visitor::visit(node_node const &n)
 
 void header_output_visitor::visit(group_type_node const &n)
 {
+        auto node_ns = n.node->ns.lock();
+
         std::string ns;
-        for(namespace_node_ptr i = n.node->ns; i; i = i->parent)
+        for(namespace_node_ptr i = node_ns; i; i = i->parent.lock())
                 ns = i->name + "::" + ns;
         out << ns << n.node->name;
 }
 
 void header_output_visitor::visit(node_type_node const &n)
 {
+        auto node_ns = n.node->ns.lock();
+
         std::string ns;
-        for(namespace_node_ptr i = n.node->ns; i; i = i->parent)
+        for(namespace_node_ptr i = node_ns; i; i = i->parent.lock())
                 ns = i->name + "::" + ns;
         out << ns << n.node->name;
 }

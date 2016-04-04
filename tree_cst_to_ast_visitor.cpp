@@ -10,9 +10,9 @@ namespace tree {
 
 cst_to_ast_visitor::cst_to_ast_visitor(void)
 {
-        ast_root = new root;
-        ast_root->global_namespace = current_namespace = new namespace_node;
-        current_namespace->parent = 0;
+        ast_root = std::make_shared<root>();
+        ast_root->global_namespace = current_namespace = std::make_shared<namespace_node>();
+        current_namespace->parent.reset();
         current_namespace->uses_lists = false;
 }
 
@@ -68,18 +68,18 @@ void cst_to_ast_visitor::visit(cst::namespace_declaration const &n)
 {
         /* "namespace" IDENTIFIER "{" declarations "}" */
         namespace_node_ptr tmp = current_namespace;
-        namespace_node_ptr nn = new namespace_node;
+        namespace_node_ptr nn = std::make_shared<namespace_node>();
         nn->name = n._1;
-        nn->parent = current_namespace.get();
+        nn->parent = current_namespace;
         current_namespace->namespaces.push_back(nn);
-        current_namespace = nn.get();
-        current_namespace->group = new group_node;
+        current_namespace = nn;
+        current_namespace->group = std::make_shared<group_node>();
         current_namespace->group->smartpointer = intrusive;
         current_namespace->uses_lists = false;
-        current_group = current_namespace->group.get();
+        current_group = current_namespace->group;
         current_group->name = "node";
-        current_group->ns = current_namespace.get();
-        current_group->parent = 0;
+        current_group->ns = current_namespace;
+        current_group->parent.reset();
         current_group->has_const_visitor = false;
         current_group->has_visitor = false;
         descend(n._2);
@@ -89,17 +89,17 @@ void cst_to_ast_visitor::visit(cst::namespace_declaration const &n)
 void cst_to_ast_visitor::visit(cst::group_declaration const &gd)
 {
         /* "group" IDENTIFIER group_member_declarations */
-        group_node_ptr nn = new group_node;
+        group_node_ptr nn = std::make_shared<group_node>();
         nn->name = gd._1;
-        nn->ns = current_namespace.get();
-        nn->parent = current_group.get();
+        nn->ns = current_namespace;
+        nn->parent = current_group;
         nn->has_const_visitor = false;
         nn->has_visitor = false;
         nn->smartpointer = current_group->smartpointer;
         current_group->groups.push_back(nn);
         current_group = nn;
         descend(gd._2);
-        current_group = current_group->parent;
+        current_group = current_group->parent.lock();
 }
 
 void cst_to_ast_visitor::visit(cst::group_member_declarations_1 const &)
@@ -135,10 +135,10 @@ void cst_to_ast_visitor::visit(cst::group_member_declaration_3 const &gmd)
 void cst_to_ast_visitor::visit(cst::node_declaration_1 const &n)
 {
         /* "node" IDENTIFIER "{" member_declarations "}" */
-        current_node = new node_node;
+        current_node = std::make_shared<node_node>();
         current_node->name = n._1;
-        current_node->ns = current_namespace.get();
-        current_node->group = current_group.get();
+        current_node->ns = current_namespace;
+        current_node->group = current_group;
         current_node->smartpointer = current_group->smartpointer;
         current_group->nodes.push_back(current_node);
         descend(n._2);
@@ -147,10 +147,10 @@ void cst_to_ast_visitor::visit(cst::node_declaration_1 const &n)
 void cst_to_ast_visitor::visit(cst::node_declaration_2 const &n)
 {
         /* "node" "group" "{" member_declarations "}" */
-        current_node = new node_node;
+        current_node = std::make_shared<node_node>();
         current_node->name = "group";
-        current_node->ns = current_namespace.get();
-        current_node->group = current_group.get();
+        current_node->ns = current_namespace;
+        current_node->group = current_group;
         current_node->smartpointer = current_group->smartpointer;
         current_group->nodes.push_back(current_node);
         descend(n._1);
@@ -159,9 +159,9 @@ void cst_to_ast_visitor::visit(cst::node_declaration_2 const &n)
 void cst_to_ast_visitor::visit(cst::node_declaration_3 const &n)
 {
         /* "node" "{" member_declarations "}" */
-        node_node_ptr fake_node = new node_node;
+        node_node_ptr fake_node = std::make_shared<node_node>();
         fake_node->smartpointer = current_group->smartpointer;
-        current_node = fake_node.get();
+        current_node = fake_node;
         descend(n._1);
         current_group->default_members.splice(current_group->default_members.end(), fake_node->members);
         current_group->smartpointer = fake_node->smartpointer;
@@ -242,7 +242,7 @@ void cst_to_ast_visitor::visit(cst::member_directive_4 const&){ current_node->sm
 void cst_to_ast_visitor::visit(cst::member_directive_5 const&){ }
 void cst_to_ast_visitor::visit(cst::member_directive_6 const &md)
 {
-        include_node_ptr nn = new include_node;
+        include_node_ptr nn = std::make_shared<include_node>();
         nn->name = md._1.substr(9);
         ast_root->includes.push_back(nn);
 }
@@ -253,7 +253,7 @@ void cst_to_ast_visitor::visit(cst::data_member_declaration const &dm)
         descend(dm._1);
         descend(dm._2);
         descend(dm._3);
-        data_member_node_ptr nn = new data_member_node;
+        data_member_node_ptr nn = std::make_shared<data_member_node>();
         nn->type = current_type;
         nn->name = current_identifier;
         nn->needs_init = current_type_needs_init;
@@ -313,9 +313,9 @@ void cst_to_ast_visitor::visit(cst::reference_2 const &r)
 {
         /* pointer "&" */
         descend(r._1);
-        reference_type_node_ptr nn = new reference_type_node;
+        reference_type_node_ptr nn = std::make_shared<reference_type_node>();
         nn->type = current_type;
-        current_type = nn.get();
+        current_type = nn;
         current_type_needs_init = true;
 }
 
@@ -329,11 +329,11 @@ void cst_to_ast_visitor::visit(cst::pointer_2 const &p)
         /* pointer type_qualifiers "*" */
         descend(p._1);
         descend(p._2);
-        pointer_type_node_ptr nn = new pointer_type_node;
+        pointer_type_node_ptr nn = std::make_shared<pointer_type_node>();
         nn->type = current_type;
         nn->is_const = false;
         nn->is_volatile = false;
-        current_type = nn.get();
+        current_type = nn;
         current_type_needs_init = true;
 };
 
@@ -398,17 +398,17 @@ void cst_to_ast_visitor::visit(cst::bounded_array const&){ }
 void cst_to_ast_visitor::visit(cst::unbounded_array const &)
 {
         current_namespace->uses_lists = true;
-        list_type_node_ptr nn = new list_type_node;
+        list_type_node_ptr nn = std::make_shared<list_type_node>();
         nn->type = current_type;
-        current_type = nn.get();
+        current_type = nn;
         current_type_needs_init = false;
 }
 
 void cst_to_ast_visitor::visit(cst::type_1 const &t)
 {
         /* template_name */
-        template_type_node_ptr nt = new template_type_node;
-        nt->ns = current_namespace.get();
+        template_type_node_ptr nt = std::make_shared<template_type_node>();
+        nt->ns = current_namespace;
         std::string tmp1 = current_identifier;
         current_identifier.clear();
         std::list<type_node_ptr> *tmp2 = current_template_argument_list;
@@ -423,10 +423,10 @@ void cst_to_ast_visitor::visit(cst::type_1 const &t)
 void cst_to_ast_visitor::visit(cst::type_2 const &t)
 {
         /* scoped_name */
-        basic_type_node_ptr nt = new basic_type_node;
+        basic_type_node_ptr nt = std::make_shared<basic_type_node>();
         nt->is_const = false;
         nt->is_volatile = false;
-        nt->ns = current_namespace.get();
+        nt->ns = current_namespace;
         current_type = nt;
         std::string tmp1 = current_identifier;
         current_identifier.clear();
@@ -438,10 +438,10 @@ void cst_to_ast_visitor::visit(cst::type_2 const &t)
 void cst_to_ast_visitor::visit(cst::type_3 const&)
 {
         /* "node" */
-        basic_type_node_ptr nt = new basic_type_node;
+        basic_type_node_ptr nt = std::make_shared<basic_type_node>();
         nt->is_const = false;
         nt->is_volatile = false;
-        nt->ns = current_namespace.get();
+        nt->ns = current_namespace;
         nt->name = "node";
         current_type = nt;
         current_type_needs_init = false;
@@ -450,10 +450,10 @@ void cst_to_ast_visitor::visit(cst::type_3 const&)
 void cst_to_ast_visitor::visit(cst::type_4 const&)
 {
         /* "group" */
-        basic_type_node_ptr nt = new basic_type_node;
+        basic_type_node_ptr nt = std::make_shared<basic_type_node>();
         nt->is_const = false;
         nt->is_volatile = false;
-        nt->ns = current_namespace.get();
+        nt->ns = current_namespace;
         nt->name = "group";
         current_type = nt;
         current_type_needs_init = false;
@@ -462,10 +462,10 @@ void cst_to_ast_visitor::visit(cst::type_4 const&)
 void cst_to_ast_visitor::visit(cst::type_5 const&)
 {
         /* "parent" */
-        basic_type_node_ptr nt = new basic_type_node;
+        basic_type_node_ptr nt = std::make_shared<basic_type_node>();
         nt->is_const = false;
         nt->is_volatile = false;
-        nt->ns = current_namespace.get();
+        nt->ns = current_namespace;
         nt->name = "node";
         current_type = nt;
         current_type_needs_init = false;
