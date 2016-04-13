@@ -26,8 +26,9 @@ component_ptr inline_simple_visitor::visit(trees::parse::nonterminal &nt)
                         std::cerr << "Inlining " << nt.rule->name << std::endl;
                 *current_component_context = nt.rule->alternatives.front()->group->components.front();
                 descend(*current_component_context);
+                return *current_component_context;
         }
-        return *current_component_context;
+        return &nt;
 }
 
 component_ptr inline_simple_visitor::visit(trees::parse::regex &r) { return &r; }
