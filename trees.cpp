@@ -251,7 +251,7 @@ int go(int argc, char **argv)
         resolve_regexes(*r);
 
         parse::inline_simple_visitor inline_simple(verbose);
-        r->apply(inline_simple);
+        inline_simple(*r);
 
         parse::unroll_repetitions_visitor unroll_repetitions(verbose);
         unroll_repetitions(*r);

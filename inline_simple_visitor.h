@@ -7,11 +7,13 @@ namespace trees {
 namespace parse {
 
 class inline_simple_visitor :
-        public node_visitor
+        public component_visitor
 {
 public:
         inline_simple_visitor(bool verbose) : verbose(verbose) { }
         virtual ~inline_simple_visitor() throw() { }
+
+        void operator()(trees::parse::root &);
 
         virtual component_ptr visit(trees::parse::string_literal&);
         virtual component_ptr visit(trees::parse::unresolved_symbol&);
@@ -19,9 +21,6 @@ public:
         virtual component_ptr visit(trees::parse::nonterminal&);
         virtual component_ptr visit(trees::parse::regex&);
         virtual component_ptr visit(trees::parse::group&);
-        virtual node_ptr visit(trees::parse::root&);
-        virtual node_ptr visit(trees::parse::rule&);
-        virtual node_ptr visit(trees::parse::alternative&);
 
 private:
         bool verbose;
@@ -32,6 +31,9 @@ private:
         bool is_simple_rule(rule_ptr &);
 
         bool is_simple;
+
+        void handle(trees::parse::rule&);
+        void handle(trees::parse::alternative&);
 };
 
 }

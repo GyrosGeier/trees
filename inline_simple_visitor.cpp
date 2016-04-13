@@ -44,27 +44,30 @@ component_ptr inline_simple_visitor::visit(trees::parse::group &g)
         return &g;
 }
 
-node_ptr inline_simple_visitor::visit(trees::parse::root &r)
+void inline_simple_visitor::operator()(trees::parse::root &r)
 {
         if(r.rules.empty())
-                return &r;
+                return;
 
         start = r.rules.front();
 
         for(auto &i : r.rules)
         {
                 current_rule_context = &i;
-                descend(i);
+                handle(*i);
         }
         r.rules.remove_if(std::bind(std::mem_fun(&inline_simple_visitor::is_simple_rule), this, std::placeholders::_1));
-        return &r;
 }
 
-node_ptr inline_simple_visitor::visit(trees::parse::rule &r) { descend(r.alternatives); return &r; }
-node_ptr inline_simple_visitor::visit(trees::parse::alternative &a)
+void inline_simple_visitor::handle(trees::parse::rule &r)
 {
-        descend(a.group);
-        return &a;
+        for(auto &i : r.alternatives)
+                handle(*i);
+}
+
+void inline_simple_visitor::handle(trees::parse::alternative &a)
+{
+        visit(*a.group);
 }
 
 bool inline_simple_visitor::is_simple_rule(rule_ptr &r)
