@@ -88,7 +88,7 @@ function(bison _stage _file)
 	add_custom_command(
 		OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${_stage}/${_tmp}_parse.cpp ${CMAKE_CURRENT_BINARY_DIR}/${_stage}/${_tmp}_parse.hpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/${_stage}/
-		COMMAND bison -d ${CMAKE_CURRENT_BINARY_DIR}/${_stage}/${_file} -o ${CMAKE_CURRENT_BINARY_DIR}/${_stage}/${_tmp}_parse.cpp
+		COMMAND bison -Werror -d ${CMAKE_CURRENT_BINARY_DIR}/${_stage}/${_file} -o ${CMAKE_CURRENT_BINARY_DIR}/${_stage}/${_tmp}_parse.cpp
 		MAIN_DEPENDENCY ${CMAKE_CURRENT_BINARY_DIR}/${_stage}/${_file})
 endfunction()
 
