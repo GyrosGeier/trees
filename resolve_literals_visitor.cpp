@@ -13,7 +13,6 @@ component_ptr resolve_literals_visitor::visit(group &g)
 {
         for(auto &i : g.components)
         {
-                current_context = &i;
                 descend(i);
         }
         return &g;
@@ -26,7 +25,7 @@ component_ptr resolve_literals_visitor::visit(string_literal &l)
         auto litref = literals.find(l.text);
         if(litref != literals.end())
         {
-                return *current_context = litref->second;
+                return litref->second;
         }
         else
         {

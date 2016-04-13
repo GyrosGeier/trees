@@ -32,8 +32,6 @@ private:
         root_ptr rt;
         std::map<std::string, string_literal_ptr> literals;
 
-        component_ptr *current_context;
-
         void visit(rule &);
         void visit(alternative &);
 };
