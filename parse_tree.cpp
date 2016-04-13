@@ -2,6 +2,10 @@
 
 namespace trees {
 namespace parse {
+component_ptr string_literal::apply(component_visitor &v)
+{
+        return v.visit(*this);
+}
 node_ptr string_literal::apply(node_visitor &v)
 {
         return v.visit(*this);
@@ -9,6 +13,10 @@ node_ptr string_literal::apply(node_visitor &v)
 void string_literal::apply(node_const_visitor &v) const
 {
         v.visit(*this);
+}
+component_ptr unresolved_symbol::apply(component_visitor &v)
+{
+        return v.visit(*this);
 }
 node_ptr unresolved_symbol::apply(node_visitor &v)
 {
@@ -18,6 +26,10 @@ void unresolved_symbol::apply(node_const_visitor &v) const
 {
         v.visit(*this);
 }
+component_ptr terminal::apply(component_visitor &v)
+{
+        return v.visit(*this);
+}
 node_ptr terminal::apply(node_visitor &v)
 {
         return v.visit(*this);
@@ -25,6 +37,10 @@ node_ptr terminal::apply(node_visitor &v)
 void terminal::apply(node_const_visitor &v) const
 {
         v.visit(*this);
+}
+component_ptr nonterminal::apply(component_visitor &v)
+{
+        return v.visit(*this);
 }
 node_ptr nonterminal::apply(node_visitor &v)
 {
@@ -34,6 +50,10 @@ void nonterminal::apply(node_const_visitor &v) const
 {
         v.visit(*this);
 }
+component_ptr regex::apply(component_visitor &v)
+{
+        return v.visit(*this);
+}
 node_ptr regex::apply(node_visitor &v)
 {
         return v.visit(*this);
@@ -41,6 +61,10 @@ node_ptr regex::apply(node_visitor &v)
 void regex::apply(node_const_visitor &v) const
 {
         v.visit(*this);
+}
+component_ptr group::apply(component_visitor &v)
+{
+        return v.visit(*this);
 }
 node_ptr group::apply(node_visitor &v)
 {

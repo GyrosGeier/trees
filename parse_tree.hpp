@@ -17,6 +17,7 @@ struct node_visitor;
 struct component;
 typedef boost::intrusive_ptr<component> component_ptr;
 typedef component *component_weak_ptr;
+struct component_visitor;
 struct string_literal;
 typedef boost::intrusive_ptr<string_literal> string_literal_ptr;
 typedef string_literal *string_literal_weak_ptr;
@@ -113,12 +114,34 @@ public:
 struct component : node {
         component(void) throw() { }
         virtual ~component(void) throw() { }
+        virtual component_ptr apply(component_visitor &) = 0;
+        using node::apply;
         std::string name;
+};
+class component_visitor
+{
+public:
+        virtual ~component_visitor(void) throw() { }
+        template<typename T>
+        inline void descend(boost::intrusive_ptr<T> const &p) { if(p) p->apply(*this); }
+        template<typename T, typename Alloc>
+        inline void descend(std::list<T, Alloc> &l)
+        {
+                for(typename std::list<T, Alloc>::iterator i = l.begin(); i != l.end(); ++i)
+                        descend(*i);
+        }
+        virtual component_ptr visit(string_literal &) = 0;
+        virtual component_ptr visit(unresolved_symbol &) = 0;
+        virtual component_ptr visit(terminal &) = 0;
+        virtual component_ptr visit(nonterminal &) = 0;
+        virtual component_ptr visit(regex &) = 0;
+        virtual component_ptr visit(group &) = 0;
 };
 struct string_literal : component
 {
         string_literal() throw() { }
         virtual ~string_literal(void) throw() { }
+        virtual component_ptr apply(component_visitor &);
         virtual node_ptr apply(node_visitor &);
         virtual void apply(node_const_visitor &) const;
         std::string text;
@@ -127,6 +150,7 @@ struct unresolved_symbol : component
 {
         unresolved_symbol() throw() { }
         virtual ~unresolved_symbol(void) throw() { }
+        virtual component_ptr apply(component_visitor &);
         virtual node_ptr apply(node_visitor &);
         virtual void apply(node_const_visitor &) const;
 };
@@ -134,6 +158,7 @@ struct terminal : component
 {
         terminal() throw() { }
         virtual ~terminal(void) throw() { }
+        virtual component_ptr apply(component_visitor &);
         virtual node_ptr apply(node_visitor &);
         virtual void apply(node_const_visitor &) const;
 };
@@ -141,6 +166,7 @@ struct nonterminal : component
 {
         nonterminal() throw() { }
         virtual ~nonterminal(void) throw() { }
+        virtual component_ptr apply(component_visitor &);
         virtual node_ptr apply(node_visitor &);
         virtual void apply(node_const_visitor &) const;
         boost::intrusive_ptr< ::trees::parse::rule>  rule;
@@ -149,6 +175,7 @@ struct regex : component
 {
         regex() throw() { }
         virtual ~regex(void) throw() { }
+        virtual component_ptr apply(component_visitor &);
         virtual node_ptr apply(node_visitor &);
         virtual void apply(node_const_visitor &) const;
         std::string text;
@@ -157,6 +184,7 @@ struct group : component
 {
         group() throw() { }
         virtual ~group(void) throw() { }
+        virtual component_ptr apply(component_visitor &);
         virtual node_ptr apply(node_visitor &);
         virtual void apply(node_const_visitor &) const;
         std::list<boost::intrusive_ptr< ::trees::parse::component> >  components;

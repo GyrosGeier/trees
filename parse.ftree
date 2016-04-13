@@ -47,6 +47,8 @@ group component {
                 component components[];
                 repetition rep;
         };
+
+        visitor;
 };
 
 const visitor;
