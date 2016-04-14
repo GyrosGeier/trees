@@ -7,11 +7,13 @@ namespace trees {
 namespace parse {
 
 class resolve_regexes_visitor :
-        public node_visitor
+        public component_visitor
 {
 public:
         resolve_regexes_visitor(bool verbose) : verbose(verbose), num(0) { }
         virtual ~resolve_regexes_visitor() throw() { }
+
+        void operator()(root&);
 
         virtual component_ptr visit(string_literal&);
         virtual component_ptr visit(unresolved_symbol&);
@@ -19,15 +21,15 @@ public:
         virtual component_ptr visit(nonterminal&);
         virtual component_ptr visit(regex&);
         virtual component_ptr visit(group&);
-        virtual node_ptr visit(root&);
-        virtual node_ptr visit(rule&);
-        virtual node_ptr visit(alternative&);
 
 private:
         bool verbose;
         unsigned int num;
         root_ptr rt;
         component_ptr *current_context;
+
+        void visit(rule&);
+        void visit(alternative&);
 };
 
 }

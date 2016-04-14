@@ -248,7 +248,7 @@ int go(int argc, char **argv)
         r->apply(resolve_literals);
 
         parse::resolve_regexes_visitor resolve_regexes(verbose);
-        r->apply(resolve_regexes);
+        resolve_regexes(*r);
 
         parse::inline_simple_visitor inline_simple(verbose);
         r->apply(inline_simple);

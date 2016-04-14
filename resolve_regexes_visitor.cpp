@@ -38,23 +38,22 @@ component_ptr resolve_regexes_visitor::visit(group &g)
         return &g;
 }
 
-node_ptr resolve_regexes_visitor::visit(root &r)
+void resolve_regexes_visitor::operator()(root &r)
 {
         rt = &r;
-        descend(r.rules);
-        return &r;
+        for(auto &i : r.rules)
+                visit(*i);
 }
 
-node_ptr resolve_regexes_visitor::visit(rule &r)
+void resolve_regexes_visitor::visit(rule &r)
 {
-        descend(r.alternatives);
-        return &r;
+        for(auto &i : r.alternatives)
+                visit(*i);
 }
 
-node_ptr resolve_regexes_visitor::visit(alternative &a)
+void resolve_regexes_visitor::visit(alternative &a)
 {
-        descend(a.group);
-        return &a;
+        visit(*a.group);
 }
 
 }
