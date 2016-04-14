@@ -25,7 +25,7 @@ component_ptr resolve_regexes_visitor::visit(regex &rx)
         terminal_ptr t = new terminal;
         t->name = rx.name;
         *current_context = t;
-        return &rx;
+        return *current_context;
 }
 
 component_ptr resolve_regexes_visitor::visit(group &g)
