@@ -26,7 +26,7 @@ component_ptr resolve_literals_visitor::visit(string_literal &l)
         auto litref = literals.find(l.text);
         if(litref != literals.end())
         {
-                *current_context = litref->second;
+                return *current_context = litref->second;
         }
         else
         {
@@ -36,7 +36,7 @@ component_ptr resolve_literals_visitor::visit(string_literal &l)
                 literals[l.text] = &l;
                 rt->literals.push_back(&l);
         }
-        return *current_context;
+        return &l;
 }
 
 component_ptr resolve_literals_visitor::visit(unresolved_symbol &u) { return &u; }
