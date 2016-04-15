@@ -10,11 +10,13 @@ namespace trees {
 namespace parse {
 
 class resolve_literals_visitor :
-        public node_visitor
+        public component_visitor
 {
 public:
         resolve_literals_visitor(bool verbose) : verbose(verbose), num(0) { }
         virtual ~resolve_literals_visitor() throw() { }
+
+        void operator()(root &);
 
         virtual component_ptr visit(group &);
         virtual component_ptr visit(regex &);
@@ -22,9 +24,6 @@ public:
         virtual component_ptr visit(unresolved_symbol &);
         virtual component_ptr visit(terminal &);
         virtual component_ptr visit(nonterminal &);
-        virtual node_ptr visit(root &);
-        virtual node_ptr visit(rule &);
-        virtual node_ptr visit(alternative &);
 
 private:
         bool verbose;
@@ -34,6 +33,9 @@ private:
         std::map<std::string, string_literal_ptr> literals;
 
         component_ptr *current_context;
+
+        void visit(rule &);
+        void visit(alternative &);
 };
 
 }

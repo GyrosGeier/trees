@@ -245,7 +245,7 @@ int go(int argc, char **argv)
         r->apply(resolve_symbols);
 
         parse::resolve_literals_visitor resolve_literals(verbose);
-        r->apply(resolve_literals);
+        resolve_literals(*r);
 
         parse::resolve_regexes_visitor resolve_regexes(verbose);
         resolve_regexes(*r);

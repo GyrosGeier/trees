@@ -43,9 +43,24 @@ component_ptr resolve_literals_visitor::visit(unresolved_symbol &u) { return &u;
 
 component_ptr resolve_literals_visitor::visit(terminal &t) { return &t; }
 component_ptr resolve_literals_visitor::visit(nonterminal &n) { return &n; }
-node_ptr resolve_literals_visitor::visit(root &r) { rt = &r; descend(r.rules); return &r; }
-node_ptr resolve_literals_visitor::visit(rule &r) { descend(r.alternatives); return &r; }
-node_ptr resolve_literals_visitor::visit(alternative &a) { descend(a.group); return &a; }
+
+void resolve_literals_visitor::operator()(root &r)
+{
+        rt = &r;
+        for(auto &i : r.rules)
+                visit(*i);
+}
+
+void resolve_literals_visitor::visit(rule &r)
+{
+        for(auto &i : r.alternatives)
+                visit(*i);
+}
+
+void resolve_literals_visitor::visit(alternative &a)
+{
+        visit(*a.group);
+}
 
 }
 }
