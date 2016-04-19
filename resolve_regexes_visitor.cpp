@@ -22,7 +22,7 @@ component_ptr resolve_regexes_visitor::visit(regex_ptr rx)
 
         rt->regexes.push_back(rx);
 
-        terminal_ptr t = new terminal;
+        terminal_ptr t = std::make_shared<terminal>();
         t->name = rx->name;
         *current_context = t;
         return *current_context;

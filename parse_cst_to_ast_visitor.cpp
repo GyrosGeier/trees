@@ -12,7 +12,7 @@ namespace trees {
 namespace parse {
 
 cst_to_ast_visitor::cst_to_ast_visitor() :
-        rt(new root)
+        rt(std::make_shared<root>())
 {
         return;
 }
@@ -63,7 +63,7 @@ void cst_to_ast_visitor::visit(cst::end_of_rules const &)
 
 void cst_to_ast_visitor::visit(cst::rule const &r)
 {
-        current_rule = new rule;
+        current_rule = std::make_shared<rule>();
         current_rule->name = r._1;
         descend(r._2);
         if(current_rule->alternatives.size() != 1)
@@ -87,8 +87,8 @@ void cst_to_ast_visitor::visit(cst::rule const &r)
 
 void cst_to_ast_visitor::visit(cst::alternatives const &a)
 {
-        current_alternative = new alternative;
-        current_alternative->group = new group;
+        current_alternative = std::make_shared<alternative>();
+        current_alternative->group = std::make_shared<group>();
         current_group = current_alternative->group;
         current_group->rep = repeat_none;
         descend(a._1);
@@ -98,8 +98,8 @@ void cst_to_ast_visitor::visit(cst::alternatives const &a)
 void cst_to_ast_visitor::visit(cst::more_alternatives const &t)
 {
         current_rule->alternatives.push_back(current_alternative);
-        current_alternative = new alternative;
-        current_alternative->group = new group;
+        current_alternative = std::make_shared<alternative>();
+        current_alternative->group = std::make_shared<group>();
         current_group = current_alternative->group;
         current_group->rep = repeat_none;
         descend(t._1);
@@ -144,7 +144,7 @@ void cst_to_ast_visitor::visit(cst::components_1_elem const &c)
         descend(c._2);
         if(current_repeat != repeat_none)
         {
-                group_ptr ng = new group;
+                group_ptr ng = std::make_shared<group>();
                 ng->rep = current_repeat;
                 current_repeat = repeat_none;
                 current_group->components.push_back(ng);
@@ -182,28 +182,28 @@ void cst_to_ast_visitor::visit(cst::zero_or_more const &)
 
 void cst_to_ast_visitor::visit(cst::symbol const &c)
 {
-        unresolved_symbol_ptr u = new unresolved_symbol;
+        unresolved_symbol_ptr u = std::make_shared<unresolved_symbol>();
         u->name = c._1;
         current_group->components.push_back(u);
 }
 
 void cst_to_ast_visitor::visit(cst::literal const &c)
 {
-        string_literal_ptr sl = new string_literal;
+        string_literal_ptr sl = std::make_shared<string_literal>();
         sl->text = c._1;
         current_group->components.push_back(sl);
 }
 
 void cst_to_ast_visitor::visit(cst::regex const &c)
 {
-        regex_ptr rx = new regex;
+        regex_ptr rx = std::make_shared<regex>();
         rx->text = c._1;
         current_group->components.push_back(rx);
 }
 
 void cst_to_ast_visitor::visit(cst::group const &g)
 {
-        group_ptr ng = new group;
+        group_ptr ng = std::make_shared<group>();
         ng->rep = current_repeat;
         current_group->components.push_back(ng);
 

@@ -1,6 +1,10 @@
 namespace trees {
 namespace parse {
 
+node {
+        %shared_ptr
+};
+
 node root {
         std::string ns;
         rule rules[];

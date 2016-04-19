@@ -66,7 +66,7 @@ void resolve_symbols_visitor::operator()(root_ptr r)
 
 void resolve_symbols_visitor::visit(rule_ptr r)
 {
-        nonterminal_ptr nt = new nonterminal;
+        nonterminal_ptr nt = std::make_shared<nonterminal>();
         nt->name = r->name;
         nt->rule = r;
 

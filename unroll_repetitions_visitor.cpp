@@ -72,23 +72,23 @@ component_ptr unroll_repetitions_visitor::visit(group_ptr g)
 
         case repeat_zero_or_one:
                 {
-                        rule_ptr nr = new rule;
+                        rule_ptr nr = std::make_shared<rule>();
                         nr->name = generated_rule;
                         generated_rules.push_back(nr);
                         
-                        alternative_ptr alt_present = new alternative;
+                        alternative_ptr alt_present = std::make_shared<alternative>();
                         nr->alternatives.push_back(alt_present);
                         alt_present->name = generated_rule + "_present";
                         alt_present->group = g;
                         alt_present->group->rep = repeat_none;
 
-                        alternative_ptr alt_absent = new alternative;
+                        alternative_ptr alt_absent = std::make_shared<alternative>();
                         nr->alternatives.push_back(alt_absent);
                         alt_absent->name = generated_rule + "_absent";
-                        alt_absent->group = new group;
+                        alt_absent->group = std::make_shared<group>();
                         alt_absent->group->rep = repeat_none;
 
-                        nonterminal_ptr nt = new nonterminal;
+                        nonterminal_ptr nt = std::make_shared<nonterminal>();
                         nt->name = nr->name;
                         nt->rule = nr;
 
@@ -99,40 +99,40 @@ component_ptr unroll_repetitions_visitor::visit(group_ptr g)
         case repeat_one_or_more:
         case repeat_zero_or_more:
                 {
-                        rule_ptr nr_elem = new rule;
+                        rule_ptr nr_elem = std::make_shared<rule>();
                         nr_elem->name = generated_rule + "_elem";
                         generated_rules.push_back(nr_elem);
 
-                        alternative_ptr elem_alt = new alternative;
+                        alternative_ptr elem_alt = std::make_shared<alternative>();
                         nr_elem->alternatives.push_back(elem_alt);
                         elem_alt->name = nr_elem->name;
                         elem_alt->group = g;
                         elem_alt->group->rep = repeat_none;
 
-                        rule_ptr nr_list = new rule;
+                        rule_ptr nr_list = std::make_shared<rule>();
                         generated_rules.push_back(nr_list);
                         nr_list->name = generated_rule + "_list";
 
-                        alternative_ptr alt_chain = new alternative;
+                        alternative_ptr alt_chain = std::make_shared<alternative>();
                         nr_list->alternatives.push_back(alt_chain);
                         alt_chain->name = generated_rule + "_chain";
-                        alt_chain->group = new group;
+                        alt_chain->group = std::make_shared<group>();
                         alt_chain->group->rep = repeat_none;
 
-                        alternative_ptr alt_end = new alternative;
+                        alternative_ptr alt_end = std::make_shared<alternative>();
                         nr_list->alternatives.push_back(alt_end);
                         alt_end->name = "end_of_" + generated_rule;
-                        alt_end->group = new group;
+                        alt_end->group = std::make_shared<group>();
                         alt_end->group->rep = repeat_none;
 
-                        nonterminal_ptr nt_elem = new nonterminal;
+                        nonterminal_ptr nt_elem = std::make_shared<nonterminal>();
                         alt_chain->group->components.push_back(nt_elem);
                         if(g->rep == repeat_one_or_more)
                                 alt_end->group->components.push_back(nt_elem);
                         nt_elem->name = nr_elem->name;
                         nt_elem->rule = nr_elem;
 
-                        nonterminal_ptr nt_chain = new nonterminal;
+                        nonterminal_ptr nt_chain = std::make_shared<nonterminal>();
                         alt_chain->group->components.push_back(nt_chain);
                         nt_chain->name = nr_list->name;
                         nt_chain->rule = nr_list;
