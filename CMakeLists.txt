@@ -24,7 +24,6 @@ set(SOURCES
 	smartpointer_visitor.cpp smartpointer_visitor.hpp
 	tree_bison_context.hpp
 	tree_bison.cpp
-	tree_cst.cpp
 	tree_cst_to_ast_visitor.cpp tree_cst_to_ast_visitor.hpp
 	tree.h
 	trees.cpp
@@ -166,13 +165,14 @@ shipped(stage1 tree_tree.hpp)
 shipped(stage2 parse_cst.fparse)
 shipped(stage2 parse.ftree)
 shipped(stage2 tree.ftree)
+shipped(stage2 tree_cst.fparse)
 
 gen_flex(stage2 parse_cst.fparse)
 gen_bison(stage2 parse_cst.fparse)
 shipped(stage2 tree_bison.ll)
 shipped(stage2 tree_bison.yy)
-shipped(stage2 tree_cst.ll)
-shipped(stage2 tree_cst.yy)
+gen_flex(stage2 tree_cst.fparse)
+gen_bison(stage2 tree_cst.fparse)
 
 flex   (stage2 parse_cst.ll)
 bison  (stage2 parse_cst.yy)

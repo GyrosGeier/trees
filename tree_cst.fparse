@@ -1,0 +1,136 @@
+%namespace trees::tree::cst
+
+start: declarations;
+
+declarations: /* empty */ |
+    declarations declaration;
+
+declaration: namespace_declaration |
+    namespace_member_declaration ";";
+
+namespace_member_declaration: group_declaration |
+    node_declaration  |
+    visitor_declaration;
+
+namespace_declaration: "namespace" IDENTIFIER "{" declarations "}";
+
+group_declaration: "group" IDENTIFIER "{" group_member_declarations "}";
+
+group_member_declarations: /* empty */ |
+    group_member_declarations group_member_declaration ";";
+
+group_member_declaration: group_declaration |
+    node_declaration |
+    visitor_declaration;
+
+node_declaration: "node" IDENTIFIER "{" member_declarations "}" |
+    "node" "group" "{" member_declarations "}" |
+    "node" "{" member_declarations "}";
+
+visitor_declaration: "visitor" IDENTIFIER "{" member_declarations "}" |
+    "const" "visitor" IDENTIFIER "{" member_declarations "}"  |
+    "visitor" IDENTIFIER |
+    "const" "visitor" IDENTIFIER |
+    "visitor" |
+    "const" "visitor";
+
+member_declarations: /* empty */ |
+    member_declarations member_declaration ";" |
+    member_declarations member_directive;
+
+member_declaration: data_member_declaration |
+    constructor_declaration |
+    destructor_declaration;
+
+member_directive: "%multiparent" |
+    "%scoped_ptr" |
+    "%shared_ptr" |
+    "%intrusive_ptr" |
+    "%smartpointer" type reference |
+    INCLUDE;
+
+data_member_declaration: type type_qualifiers declarator;
+
+constructor_declaration: scoped_name "(" parameter_list ")";
+
+parameter_list: /* empty */ |
+    "void" |
+    parameters parameter;
+
+parameters: /* empty */ |
+    parameters parameter ",";
+
+parameter: type reference |
+    type declarator;
+
+destructor_declaration: "~" IDENTIFIER "(" void_or_nothing ")";
+
+void_or_nothing: /* empty */ |
+    "void";
+
+declarator: reference IDENTIFIER arrays |
+    reference "parent" arrays |
+    reference "group" arrays |
+    reference "node" arrays;
+
+reference: pointer |
+    pointer "&";
+
+pointer: /* empty */ |
+    pointer "*" type_qualifiers;
+
+type_qualifiers: /* empty */ |
+    type_qualifiers type_qualifier;
+
+type_qualifier: "const" |
+    "volatile";
+
+arrays: bounded_arrays |
+    bounded_arrays unbounded_array;
+
+bounded_arrays: /* empty */ |
+    bounded_arrays bounded_array;
+
+bounded_array: "[" integer_literal "]";
+
+unbounded_array: "[" "]";
+
+type: template_name |
+    scoped_name |
+    "node" |
+    "group" |
+    "parent";
+
+template_name: scoped_name "<" template_argument_list ">";
+
+template_argument_list: /* empty */ |
+    template_arguments;
+
+template_arguments: template_argument |
+    template_arguments "," template_argument;
+
+template_argument: type |
+    "void" |
+    "..." |
+    literal;
+
+scoped_name: scope IDENTIFIER;
+
+scope: /* empty */ |
+    scope IDENTIFIER "::";
+
+literal: boolean_literal |
+    integer_literal;
+
+boolean_literal: "true" |
+    "false";
+
+integer_literal: INTEGER;
+
+IDENTIFIER: /[[:alpha:]_][[:alnum:]_]*/;
+
+INTEGER: /[[:digit:]]+/;
+
+INCLUDE: /%include\ [^\n]*/;
+
+QUOTED_NAME: /\"([^"\\\n]|\\.|\\\n)*\"/;

@@ -13,52 +13,50 @@
 %option bison-locations
 %option yylineno
 %option prefix="tree_cst_"
+IDENT           [[:alpha:]_][[:alnum:]_]*
 
-IDENT                       [[:alpha:]_][[:alnum:]_]*
-INTEGER                     [[:digit:]]+
+%x COMMENT
 
 %%
 
-\                           /* ignore */
-\n                          /* ignore */
-\t                          /* ignore */
-\r                          /* ignore */
+<INITIAL>\/\*   BEGIN(COMMENT);
+<COMMENT>\*\/   BEGIN(INITIAL);
+<COMMENT>.      /* ignore */
 
-\(                          return LPAREN;
-\)                          return RPAREN;
-\{                          return LBRACE;
-\}                          return RBRACE;
-\[                          return LBRACKET;
-\]                          return RBRACKET;
-\<                          return LANGLE;
-\>                          return RANGLE;
-&                           return AMPERSAND;
-,                           return COMMA;
-;                           return SEMICOLON;
-::                          return DOUBLECOLON;
-\*                          return ASTERISK;
-\.\.\.                      return ELLIPSIS;
-
-visitor                     return VISITOR;
-group                       return GROUP;
-%multiparent                return MULTIPARENT;
-%scoped_ptr                 return SCOPED_PTR;
-%shared_ptr                 return SHARED_PTR;
-%intrusive_ptr              return INTRUSIVE_PTR;
-%smartpointer[^\n]*         return SMARTPOINTER;
-%include\ [^\n]*            yylval->string.data = yytext; yylval->string.length = yyleng; return INCLUDE;
-
-namespace                   return NAMESPACE;
-const                       return CONST;
-volatile                    return VOLATILE;
-void                        return VOID;
-
-node                        return NODE;
-parent                      return PARENT;
-
-true                        return TRUE;
-false                       return FALSE;
-
-{IDENT}                     yylval->string.data = yytext; yylval->string.length = yyleng; return IDENTIFIER;
-{INTEGER}                   yylval->string.data = yytext; yylval->string.length = yyleng; return INTEGER;
-\"([^"\\\n]|\\.|\\\n)*\"    yylval->string.data = yytext+1; yylval->string.length = yyleng-2; return QUOTED_NAME;
+\               /* ignore */
+\t              /* ignore */
+\n              /* ignore */
+\;	return LITERAL_1;
+namespace	return LITERAL_2;
+\{	return LITERAL_3;
+\}	return LITERAL_4;
+group	return LITERAL_5;
+node	return LITERAL_6;
+visitor	return LITERAL_7;
+const	return LITERAL_8;
+%multiparent	return LITERAL_9;
+%scoped_ptr	return LITERAL_10;
+%shared_ptr	return LITERAL_11;
+%intrusive_ptr	return LITERAL_12;
+%smartpointer	return LITERAL_13;
+\(	return LITERAL_14;
+\)	return LITERAL_15;
+void	return LITERAL_16;
+,	return LITERAL_17;
+~	return LITERAL_18;
+parent	return LITERAL_19;
+&	return LITERAL_20;
+\*	return LITERAL_21;
+volatile	return LITERAL_22;
+\[	return LITERAL_23;
+\]	return LITERAL_24;
+\<	return LITERAL_25;
+\>	return LITERAL_26;
+\.\.\.	return LITERAL_27;
+::	return LITERAL_28;
+true	return LITERAL_29;
+false	return LITERAL_30;
+[[:alpha:]_][[:alnum:]_]*	yylval->string = strdup(yytext); return REGEX_1;
+[[:digit:]]+	yylval->string = strdup(yytext); return REGEX_2;
+%include\ [^\n]*	yylval->string = strdup(yytext); return REGEX_3;
+\\"([^\"\\\n]|\\.|\\\n)*\\"	yylval->string = strdup(yytext); return REGEX_4;
