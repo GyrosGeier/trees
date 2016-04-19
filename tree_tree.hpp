@@ -27,7 +27,6 @@
 #include <memory>
 #include <memory>
 #include <memory>
-#include <boost/intrusive_ptr.hpp>
 #include <list>
 namespace trees {
 namespace tree {
