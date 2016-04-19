@@ -17,8 +17,7 @@ header_output_visitor::header_output_visitor(std::ostream &out) :
 void header_output_visitor::visit(root const &r)
 {
         descend(r.includes);
-        out << "#include <boost/intrusive_ptr.hpp>" << std::endl
-                << "#include <list>" << std::endl;
+        out << "#include <list>" << std::endl;
         state = fwddecl;
         descend(r.global_namespace);
         state = decl;

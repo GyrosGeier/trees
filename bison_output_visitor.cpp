@@ -34,6 +34,7 @@ void bison_output_visitor::visit(root const &r)
         out << "#include \"" << basename << "_cst.hpp\"" << std::endl;
         out << "#include \"" << basename << "_parse.hpp\"" << std::endl;
         out << "#include \"" << basename << "_lex.hpp\"" << std::endl;
+        out << "#include <iostream>" << std::endl;
         out << "%}" << std::endl;
         out << "" << std::endl;
         out << "%debug" << std::endl;

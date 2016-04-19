@@ -2,6 +2,7 @@
 #include "tree_cst_cst.hpp"
 #include "tree_cst_parse.hpp"
 #include "tree_cst_lex.hpp"
+#include <iostream>
 %}
 
 %debug
