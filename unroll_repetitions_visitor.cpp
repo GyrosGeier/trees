@@ -41,7 +41,7 @@ component_ptr unroll_repetitions_visitor::visit(group &g)
                         os << current_alternative->name << "_" << count;
                         current_name = os.str();
                         current_context = &i;
-                        descend(i);
+                        i->apply(*this);
                 }
                 current_group = group_stack;
                 return &g;
@@ -141,32 +141,31 @@ component_ptr unroll_repetitions_visitor::visit(group &g)
                 }
                 break;
         }
-        return &g;
+        return *current_context;
 }
 
-node_ptr unroll_repetitions_visitor::visit(root &r)
+void unroll_repetitions_visitor::operator()(root &r)
 {
         do
         {
                 r.rules.splice(r.rules.end(), generated_rules);
-                descend(r.rules);
+                for(auto &i : r.rules)
+                        visit(*i);
         }
         while(generated_rules.size());
-        return &r;
 }
 
-node_ptr unroll_repetitions_visitor::visit(rule &r)
+void unroll_repetitions_visitor::visit(rule &r)
 {
-        descend(r.alternatives);
-        return &r;
+        for(auto &i : r.alternatives)
+                visit(*i);
 }
 
-node_ptr unroll_repetitions_visitor::visit(alternative &a)
+void unroll_repetitions_visitor::visit(alternative &a)
 {
         current_alternative = &a;
         current_group = 0;
-        descend(a.group);
-        return &a;
+        visit(*a.group);
 }
 
 }

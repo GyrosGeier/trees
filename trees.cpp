@@ -254,7 +254,7 @@ int go(int argc, char **argv)
         r->apply(inline_simple);
 
         parse::unroll_repetitions_visitor unroll_repetitions(verbose);
-        r->apply(unroll_repetitions);
+        unroll_repetitions(*r);
 
         tree::root_ptr ast, ast2;
 

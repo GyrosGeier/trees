@@ -7,11 +7,13 @@ namespace trees {
 namespace parse {
 
 class unroll_repetitions_visitor :
-        public node_visitor
+        public component_visitor
 {
 public:
         unroll_repetitions_visitor(bool verbose) : verbose(verbose) { }
         virtual ~unroll_repetitions_visitor() throw() { }
+
+        void operator()(root &);
 
         virtual component_ptr visit(regex &);
         virtual component_ptr visit(string_literal &);
@@ -19,9 +21,6 @@ public:
         virtual component_ptr visit(terminal &);
         virtual component_ptr visit(nonterminal &);
         virtual component_ptr visit(group &);
-        virtual node_ptr visit(root &);
-        virtual node_ptr visit(rule &);
-        virtual node_ptr visit(alternative &);
 
 private:
         bool verbose;
@@ -32,6 +31,9 @@ private:
         std::string current_name;
         alternative_ptr current_alternative;
         component_ptr *current_context;
+
+        void visit(rule &);
+        void visit(alternative &);
 };
 
 }
