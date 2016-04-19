@@ -44,9 +44,10 @@ component_ptr resolve_symbols_visitor::visit(unresolved_symbol &s)
 component_ptr resolve_symbols_visitor::visit(terminal &t) { return &t; }
 component_ptr resolve_symbols_visitor::visit(nonterminal &n) { return &n; }
 
-node_ptr resolve_symbols_visitor::visit(root &r)
+void resolve_symbols_visitor::operator()(root &r)
 {
-        descend(r.rules);
+        for(auto &i : r.rules)
+                visit(*i);
 
         if(verbose)
         {
@@ -61,10 +62,9 @@ node_ptr resolve_symbols_visitor::visit(root &r)
                         throw unknown_production();
                 }
         }
-        return &r;
 }
 
-node_ptr resolve_symbols_visitor::visit(rule &r)
+void resolve_symbols_visitor::visit(rule &r)
 {
         nonterminal_ptr nt = new nonterminal;
         nt->name = r.name;
@@ -89,14 +89,14 @@ node_ptr resolve_symbols_visitor::visit(rule &r)
                 unresolved_references.erase(urref);
         }
 
-        descend(r.alternatives);
-        return &r;
+        for(auto &i : r.alternatives)
+                visit(*i);
+
 }
 
-node_ptr resolve_symbols_visitor::visit(alternative &a)
+void resolve_symbols_visitor::visit(alternative &a)
 {
-        descend(a.group);
-        return &a;
+        visit(*a.group);
 }
 
 }

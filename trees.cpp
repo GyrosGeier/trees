@@ -242,7 +242,7 @@ int go(int argc, char **argv)
         parse::root_ptr r = v.get_root();
 
         parse::resolve_symbols_visitor resolve_symbols(verbose);
-        r->apply(resolve_symbols);
+        resolve_symbols(*r);
 
         parse::resolve_literals_visitor resolve_literals(verbose);
         resolve_literals(*r);
