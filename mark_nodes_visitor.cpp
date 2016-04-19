@@ -3,7 +3,7 @@
 namespace trees {
 namespace tree {
 
-void mark_nodes_visitor::operator()(root_ptr const &r)
+void mark_nodes_visitor::operator()(root_ptr r)
 {
         collecting = true;
         traverse(r->global_namespace);
@@ -11,7 +11,7 @@ void mark_nodes_visitor::operator()(root_ptr const &r)
         traverse(r->global_namespace);
 }
 
-void mark_nodes_visitor::traverse(namespace_node_ptr const &n)
+void mark_nodes_visitor::traverse(namespace_node_ptr n)
 {
         for(auto const &i : n->namespaces)
                 traverse(i);
@@ -19,12 +19,12 @@ void mark_nodes_visitor::traverse(namespace_node_ptr const &n)
                 handle(n->group);
 }
 
-type_node_ptr mark_nodes_visitor::visit(group_type_node &n)
+type_node_ptr mark_nodes_visitor::visit(group_type_node_ptr)
 {
         throw;
 }
 
-void mark_nodes_visitor::handle(group_node_ptr const &n)
+void mark_nodes_visitor::handle(group_node_ptr n)
 {
         if(collecting)
         {
@@ -42,12 +42,12 @@ void mark_nodes_visitor::handle(group_node_ptr const &n)
                 handle(i);
 }
 
-type_node_ptr mark_nodes_visitor::visit(node_type_node &n)
+type_node_ptr mark_nodes_visitor::visit(node_type_node_ptr)
 {
         throw;
 }
 
-void mark_nodes_visitor::handle(node_node_ptr const &n)
+void mark_nodes_visitor::handle(node_node_ptr n)
 {
         if(collecting)
         {
@@ -60,50 +60,50 @@ void mark_nodes_visitor::handle(node_node_ptr const &n)
                         handle(i);
 }
 
-void mark_nodes_visitor::handle(data_member_node_ptr const &n)
+void mark_nodes_visitor::handle(data_member_node_ptr n)
 {
         descend(n->type);
 }
 
-type_node_ptr mark_nodes_visitor::visit(basic_type_node &n)
+type_node_ptr mark_nodes_visitor::visit(basic_type_node_ptr n)
 {
-        auto i = known_types.find(n.ns.lock());
+        auto i = known_types.find(n->ns.lock());
         if(i == known_types.end())
-                return n.shared_from_this();
-        auto j = i->second.find(n.name);
+                return n;
+        auto j = i->second.find(n->name);
         if(j == i->second.end())
-                return n.shared_from_this();
+                return n;
         return j->second;
 }
 
-type_node_ptr mark_nodes_visitor::visit(rvalue_reference_type_node &n)
+type_node_ptr mark_nodes_visitor::visit(rvalue_reference_type_node_ptr n)
 {
-        descend(n.type);
-        return n.shared_from_this();
+        descend(n->type);
+        return n;
 }
 
-type_node_ptr mark_nodes_visitor::visit(reference_type_node &n)
+type_node_ptr mark_nodes_visitor::visit(reference_type_node_ptr n)
 {
-        descend(n.type);
-        return n.shared_from_this();
+        descend(n->type);
+        return n;
 }
 
-type_node_ptr mark_nodes_visitor::visit(pointer_type_node &n)
+type_node_ptr mark_nodes_visitor::visit(pointer_type_node_ptr n)
 {
-        descend(n.type);
-        return n.shared_from_this();
+        descend(n->type);
+        return n;
 }
 
-type_node_ptr mark_nodes_visitor::visit(template_type_node &n)
+type_node_ptr mark_nodes_visitor::visit(template_type_node_ptr n)
 {
-        descend(n.template_args);
-        return n.shared_from_this();
+        descend(n->template_args);
+        return n;
 }
 
-type_node_ptr mark_nodes_visitor::visit(list_type_node &n)
+type_node_ptr mark_nodes_visitor::visit(list_type_node_ptr n)
 {
-        descend(n.type);
-        return n.shared_from_this();
+        descend(n->type);
+        return n;
 }
 
 }

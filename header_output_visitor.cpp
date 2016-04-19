@@ -254,7 +254,7 @@ void header_output_visitor::visit(node_node const &n)
                 out << "};" << std::endl;
                 break;
         case visit_decl:
-                out << "        virtual " << group->name << "_ptr visit(" << n.name << " &) = 0;" << std::endl;
+                out << "        virtual " << group->name << "_ptr visit(" << n.name << "_ptr) = 0;" << std::endl;
                 break;
         case const_visit_decl:
                 out << "        virtual void visit(" << n.name << " const &) = 0;" << std::endl;

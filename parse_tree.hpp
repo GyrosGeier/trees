@@ -75,15 +75,15 @@ public:
                 for(typename std::list<T, Alloc>::iterator i = l.begin(); i != l.end(); ++i)
                         descend(*i);
         }
-        virtual component_ptr visit(string_literal &) = 0;
-        virtual component_ptr visit(unresolved_symbol &) = 0;
-        virtual component_ptr visit(terminal &) = 0;
-        virtual component_ptr visit(nonterminal &) = 0;
-        virtual component_ptr visit(regex &) = 0;
-        virtual component_ptr visit(group &) = 0;
-        virtual node_ptr visit(root &) = 0;
-        virtual node_ptr visit(rule &) = 0;
-        virtual node_ptr visit(alternative &) = 0;
+        virtual component_ptr visit(string_literal_ptr) = 0;
+        virtual component_ptr visit(unresolved_symbol_ptr) = 0;
+        virtual component_ptr visit(terminal_ptr) = 0;
+        virtual component_ptr visit(nonterminal_ptr) = 0;
+        virtual component_ptr visit(regex_ptr) = 0;
+        virtual component_ptr visit(group_ptr) = 0;
+        virtual node_ptr visit(root_ptr) = 0;
+        virtual node_ptr visit(rule_ptr) = 0;
+        virtual node_ptr visit(alternative_ptr) = 0;
 };
 class node_const_visitor
 {
@@ -135,12 +135,12 @@ public:
                 for(typename std::list<T, Alloc>::iterator i = l.begin(); i != l.end(); ++i)
                         descend(*i);
         }
-        virtual component_ptr visit(string_literal &) = 0;
-        virtual component_ptr visit(unresolved_symbol &) = 0;
-        virtual component_ptr visit(terminal &) = 0;
-        virtual component_ptr visit(nonterminal &) = 0;
-        virtual component_ptr visit(regex &) = 0;
-        virtual component_ptr visit(group &) = 0;
+        virtual component_ptr visit(string_literal_ptr) = 0;
+        virtual component_ptr visit(unresolved_symbol_ptr) = 0;
+        virtual component_ptr visit(terminal_ptr) = 0;
+        virtual component_ptr visit(nonterminal_ptr) = 0;
+        virtual component_ptr visit(regex_ptr) = 0;
+        virtual component_ptr visit(group_ptr) = 0;
 };
 struct string_literal : component
 {

@@ -11,43 +11,43 @@
 namespace trees {
 namespace parse {
 
-component_ptr resolve_symbols_visitor::visit(group &g)
+component_ptr resolve_symbols_visitor::visit(group_ptr g)
 {
-        for(auto &i : g.components)
+        for(auto &i : g->components)
         {
                 current_context = &i;
                 descend(i);
         }
-        return &g;
+        return g;
 }
 
-component_ptr resolve_symbols_visitor::visit(regex &r) { return &r; }
-component_ptr resolve_symbols_visitor::visit(string_literal &s) { return &s; }
-component_ptr resolve_symbols_visitor::visit(unresolved_symbol &s)
+component_ptr resolve_symbols_visitor::visit(regex_ptr r) { return r; }
+component_ptr resolve_symbols_visitor::visit(string_literal_ptr s) { return s; }
+component_ptr resolve_symbols_visitor::visit(unresolved_symbol_ptr s)
 {
-        auto ntref = nonterminals.find(s.name);
+        auto ntref = nonterminals.find(s->name);
         if(ntref != nonterminals.end())
         {
                 if(verbose)
-                        std::cerr << "Immediately resolved nonterminal " << s.name << std::endl;
+                        std::cerr << "Immediately resolved nonterminal " << s->name << std::endl;
                 *current_context = ntref->second;
         }
         else
         {
-                unresolved_references[s.name].push_back(current_context);
+                unresolved_references[s->name].push_back(current_context);
                 if(verbose)
-                        std::cerr << "Queuing unresolved symbol " << s.name << std::endl;
+                        std::cerr << "Queuing unresolved symbol " << s->name << std::endl;
         }
         return *current_context;
 }
 
-component_ptr resolve_symbols_visitor::visit(terminal &t) { return &t; }
-component_ptr resolve_symbols_visitor::visit(nonterminal &n) { return &n; }
+component_ptr resolve_symbols_visitor::visit(terminal_ptr t) { return t; }
+component_ptr resolve_symbols_visitor::visit(nonterminal_ptr n) { return n; }
 
-void resolve_symbols_visitor::operator()(root &r)
+void resolve_symbols_visitor::operator()(root_ptr r)
 {
-        for(auto &i : r.rules)
-                visit(*i);
+        for(auto &i : r->rules)
+                visit(i);
 
         if(verbose)
         {
@@ -64,22 +64,22 @@ void resolve_symbols_visitor::operator()(root &r)
         }
 }
 
-void resolve_symbols_visitor::visit(rule &r)
+void resolve_symbols_visitor::visit(rule_ptr r)
 {
         nonterminal_ptr nt = new nonterminal;
-        nt->name = r.name;
-        nt->rule = &r;
+        nt->name = r->name;
+        nt->rule = r;
 
         if(verbose)
-                std::cerr << "Found rule " << r.name << std::endl;
+                std::cerr << "Found rule " << r->name << std::endl;
 
-        auto ntref = nonterminals.find(r.name);
+        auto ntref = nonterminals.find(r->name);
         if(ntref != nonterminals.end())
-                throw duplicate_rule(r.name);
+                throw duplicate_rule(r->name);
 
-        nonterminals[r.name] = nt;
+        nonterminals[r->name] = nt;
 
-        auto urref = unresolved_references.find(r.name);
+        auto urref = unresolved_references.find(r->name);
         if(urref != unresolved_references.end())
         {
                 if(verbose)
@@ -89,14 +89,14 @@ void resolve_symbols_visitor::visit(rule &r)
                 unresolved_references.erase(urref);
         }
 
-        for(auto &i : r.alternatives)
-                visit(*i);
+        for(auto &i : r->alternatives)
+                visit(i);
 
 }
 
-void resolve_symbols_visitor::visit(alternative &a)
+void resolve_symbols_visitor::visit(alternative_ptr a)
 {
-        visit(*a.group);
+        visit(a->group);
 }
 
 }

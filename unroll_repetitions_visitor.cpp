@@ -12,29 +12,29 @@
 namespace trees {
 namespace parse {
 
-component_ptr unroll_repetitions_visitor::visit(regex &r) { return &r; }
-component_ptr unroll_repetitions_visitor::visit(string_literal &s) { return &s; }
+component_ptr unroll_repetitions_visitor::visit(regex_ptr r) { return r; }
+component_ptr unroll_repetitions_visitor::visit(string_literal_ptr s) { return s; }
 
-component_ptr unroll_repetitions_visitor::visit(unresolved_symbol &)
+component_ptr unroll_repetitions_visitor::visit(unresolved_symbol_ptr )
 {
         throw internal_error("Unresolved symbol found during unrolling");
 }
 
-component_ptr unroll_repetitions_visitor::visit(terminal &t) { return &t; }
-component_ptr unroll_repetitions_visitor::visit(nonterminal &n) { return &n; }
-component_ptr unroll_repetitions_visitor::visit(group &g)
+component_ptr unroll_repetitions_visitor::visit(terminal_ptr t) { return t; }
+component_ptr unroll_repetitions_visitor::visit(nonterminal_ptr n) { return n; }
+component_ptr unroll_repetitions_visitor::visit(group_ptr g)
 {
         if(!current_group)
         {
                 // toplevel group in alternative
                 if(verbose)
                         std::cerr << "Handling toplevel of alternative " << current_alternative->name << std::endl;
-                if(g.rep != repeat_none)
+                if(g->rep != repeat_none)
                         throw;
                 group_ptr group_stack = current_group;
-                current_group = &g;
+                current_group = g;
                 unsigned int count = 0;
-                for(auto &i : g.components)
+                for(auto &i : g->components)
                 {
                         ++count;
                         std::ostringstream os;
@@ -44,20 +44,20 @@ component_ptr unroll_repetitions_visitor::visit(group &g)
                         i->apply(*this);
                 }
                 current_group = group_stack;
-                return &g;
+                return g;
         }
 
         std::string generated_rule = current_name;
 
-        switch(g.rep)
+        switch(g->rep)
         {
         case repeat_none:
                 {
                         // simple grouping, do nothing
                         group_ptr group_stack = current_group;
-                        current_group = &g;
+                        current_group = g;
                         unsigned int count = 0;
-                        for(auto &i : g.components)
+                        for(auto &i : g->components)
                         {
                                 ++count;
                                 std::ostringstream os;
@@ -79,7 +79,7 @@ component_ptr unroll_repetitions_visitor::visit(group &g)
                         alternative_ptr alt_present = new alternative;
                         nr->alternatives.push_back(alt_present);
                         alt_present->name = generated_rule + "_present";
-                        alt_present->group = &g;
+                        alt_present->group = g;
                         alt_present->group->rep = repeat_none;
 
                         alternative_ptr alt_absent = new alternative;
@@ -106,7 +106,7 @@ component_ptr unroll_repetitions_visitor::visit(group &g)
                         alternative_ptr elem_alt = new alternative;
                         nr_elem->alternatives.push_back(elem_alt);
                         elem_alt->name = nr_elem->name;
-                        elem_alt->group = &g;
+                        elem_alt->group = g;
                         elem_alt->group->rep = repeat_none;
 
                         rule_ptr nr_list = new rule;
@@ -127,7 +127,7 @@ component_ptr unroll_repetitions_visitor::visit(group &g)
 
                         nonterminal_ptr nt_elem = new nonterminal;
                         alt_chain->group->components.push_back(nt_elem);
-                        if(g.rep == repeat_one_or_more)
+                        if(g->rep == repeat_one_or_more)
                                 alt_end->group->components.push_back(nt_elem);
                         nt_elem->name = nr_elem->name;
                         nt_elem->rule = nr_elem;
@@ -144,28 +144,28 @@ component_ptr unroll_repetitions_visitor::visit(group &g)
         return *current_context;
 }
 
-void unroll_repetitions_visitor::operator()(root &r)
+void unroll_repetitions_visitor::operator()(root_ptr r)
 {
         do
         {
-                r.rules.splice(r.rules.end(), generated_rules);
-                for(auto &i : r.rules)
-                        visit(*i);
+                r->rules.splice(r->rules.end(), generated_rules);
+                for(auto &i : r->rules)
+                        visit(i);
         }
         while(generated_rules.size());
 }
 
-void unroll_repetitions_visitor::visit(rule &r)
+void unroll_repetitions_visitor::visit(rule_ptr r)
 {
-        for(auto &i : r.alternatives)
-                visit(*i);
+        for(auto &i : r->alternatives)
+                visit(i);
 }
 
-void unroll_repetitions_visitor::visit(alternative &a)
+void unroll_repetitions_visitor::visit(alternative_ptr a)
 {
-        current_alternative = &a;
+        current_alternative = a;
         current_group = 0;
-        visit(*a.group);
+        visit(a->group);
 }
 
 }

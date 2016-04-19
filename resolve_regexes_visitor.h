@@ -13,14 +13,14 @@ public:
         resolve_regexes_visitor(bool verbose) : verbose(verbose), num(0) { }
         virtual ~resolve_regexes_visitor() throw() { }
 
-        void operator()(root&);
+        void operator()(root_ptr);
 
-        virtual component_ptr visit(string_literal&);
-        virtual component_ptr visit(unresolved_symbol&);
-        virtual component_ptr visit(terminal&);
-        virtual component_ptr visit(nonterminal&);
-        virtual component_ptr visit(regex&);
-        virtual component_ptr visit(group&);
+        virtual component_ptr visit(string_literal_ptr);
+        virtual component_ptr visit(unresolved_symbol_ptr);
+        virtual component_ptr visit(terminal_ptr);
+        virtual component_ptr visit(nonterminal_ptr);
+        virtual component_ptr visit(regex_ptr);
+        virtual component_ptr visit(group_ptr);
 
 private:
         bool verbose;
@@ -28,8 +28,8 @@ private:
         root_ptr rt;
         component_ptr *current_context;
 
-        void visit(rule&);
-        void visit(alternative&);
+        void visit(rule_ptr);
+        void visit(alternative_ptr);
 };
 
 }

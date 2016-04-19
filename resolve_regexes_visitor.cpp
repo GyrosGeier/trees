@@ -9,51 +9,51 @@
 namespace trees {
 namespace parse {
 
-component_ptr resolve_regexes_visitor::visit(string_literal &s) { return &s; }
-component_ptr resolve_regexes_visitor::visit(unresolved_symbol &u) { return &u; }
-component_ptr resolve_regexes_visitor::visit(terminal &t) { return &t; }
-component_ptr resolve_regexes_visitor::visit(nonterminal &n) { return &n; }
+component_ptr resolve_regexes_visitor::visit(string_literal_ptr s) { return s; }
+component_ptr resolve_regexes_visitor::visit(unresolved_symbol_ptr u) { return u; }
+component_ptr resolve_regexes_visitor::visit(terminal_ptr t) { return t; }
+component_ptr resolve_regexes_visitor::visit(nonterminal_ptr n) { return n; }
 
-component_ptr resolve_regexes_visitor::visit(regex &rx)
+component_ptr resolve_regexes_visitor::visit(regex_ptr rx)
 {
         std::ostringstream ss;
         ss << "REGEX_" << ++num;
-        rx.name = ss.str();
+        rx->name = ss.str();
 
-        rt->regexes.push_back(&rx);
+        rt->regexes.push_back(rx);
 
         terminal_ptr t = new terminal;
-        t->name = rx.name;
+        t->name = rx->name;
         *current_context = t;
         return *current_context;
 }
 
-component_ptr resolve_regexes_visitor::visit(group &g)
+component_ptr resolve_regexes_visitor::visit(group_ptr g)
 {
-        for(auto &i : g.components)
+        for(auto &i : g->components)
         {
                 current_context = &i;
                 descend(i);
         }
-        return &g;
+        return g;
 }
 
-void resolve_regexes_visitor::operator()(root &r)
+void resolve_regexes_visitor::operator()(root_ptr r)
 {
-        rt = &r;
-        for(auto &i : r.rules)
-                visit(*i);
+        rt = r;
+        for(auto &i : r->rules)
+                visit(i);
 }
 
-void resolve_regexes_visitor::visit(rule &r)
+void resolve_regexes_visitor::visit(rule_ptr r)
 {
-        for(auto &i : r.alternatives)
-                visit(*i);
+        for(auto &i : r->alternatives)
+                visit(i);
 }
 
-void resolve_regexes_visitor::visit(alternative &a)
+void resolve_regexes_visitor::visit(alternative_ptr a)
 {
-        visit(*a.group);
+        visit(a->group);
 }
 
 }

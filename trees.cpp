@@ -242,19 +242,19 @@ int go(int argc, char **argv)
         parse::root_ptr r = v.get_root();
 
         parse::resolve_symbols_visitor resolve_symbols(verbose);
-        resolve_symbols(*r);
+        resolve_symbols(r);
 
         parse::resolve_literals_visitor resolve_literals(verbose);
-        resolve_literals(*r);
+        resolve_literals(r);
 
         parse::resolve_regexes_visitor resolve_regexes(verbose);
-        resolve_regexes(*r);
+        resolve_regexes(r);
 
         parse::inline_simple_visitor inline_simple(verbose);
-        inline_simple(*r);
+        inline_simple(r);
 
         parse::unroll_repetitions_visitor unroll_repetitions(verbose);
-        unroll_repetitions(*r);
+        unroll_repetitions(r);
 
         tree::root_ptr ast, ast2;
 

@@ -105,20 +105,20 @@ public:
                 for(typename std::list<T, Alloc>::iterator i = l.begin(); i != l.end(); ++i)
                         descend(*i);
         }
-        virtual type_node_ptr visit(group_type_node &) = 0;
-        virtual type_node_ptr visit(node_type_node &) = 0;
-        virtual type_node_ptr visit(basic_type_node &) = 0;
-        virtual type_node_ptr visit(rvalue_reference_type_node &) = 0;
-        virtual type_node_ptr visit(reference_type_node &) = 0;
-        virtual type_node_ptr visit(pointer_type_node &) = 0;
-        virtual type_node_ptr visit(template_type_node &) = 0;
-        virtual type_node_ptr visit(list_type_node &) = 0;
-        virtual node_ptr visit(root &) = 0;
-        virtual node_ptr visit(include_node &) = 0;
-        virtual node_ptr visit(namespace_node &) = 0;
-        virtual node_ptr visit(group_node &) = 0;
-        virtual node_ptr visit(node_node &) = 0;
-        virtual node_ptr visit(data_member_node &) = 0;
+        virtual type_node_ptr visit(group_type_node_ptr) = 0;
+        virtual type_node_ptr visit(node_type_node_ptr) = 0;
+        virtual type_node_ptr visit(basic_type_node_ptr) = 0;
+        virtual type_node_ptr visit(rvalue_reference_type_node_ptr) = 0;
+        virtual type_node_ptr visit(reference_type_node_ptr) = 0;
+        virtual type_node_ptr visit(pointer_type_node_ptr) = 0;
+        virtual type_node_ptr visit(template_type_node_ptr) = 0;
+        virtual type_node_ptr visit(list_type_node_ptr) = 0;
+        virtual node_ptr visit(root_ptr) = 0;
+        virtual node_ptr visit(include_node_ptr) = 0;
+        virtual node_ptr visit(namespace_node_ptr) = 0;
+        virtual node_ptr visit(group_node_ptr) = 0;
+        virtual node_ptr visit(node_node_ptr) = 0;
+        virtual node_ptr visit(data_member_node_ptr) = 0;
 };
 class node_const_visitor
 {
@@ -179,14 +179,14 @@ public:
                 for(typename std::list<T, Alloc>::iterator i = l.begin(); i != l.end(); ++i)
                         descend(*i);
         }
-        virtual type_node_ptr visit(group_type_node &) = 0;
-        virtual type_node_ptr visit(node_type_node &) = 0;
-        virtual type_node_ptr visit(basic_type_node &) = 0;
-        virtual type_node_ptr visit(rvalue_reference_type_node &) = 0;
-        virtual type_node_ptr visit(reference_type_node &) = 0;
-        virtual type_node_ptr visit(pointer_type_node &) = 0;
-        virtual type_node_ptr visit(template_type_node &) = 0;
-        virtual type_node_ptr visit(list_type_node &) = 0;
+        virtual type_node_ptr visit(group_type_node_ptr) = 0;
+        virtual type_node_ptr visit(node_type_node_ptr) = 0;
+        virtual type_node_ptr visit(basic_type_node_ptr) = 0;
+        virtual type_node_ptr visit(rvalue_reference_type_node_ptr) = 0;
+        virtual type_node_ptr visit(reference_type_node_ptr) = 0;
+        virtual type_node_ptr visit(pointer_type_node_ptr) = 0;
+        virtual type_node_ptr visit(template_type_node_ptr) = 0;
+        virtual type_node_ptr visit(list_type_node_ptr) = 0;
 };
 struct group_type_node : type_node
 , std::enable_shared_from_this<group_type_node>{

@@ -31,10 +31,21 @@ void impl_output_visitor::visit(node_node const &n)
         for(group_node_ptr i = group; i; i = i->parent.lock())
         {
                 if(i->has_visitor)
+                {
                         out << i->name << "_ptr " << n.name << "::apply(" << i->name << "_visitor &v)" << std::endl
-                                << "{" << std::endl
-                                << "        return v.visit(*this);" << std::endl
-                                << "}" << std::endl;
+                                << "{" << std::endl;
+                        switch(i->smartpointer)
+                        {
+                        case strict_ownership:
+                        case intrusive:
+                                out << "        return v.visit(this);" << std::endl;
+                                break;
+                        case shared_ownership:
+                                out << "        return v.visit(shared_from_this());" << std::endl;
+                                break;
+                        }
+                        out << "}" << std::endl;
+                }
                 if(i->has_const_visitor)
                         out << "void " << n.name << "::apply(" << i->name << "_const_visitor &v) const" << std::endl
                                 << "{" << std::endl

@@ -4,11 +4,11 @@ namespace trees {
 namespace parse {
 component_ptr string_literal::apply(component_visitor &v)
 {
-        return v.visit(*this);
+        return v.visit(this);
 }
 node_ptr string_literal::apply(node_visitor &v)
 {
-        return v.visit(*this);
+        return v.visit(this);
 }
 void string_literal::apply(node_const_visitor &v) const
 {
@@ -16,11 +16,11 @@ void string_literal::apply(node_const_visitor &v) const
 }
 component_ptr unresolved_symbol::apply(component_visitor &v)
 {
-        return v.visit(*this);
+        return v.visit(this);
 }
 node_ptr unresolved_symbol::apply(node_visitor &v)
 {
-        return v.visit(*this);
+        return v.visit(this);
 }
 void unresolved_symbol::apply(node_const_visitor &v) const
 {
@@ -28,11 +28,11 @@ void unresolved_symbol::apply(node_const_visitor &v) const
 }
 component_ptr terminal::apply(component_visitor &v)
 {
-        return v.visit(*this);
+        return v.visit(this);
 }
 node_ptr terminal::apply(node_visitor &v)
 {
-        return v.visit(*this);
+        return v.visit(this);
 }
 void terminal::apply(node_const_visitor &v) const
 {
@@ -40,11 +40,11 @@ void terminal::apply(node_const_visitor &v) const
 }
 component_ptr nonterminal::apply(component_visitor &v)
 {
-        return v.visit(*this);
+        return v.visit(this);
 }
 node_ptr nonterminal::apply(node_visitor &v)
 {
-        return v.visit(*this);
+        return v.visit(this);
 }
 void nonterminal::apply(node_const_visitor &v) const
 {
@@ -52,11 +52,11 @@ void nonterminal::apply(node_const_visitor &v) const
 }
 component_ptr regex::apply(component_visitor &v)
 {
-        return v.visit(*this);
+        return v.visit(this);
 }
 node_ptr regex::apply(node_visitor &v)
 {
-        return v.visit(*this);
+        return v.visit(this);
 }
 void regex::apply(node_const_visitor &v) const
 {
@@ -64,11 +64,11 @@ void regex::apply(node_const_visitor &v) const
 }
 component_ptr group::apply(component_visitor &v)
 {
-        return v.visit(*this);
+        return v.visit(this);
 }
 node_ptr group::apply(node_visitor &v)
 {
-        return v.visit(*this);
+        return v.visit(this);
 }
 void group::apply(node_const_visitor &v) const
 {
@@ -76,7 +76,7 @@ void group::apply(node_const_visitor &v) const
 }
 node_ptr root::apply(node_visitor &v)
 {
-        return v.visit(*this);
+        return v.visit(this);
 }
 void root::apply(node_const_visitor &v) const
 {
@@ -84,7 +84,7 @@ void root::apply(node_const_visitor &v) const
 }
 node_ptr rule::apply(node_visitor &v)
 {
-        return v.visit(*this);
+        return v.visit(this);
 }
 void rule::apply(node_const_visitor &v) const
 {
@@ -92,7 +92,7 @@ void rule::apply(node_const_visitor &v) const
 }
 node_ptr alternative::apply(node_visitor &v)
 {
-        return v.visit(*this);
+        return v.visit(this);
 }
 void alternative::apply(node_const_visitor &v) const
 {
